@@ -1,0 +1,339 @@
+.btn {
+    box-shadow: $btn-box-shadow;
+    line-height: 1;
+    letter-spacing: 0.75px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    align-self: center;
+    text-transform: capitalize;
+    cursor: pointer;
+    text-align: center;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    border: none;
+    border-radius: 4px;
+    display: inline-flex;
+    justify-content: center;
+    font-weight: 500;
+    transition: color 0.15s linear, background-color 0.15s linear;
+    padding: 14px 16px;
+    align-self: center;
+    align-items: center;
+    position: relative;
+}
+
+.btn-icon {
+    padding: 12px 14px;
+    box-shadow: unset;
+    position: relative;
+}
+
+.btn svg {
+    width: 17px;
+    height: 18px;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-md {
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+.btn-small {
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@media($mq-md) {
+    .btn-md {
+        padding: 12px 16px;
+        font-size: 16px;
+    }
+}
+
+.btn-lg {
+    padding: 17px 26px;
+    font-size: 18px;
+}
+
+.nav-toggle-btn {
+    border: 0;
+    background-color: $white-color;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center center;
+    background-size: 100%;
+    align-self: center;
+    cursor: pointer;
+    position: relative;
+
+    .notif-point {
+        position: absolute;
+        top: 0px;
+        z-index: 1;
+        right: -3px;
+    }
+}
+
+
+.card {
+    border-radius: 4px;
+    background-color: $white-color;
+    box-shadow: 0px 1px 3px $shadow-color;
+}
+
+.form-label {
+    font-size: 14px;
+    color: $light-black;
+    margin-bottom: 16px;
+    display: inline-block;
+
+    span {
+        font-style: italic;
+        font-size: 12px;
+        color: $black-color-06;
+    }
+}
+
+.input-form {
+    padding: 16px;
+    font-weight: 500;
+    color: $light-black;
+    background-color: $bg-color;
+    width: 100%;
+    border-radius: 4px;
+    border: $border;
+}
+
+.search-form {
+    padding: 16px 16px 16px 44px;
+    font-weight: 500;
+    color: $dark-color;
+    width: 100%;
+    border-radius: 4px;
+    border: 0;
+    background-image: url(../image/ic_search_24px.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    background-position-x: 16px;
+    cursor: text;
+}
+
+.search-form::placeholder {
+    font-size: 14px;
+    color: $black-color-06;
+    padding-left: 0px;
+}
+
+.form-control {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.chip {
+    width: auto;
+    display: inline-flex;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: $dark-color;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: $bg-color;
+    border-radius: 54px;
+    margin-right: 8px;
+    margin-bottom: 16px;
+
+    * {
+        margin-left: 8px;
+        align-self: center;
+    }
+}
+
+.chip:hover {
+    background-color: $black-color-06;
+    color: $white-color;
+}
+
+.close-modal-btn, 
+a.close-modal-btn {
+    width: 40px;
+    height: 40px;
+    background-color: $light-grey;
+    box-shadow: $btn-box-shadow;
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    position: relative;
+
+    svg {
+        fill: $black-color-06;
+        width: 14px;
+        height: 14px;
+    }
+}
+
+.close-modal-btn:hover {
+    background-color: $light-black;
+    svg {
+        fill: $white-color;
+    }
+}
+
+.form-check {
+    width: 20px;
+    height: 20px;
+    box-shadow: $btn-box-shadow;
+    background-color: $white-color;
+    border-radius: 50%;
+    align-self: center;
+    flex-shrink: 0;
+    justify-content: space-between;
+}
+
+.color-picker {
+    width: 100%;
+    height: 50px;
+    padding: 4px;
+}
+
+
+// switch selection control
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: $brand-color;
+  }
+  
+  input:focus + .slider {
+    box-shadow: $btn-box-shadow;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+//   end of switch
+
+.accordion-header .btn-ellipsis,
+.btn-ellipsis {
+    padding: 4px;
+    border-radius: 4px;
+    background-color: transparent;
+    border: 0;
+    position: relative;
+    svg {
+        height: 20px;
+    }
+}
+
+.btn-ellipsis:hover {
+    background-color: white;
+}
+
+.alert {
+    width: 100%;
+    border-radius: 4px;
+    padding: 16px 32px;
+    font-weight: 500;
+}
+
+.chip-tab-item {
+    padding: 10px 18px;
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: $white-color;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.87);
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+
+    .notif-point {
+        margin-left: 8px;
+        background-color: $brand-color;
+        color: $white-color;
+        padding: 10px;
+    }
+
+    * {
+        align-self: center;
+    }
+}
+
+button:disabled .loader-action {
+    display: flex;
+}
+
+.loader-action span {
+    display: block;
+    margin: 0 auto;
+}
+
+.justify-content-end {
+    justify-content: flex-end;
+}

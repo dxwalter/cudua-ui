@@ -1,0 +1,25 @@
+{
+  "name": "cudua-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "nuxt": "^2.14.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nuxt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dxwalter/cudua-ui.git"
+  },
+  "author": "Cudua Inc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dxwalter/cudua-ui/issues"
+  },
+  "homepage": "https://github.com/dxwalter/cudua-ui#readme"
+}
