@@ -50,9 +50,7 @@
 										</div>
 									</div>
 									<div class="item-card-footer">
-										<a href="#" class="btn btn-default btn-white">
-											More details
-										</a>
+										<a href="#" class="btn btn-md btn-white">More details</a>
 									</div>
 								</div>
 							</div>
@@ -71,7 +69,7 @@
 										</div>
 									</div>
 									<div class="item-card-footer">
-										<a href="#" class="btn btn-default btn-white">
+										<a href="#" class="btn btn-md btn-white">
 											More details
 										</a>
 									</div>
@@ -92,7 +90,7 @@
 										</div>
 									</div>
 									<div class="item-card-footer">
-										<a href="#" class="btn btn-default btn-white">
+										<a href="#" class="btn btn-md btn-white">
 											More details
 										</a>
 									</div>
@@ -113,7 +111,7 @@
 										</div>
 									</div>
 									<div class="item-card-footer">
-										<a href="#" class="btn btn-default btn-white">
+										<a href="#" class="btn btn-md btn-white">
 											More details
 										</a>
 									</div>
@@ -157,7 +155,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="single-order-details.html" class="btn btn-default btn-white">
+													<a href="single-order-details.html" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -178,7 +176,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="single-order-details.html" class="btn btn-default btn-white">
+													<a href="single-order-details.html" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -199,7 +197,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -220,7 +218,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -241,7 +239,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -262,7 +260,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -283,7 +281,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -308,7 +306,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="cleared-order.html" class="btn btn-default btn-white">
+													<a href="cleared-order.html" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -329,7 +327,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="cleared-order.html" class="btn btn-default btn-white">
+													<a href="cleared-order.html" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -350,7 +348,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -371,7 +369,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -392,7 +390,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -413,7 +411,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -434,7 +432,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -459,7 +457,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -480,7 +478,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -501,7 +499,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -522,7 +520,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -543,7 +541,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -564,7 +562,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -585,7 +583,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="#" class="btn btn-default btn-white">
+													<a href="#" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>

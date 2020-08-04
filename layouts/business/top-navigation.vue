@@ -2,7 +2,7 @@
   <div class="top-nav-bar">
         
         <div class="d-flex">
-            <button class="nav-toggle-btn hamburger hamburger--spring" id="navToggleButton" data-toggle-status="0">
+            <button class="nav-toggle-btn hamburger hamburger--spring" id="navToggleButton" data-toggle-status="0" v-on:click="toggleNavBar">
                 <div class="notif-point">10</div>
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
@@ -99,24 +99,52 @@
                 All notifications
             </n-link>
         </div>
-        
+
+        <BUSINESSREVIEW />
+        <nuxt />
+        <USERNAMEMODAL />
         <nuxt />
   </div>
 </template>
 
 <script>
 import META from '~/nuxt.config.js'
+import BUSINESSREVIEW from '~/layouts/business/modals/business.review.vue';
+import USERNAMEMODAL from '~/layouts/business/modals/username.vue';
 export default {
     components: {
-
+        BUSINESSREVIEW, USERNAMEMODAL
     },
     data: function () {
         return {
-            metaTag: META.head
+            metaTag: META.head,
+            screenWidth: ""
         }
     },
     head() {
         this.metaTag
+    },
+    created() {
+        if (process.client) {
+            window.addEventListener('resize', this.handleResize);
+        }
+    },
+
+    computed: {
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        }
+    },
+    methods : {
+        toggleNavBar: function () {
+            let navToggle = document.getElementById('navToggleButton');
+            let sideNav = document.getElementById('sideNav');
+            let sideNavContent = document.getElementById("sideNavContent");
+            this.screenWidth <= 1023 ? this.$showMobileNav(sideNav, sideNavContent, navToggle) : sideNav.classList.toggle('js-fold-nav');
+        }
+    },
+    mounted () {
+        
     }
 }
 </script>

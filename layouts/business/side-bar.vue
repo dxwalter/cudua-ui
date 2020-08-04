@@ -1,5 +1,5 @@
 <template>
-  <div class="side-nav-container" id="sideNav">
+  <div class="side-nav-container" id="sideNav" v-on:click="closeNav">
         <!-- the .js-fold-nav class along-with .side-nav-content folds
         the navigation bar -->
         <div class="side-nav-content" id="sideNavContent">
@@ -118,11 +118,6 @@
             
         </div>
     
-        <BUSINESSREVIEW />
-        <nuxt />
-
-        <USERNAMEMODAL />
-        <nuxt />
   </div>
 </template>
 
@@ -132,6 +127,78 @@ import USERNAMEMODAL from '~/layouts/business/modals/username.vue';
 export default {
     components: {
         BUSINESSREVIEW, USERNAMEMODAL
+    },
+    data: function () {
+        return {
+            screenWidth: "",
+            openedModalTarget: ""
+        }
+    },
+    created() {
+        if (process.client) {
+            window.addEventListener('resize', this.handleResize);
+        }
+    },
+    computed: {
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        }
+    },
+    methods : {
+        closeNav: function () {
+            let closeNavWithOverlay = document.getElementById('sideNav');
+            let navToggle = document.getElementById('navToggleButton');
+            let sideNavContent = document.getElementById("sideNavContent");
+            this.screenWidth <= 1023 ? this.$showMobileNav(closeNavWithOverlay, sideNavContent, navToggle) : "";
+        }
+    },
+    mounted () {
+        // open modal
+        let openModalAction = document.querySelectorAll("[data-trigger]");
+            for (const action of openModalAction) {
+            action.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.openedModalTarget = action.getAttribute('data-target');
+                this.$openModal(this.openedModalTarget);
+            })
+        }
+
+        // close modal with icon
+        let closeModalAction = document.querySelectorAll('[data-dismiss]');
+        for (const action of closeModalAction) {
+            action.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.$closeModal(action.getAttribute('data-target'));
+            })
+        }
+
+        // close modal with esc key
+        window.onkeyup = (e) => {
+            e.preventDefault();
+            if (e.keyCode == 27) {
+                if (document.querySelector('.overflow-hidden') !== null) {
+                    // .. it exists so remove modal
+                    this.$closeModal(this.openedModalTarget);
+                }
+            }
+        }
+
+        // close modal by clicking outside the modal window
+        window.addEventListener("click", (e) => {
+            for (const action of document.querySelectorAll(".modal-container")) {
+                if (e.target === action) {
+                    this.$closeModal(this.openedModalTarget);
+                }
+            }
+        });
+
+        let Tabs = document.querySelectorAll("#tabList > #tabLink");
+        for (let i = 0; i < Tabs.length; i++) {
+            Tabs[i].addEventListener("click", (e) => {
+                this.$myTabClicks(e, Tabs)
+            })
+        }
+
     }
 }
 </script>

@@ -14,11 +14,11 @@ export default {
 		link: [
 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
 		],
-		script: [
-			{ src: '/business.app.js', type: 'text/javascript', body: true },
-		]
 	},
 	css: [
 		'@/assets/business/css/app.css',
 	],
+	plugins: [
+		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false}
+	]
 }
