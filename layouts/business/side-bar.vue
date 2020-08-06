@@ -122,11 +122,9 @@
 </template>
 
 <script>
-import BUSINESSREVIEW from '~/layouts/business/modals/business.review.vue';
-import USERNAMEMODAL from '~/layouts/business/modals/username.vue';
 export default {
     components: {
-        BUSINESSREVIEW, USERNAMEMODAL
+        
     },
     data: function () {
         return {

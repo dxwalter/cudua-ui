@@ -109,8 +109,8 @@
 
 <script>
 import META from '~/nuxt.config.js'
-import BUSINESSREVIEW from '~/layouts/business/modals/business.review.vue';
-import USERNAMEMODAL from '~/layouts/business/modals/username.vue';
+import BUSINESSREVIEW from '~/components/business/businessreview/business.review.vue';
+import USERNAMEMODAL from '~/components/business/profile/username.vue';
 export default {
     components: {
         BUSINESSREVIEW, USERNAMEMODAL

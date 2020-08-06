@@ -3441,3 +3441,43 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
         }
     }
 }
+
+.margin-auto {
+    margin: 0 auto !important;
+}
+
+.unavailable-feature {
+    font-size: 18px;
+    font-weight: 500;
+    color: $dark-color;
+    line-height: 27px;
+    margin-bottom: 8px;
+}
+
+.payment-gateway {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: $white-color;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    * {
+        align-self: center;
+    }
+}
+
+.gateway {
+    display: flex;
+
+    .gateway-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        margin-right: 16px;
+        overflow: hidden;
+    }
+    .gateway-name {
+        font-weight: 500;
+        color: $dark-color;
+    }
+}
