@@ -16,6 +16,7 @@
                                 <a href="#" class="chip-tab-item is-active" id="tabLink" data-tab="editBasic">Basic</a>
                                 <a href="#" class="chip-tab-item" id="tabLink" data-tab="editContact">Contact</a>
                                 <a href="#" class="chip-tab-item" id="tabLink" data-tab="onlinePayment">Online payment</a>
+                                <a href="#" class="chip-tab-item" id="tabLink" data-tab="serviceSubcription">Plans & billing</a>
                             </div>
 
                             <div class="tab-content" id="tabContent">
@@ -213,7 +214,76 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
+                                <!-- subscription -->
+                                <div class="tab-content-area" id="serviceSubcription">
+
+                                    <div class="plan-option">
+                                        <div class="subcription-area-header">Current plan</div>
+                                        <div class="subscription-list">
+                                            <div class="flex-control">
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Plan</div>
+                                                    <div class="subcription-data">Free tier</div>
+                                                </div>
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Price</div>
+                                                    <div class="subcription-data">₦3,000</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-control">
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Renewal date</div>
+                                                    <div class="subcription-data">15th December 2020</div>
+                                                </div>
+                                                <button class="btn btn-default btn-small">Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="">
+                                        <div class="subcription-area-header">Previous plans</div>
+                                        <div class="subscription-list mg-bottom-16">
+                                            <div class="flex-control">
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Plan</div>
+                                                    <div class="subcription-data">Free tier</div>
+                                                </div>
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Price</div>
+                                                    <div class="subcription-data">₦3,000</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-control">
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Renewal date</div>
+                                                    <div class="subcription-data">15th December 2020</div>
+                                                </div>
+                                                <button class="btn btn-default btn-small">Details</button>
+                                            </div>
+                                        </div>
+                                        <div class="subscription-list mg-bottom-16">
+                                            <div class="flex-control">
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Plan</div>
+                                                    <div class="subcription-data">Free tier</div>
+                                                </div>
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Price</div>
+                                                    <div class="subcription-data">₦3,000</div>
+                                                </div>
+                                            </div>
+                                            <div class="flex-control">
+                                                <div class="subcription-info">
+                                                    <div class="subcription-header">Renewal date</div>
+                                                    <div class="subcription-data">15th December 2020</div>
+                                                </div>
+                                                <button class="btn btn-default btn-small">Details</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
 
                         </div> <!-- main content ends here -->

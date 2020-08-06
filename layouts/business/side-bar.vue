@@ -107,6 +107,15 @@
                 </div>
             </n-link>
 
+            <n-link to="/b/profile/edit" class="nav-link-items">
+                <div class="nav-icon-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
+                        <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
+                    </svg>
+                    <span>Account settings</span>
+                </div>
+            </n-link>
+
             <n-link to="#" class="nav-link-items">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">

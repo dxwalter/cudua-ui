@@ -2265,12 +2265,6 @@
     }
 }
 
-@media($mq-mb) {
-    .tab-content {
-        width: 400px;
-    }
-}
-
 .width-100 {
     width: 100%;
 }
@@ -3480,4 +3474,64 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
         font-weight: 500;
         color: $dark-color;
     }
+}
+
+.subcription-area-header {
+    padding: 16px;
+    background-color: $white-color;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: $dark-color;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border-left: 5px solid $brand-color;
+    
+}
+
+.subscription-list {
+    padding: 16px;
+    background-color: $white-color;
+    border-left: 5px solid $black-color-06;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+
+    .flex-control {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+.subcription-info {
+    .subcription-header {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .subcription-data {
+        font-size: 18px;
+        font-weight: 500;
+        color: $dark-color;
+    }
+}
+
+@media(min-width: 768px){
+    .subscription-list {
+        flex-direction: row;
+    }
+    .flex-control:first-child {
+        margin-right: 32px;
+    }
+
+    .flex-control:nth-child(2) {
+        margin-left: 32px;
+    }
+}
+
+
+.plan-option {
+    margin-bottom: 64px;
 }
