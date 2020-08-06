@@ -50,7 +50,7 @@
 										</div>
 									</div>
 									<div class="item-card-footer">
-										<a href="#" class="btn btn-md btn-white">More details</a>
+										<a href="/b/orders/details/43453453453" class="btn btn-md btn-white">More details</a>
 									</div>
 								</div>
 							</div>
@@ -155,7 +155,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="single-order-details.html" class="btn btn-md btn-white">
+													<a href="/b/orders/details/43453453453" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>
@@ -176,7 +176,7 @@
 													</div>
 												</div>
 												<div class="item-card-footer">
-													<a href="single-order-details.html" class="btn btn-md btn-white">
+													<a href="/b/orders/details/43453453453" class="btn btn-md btn-white">
 														More details
 													</a>
 												</div>

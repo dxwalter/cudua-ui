@@ -25,7 +25,7 @@
                     <!-- when no category has been added to the account -->
                     <h2>No product has been added to your store</h2>
                     <p>Start uploading the products that you want to sell</p>
-                    <a href="product-upload.html" class="btn btn-primary btn-lg">Upload a product</a>
+                    <n-link to="/b/product/add-product" class="btn btn-primary btn-lg">Upload a product</n-link>
                 </div>
 
 

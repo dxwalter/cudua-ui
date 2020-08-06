@@ -39,6 +39,7 @@ export default ({app}, inject) => {
         document.getElementById(target).classList.add('display-block')
         document.getElementById(target).classList.toggle("show-modal");
     }
+    inject('openModal', openModal)
 
     // close modal 
     let closeModal = (target) => {
@@ -46,9 +47,6 @@ export default ({app}, inject) => {
         document.getElementById(target).classList.toggle("show-modal");
         document.getElementById(target).classList.remove('display-block')
     }
-
-
-    inject('openModal', openModal)
     inject('closeModal', closeModal)
 
     // tabs
@@ -81,7 +79,153 @@ export default ({app}, inject) => {
         activePane.classList.add("is-active");
         activePane.classList.add("showEffect");
     }
-
     inject('myTabClicks', myTabClicks)
+
+    // accordion
+    let toggleAccordion = (accordionHeader, accordionItem) => {
+
+        let itemClass = accordionHeader.parentNode.className;
+    
+        for (let i = 0; i < accordionItem.length; i++) {
+            accordionItem[i].className = 'js-accordionItem close';
+        }
+    
+        if (itemClass == 'js-accordionItem') {
+            accordionHeader.parentNode.className = 'js-accordionItem open';
+        } else if (itemClass == 'js-accordionItem open') {
+            accordionHeader.parentNode.className = 'js-accordionItem close';
+        } else if (itemClass == 'js-accordionItem close') {
+            accordionHeader.parentNode.className = 'js-accordionItem open';
+        }
+    
+    }
+    inject('toggleAccordion', toggleAccordion);
+
+
+    // drag for drag and drop
+    let dragOverHandler = (e, dragZone) => {
+        e.preventDefault();
+        // open drop zone overlay
+        dragZone.style.display = 'flex';
+    }
+    inject('dragOverHandler', dragOverHandler)
+
+
+
+    // drag and drop
+    let dropHandler = (e, target, dragZone) => {
+
+        // Prevent default behavior (Prevent file from being opened)
+
+        if (e.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                // If dropped items aren't files, reject them
+                if (e.dataTransfer.items[i].kind === 'file') {
+                    let file = e.dataTransfer.items[i].getAsFile();
+                    app.$showImagePreview (window.URL.createObjectURL(file), target)
+                    // console.log('... file[' + i + '].name = ' + file.name);
+                }
+            }
+        } else {
+            // Use DataTransfer interface to access the file(s)
+            for (let i = 0; i < e.dataTransfer.files.length; i++) {
+                if (e.dataTransfer.items[i].kind === 'file') {
+                    let file = e.dataTransfer.items[i].getAsFile();
+                    app.$showImagePreview (window.URL.createObjectURL(file), target)
+                    // console.log('... file[' + i + '].name = ' + file.name);
+                }
+            }
+        }
+
+        // hide drop zone overlay
+        dragZone.style.display = 'none';
+    }
+    inject('dropHandler', dropHandler)
+
+    // drag out
+    let dragOutHandler = (e, dragZone) => {
+        e.preventDefault();
+        // open drop zone overlay
+        dragZone.style.display = 'none';
+    }
+    inject('dragOutHandler', dragOutHandler)
+
+    // image previews
+    let previewImage = (e, target) => {
+        let inputImagePath = URL.createObjectURL(e.target.files[0]);
+        app.$showImagePreview(inputImagePath, target)
+    }
+
+    inject('previewImage', previewImage)
+    
+    let showImagePreview = (path, target) => {
+        let previewTarget = document.getElementById(target);
+        let imageTag = `<img src="${path}">`;
+        previewTarget.innerHTML = "";
+        previewTarget.style.display = 'block'
+        previewTarget.innerHTML = imageTag;   
+    }
+    inject('showImagePreview', showImagePreview);
+
+
+    let productImageSlides = (n, slides) => {
+        
+        let currentSlide;
+
+        if (slides.length > 0) {
+    
+            if (n > slides.length) {currentSlide = 1}
+            if (n <= slides.length) {currentSlide = slides.length}
+            if (n < slides.length) {currentSlide = n}
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("is-active");
+            }
+            slides[currentSlide - 1].classList.add("is-active");
+        }
+    }
+
+    inject('productImageSlides', productImageSlides);
+
+
+    let sideScroll = (element,direction,speed,distance,step) => {
+        let scrollAmount = 0;
+        let slideTimer = setInterval(function(){
+            if(direction == 'left'){
+                element.scrollLeft += step;
+            } else {
+                element.scrollLeft -= step;
+            }
+            scrollAmount += step;
+            if(scrollAmount >= distance){
+                window.clearInterval(slideTimer);
+            }
+        }, speed);
+    }
+
+    inject('sideScroll', sideScroll)
+
+    let carouselAction = (carouselNavigation) => {
+        for (const action of carouselNavigation) {
+            action.addEventListener('click', (e) => {
+                // e.preventDefault();
+                e.stopPropagation();
+                let getDataAttribute = e.target;
+                let targetCarousel = getDataAttribute.getAttribute('data-target');
+                let carouselSlide = document.getElementById(targetCarousel)
+                let carouselDirection = getDataAttribute.getAttribute('data-direction');
+                let carouselItems = document.querySelectorAll(`#${targetCarousel} .carousel-item`);
+                let size = carouselItems[0].clientWidth;
+                
+                if (carouselDirection == 'left') {
+                    app.$sideScroll(carouselSlide, 'left', 30, size, 10);
+                } else {
+                    app.$sideScroll(carouselSlide, 'right', 30, size, 10);
+                }
+            })
+        }
+    }
+
+    inject("carouselAction", carouselAction)
 
 }

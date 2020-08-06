@@ -192,6 +192,7 @@ export default {
             }
         });
 
+        // tabs
         let Tabs = document.querySelectorAll("#tabList > #tabLink");
         for (let i = 0; i < Tabs.length; i++) {
             Tabs[i].addEventListener("click", (e) => {
@@ -199,6 +200,25 @@ export default {
             })
         }
 
+        // single drop down
+        let singleTabClick = document.querySelectorAll('[data-single-tab]');
+        for (const action of singleTabClick) {
+            action.addEventListener('click', (e) => {
+                e.preventDefault();
+                let getTarget = e.target;
+                let singleTabContainer = document.getElementById(getTarget.getAttribute('data-target'));
+                singleTabContainer.classList.toggle(`showEffect`);
+            })
+        }
+
+        // accordion
+        let accordionItem = document.getElementsByClassName('js-accordionItem');
+        let accordionHeader = document.getElementsByClassName('js-accordionHeader');
+        for (let i = 0; i < accordionHeader.length; i++) {
+            accordionHeader[i].addEventListener('click', (e) => {
+                this.$toggleAccordion(accordionHeader[i], accordionItem)
+            }, false);
+        }
     }
 }
 </script>

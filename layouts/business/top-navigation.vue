@@ -23,7 +23,7 @@
                 </svg> 
             </n-link>
             <n-link to="/c/:cudua" class="btn btn-white btn-md">Visit shop</n-link>
-            <n-link to="/b/product/add" class="btn btn-primary btn-md">Add products</n-link>
+            <n-link to="/b/product/add-product" class="btn btn-primary btn-md">Add products</n-link>
         </div>
 
         <div class="nav-notification-container product-card" id="navNotification">

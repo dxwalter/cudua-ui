@@ -1552,7 +1552,6 @@
 
     span {
         font-size: 18px;
-        margin-bottom: 16px;
         font-weight: 500;
         color: $black-color-06;
         align-self: center;
@@ -3415,4 +3414,30 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
     border-radius: 4px;
     padding: 4px;
     background-color: $white-color;
+}
+
+.delivery-time-input-area {
+    display: flex;
+    justify-content: space-between;
+    * {
+        align-self: center;
+    }
+    div {
+        font-size: 14px;
+        font-weight: 500;
+    }
+    .input-form {
+        width: 100px;
+        margin-bottom: unset;
+    }
+}
+
+@media($mq-mb) {
+    .delivery-time-input-area {
+        justify-content: flex-start;
+        div {
+            width: 50px;
+            text-align: center;
+        }
+    }
 }
