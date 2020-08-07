@@ -62,7 +62,7 @@
 
                                     <div class="form-control">
                                         <!-- <label for="businessType" class="form-label">Write about your business <span>- optional</span></label> -->
-                                        <textarea name="" id="" cols="30" rows="10" class="input-form white-bg-color" placeholder="Write about your business"></textarea>
+                                        <textarea name="" id="" cols="30" rows="7" class="input-form white-bg-color" placeholder="Write about your business"></textarea>
                                     </div>
 
                                     <div class="form-control">
@@ -242,7 +242,7 @@
                                     </div>
 
                                     <div class="">
-                                        <div class="subcription-area-header">Previous plans</div>
+                                        <div class="subcription-area-header">All plans</div>
                                         <div class="subscription-list mg-bottom-16">
                                             <div class="flex-control">
                                                 <div class="subcription-info">
@@ -251,34 +251,44 @@
                                                 </div>
                                                 <div class="subcription-info">
                                                     <div class="subcription-header">Price</div>
-                                                    <div class="subcription-data">₦3,000</div>
+                                                    <div class="subcription-data">₦0</div>
                                                 </div>
                                             </div>
                                             <div class="flex-control">
                                                 <div class="subcription-info">
-                                                    <div class="subcription-header">Renewal date</div>
-                                                    <div class="subcription-data">15th December 2020</div>
+                                                    <div class="subcription-header">Duration</div>
+                                                    <div class="subcription-data">Life long</div>
                                                 </div>
-                                                <button class="btn btn-default btn-small">Details</button>
+                                                <div>
+                                                    <button class="btn btn-default btn-small">Details</button>
+                                                    <button class="btn btn-primary btn-small">Activate</button>
+                                                </div>
                                             </div>
                                         </div>
+
                                         <div class="subscription-list mg-bottom-16">
                                             <div class="flex-control">
                                                 <div class="subcription-info">
                                                     <div class="subcription-header">Plan</div>
-                                                    <div class="subcription-data">Free tier</div>
+                                                    <div class="subcription-data">Basic</div>
                                                 </div>
                                                 <div class="subcription-info">
                                                     <div class="subcription-header">Price</div>
-                                                    <div class="subcription-data">₦3,000</div>
+                                                    <div class="subcription-data">₦2,000</div>
                                                 </div>
                                             </div>
                                             <div class="flex-control">
                                                 <div class="subcription-info">
-                                                    <div class="subcription-header">Renewal date</div>
-                                                    <div class="subcription-data">15th December 2020</div>
+                                                    <div class="subcription-header">Duration</div>
+                                                    <div class="subcription-data">1 month</div>
                                                 </div>
-                                                <button class="btn btn-default btn-small">Details</button>
+                                                <div>
+                                                    <button class="btn btn-default btn-small">Details</button>
+                                                    <button class="btn btn-primary btn-small">Activate</button>
+                                                </div>
+                                            </div>
+                                            <div class="subscription-details">
+
                                             </div>
                                         </div>
                                     </div>

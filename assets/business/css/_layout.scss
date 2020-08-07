@@ -3495,6 +3495,7 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
 
     .flex-control {
         display: flex;
@@ -3502,6 +3503,10 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
         margin-bottom: 8px;
         width: 100%;
         flex-wrap: wrap;
+        flex: 1;
+        * {
+            align-self: center;
+        }
     }
 }
 
@@ -3534,4 +3539,81 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 
 .plan-option {
     margin-bottom: 64px;
+}
+
+.subscription-details {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border-radius: 4px;
+    background-color: $bg-color;
+}
+
+.notification-alert {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    font-weight: unset;
+    border-radius: 0;
+    margin-top: 2px;
+    .btn {
+        margin-top: 8px;
+        align-self: flex-start;
+    }
+}
+
+@media(min-width: 690px) {
+    .notification-alert {
+        flex-direction: row;
+        justify-content: space-between;
+        * {
+            align-self: center;
+        }
+        .btn {
+            margin-top: unset;
+        }
+    }
+}
+
+@media($mq-md) {
+    .notification-alert {
+        padding: 16px 32px;
+        margin-top: 14px;
+    }
+}
+
+@media(min-width: 1024px) {
+    .notification-alert {
+        margin-top: 0;
+    }
+}
+
+.invite-link {
+    font-size: 18px;
+    color: $dark-color;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.subscription-list.invite {
+    display: flex;
+    justify-content: space-between;
+    .subscription-details {
+        display: none;
+        background-color: $white-color;
+        .share-action-container a {
+            margin-right: 8px;
+            margin-bottom: 0;
+            width: 40px;
+            height: 40px;
+            svg {
+                width: 17px !important;
+                height: 19px !important;
+            }
+        }
+    }
+}
+
+.subscription-details.showEffect {
+    display: block !important;
 }

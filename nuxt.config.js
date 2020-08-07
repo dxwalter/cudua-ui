@@ -20,5 +20,10 @@ export default {
 	],
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false}
-	]
+	],
+	loadingIndicator: {
+		name: '~/layouts/business/loader.vue',
+		color: '#000',
+		background: '#fff'
+	  }
 }
