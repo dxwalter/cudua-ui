@@ -226,6 +226,7 @@ export default {
                 this.$toggleAccordion(accordionHeader[i], accordionItem)
             }, false);
         }
+
     }
 }
 </script>

@@ -7,18 +7,18 @@
             <nuxt />
                 <div class="content-area grey-bg-color">
                     <div class="main-content">
-                        <div class="page-header with-action">
+                        <div class="page-header">
                             <h4>Invite businesses</h4>
                         </div>
 
                         <div class="plan-option">
                             <div class="subscription-list invite">
                                 <div class="subcription-info">
-                                    <div class="invite-link">https://www.cudua.com/register?referal=1232ddcd</div>
+                                    <div class="invite-link" id="referalLink">https://www.cudua.com/register?referal=1232ddcd</div>
                                 </div>
                                     
                                 <div>
-                                    <button class="btn btn-default btn-small">Copy link</button>
+                                    <button class="btn btn-default btn-small" @click="copyLink('referalLink')">Copy link</button>
                                     <button class="btn btn-primary btn-small" data-single-tab="singleTab" data-target="shareInviteLink">Share link</button>
                                 </div>
                                 <div class="subscription-details" id="shareInviteLink">
@@ -92,10 +92,17 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import LOADER from '~/layouts/business/loader.vue';
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, LOADER
+        TOPHEADER, SIDENAV, BOTTOMNAV
+    },
+    methods: {
+        copyLink: function (target) {
+            this.$copyToClipBoard(target)
+        }
+    },
+    mounted () {    
+        
     }
 }
 </script>

@@ -118,10 +118,9 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import LOADER from '~/layouts/business/loader.vue';
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, LOADER
+        TOPHEADER, SIDENAV, BOTTOMNAV
     }
 }
 </script>

@@ -314,11 +314,10 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import LOADER from '~/layouts/business/loader.vue';
 import ADDLOCATION from '~/components/location/add.location.vue'
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, LOADER, ADDLOCATION
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION
     },
     methods : {
         previewImage: function (e, preview) {

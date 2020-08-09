@@ -1367,7 +1367,7 @@
 }
 
 .chosen-username {
-
+    font-size: 18px;
     span:last-child {
         font-weight: 500;
         color: $dark-color;
@@ -3616,4 +3616,42 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 
 .subscription-details.showEffect {
     display: block !important;
+}
+
+.opacity-0 {
+    opacity: 0;
+    height: 0;
+}
+
+.vue-notification {
+    padding: 12px 16px;
+    margin: 0 5px 5px; 
+    color: #ffffff;
+    background: rgba(104, 154, 252, 1);
+    border-left: 5px solid #187FE7;
+    border-radius: 4px;
+    overflow: hidden;
+
+    .notification-title {
+        font-weight: 500;
+        font-size: 12px;
+        margin-bottom: 4px;
+    }
+}
+
+.vue-notification-group {
+    position: absolute !important;
+    top: 63px !important;
+    right: 10px !important;
+    z-index: 4000;
+    .vue-notification-wrapper {
+        margin-bottom: 5px;
+    }
+}
+
+@media(min-width: 1024px) {
+    .vue-notification-group {
+        top: 82px !important;
+        right: 27px !important;
+    }
 }

@@ -13,19 +13,9 @@
             </div>
 
             <div class="modal-content">
-                <div class="form-control">
-                    <!-- <label for="businessType" class="form-label">Type new username</label> -->
-                    <input type="text" name="" id="businessType" class="input-form" placeholder="Type new username">
-                </div>
-
-                <div class="form-control">
-                    <div class="chosen-username mg-bottom-32">
-                        <span>https://cudua.com/</span><span>bubbieklassiq</span>
-                    </div>
-                </div>
-
-                <div class="form-control mg-bottom-64">
-                    <button class="btn btn-block btn-primary" type="button">Save new username</button>
+                <div class="chosen-username mg-bottom-16">
+                    <div class="opacity-0" id="usernameLink">https://cudua.com/bubbieklassiq</div>
+                    <span>https://cudua.com/</span><span>bubbieklassiq</span>
                 </div>
 
                 <div class="form-control">
@@ -50,15 +40,9 @@
                             </svg>
                         </a>
 
-                        <a href="#" class="close-modal-btn" data-brand="copy-link">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#copyIcon"></use>
-                            </svg>
-                        </a>
-
                     </div>
 
-                    <button class="btn btn-white btn-block">
+                    <button class="btn btn-white btn-block" @click="copyLink('usernameLink')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset">
                             <use xlink:href="~/assets/business/image/all-svg.svg#copyIcon"></use>
                         </svg>
@@ -79,7 +63,14 @@
 
 <script>
 export default {
+    methods: {
+        copyLink: function (target) {
+            this.$copyToClipBoard(target)
+        }
+    },
+    mounted () {
 
+    }
 }
 </script>
 

@@ -10,7 +10,7 @@
 
             <div>
                 <div class="alert alert-info notification-alert">
-                    <div>Invite three businesses to register and get one month basic plan</div>
+                    <div>Invite three businesses to register and get one month basic plan for free</div>
                     <nuxt-link to="/b/invite" class="btn btn-small btn-white">Get started</nuxt-link>
                 </div>
             </div>
@@ -50,10 +50,15 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import LOADER from '~/layouts/business/loader.vue';
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, LOADER
+        TOPHEADER, SIDENAV, BOTTOMNAV
+    },
+    methods: {
+
+    },
+    mounted() {
+
     }
 }
 </script>

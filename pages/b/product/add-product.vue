@@ -427,11 +427,10 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import LOADER from '~/layouts/business/loader.vue';
 import ADDCATEGORIESMODAL from'~/components/business/categories/addCategories.vue'
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, LOADER, ADDCATEGORIESMODAL
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDCATEGORIESMODAL
     },
     data : function () {
         return {

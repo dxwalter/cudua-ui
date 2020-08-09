@@ -19,11 +19,11 @@ export default {
 		'@/assets/business/css/app.css',
 	],
 	plugins: [
-		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false}
+		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
+		{src: '~/plugins/notification.js', ssr: false}
 	],
-	loadingIndicator: {
-		name: '~/layouts/business/loader.vue',
-		color: '#000',
-		background: '#fff'
-	  }
+	modules: [
+		'@nuxtjs/toast',
+	],
+	loading: '~/components/loader/loader.vue'
 }

@@ -104,21 +104,24 @@
         <nuxt />
         <USERNAMEMODAL />
         <nuxt />
+        <NOTIFICATION />
+        <nuxt />
+
   </div>
 </template>
 
 <script>
 import META from '~/nuxt.config.js'
 import BUSINESSREVIEW from '~/components/business/businessreview/business.review.vue';
-import USERNAMEMODAL from '~/components/business/profile/username.vue';
+import USERNAMEMODAL from '~/components/business/profile/username.vue'; 
+import NOTIFICATION from '~/components/notification/notification.vue'; 
 export default {
     components: {
-        BUSINESSREVIEW, USERNAMEMODAL
+        BUSINESSREVIEW, USERNAMEMODAL, NOTIFICATION
     },
     data: function () {
         return {
             metaTag: META.head,
-            screenWidth: ""
         }
     },
     head() {

@@ -152,8 +152,9 @@
                                     <div class="product-details-label">
                                         Share
                                     </div>
+                                    <div id="productLink" class="opacity-0">https://cudua.com/bubbieklassiq/2342342/323424/product-name</div>
                                     <div class="share-action-container">
-                                        <a href="#" class="close-modal-btn btn-white">
+                                        <a href="#" class="close-modal-btn btn-white" @click="copyLink('productLink')">
                                             <svg height="24px" viewBox="0 0 448 512" width="23px" xmlns="http://www.w3.org/2000/svg">
                                                 <use xlink:href="~/assets/business/image/all-svg.svg#copyIcon"></use>
                                             </svg>
@@ -208,11 +209,10 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import LOADER from '~/layouts/business/loader.vue';
 import PRODUCTREVIEW from '~/components/business/product/product.review.vue';
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, LOADER, PRODUCTREVIEW
+        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW
     },
     data: function () {
         return {
@@ -238,6 +238,9 @@ export default {
             let thumbCount = getTarget.getAttribute('data-slide');
             this.currentSlide = parseInt(thumbCount, 10)
             this.$productImageSlides(parseInt(thumbCount, 10), this.slider)
+        },
+        copyLink: function (target) {
+            this.$copyToClipBoard(target)
         }
     },
     mounted () {
