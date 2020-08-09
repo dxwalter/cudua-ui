@@ -30,7 +30,7 @@ export default ({app}, inject) => {
             keepOnHover: true,
             type: type
         }
-        app.$toast.show( string, options) 
+        app.$toast.show(string, options).goAway(1500)
     }
 
     inject("showToast", showToast);

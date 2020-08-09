@@ -8,6 +8,10 @@
         <nuxt />
         <div class="content-area">
 
+            <!-- pageLoader -->
+            <PAGELOADER v-if="pageLoader" />
+            <nuxt />
+            
             <div>
                 <div class="alert alert-info notification-alert">
                     <div>Invite three businesses to register and get one month basic plan for free</div>
@@ -50,15 +54,23 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
+import PAGELOADER from '~/components/loader/loader.vue'
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV
+        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
     },
     methods: {
 
     },
-    mounted() {
-
+    mounted () {
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>

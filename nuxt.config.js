@@ -25,5 +25,5 @@ export default {
 	modules: [
 		'@nuxtjs/toast',
 	],
-	loading: '~/components/loader/loader.vue'
+	loading: false
 }
