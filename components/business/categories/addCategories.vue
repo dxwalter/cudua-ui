@@ -55,6 +55,6 @@ export default {
 }
 </script>
 
-<style>
+<style src="~/assets/business/css/app.css" scoped>
 
 </style>

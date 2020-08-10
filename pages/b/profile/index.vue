@@ -1,4 +1,5 @@
 <template>
+	<div class="business">
 		<div class="body-container">
 				<TOPHEADER />
 				<nuxt/>
@@ -115,6 +116,7 @@
 						</div>
 				</div>
 		</div>
+	</div>
 </template>
 
 <script>
@@ -142,4 +144,3 @@ export default {
     }
 }
 </script>
-

@@ -1,9 +1,10 @@
 @import "init";
-@import "base";
-@import "color";
-@import "module";
-@import "layout";
-@import "sizes";
-@import "grid";
-@import "animation";
-@import "notification";
+// @import "base";
+.business {
+    @import "color";
+    @import "module";
+    @import "layout";
+    @import "sizes";
+    @import "grid";
+    @import "animation";
+}

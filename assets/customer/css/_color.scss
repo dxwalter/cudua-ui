@@ -1,0 +1,122 @@
+.btn-primary,
+.close-modal-btn.btn-primary {
+    color: $white-color;
+    background-color: $brand-color;
+
+    svg {
+        fill: $white-color;
+    }
+}
+
+.btn-primary:hover {
+    background-color: $brand-color-hover;
+}
+
+.grey-bg-color {
+    background-color: $bg-color;
+}
+
+.white-bg-color {
+    background-color: $white-color !important;
+}
+
+.btn-white {
+    color: $brand-color;
+    background-color: $white-color;
+}
+
+.btn-white:hover {
+    background-color: $bg-color;
+}
+
+.btn-light-grey {
+    background-color: $light-grey;
+    color: $black-color-06;
+}
+
+.btn-light-grey:hover {
+    background-color: $light-black;
+    color: $white-color
+}
+
+.btn-icon {
+    background-color: transparent;
+}
+
+.btn-icon:hover {
+    background-color: $bg-color;
+    box-shadow: $btn-box-shadow;
+}
+
+// alert
+.alert-info {
+    color: $white-color;
+    background-color: rgba(104, 154, 252, 1);
+}
+
+.alert-success {
+    color: $white-color;
+    background-color: rgba(69, 175, 69, 1);
+}
+
+.alert-warning {
+    color: $white-color;
+    background-color:rgba(251, 161, 1, 1);
+}
+
+.alert-danger {
+    color: $white-color;
+    background-color:rgba(223, 84, 56, 1);
+}
+
+.alert-secondary {
+    color: $white-color;
+    background-color:rgba(121, 135, 162, 1);
+}
+
+.alert-light {
+    background-color: rgba(236, 236, 236, 1);
+    color: rgba(64, 64, 64, 1);
+}
+
+.alert-dark {
+    background-color: rgba(39, 46, 58, 1);
+    color: $white-color
+}
+
+.alert-border-info {
+    background-color: $white-color;
+    border: 1px solid rgba(104, 154, 252, 1);
+    color: rgba(104, 154, 252, 1);
+}
+
+.alert-border-success {
+    background-color: $white-color;
+    border: 1px solid rgba(69, 175, 69, 1);
+    color: rgba(69, 175, 69, 1);
+}
+
+.alert-border-warning {
+    background-color: $white-color;
+    border: 1px solid rgba(251, 161, 1, 1);
+    color: rgba(251, 161, 1, 1);
+}
+
+svg {
+    fill: $black-color-06;
+}
+
+.btn-primary.btn-add-to-cart {
+    border: 2px solid $brand-color;
+    background-color: $white-color;
+    color: $brand-color;
+}
+
+.btn-primary.btn-add-to-cart:hover {
+    color: $white-color;
+    background-color: $brand-color;
+}
+
+.add-border {
+    border: $border !important;
+}

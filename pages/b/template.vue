@@ -29,4 +29,4 @@ export default {
     }
 }
 </script>
-
+<style src="~/assets/business/css/app.css" scoped></style>

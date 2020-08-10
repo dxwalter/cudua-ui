@@ -16,10 +16,15 @@ export default {
 		],
 	},
 	css: [
+		
+		'@/assets/global-asset/global.css',
 		'@/assets/business/css/app.css',
+		'@/assets/customer/css/app.css'
 	],
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
+		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
+		{src: '~/plugins/utils.js', ssr: false},
 		{src: '~/plugins/notification.js', ssr: false}
 	],
 	modules: [

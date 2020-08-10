@@ -1,0 +1,619 @@
+.btn {
+    box-shadow: $btn-box-shadow;
+    line-height: 1;
+    letter-spacing: 0.75px;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    align-self: center;
+    text-transform: capitalize;
+    cursor: pointer;
+    text-align: center;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    border: none;
+    border-radius: 4px;
+    display: inline-flex;
+    justify-content: center;
+    font-weight: 500;
+    transition: color 0.15s linear, background-color 0.15s linear;
+    padding: 14px 16px;
+    align-self: center;
+    align-items: center;
+    position: relative;
+}
+
+.btn-icon {
+    padding: 12px 14px;
+    box-shadow: unset;
+    position: relative;
+}
+
+.btn svg {
+    width: 17px;
+    height: 18px;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-md {
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+.btn-small {
+    padding: 10px 19px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+@media($mq-md) {
+    .btn-md {
+        padding: 12px 16px;
+        font-size: 16px;
+    }
+}
+
+.btn-lg {
+    padding: 17px 26px;
+    font-size: 18px;
+}
+
+.nav-toggle-btn {
+    border: 0;
+    background-color: $white-color;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center center;
+    background-size: 100%;
+    align-self: center;
+    cursor: pointer;
+}
+
+
+.card {
+    border-radius: 4px;
+    background-color: $white-color;
+    box-shadow: 0px 1px 3px $shadow-color;
+}
+
+.form-label {
+    font-size: 14px;
+    color: $light-black;
+    margin-bottom: 16px;
+    display: inline-block;
+
+    span {
+        font-style: italic;
+        font-size: 12px;
+        color: $black-color-06;
+    }
+}
+
+.input-form {
+    padding: 16px;
+    font-weight: 500;
+    color: $light-black;
+    background-color: $bg-color;
+    width: 100%;
+    border-radius: 4px;
+    border: 0;
+}
+
+.search-form {
+    padding: 16px 16px 16px 44px;
+    font-weight: 500;
+    color: $dark-color;
+    width: 100%;
+    border-radius: 4px;
+    border: 0;
+    background-image: url(../image/ic_search_24px.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    background-position-x: 16px;
+    cursor: text;
+}
+
+.search-form::placeholder {
+    font-size: 14px;
+    color: $black-color-06;
+    padding-left: 0px;
+}
+
+.advanced-search-location,
+.advanced-search-product {
+    padding: 16px 16px 16px 44px;
+    font-weight: 500;
+    color: $dark-color;
+    width: 100%;
+    border-radius: 4px;
+    border: 0;
+    background-image: url(../image/map-marker.svg);
+    background-size: 15px;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    background-position-x: 16px;
+    cursor: text;
+}
+
+.advanced-search-product {
+    background-image: url(../image/ic_card_giftcard_24px.svg);
+    background-size: 18px;
+}
+
+.advanced-search::placeholder {
+    font-size: 14px;
+    color: $black-color-06;
+    padding-left: 0px;
+}
+
+.form-control {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.chip {
+    width: auto;
+    display: inline-flex;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: $dark-color;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: $bg-color;
+    border-radius: 54px;
+    margin-right: 8px;
+    margin-bottom: 16px;
+
+    * {
+        margin-left: 8px;
+        align-self: center;
+    }
+}
+
+.chip:hover {
+    background-color: $black-color-06;
+}
+
+.close-modal-btn, 
+a.close-modal-btn {
+    width: 40px;
+    height: 40px;
+    background-color: $light-grey;
+    box-shadow: $btn-box-shadow;
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    position: relative;
+
+    svg {
+        fill: $black-color-06;
+        width: 14px;
+        height: 14px;
+        margin-right: -5px;
+    }
+}
+
+.close-modal-btn:hover {
+    background-color: $light-black;
+    svg {
+        fill: $white-color;
+    }
+}
+
+.form-check {
+    width: 20px;
+    height: 20px;
+    box-shadow: $btn-box-shadow;
+    background-color: $white-color;
+    border-radius: 50%;
+    align-self: center;
+    flex-shrink: 0;
+    justify-content: space-between;
+}
+
+.color-picker {
+    width: 100%;
+    height: 50px;
+    padding: 4px;
+}
+
+
+// switch selection control
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: $brand-color;
+  }
+  
+  input:focus + .slider {
+    box-shadow: $btn-box-shadow;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+//   end of switch
+
+.accordion-header .btn-ellipsis,
+.btn-ellipsis {
+    padding: 4px;
+    border-radius: 4px;
+    background-color: transparent;
+    border: 0;
+    position: relative;
+    svg {
+        height: 20px;
+    }
+}
+
+.btn-ellipsis:hover {
+    background-color: white;
+}
+
+.alert {
+    width: 100%;
+    border-radius: 4px;
+    padding: 16px 16px;
+    font-weight: 500;
+}
+.btn-icon {
+    padding: 7px 10px;
+    box-shadow: unset;
+    position: relative;
+    svg {
+        width: 23px;
+        height: 20px;
+    }
+}
+
+.input-join {
+    display: flex;
+    .input-form {
+        border-radius: 4px 0px 0px 4px;
+        padding: 10px 16px;
+    }
+    .btn {
+        border-radius: 0px 4px 4px 0px;
+    }
+}
+
+.desktop-search {
+    padding: 18px 18px 18px 55px;
+    font-weight: 500;
+    color: $black-color-06;
+    background-color: $light-grey;
+    width: 100%;
+    border-radius: 4px;
+    border: 0;
+    background-image: url(../image/ic_search_24px.svg);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position-y: 50%;
+    background-position-x: 16px;
+    cursor: text;
+}
+
+.btn-search {
+    padding: 18px 22px;
+}
+
+.btn-primary-border {
+    border: 2px solid $brand-color;
+}
+
+.cart-item-count-btn {
+    display: flex;
+    box-shadow: $btn-box-shadow;
+    justify-content: space-between;
+    background-color: $white-color;
+    overflow: hidden;
+    width: 150px;
+
+    button:nth-child(1) {
+        border-right: $border !important;
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+    button:last-child {
+        border-left: $border !important;
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+
+    button, div {
+        border: 0;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 18px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    button:hover {
+        background-color: $light-grey;
+    }
+}
+
+@media($mq-lg) {
+    .cart-item-count-btn {
+        width: 142px;
+    }
+}
+
+.accordion-content.showEffect,
+.shippment-details.showEffect,
+.cart-business-details.showEffect,
+.mobile-search-filter.showEffect {
+    display: block !important;
+}
+
+.modal-search-close-btn {
+    height: 68px;
+    width: auto;
+    border: 0;
+    background-color: $white-color;
+    padding-left: 16px;
+    padding-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+        width: 27px;
+    }
+}
+
+.clear-form-btn {
+    background-color: $bg-color;
+    border: 0;
+    padding: 14px 16px 14px 12px;
+    position: relative;
+    svg {
+        width: 20px;
+    }
+}
+
+.chip-tab-item {
+    padding: 10px 18px;
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: $white-color;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.87);
+    text-align: center;
+    margin: 0;
+    cursor: pointer;
+    font-weight: 500;
+
+    .notif-point {
+        margin-left: 8px;
+        background-color: $brand-color;
+        color: $white-color;
+        padding: 10px;
+    }
+
+    * {
+        align-self: center;
+    }
+}
+
+.color-picker {
+    width: 100%;
+    height: 50px;
+    padding: 4px;
+}
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+    position: relative;
+}
+  
+.slider-range {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;  
+    background: $bg-color;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border: 0;
+}
+
+.slider-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%; 
+    background: $brand-color;
+    cursor: pointer;
+}
+
+.slider-range::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: $brand-color;
+    cursor: pointer;
+}
+
+.multi-range input[type=range] {
+    box-sizing: border-box;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    width: 100%;
+    margin: 0;
+    padding: 0 0px;
+    /* Add some L/R padding to ensure box shadow of handle is shown */
+    overflow: hidden;
+    border: 0;
+    border-radius: 1px;
+    outline: none;
+    background-color: unset;
+    pointer-events: none;
+    height: 30px;
+  }
+  .multi-range input[type=range]:active,
+  .multi-range input[type=range]:focus {
+    outline: none;
+  }
+  .multi-range input[type=range]::-webkit-slider-thumb{
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: $dark-color;
+    position: relative;
+    margin: 0px 0;
+    /* Add some margin to ensure box shadow is shown */
+    cursor: pointer;
+    -webkit-appearance: none;
+            appearance: none;
+    pointer-events: all;
+    border: 0;
+  }
+
+  .multi-range input[type=range]::-moz-range-thumb {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    background-color: $brand-color;
+    position: relative;
+    margin: 0px 0;
+    /* Add some margin to ensure box shadow is shown */
+    cursor: pointer;
+    -webkit-appearance: none;
+            appearance: none;
+    pointer-events: all;
+    border: 0;
+  }
+  .multi-range {
+    position: relative;
+  }
+  .multi-range input[type=range] {
+    position: absolute;
+    background: unset;
+    z-index: 1;
+  }
+  .multi-range::after {
+      content: " ";
+      width: 100%;
+      height: 15px;
+      background: $bg-color;
+      position: absolute;
+      z-index: 1px;
+      border-radius: 4px;
+      top: 8px;
+  }
+
+  .multi-range input[type=range]:nth-child(1)::-webkit-slider-thumb::before {
+    background-color: purple;
+
+  }
+  .multi-range input[type=range]:nth-child(2) {
+    background: none;
+  }
+  .multi-range input[type=range]:nth-child(2)::-webkit-slider-thumb::before {
+    background-color: grey;
+  }
+  
+  .btn-add-to-cart {
+      padding: 10px;
+      box-shadow: $btn-box-shadow;
+      border-radius: 4px;
+      width: 100%;
+      text-transform: unset;
+      font-size: 16px;
+      font-weight: 500;
+  }
+
+  .bis-nav-btn {
+      border: 0;
+      cursor: pointer;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      align-items: center;
+      background-color: $white-color;
+      font-size: 14px;
+
+      svg {
+        width: 20px;
+        height: 19px;
+        margin-bottom: 4px;
+        fill: $black-color-06;
+      }
+
+      span {
+          text-align: center;
+          color: $black-color-06;
+      }
+  }

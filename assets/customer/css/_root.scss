@@ -1,0 +1,10 @@
+@import "init";
+// @import "base";
+.customer {
+    @import "color";
+    @import "module";
+    @import "layout";
+    @import "sizes";
+    @import "grid";
+    @import "animation";
+}
