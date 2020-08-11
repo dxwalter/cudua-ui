@@ -111,7 +111,6 @@
 </template>
 
 <script>
-import META from '~/nuxt.config.js'
 import BUSINESSREVIEW from '~/components/business/businessreview/business.review.vue';
 import USERNAMEMODAL from '~/components/business/profile/username.vue'; 
 import NOTIFICATION from '~/components/notification/notification.vue'; 
@@ -121,11 +120,16 @@ export default {
     },
     data: function () {
         return {
-            metaTag: META.head,
+            businessName: "Daniel business name"
         }
     },
     head() {
-        this.metaTag
+        return {
+            title: this.businessName,
+            meta: [
+                { name: 'robot', content: 'noindex'}
+            ]
+        }
     },
     created() {
         if (process.client) {
