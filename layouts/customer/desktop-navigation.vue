@@ -54,7 +54,7 @@
               </button>
         
               <div class="navigation-dropdown" id="navigationDropdown">
-                <n-link to="orders.html" class="mobile-side-nav-link">
+                <n-link to="orders" class="mobile-side-nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
                     </svg>
@@ -78,7 +78,7 @@
                     </svg>
                     <span>My profile</span>
                 </n-link>
-                <n-link to="/c/edit-profile" class="mobile-side-nav-link">
+                <n-link to="/c/profile/edit" class="mobile-side-nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#profile"></use>
                     </svg>

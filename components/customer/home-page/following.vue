@@ -117,7 +117,7 @@
 
                 <div class="row">
                                             
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -131,7 +131,7 @@
                         </div>
                     </n-link>
 
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -146,7 +146,7 @@
                     </n-link>
 
                             
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -160,7 +160,7 @@
                         </div>
                     </n-link>
 
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -174,7 +174,7 @@
                         </div>
                     </n-link>
 
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                           <div class="product-card-image">
                               <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -188,7 +188,7 @@
                       </div>
                     </n-link>
 
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                           <div class="product-card-image">
                               <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -202,7 +202,7 @@
                       </div>
                     </n-link>
 
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                           <div class="product-card-image">
                               <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -216,7 +216,7 @@
                       </div>
                     </n-link>
 
-                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/p/23434" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                       <div class="product-card-image">
                           <img src="~/assets/customer/image/zenfone.jpg" alt="">

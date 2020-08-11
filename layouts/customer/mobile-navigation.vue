@@ -88,7 +88,8 @@ export default {
 				action.addEventListener('click', (e) => {
 					e.preventDefault();
 					this.openedModalTarget = action.getAttribute('data-target');
-					this.$openModal(openedModalTarget);
+					console.log(this.openedModalTarget)
+					this.$openModal(this.openedModalTarget);
 				})
 			}
 		},
@@ -123,7 +124,7 @@ export default {
 			}
 
 			// close modal by clicking outside the modal window
-			window.addEventListener("click", function(e) {
+			window.addEventListener("click", (e) => {
 				for (const action of document.querySelectorAll(".modal-container")) {
 					if (e.target === action) {
 						this.$closeModal(this.openedModalTarget);

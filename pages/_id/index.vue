@@ -322,28 +322,49 @@
 
       <!-- footer area -->
     <div class="mobile-hide-nav-bottom-add">
-        <BOTTOMADS/>
-        <nuxt />
-
-        <CUSTOMERFOOTER />
-        <nuxt />
+        <BOTTOMADS></BOTTOMADS>
+        <CUSTOMERFOOTER></CUSTOMERFOOTER>
     </div>
+
+    <!-- modals -->
+    <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL>
+    <BUSINESSREVIEW></BUSINESSREVIEW>
+    <BUSINESSSEARCH></BUSINESSSEARCH>
+    <BUSINESSCONTACT></BUSINESSCONTACT>
+    <REPORTBUSINESS></REPORTBUSINESS>
 
     </div>
   </div>
 </template>
 
 <script>
-import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
-import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
-import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
-import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
-import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
-import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue'
+import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
+import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
+
+// business modal
+import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
+import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
+import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
+import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
+import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
 
 export default {
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, BUSINESSNAV
+        DESKTOPNAVGATION, 
+        MOBILENAVIGATION, 
+        MOBILESEARCH, 
+        BOTTOMADS, 
+        CUSTOMERFOOTER, 
+        BUSINESSNAV, 
+        ABOUTBUSINESSMODAL, 
+        BUSINESSREVIEW,
+        BUSINESSCONTACT,
+        BUSINESSSEARCH,
+        REPORTBUSINESS
     },
     methods: {
         showMobileCategory: function () {
