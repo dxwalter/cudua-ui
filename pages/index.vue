@@ -5,12 +5,13 @@
       <!-- beginning of navigation container -->
       <div class="nav-container">
 
+        <MOBILENAVIGATION />
+        <nuxt />
+        
         <MOBILESEARCH />
         <nuxt />
+        
         <DESKTOPNAVGATION/>
-        <nuxt />
-
-        <MOBILENAVIGATION />
         <nuxt />
         
       </div>

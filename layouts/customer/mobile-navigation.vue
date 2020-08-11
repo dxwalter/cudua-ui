@@ -61,7 +61,56 @@
 
 <script>
 export default {
+	data: function () {
+		return {
+			openedModalTarget: ""
+		}
+	},
+	methods: {
+		clearFormInput: function() {
+			let formInput = document.querySelectorAll('[data-clear-form]');
+			if (formInput.length) this.$clearFormInput(formInput)
+		},
+		openModal: function() {
+			let openModalAction = document.querySelectorAll("[data-trigger]");
+			for (const action of openModalAction) {
+				action.addEventListener('click', (e) => {
+					e.preventDefault();
+					this.openedModalTarget = action.getAttribute('data-target');
+					this.$openModal(openedModalTarget);
+				})
+			}
+		},
+		closeOpenModal: function () {
+			let closeModalAction = document.querySelectorAll('[data-dismiss]');
+			for (const action of closeModalAction) {
+				action.addEventListener('click', (e) => {
+					e.preventDefault();
+					this.openedModalTarget = action.getAttribute('data-target');
+					this.$closeModal(this.openedModalTarget);
+				})
+			}
+		},
+		singleTabClicks: function () {
+			let singleTabClick = document.querySelectorAll('[data-single-tab]');
+			for (const action of singleTabClick) {
+				action.addEventListener('click', (e) => {
+					e.preventDefault();
+					let getTarget = e.target;
+					let singleTabContainer = document.getElementById(getTarget.getAttribute('data-target'));
+					singleTabContainer.classList.toggle(`showEffect`);
+				})
+			}
+		}
+	},
+	mounted () {
+		document.querySelector("body").classList.remove("overflow-hidden");
 
+		this.clearFormInput()
+		this.openModal()
+		this.closeOpenModal()
+		this.singleTabClicks()
+	}
 }
 </script>
 

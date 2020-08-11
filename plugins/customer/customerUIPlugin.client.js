@@ -25,5 +25,6 @@ export default ({app}, inject) => {
         }
     }
 
-    inject('showCustomerMobileNav', showCustomerMobileNav)
+    inject('showCustomerMobileNav', showCustomerMobileNav);
+
 }

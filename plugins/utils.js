@@ -25,4 +25,15 @@ export default ({app}, inject) => {
 
     inject("copyToClipBoard", copyToClipBoard);
 
+    let clearFormInput = (clearFormInput) => {
+        for (const action of clearFormInput) {
+            action.addEventListener('click', e => {
+                let getTarget = e.target;
+                let searchForm = document.getElementById(getTarget.getAttribute('data-target'));
+                searchForm.value = ''
+            })
+        }
+    }
+    inject('clearFormInput', clearFormInput);
+
 }

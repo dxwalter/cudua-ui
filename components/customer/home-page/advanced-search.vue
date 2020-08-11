@@ -14,7 +14,7 @@
             </div>
             
             <div class="form-control">
-              <button class="btn btn-primary btn-lg" id="findShop">Find shops</button>
+              <button class="btn btn-primary btn-lg" id="findShop" @click="findShop">Find shops</button>
             </div>
             <div class="advance-close-button">
               <button class="close-modal-btn">
@@ -171,8 +171,77 @@
 </template>
 
 <script>
-export default {
 
+export default {
+    data: function () {
+        return {
+            screenWidth: ""
+        }
+    },
+    created() {
+        if (process.client) {
+            window.addEventListener('resize', this.handleResize);
+        }
+    },
+    computed: {
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        }
+    },
+    methods: {
+        findShop: function () {
+            document.querySelector("body").classList.add('overflow-hidden')
+            document.getElementById('advancedSearchContainer').classList.add('is-active')
+            // remove show effect
+            let removeSearch = document.getElementById('homeAdvancedSearch')
+            removeSearch.classList.remove('showEffect')
+        },
+        closeSearch: function (e) {
+            let getDataAttribute = e.target;
+            let closeTarget = getDataAttribute.getAttribute('data-advanced-search');
+            document.querySelector("body").classList.remove('overflow-hidden')
+            document.getElementById(closeTarget).classList.remove('is-active')
+        },
+        fixedSearchArea: function(advancedSearchstickyElement) {
+            let currStickyPos =  advancedSearchstickyElement.getBoundingClientRect().top + window.pageYOffset; 
+            if(this.screenWidth >= 1024) {
+                window.onscroll = function() { 
+                    if (window.pageYOffset > currStickyPos) { 
+                        advancedSearchstickyElement.style.position = "fixed"; 
+                        advancedSearchstickyElement.style.top = "0px"; 
+                        advancedSearchstickyElement.style.zIndex = 1000; 
+                        advancedSearchstickyElement.style.height = '90px';
+                        advancedSearchstickyElement.style.paddingTop = '16px'
+                        advancedSearchstickyElement.style.paddingBottom = '16px'
+                    } else { 
+                        advancedSearchstickyElement.style.position = "absolute"; 
+                        advancedSearchstickyElement.style.top = "initial"; 
+                        advancedSearchstickyElement.style.height = 'unset';
+                        advancedSearchstickyElement.style.paddingTop = '32px'
+                        advancedSearchstickyElement.style.paddingBottom = '32px'
+                    } 
+                } 
+            }
+        }
+    },
+    mounted () {
+        // close advanced search
+        let closeAdvancedSearch = document.querySelectorAll('[data-advanced-search]');
+        for (const action of closeAdvancedSearch) {
+            action.addEventListener('click', (e) => {
+                e.stopPropagation(); this.closeSearch(e)            
+            })
+        }
+
+        /**
+         * This is for the Home page advanced search;
+         * The searcg area will stick to the top when
+         * to scrolls to the top
+         */
+
+        let advancedSearchstickyElement = document.getElementById("homeAdvancedSearch"); 
+        if (advancedSearchstickyElement) this.fixedSearchArea(advancedSearchstickyElement)
+    }
 }
 </script>
 
