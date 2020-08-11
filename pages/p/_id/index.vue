@@ -27,45 +27,51 @@
                 <div class="image-area">
                     <!-- image area -->
                     <div class="product-details-image-info">
-                    <div class="product-details-img-container">
+                        <div class="product-details-img-container">
 
-                        <div class="slide-container white-bg-color">
-                            <div class="product-image-slide is-active">
-                                <img src="~/assets/customer/image/phone.png" alt="">
+                            <div class="slide-container white-bg-color" id="productImageSlideShow">
+                                <div class="product-image-slide is-active">
+                                    <img src="~/assets/business/image/phone.png" alt="">
+                                </div>
+                                <div class="product-image-slide">
+                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+                                </div>
+                                <div class="product-image-slide">
+                                    <img src="~/assets/business/image/banner-image.jpg" alt="">
+                                </div>
+                                <div class="product-image-slide">
+                                    <img src="~/assets/business/image/card-bg.png" alt="">
+                                </div>
                             </div>
-                            <div class="product-image-slide">
-                                <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
+
+                            <button class="close-modal-btn btn-light-grey" @click="previousImage">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12" class="margin-unset">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#leftArrow"></use>
+                                </svg>
+                            </button>
+                            <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562" class="margin-unset">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
+                                </svg>
+                            </button>
+                        
+                        </div>
+                        <div class="selected-img-preview mg-bottom-32">
+                            <div class="product-img-thumbnail" data-slide="1" @click="thumbSlide($event)">
+                                <img src="~/assets/business/image/phone.png" alt="" data-slide="1" @click="thumbSlide($event)">
                             </div>
-                            <div class="product-image-slide">
-                                <img src="~/assets/customer/image/banner-image.jpg" alt="">
+                            <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="2">
+                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" data-slide="2" @click="thumbSlide($event)">
+                            </div>
+                            <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="3">
+                                <img src="~/assets/business/image/banner-image.jpg" alt="" data-slide="3" @click="thumbSlide($event)">
+                            </div>
+                            <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="4">
+                                <img src="~/assets/business/image/card-bg.png" alt="" data-slide="4" @click="thumbSlide($event)">
                             </div>
                         </div>
 
-                        <button class="close-modal-btn btn-light-grey" id="previousSlide">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12" class="margin-unset">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
-                            </svg>
-                        </button>
-                        <button class="close-modal-btn btn-light-grey" id="nextSlide">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
-                            </svg>
-                        </button>
-                    
                     </div>
-                    <div class="selected-img-preview mg-bottom-32">
-                        <div class="product-img-thumbnail" data-img-thumb="thumb" data-slide="1">
-                            <img src="~/assets/customer/image/phone.png" alt="" data-slide="1">
-                        </div>
-                        <div class="product-img-thumbnail" data-img-thumb="thumb" data-slide="2">
-                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="" data-slide="2">
-                        </div>
-                        <div class="product-img-thumbnail" data-img-thumb="thumb" data-slide="3">
-                            <img src="~/assets/customer/image/banner-image.jpg" alt="" data-slide="3">
-                        </div>
-                    </div>
-                    
-                </div>
                 </div>
                 <!-- end of product image area -->
 
@@ -76,33 +82,29 @@
                     <div class="product-details-name"><h2>Blonde Trouser</h2></div>
                     <!-- price -->
                     <div class="product-price-container">
-                    <div class="product-details-price"><h3>₦ 2,500</h3></div>
-                    <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                        </svg>
-                    </a>
+                        <div class="product-details-price"><h3>₦ 2,500</h3></div>
+                        <a href="javasscript:void()" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
+                            </svg>
+                        </a>
                     </div>
                     <!-- description -->
                     <div class="product-details-container mg-bottom-32">
-                    <div class="product-details-label">
-                        Product Description
-                    </div>
-                    <div class="product-description-text">
-                        Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Phasellus magna. Fusce pharetra convallis urna. Curabitur suscipit suscipit dictum felis eu pede mollis pretium. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Sed hendrerit…. <span>Show more</span>
-                    </div>
+                    <div class="product-details-label">Product Description</div>
+                    <div class="product-description-text">Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Phasellus magna. Fusce pharetra convallis urna. Curabitur suscipit suscipit dictum felis eu pede mollis pretium. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Sed hendrerit…. <span>Show more</span></div>
                     </div>
                     <!-- sizes -->
                     <div class="product-details-container">
@@ -182,24 +184,24 @@
 
                     <!-- action -->
                     <div class="d-flex desktop-product-add">
-                    <button class="btn btn-white btn-lg" data-target="contactBusiness" data-trigger="modal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                        <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
-                        </svg>
-                    </button>
-                    <button class="btn btn-primary btn-lg btn-block">
-                        <svg xmlns="http://www.w3.org/2000/svg">
-                        <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
-                        </svg>
-                        <span>
-                        Add to cart
-                        </span>
-                    </button>
+                        <button class="btn btn-white btn-lg" data-target="contactBusiness" data-trigger="modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                            <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
+                            </svg>
+                        </button>
+                        <button class="btn btn-primary btn-lg btn-block">
+                            <svg xmlns="http://www.w3.org/2000/svg">
+                            <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
+                            </svg>
+                            <span>
+                            Add to cart
+                            </span>
+                        </button>
                     </div>
 
                     <div class="product-details-action">
                     <button class="btn btn-white btn-md">Save for later</button>
-                    <a href="shop.html" class="btn btn-white btn-md">Visit shop</a>
+                    <n-link to="/bubbieklasic" class="btn btn-white btn-md">Visit shop</n-link>
                 </div>
 
                 </div> 
@@ -232,7 +234,7 @@
 
                     <div class="row" id="productSuggestion">
                                 
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -245,9 +247,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -260,9 +262,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -275,9 +277,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -290,9 +292,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -305,9 +307,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -320,9 +322,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -335,9 +337,9 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
-                    <a href="#" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
+                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -350,22 +352,42 @@
                                 <div class="search-product-location">Apamini, Woji</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
         
                     </div>
                 </div>
             </div>
             <!-- end of product suggestion area -->
         </div>
-      <!-- end of content container -->
+        <!-- end of content container -->
+
+        <!-- mobile action area -->
+        <div class="product-bottom-action-area">
+            <a href="tel:08104686729" class="btn btn-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
+                </svg>
+                <span>Call to order</span>
+            </a>
+            <button class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
+                </svg>
+                <span>
+                    Add to cart
+                </span>
+            </button>
+        </div>
 
       <!-- footer area -->
 
-      <BOTTOMADS/>
-      <nuxt />
+      <div class="mobile-hide-nav-bottom-add">
+        <BOTTOMADS/>
+        <nuxt />
 
-      <CUSTOMERFOOTER />
-      <nuxt />
+        <CUSTOMERFOOTER />
+        <nuxt />
+      </div>
 
     </div>
   </div>
@@ -380,6 +402,39 @@ import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
 export default {
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER
+    },
+    data: function () {
+        return {
+            currentSlide: 1,
+            slider: ""
+        }
+    },
+    methods : {
+        nextImage: function () {
+            if (this.currentSlide >= this.slider.length) this.currentSlide = 0;
+            this.$productImageSlides(this.currentSlide += 1, this.slider)
+        },
+        previousImage: function () {
+            if (this.currentSlide == 1) {
+                this.currentSlide = this.slider.length;
+                this.$productImageSlides(this.currentSlide, this.slider)
+            } else {
+                this.$productImageSlides(this.currentSlide += -1, this.slider)
+            }
+        },
+        thumbSlide: function(e) {
+            let getTarget = e.target;
+            let thumbCount = getTarget.getAttribute('data-slide');
+            this.currentSlide = parseInt(thumbCount, 10)
+            this.$productImageSlides(parseInt(thumbCount, 10), this.slider)
+        },
+        copyLink: function (target) {
+            this.$copyToClipBoard(target)
+        }
+    },
+    mounted () {
+        this.slider = document.getElementsByClassName("product-image-slide");
+        this.$productImageSlides(this.currentSlide, this.slider);
     }
 }
 </script>

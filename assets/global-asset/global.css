@@ -387,7 +387,8 @@
  
  button + input[type="checkbox"].dropdownCheckBox,
  button input[type="checkbox"],
- a input[type="checkbox"].dropdownCheckBox {
+ a input[type="checkbox"].dropdownCheckBox,
+ button .dropdownCheckBox {
   position: absolute;
   background-color: transparent;
   width: 100%;

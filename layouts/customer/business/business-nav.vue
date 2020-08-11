@@ -45,7 +45,7 @@
 						</svg>
 					</n-link>
 
-					<n-link to="/c/search" class="desktop-menu-item">
+					<n-link to="/search" class="desktop-menu-item">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 							<use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
 						</svg>

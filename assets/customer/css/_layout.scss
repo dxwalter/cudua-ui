@@ -2308,8 +2308,8 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     display: flex;
     flex-wrap: wrap;    
      div {
-        width: 97px;
-        height: 63px;
+        width: 56px;
+        height: 56px;
         padding: 4px;
         border-radius: 4px;
         background-color: #fff;
@@ -2320,8 +2320,8 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 }
 
 .product-img-thumbnail {
-    width: 83px;
-    height: 47px;
+    width: 56px;
+    height: 56px;
     margin-right: 8px;
     border-radius: 4px;
     box-shadow: 0px 1px 3px rgba(0,0,0,.2);
@@ -4269,5 +4269,15 @@ h4.order-details-business-name {
         display: block;
         width: 15px;
         height: 15px;
+    }
+}
+
+.business-page-action button {
+    display: none;
+}
+
+@media(min-width: 1024px) {
+    .business-page-action button {
+        display: unset;
     }
 }

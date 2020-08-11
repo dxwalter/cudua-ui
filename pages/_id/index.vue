@@ -21,7 +21,7 @@
 
             <!-- mobile category navigation -->
             <div class="mobile-shop-cat-listing">
-                <button class="bis-nav-btn" id="showBusinessCategory">
+                <button class="bis-nav-btn" id="showBusinessCategory" @click="showMobileCategory">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
                         <use xlink:href="~/assets/customer/image/all-svg.svg#categories"></use>
                     </svg>
@@ -42,43 +42,43 @@
                     <div class="shop-cat-listing">
                         <div class="section-header">
                             <h4>Category listing</h4>
-                            <button class="close-modal-btn" id="closeMobileBusinessCategory">
+                            <button class="close-modal-btn" id="closeMobileBusinessCategory" @click="hideMobileCategory">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
                                 </svg>
                             </button>
                         </div>
                         <div class="shop-cat-item">
-                            <n-link to="/p/42342">
+                            <a href="javascript:void()">
                                 <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="fashionCategory">
                                 <span class="accord-chip-name">Fashion</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                 </svg>
-                            </n-link>
+                            </a>
                             <div class="subcat-listing" id="fashionCategory">
-                                <n-link to="/p/42342" class="chip ">Wedding wears</n-link>
-                                <n-link to="/p/42342" class="chip ">Dress</n-link>
-                                <n-link to="/p/42342" class="chip ">Shoes</n-link>
-                                <n-link to="/p/42342" class="chip ">Bags</n-link>
-                                <n-link to="/p/42342" class="chip ">Night clothes</n-link>
+                                <a href="javascript:void()" class="chip ">Wedding wears</a>
+                                <a href="javascript:void()" class="chip ">Dress</a>
+                                <a href="javascript:void()" class="chip ">Shoes</a>
+                                <a href="javascript:void()" class="chip ">Bags</a>
+                                <a href="javascript:void()" class="chip ">Night clothes</a>
                             </div>
                         </div>
 
                         <div class="shop-cat-item">
-                            <n-link to="/p/42342">
+                            <a href="javascript:void()">
                                 <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="ElectronicsCategory">
                                 <span class="accord-chip-name">Electronics</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                 </svg>
-                            </n-link>
+                            </a>
                             <div class="subcat-listing" id="ElectronicsCategory">
-                                <n-link to="/p/42342" class="chip ">Television &amp; video</n-link>
-                                <n-link to="/p/42342" class="chip ">Generators &amp; portable power</n-link>
-                                <n-link to="/p/42342" class="chip ">Cameras</n-link>
-                                <n-link to="/p/42342" class="chip ">Audios</n-link>
-                                <n-link to="/p/42342" class="chip ">Musical Instrument</n-link>
+                                <a href="javascript:void()" class="chip ">Television &amp; video</a>
+                                <a href="javascript:void()" class="chip ">Generators &amp; portable power</a>
+                                <a href="javascript:void()" class="chip ">Cameras</a>
+                                <a href="javascript:void()" class="chip ">Audios</a>
+                                <a href="javascript:void()" class="chip ">Musical Instrument</a>
                             </div>
                         </div>
                     </div>
@@ -132,8 +132,9 @@
                     
                     <div class="business-product-listing">
 
-                        <div class="section-header">
+                        <div class="section-header d-flex-between business-page-action">
                             <h4>All products</h4>
+                            <button class="btn btn-white btn-md">All products</button>
                         </div>
 
                             <!-- business product listing -->
@@ -339,9 +340,33 @@ import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
 import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue'
+
 export default {
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, BUSINESSNAV
+    },
+    methods: {
+        showMobileCategory: function () {
+            let businessCategoryContainer = document.getElementById('businessCategoryContainer');
+            let businessCategoryContent = document.getElementById('businessCategoryContent');
+            this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, "0");
+        },
+        hideMobileCategory: function () {
+            let businessCategoryContainer = document.getElementById('businessCategoryContainer');
+            let businessCategoryContent = document.getElementById('businessCategoryContent');
+            this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, '1')
+        },
+        closeBySubcategory: function (CategoryContainer) {
+            for (let i = 0; i < CategoryContainer.length; i++) {
+                CategoryContainer[i].addEventListener("click", event => {
+                    this.hideMobileCategory();
+                })
+            }
+        }
+    },
+    mounted () {
+        let CategoryContainer = document.querySelectorAll('.shop-cat-item .subcat-listing a');
+        if (CategoryContainer) this.closeBySubcategory(CategoryContainer)
     }
 }
 </script>

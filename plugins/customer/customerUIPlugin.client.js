@@ -71,7 +71,7 @@ export default ({app}, inject) => {
 
     inject('rangeController', rangeController)
 
-     let carouselActionSlider = (element,direction,speed,distance,step) => {
+    let carouselActionSlider = (element,direction,speed,distance,step) => {
         let scrollAmount = 0;
         let slideTimer = setInterval(function(){
             if(direction == 'left'){
