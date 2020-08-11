@@ -5,14 +5,14 @@
                 <div class="home-bookmark-listing">
                   <div class="section-heading mg-bottom-16">
                     <h3>Following</h3>
-                    <a href="following.html" class="section-action">See all</a>
+                    <n-link to="/c/following" class="section-action">See all</n-link>
                   </div>
                   <!-- beginning of bookmark listing -->
                   <div class="home-bookmark-listing-content">
                     
                     <div class="swiper-action-container">
                       <button class="close-modal-btn slider-control">
-                        <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="desktopBookmark"></div>
+                        <input type="checkbox" class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="desktopBookmark">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                             <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
                         </svg>
@@ -22,7 +22,7 @@
                     
                     <div class="swiper-action-container">
                       <button class="close-modal-btn slider-control">
-                        <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="desktopBookmark"></div>
+                        <input type="checkbox" class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="desktopBookmark">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                             <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
                         </svg>
@@ -31,7 +31,7 @@
 
                     <div class="bookmark-scroll-container" id="desktopBookmark">
 
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -39,8 +39,8 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      </n-link>
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -48,8 +48,8 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      </n-link>
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -57,8 +57,8 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      </n-link>
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -66,8 +66,8 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      </n-link>
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -75,8 +75,8 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      </n-link>
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -84,8 +84,8 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
-                      <a href="shop.html" class="card bookmark-card carousel-item">
+                      </n-link>
+                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
                         <div class="bookmark-logo">
                           <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
                         </div>
@@ -93,10 +93,10 @@
                           <h4 class="bookmark-comp-name">Bubbies international business school</h4>
                           <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
                         </div>
-                      </a>
+                      </n-link>
 
                       <div class="mg-top-24 mg-bottom-16 load-more-action">
-                        <a href="#" class="btn btn-md btn-white">See all</a>
+                        <n-link to="/c/following" class="btn btn-md btn-white">See all</n-link>
                       </div>
                     </div>
 
@@ -117,7 +117,7 @@
 
                 <div class="row">
                                             
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -129,9 +129,9 @@
                                 <div class="product-price">₦ 1,200</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
 
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -143,10 +143,10 @@
                                 <div class="product-price">₦ 1,200</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
 
                             
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -158,9 +158,9 @@
                                 <div class="product-price">₦ 1,200</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
 
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                         <div class="product-card">
                             <div class="product-card-image">
                                 <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -172,9 +172,9 @@
                                 <div class="product-price">₦ 1,200</div>
                             </div>
                         </div>
-                    </a>
+                    </n-link>
 
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                           <div class="product-card-image">
                               <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -186,9 +186,9 @@
                               <div class="product-price">₦ 1,200</div>
                           </div>
                       </div>
-                    </a>
+                    </n-link>
 
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                           <div class="product-card-image">
                               <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -200,9 +200,9 @@
                               <div class="product-price">₦ 1,200</div>
                           </div>
                       </div>
-                    </a>
+                    </n-link>
 
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                           <div class="product-card-image">
                               <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -214,9 +214,9 @@
                               <div class="product-price">₦ 1,200</div>
                           </div>
                       </div>
-                    </a>
+                    </n-link>
 
-                    <a href="product-details.html" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
+                    <n-link to="/bubbieklassiq" class="col-xs-6 col-sm-6 col-md-4 col-lg-4">
                       <div class="product-card">
                       <div class="product-card-image">
                           <img src="~/assets/customer/image/zenfone.jpg" alt="">
@@ -228,7 +228,7 @@
                           <div class="product-price">₦ 1,200</div>
                       </div>
                       </div>
-                    </a>
+                    </n-link>
               </div>
 
 

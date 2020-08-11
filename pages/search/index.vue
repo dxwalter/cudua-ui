@@ -84,19 +84,19 @@
 								<div class="filter-header">Choose your price range by moving the slider</div>
 									<div class="slidecontainer multi-range">
 									
-									<input type="range" min="1" max="100000" value="7000" class="" id="lowerRange" data-target="minPrice" data-filter-range="true">
-									<input type="range" min="100001" max="1000000" value="930000" class="" id="upperRange" data-target="maxPrice" data-filter-range="true">
+									<input type="range" min="1" max="100000" value="7000" class="" id="lowerRange" data-target="minDesktopPrice" data-filter-range="true">
+									<input type="range" min="100001" max="1000000" value="930000" class="" id="upperRange" data-target="maxDesktopPrice" data-filter-range="true">
 
 									</div>
 
 									<div class="d-flex-between mg-top-64">
 									<div class="flex-column-center">
 										<span>Min</span>
-										<div><span>₦</span> <span id="minPrice">10,903</span></div>
+										<div><span>₦</span> <span id="minDesktopPrice">10,903</span></div>
 									</div>
 									<div class="flex-column-center">
 										<span>Max</span>
-										<div><span>₦</span> <span id="maxPrice">930,000</span></div>
+										<div><span>₦</span> <span id="maxDesktopPrice">930,000</span></div>
 									</div>
 									</div>
 
@@ -201,10 +201,10 @@
 							<div class="accordion-address-content accordion-content " id="sizeDesktopFilter">
 								<div class="filter-header">What size do you want? Move the slider to choose size</div>
 								<div class="slidecontainer">
-								<input type="range" min="1" max="100" value="20" class="slider-range" id="filterSizeRange" data-target="sizeOutputContainer" data-range="true">
+								<input type="range" min="1" max="100" value="20" class="slider-range" id="filterSizeRange" data-target="desktopSizeOutputContainer" data-range="true">
 								</div>
 								<div class="rangeSliderOutput">
-								Size: <span id="sizeOutputContainer">20</span>
+								Size: <span id="desktopSizeOutputContainer">20</span>
 								</div>
 							</div>
 						</div>
@@ -223,9 +223,9 @@
 							<div class="accordion-address-content accordion-content" id="brandDesktopFilter">
 							<div class="filter-header">What brand do you want?</div>
 							<div class="input-container d-flex filter-location-search mg-bottom-16">
-								<input type="text" name="" id="brandFilterInput" class="search-form grey-bg-color" placeholder="Search for a brand">
+								<input type="text" name="" id="brandDesktopFilterInput" class="search-form grey-bg-color" placeholder="Search for a brand">
 								<button class="clear-form-btn">
-								<input type="checkbox" class="dropdownCheckBox" data-clear-form="clear" data-target="brandFilterInput">
+								<input type="checkbox" class="dropdownCheckBox" data-clear-form="clear" data-target="brandDesktopFilterInput">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 									<use xlink:href="~/assets/customer/image/all-svg.svg#timesCircle"></use>
 								</svg>

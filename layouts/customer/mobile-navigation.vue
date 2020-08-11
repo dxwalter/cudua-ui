@@ -63,9 +63,20 @@
 export default {
 	data: function () {
 		return {
-			openedModalTarget: ""
+			openedModalTarget: "",
+			screenWidth: "",
 		}
 	},
+    created() {
+        if (process.client) {
+            window.addEventListener('resize', this.handleResize);
+        }
+    },
+    computed: {
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        }
+    },
 	methods: {
 		clearFormInput: function() {
 			let formInput = document.querySelectorAll('[data-clear-form]');
@@ -95,10 +106,85 @@ export default {
 			let singleTabClick = document.querySelectorAll('[data-single-tab]');
 			for (const action of singleTabClick) {
 				action.addEventListener('click', (e) => {
-					e.preventDefault();
+					e.stopPropagation();
 					let getTarget = e.target;
 					let singleTabContainer = document.getElementById(getTarget.getAttribute('data-target'));
 					singleTabContainer.classList.toggle(`showEffect`);
+				})
+			}
+		},
+		closeModalWithOptions: function () {
+			// close modal with esc key
+			window.onkeyup = (e) => {
+				e.preventDefault();
+				if (e.keyCode == 27) {
+					document.querySelector('.overflow-hidden') !== null ? this.$closeModal(this.openedModalTarget) : ""
+				}
+			}
+
+			// close modal by clicking outside the modal window
+			window.addEventListener("click", function(e) {
+				for (const action of document.querySelectorAll(".modal-container")) {
+					if (e.target === action) {
+						this.$closeModal(this.openedModalTarget);
+					}
+				}
+			});
+
+		},
+		showMobileSearch: function(mobilePrimarySearchInput) {
+			mobilePrimarySearchInput.addEventListener('focus', e => {
+				this.openedModalTarget = 'mobileSearchModal';
+				this.$openModal(this.openedModalTarget)
+				let modalSearchForm = document.getElementById('mobileSearchInput');
+				modalSearchForm.focus() //focus
+				modalSearchForm.value = mobilePrimarySearchInput.value; //change value
+				mobilePrimarySearchInput.blur()
+				mobilePrimarySearchInput.value = '';
+			});
+		},
+		customerTabs: function () {
+			// filter tab for search
+			let allFilterTabLinks = document.querySelectorAll("#FilterTabList > #filterTabLink");
+			// tabs
+			let Tabs = document.querySelectorAll("#tabList > #tabLink");
+
+			for (let i = 0; i < Tabs.length; i++) {
+				Tabs[i].addEventListener("click", event => {
+					this.$customerTabClicks(event, "#tabContent", ".tab-content-area", Tabs)
+				})
+			}
+
+			for (let c = 0; c < allFilterTabLinks.length; c++) {
+				allFilterTabLinks[c].addEventListener("click", event => {
+					this.$customerTabClicks(event, "#filterTabContent", ".filter-tab-content-area", allFilterTabLinks)
+				})
+			}
+		},
+		rangeSlider: function () {
+			let rangeSlider = document.querySelectorAll('[data-range]');
+			this.$rangeController(rangeSlider);
+
+			let rangeFilterSlider = document.querySelectorAll('[data-filter-range]');
+			this.$rangeController(rangeFilterSlider);
+		},
+		carouselSlider: function () {
+			let carouselNavigation = document.querySelectorAll('[data-carousel]');
+			for (const action of carouselNavigation) {
+				action.addEventListener('click', (e) => {
+					e.stopPropagation();
+					let getDataAttribute = e.target;
+					let targetCarousel = getDataAttribute.getAttribute('data-target');
+					let carouselSlide = document.getElementById(targetCarousel)
+					let carouselDirection = getDataAttribute.getAttribute('data-direction');
+					let carouselItems = document.querySelectorAll(`#${targetCarousel} .carousel-item`);
+					let size = carouselItems[0].clientWidth + 16;
+					
+					if (carouselDirection == 'left') {
+						this.$carouselActionSlider(carouselSlide, 'left', 30, size, 10);
+					} else {
+						this.$carouselActionSlider(carouselSlide, 'right', 30, size, 10);
+					}
 				})
 			}
 		}
@@ -110,6 +196,15 @@ export default {
 		this.openModal()
 		this.closeOpenModal()
 		this.singleTabClicks()
+		this.closeModalWithOptions()
+
+		let mobilePrimarySearchInput = document.getElementById('mobilePrimarySearchInput');
+		if (mobilePrimarySearchInput) this.showMobileSearch(mobilePrimarySearchInput)
+
+		this.customerTabs()
+		this.rangeSlider()
+		this.carouselSlider()
+
 	}
 }
 </script>

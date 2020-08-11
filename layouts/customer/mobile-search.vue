@@ -17,9 +17,9 @@
             </div>
 
             <div class="mobile-nav-actions">
-              <n-link to="/auth/create-store" class="btn btn-primary btn-md">Create shop</n-link>
+              <!-- <n-link to="/auth/create-store" class="btn btn-primary btn-md">Create shop</n-link> -->
+              <n-link to="/b" class="btn btn-white btn-md">Shop manager</n-link>
               <n-link to="/c/cart" class="btn btn-white btn-small btn-icon">
-                <input type="checkbox" name="" class="dropdownCheckBox" data-single-tab="singleTab" data-target="navNotification">
                 <div class="notif-point">10</div>
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
@@ -545,7 +545,7 @@
 export default {
 	data: function() {
 		return {
-			openedModalTarget: "mobileSearchModal"
+			
 		}
 	},
     created() {
@@ -573,21 +573,10 @@ export default {
             this.screenWidth <= 1023 ? this.$showCustomerMobileNav(sideNav, sideNavContent, toggleStatus) : sideNav.classList.toggle('js-fold-nav');
             
             navToggle.getAttribute('data-toggle-status') == "1" ? navToggle.setAttribute('data-toggle-status', '0') : navToggle.setAttribute('data-toggle-status', '1');
-		},
-		showMobileSearch: function(mobilePrimarySearchInput) {
-			mobilePrimarySearchInput.addEventListener('focus', e => {
-				this.$openModal(this.openedModalTarget)
-				let modalSearchForm = document.getElementById('mobileSearchInput');
-				modalSearchForm.focus() //focus
-				modalSearchForm.value = mobilePrimarySearchInput.value; //change value
-				mobilePrimarySearchInput.blur()
-				mobilePrimarySearchInput.value = '';
-			});
 		}
     },
     mounted () {
-		let mobilePrimarySearchInput = document.getElementById('mobilePrimarySearchInput');
-		if (mobilePrimarySearchInput) this.showMobileSearch(mobilePrimarySearchInput)
+
     }
 }
 </script>

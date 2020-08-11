@@ -25,11 +25,11 @@
             <span>Notification</span>
         </n-link>
 
-        <n-link to="/c" class="bottom-nav-item">
+        <n-link to="/bubbieklassiq" class="bottom-nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
                 <use xlink:href="~/assets/business/image/all-svg.svg#visitShop"></use>
             </svg>
-            <span>Visit shop</span>
+            <span>Go to shop</span>
         </n-link>
     </div>
 </template>

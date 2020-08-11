@@ -10,7 +10,7 @@
         
         <MOBILESEARCH />
         <nuxt />
-        
+
         <DESKTOPNAVGATION/>
         <nuxt />
         
@@ -69,7 +69,7 @@
                       </div>
                     </div>
                     <div>
-                      <a href="#" class="btn btn-block btn-white">Visit shop</a>
+                      <n-link to="/ihuomafashion" class="btn btn-block btn-white">Visit shop</n-link>
                     </div>
                   </div>
                 </div>
@@ -105,7 +105,7 @@
                       </div>
                     </div>
                     <div>
-                      <a href="#" class="btn btn-block btn-white">Visit shop</a>
+                      <n-link to="/ihuomafashion" class="btn btn-block btn-white">Visit shop</n-link>
                     </div>
                   </div>
                 </div>
@@ -141,7 +141,7 @@
                       </div>
                     </div>
                     <div>
-                      <a href="#" class="btn btn-block btn-white">Visit shop</a>
+                      <n-link to="/ihuomafashion" class="btn btn-block btn-white">Visit shop</n-link>
                     </div>
                   </div>
                 </div>
@@ -177,7 +177,7 @@
                       </div>
                     </div>
                     <div>
-                      <a href="#" class="btn btn-block btn-white">Visit shop</a>
+                      <n-link to="/ihuomafashion" class="btn btn-block btn-white">Visit shop</n-link>
                     </div>
                   </div>
                 </div>
@@ -284,6 +284,7 @@ import ADVANCEDSEARCH from '~/components/customer/home-page/advanced-search.vue'
 export default {
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
-    }
+    },
+    
 }
 </script>

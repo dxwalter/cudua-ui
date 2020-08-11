@@ -27,4 +27,65 @@ export default ({app}, inject) => {
 
     inject('showCustomerMobileNav', showCustomerMobileNav);
 
+
+    let customerTabClicks = (tabClickEvent, tabContentId, tabContentArea, Tabs) => {
+        for (let i = 0; i < Tabs.length; i++) {
+            Tabs[i].classList.remove("is-active");
+        }
+        // the very link that was clicked
+        let clickedTab = tabClickEvent.currentTarget;
+    
+        // Add active class to the clicked tab
+        clickedTab.classList.add("is-active");
+    
+        // stop the page from reloading
+        tabClickEvent.preventDefault();
+        let anchorReference = tabClickEvent.target;
+        let activePaneId = anchorReference.getAttribute("data-tab");
+        
+        let myContentPanes = document.querySelectorAll(`${tabContentId} ${tabContentArea}`);
+        
+        for (let i = 0; i < myContentPanes.length; i++) {
+            myContentPanes[i].classList.remove("is-active");
+            myContentPanes[i].classList.remove("showEffect");
+        }
+        
+        let tabAttribute = `${tabContentId} #${activePaneId}`;
+        let activePane = document.querySelector(tabAttribute);
+        activePane.classList.add("is-active");
+        activePane.classList.add("showEffect");
+    }
+
+    inject('customerTabClicks', customerTabClicks);
+
+    let rangeController = (rangeSliders) => {
+        
+        for (const rangeSlider of rangeSliders) {
+            rangeSlider.addEventListener("input", function (event) {
+                let getTarget = event.target;
+                let outputTarget = document.getElementById(getTarget.getAttribute('data-target'));
+                outputTarget.innerHTML = app.$numberNotation(rangeSlider.value)
+            })
+        }    
+    }
+
+    inject('rangeController', rangeController)
+
+     let carouselActionSlider = (element,direction,speed,distance,step) => {
+        let scrollAmount = 0;
+        let slideTimer = setInterval(function(){
+            if(direction == 'left'){
+                element.scrollLeft += step;
+            } else {
+                element.scrollLeft -= step;
+            }
+            scrollAmount += step;
+            if(scrollAmount >= distance){
+                window.clearInterval(slideTimer);
+            }
+        }, speed);
+    }
+
+    inject('carouselActionSlider', carouselActionSlider)
+
 }
