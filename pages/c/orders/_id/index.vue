@@ -4,18 +4,15 @@
 
       <!-- beginning of navigation container -->
       <div class="nav-container">
-
-        <MOBILESEARCH />
-        <nuxt />
-        <DESKTOPNAVGATION/>
-        <nuxt />
-
-        <MOBILENAVIGATION />
-        <nuxt />
-        
+        <MOBILESEARCH></MOBILESEARCH>
+        <DESKTOPNAVGATION></DESKTOPNAVGATION>
+        <MOBILENAVIGATION></MOBILENAVIGATION>
       </div>
 
-<div class="content-container">
+        <!-- pageLoader -->
+        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+
+        <div class="content-container">
             <!-- header area -->
             <div class="section-header">
             <h4>Order details for 345345</h4>
@@ -912,15 +909,12 @@
             <!-- end of cart listing -->
 
         </div>
-      <!-- end of content container -->
+        <!-- end of content container -->
 
-      <!-- footer area -->
+        <!-- footer area -->
 
-      <BOTTOMADS/>
-      <nuxt />
-
-      <CUSTOMERFOOTER />
-      <nuxt />
+      <BOTTOMADS></BOTTOMADS>
+      <CUSTOMERFOOTER></CUSTOMERFOOTER>
 
     </div>
   </div>
@@ -931,10 +925,24 @@ import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
-import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 export default {
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
+    },
+    methods: {
+
+    },
+    mounted () {
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>

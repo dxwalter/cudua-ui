@@ -2,18 +2,15 @@
   <div class="customer">
     <div class="body-container grey-bg-color">
 
-      <!-- beginning of navigation container -->
-      <div class="nav-container">
+        <!-- beginning of navigation container -->
+        <div class="nav-container">
+            <MOBILESEARCH></MOBILESEARCH>
+            <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <MOBILENAVIGATION></MOBILENAVIGATION>
+        </div>
 
-        <MOBILESEARCH />
-        <nuxt />
-        <DESKTOPNAVGATION/>
-        <nuxt />
-
-        <MOBILENAVIGATION />
-        <nuxt />
-        
-      </div>
+        <!-- pageLoader -->
+        <PAGELOADER v-if="pageLoader"></PAGELOADER>
 
         <div class="content-container-second">
             <!-- content-here -->
@@ -88,25 +85,37 @@
 
       <!-- footer area -->
 
-      <BOTTOMADS/>
-      <nuxt />
+      <BOTTOMADS></BOTTOMADS>
 
-      <CUSTOMERFOOTER />
-      <nuxt />
+      <CUSTOMERFOOTER></CUSTOMERFOOTER>
 
     </div>
   </div>
 </template>
 
 <script>
-import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
-import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
-import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
-import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
-import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
+import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
+import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 export default {
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
+    },
+    methods: {
+
+    },
+    mounted () {
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>

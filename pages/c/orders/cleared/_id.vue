@@ -3,19 +3,16 @@
     <div class="body-container grey-bg-color">
 
       <!-- beginning of navigation container -->
-      <div class="nav-container">
-
-        <MOBILESEARCH />
-        <nuxt />
-        <DESKTOPNAVGATION/>
-        <nuxt />
-
-        <MOBILENAVIGATION />
-        <nuxt />
+        <div class="nav-container">
+                <MOBILESEARCH></MOBILESEARCH>
+                <DESKTOPNAVGATION></DESKTOPNAVGATION>
+                <MOBILENAVIGATION></MOBILENAVIGATION>
+        </div>
         
-      </div>
+        <!-- pageLoader -->
+        <PAGELOADER v-if="pageLoader"></PAGELOADER>
 
-<div class="content-container">
+        <div class="content-container">
             <!-- header area -->
             <div class="section-header">
             <h4>Cleared orders for order 12342342</h4>
@@ -39,7 +36,8 @@
                         </div>
 
                         <div class="cleared-review-action">
-                            <a href="shop.html" class="btn btn-primary btn-md">Write business review</a>
+                            <n-link to="/bubbieklassiq/review" class="btn btn-primary btn-md">
+Write business review</n-link>
                         </div>
                     </div>
 
@@ -81,9 +79,9 @@
                                          <div class="cleared-order-review">
                                              <div class="cart-action-area">
                                                  <div class="mobile-actions">
-                                                    <a href="product-review.html" class="btn btn-white btn-small">
+                                                    <n-link to="/p/4534534/review" class="btn btn-white btn-small">
                                                          Write a review
-                                                     </a>
+                                                     </n-link>
                                                  </div>
                                              </div>
                                          </div>
@@ -121,9 +119,9 @@
                                          <div class="cleared-order-review">
                                              <div class="cart-action-area">
                                                  <div class="mobile-actions">
-                                                    <a href="product-review.html" class="btn btn-white btn-small">
+                                                    <n-link to="/p/4534534/review" class="btn btn-white btn-small">
                                                          Write a review
-                                                     </a>
+                                                     </n-link>
                                                  </div>
                                              </div>
                                          </div>
@@ -151,7 +149,7 @@
                         </div>
 
                         <div class="cleared-review-action">
-                            <a href="shop.html" class="btn btn-primary btn-md">Write business review</a>
+                            <n-link to="/bubbieklassiq/review" class="btn btn-primary btn-md">Write business review</n-link>
                         </div>
                     </div>
 
@@ -193,9 +191,9 @@
                                          <div class="cleared-order-review">
                                              <div class="cart-action-area">
                                                  <div class="mobile-actions">
-                                                    <a href="product-review.html" class="btn btn-white btn-small">
+                                                    <n-link to="/p/4534534/review" class="btn btn-white btn-small">
                                                          Write a review
-                                                     </a>
+                                                     </n-link>
                                                  </div>
                                              </div>
                                          </div>
@@ -233,9 +231,9 @@
                                          <div class="cleared-order-review">
                                              <div class="cart-action-area">
                                                  <div class="mobile-actions">
-                                                    <a href="product-review.html" class="btn btn-white btn-small">
+                                                    <n-link to="/p/4534534/review" class="btn btn-white btn-small">
                                                          Write a review
-                                                     </a>
+                                                     </n-link>
                                                  </div>
                                              </div>
                                          </div>
@@ -263,7 +261,8 @@
                         </div>
 
                         <div class="cleared-review-action">
-                            <a href="shop.html" class="btn btn-primary btn-md">Write business review</a>
+                            <n-link to="/bubbieklassiq/review" class="btn btn-primary btn-md">
+Write business review</n-link>
                         </div>
                     </div>
 
@@ -305,9 +304,9 @@
                                          <div class="cleared-order-review">
                                              <div class="cart-action-area">
                                                  <div class="mobile-actions">
-                                                    <a href="product-review.html" class="btn btn-white btn-small">
+                                                    <n-link to="/p/4534534/review" class="btn btn-white btn-small">
                                                          Write a review
-                                                     </a>
+                                                     </n-link>
                                                  </div>
                                              </div>
                                          </div>
@@ -345,9 +344,9 @@
                                          <div class="cleared-order-review">
                                              <div class="cart-action-area">
                                                  <div class="mobile-actions">
-                                                    <a href="product-review.html" class="btn btn-white btn-small">
+                                                    <n-link to="/p/4534534/review" class="btn btn-white btn-small">
                                                          Write a review
-                                                     </a>
+                                                     </n-link>
                                                  </div>
                                              </div>
                                          </div>
@@ -364,29 +363,38 @@
             <!-- end of cart listing -->
 
         </div>
-      <!-- end of content container -->
+        <!-- end of content container -->
 
-      <!-- footer area -->
-
-      <BOTTOMADS/>
-      <nuxt />
-
-      <CUSTOMERFOOTER />
-      <nuxt />
-
+        <!-- footer area -->
+        <BOTTOMADS></BOTTOMADS>
+        <CUSTOMERFOOTER></CUSTOMERFOOTER>
     </div>
   </div>
 </template>
 
 <script>
-import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
-import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
-import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
-import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
-import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
+import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
+import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 export default {
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
+    },
+    methods: {
+
+    },
+    mounted () {
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>

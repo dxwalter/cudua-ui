@@ -3,17 +3,14 @@
     <div class="body-container grey-bg-color">
 
       <!-- beginning of navigation container -->
-      <div class="nav-container">
+        <div class="nav-container">
+            <MOBILESEARCH></MOBILESEARCH>
+            <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <MOBILENAVIGATION></MOBILENAVIGATION>
+        </div>
 
-        <MOBILESEARCH />
-        <nuxt />
-        <DESKTOPNAVGATION/>
-        <nuxt />
-
-        <MOBILENAVIGATION />
-        <nuxt />
-        
-      </div>
+        <!-- pageLoader -->
+        <PAGELOADER v-if="pageLoader"></PAGELOADER>
 
         <div class="content-container">
             <!-- bookmark area -->
@@ -47,7 +44,7 @@
                     <a href="product-details.html" class="product-details-name mg-bottom-8 d-flex"><h2>Oremit power solution limited</h2></a>
                     <!-- price -->
                     <div class="product-price-container">
-                    <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
+                    <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
                             <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
                         </svg>
@@ -141,11 +138,9 @@
 
       <!-- footer area -->
 
-      <BOTTOMADS/>
-      <nuxt />
-
-      <CUSTOMERFOOTER />
-      <nuxt />
+      <BOTTOMADS></BOTTOMADS>
+      <CUSTOMERFOOTER></CUSTOMERFOOTER>
+      <BUSINESSREVIEW></BUSINESSREVIEW>
 
     </div>
   </div>
@@ -156,10 +151,25 @@ import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
-import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 export default {
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, BUSINESSREVIEW, PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
+    },
+    methods: {
+
+    },
+    mounted () {
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>

@@ -54,17 +54,17 @@
               </button>
         
               <div class="navigation-dropdown" id="navigationDropdown">
-                <n-link to="orders" class="mobile-side-nav-link">
+                <n-link to="/c/orders" class="mobile-side-nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
                     </svg>
                     <span>My orders</span>
                 </n-link>
-                <n-link to="/c/bookmarks" class="mobile-side-nav-link">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
-                    <use xlink:href="~/assets/customer/image/all-svg.svg#bookmark"></use>
+                <n-link to="/c/following" class="mobile-side-nav-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#followers"></use>
                     </svg>
-                    <span>Bookmarks</span>
+                    <span>Following</span>
                 </n-link>
                 <n-link to="/c/saved-items" class="mobile-side-nav-link">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.349 15">

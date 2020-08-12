@@ -19,7 +19,7 @@
 			<div class="review-item">
 				<div class="review-header">
 					<div class="review-image">
-						<img src="image/daniel chigisoft.jpg" alt="">
+						<img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
 					</div>
 					<div class="review-details">
 						<div class="reviewer-name">Daniel Walter</div>
@@ -53,7 +53,7 @@
 			<div class="review-item">
 				<div class="review-header">
 					<div class="review-image">
-						<img src="image/daniel chigisoft.jpg" alt="">
+						<img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
 					</div>
 					<div class="review-details">
 						<div class="reviewer-name">Daniel Walter</div>
@@ -84,7 +84,7 @@
 			<div class="review-item">
 				<div class="review-header">
 					<div class="review-image">
-						<img src="image/daniel chigisoft.jpg" alt="">
+						<img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
 					</div>
 					<div class="review-details">
 						<div class="reviewer-name">Daniel Walter</div>
@@ -115,7 +115,7 @@
 			<div class="review-item">
 				<div class="review-header">
 					<div class="review-image">
-						<img src="image/daniel chigisoft.jpg" alt="">
+						<img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
 					</div>
 					<div class="review-details">
 						<div class="reviewer-name">Daniel Walter</div>
@@ -146,7 +146,7 @@
 			<div class="review-item">
 				<div class="review-header">
 					<div class="review-image">
-						<img src="image/daniel chigisoft.jpg" alt="">
+						<img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
 					</div>
 					<div class="review-details">
 						<div class="reviewer-name">Daniel Walter</div>
@@ -177,7 +177,7 @@
 			<div class="review-item">
 				<div class="review-header">
 					<div class="review-image">
-						<img src="image/daniel chigisoft.jpg" alt="">
+						<img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
 					</div>
 					<div class="review-details">
 						<div class="reviewer-name">Daniel Walter</div>

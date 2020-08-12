@@ -1,20 +1,16 @@
 <template>
   <div class="customer">
     <div class="body-container grey-bg-color">
-
+      
       <!-- beginning of navigation container -->
-      <div class="nav-container">
+        <div class="nav-container">
+            <MOBILESEARCH></MOBILESEARCH>
+            <BUSINESSNAV></BUSINESSNAV>
+            <MOBILENAVIGATION></MOBILENAVIGATION>
+        </div>
 
-        <MOBILESEARCH />
-        <nuxt />
-        
-        <BUSINESSNAV />
-        <nuxt />
-
-        <MOBILENAVIGATION />
-        <nuxt />
-        
-      </div>
+        <!-- pageLoader -->
+        <PAGELOADER v-if="pageLoader"></PAGELOADER>
 
       <!-- begining of content container -->
         <div class="content-container-second business-page-container">
@@ -290,34 +286,34 @@
         <!-- end of content container -->
 
         <div class="bottom-nav">
-        <!-- footer -->
-        <a href="#" class="bottom-nav-item" data-target="businessDetailsModal" data-trigger="modal">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                <use xlink:href="~/assets/customer/image/all-svg.svg#addressCard"></use>
-            </svg>
-            <span>About</span>
-        </a>
+            <!-- footer -->
+            <a href="#" class="bottom-nav-item" data-target="businessDetailsModal" data-trigger="modal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#addressCard"></use>
+                </svg>
+                <span>About</span>
+            </a>
 
-        <a href="#" class="bottom-nav-item" data-target="BusinessMobileSearchModal" data-trigger="modal">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
-            </svg>
-            <span>Search in</span>
-        </a>
+            <a href="#" class="bottom-nav-item" data-target="BusinessMobileSearchModal" data-trigger="modal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
+                </svg>
+                <span>Search in</span>
+            </a>
 
-        <a href="#" class="bottom-nav-item" data-target="reportModal" data-trigger="modal">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <use xlink:href="~/assets/customer/image/all-svg.svg#flag"></use>
-            </svg>
-            <span>Report</span>
-        </a>
+            <a href="#" class="bottom-nav-item" data-target="reportModal" data-trigger="modal">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#flag"></use>
+                </svg>
+                <span>Report</span>
+            </a>
 
-        <a href="#" class="bottom-nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
-            </svg>
-            <span>Support</span>
-        </a>
+            <a href="#" class="bottom-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
+                </svg>
+                <span>Support</span>
+            </a>
         </div>
 
       <!-- footer area -->
@@ -344,6 +340,7 @@ import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 
 // business modal
 import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
@@ -364,7 +361,13 @@ export default {
         BUSINESSREVIEW,
         BUSINESSCONTACT,
         BUSINESSSEARCH,
-        REPORTBUSINESS
+        REPORTBUSINESS,
+        PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
     },
     methods: {
         showMobileCategory: function () {
@@ -388,6 +391,10 @@ export default {
     mounted () {
         let CategoryContainer = document.querySelectorAll('.shop-cat-item .subcat-listing a');
         if (CategoryContainer) this.closeBySubcategory(CategoryContainer)
+        
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>
