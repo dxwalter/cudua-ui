@@ -7,6 +7,9 @@
                 <SIDENAV />
                 <nuxt />
                     <div class="content-area grey-bg-color">
+                        <!-- pageLoader -->
+                        <PAGELOADER v-if="pageLoader" />
+                        <nuxt />
                         <div class="main-content">
 
                             <div class="page-header">
@@ -182,9 +185,22 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDCATEGORIESMODAL from'~/components/business/categories/addCategories.vue'
+import PAGELOADER from '~/components/loader/loader.vue';
+
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDCATEGORIESMODAL
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDCATEGORIESMODAL, PAGELOADER
+    },
+    data : function () {
+        return {
+            pageLoader: true
+        }
+	},
+    mounted() {
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
+
 }
 </script>

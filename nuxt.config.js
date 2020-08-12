@@ -29,9 +29,22 @@ export default {
 	],
 	modules: [
 		'@nuxtjs/toast',
+		'@nuxtjs/onesignal',
 		'@nuxtjs/pwa'
 	],
 	loading: false,
+	oneSignal: {
+		init: {
+		  appId: '9210ca94-b19b-4bda-8379-03c07765eabf',
+		  allowLocalhostAsSecureOrigin: true,
+		  welcomeNotification: {
+			  disable: true
+		  }
+		},
+		cdn: true,
+		// Use any custom URL
+		OneSignalSDK: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js'
+	},
 	pwa: {
 		icon: {
 			iconSrc: '/pwa/',
@@ -61,6 +74,12 @@ export default {
 			display: 'standalone',
 			background_color: "#ffffff",
 			theme_color: '#ee6425',
+		},
+		workbox: {
+			/* workbox options */
+			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
+			offlineAnalytics: true,
+			offlinePage: '/offline.html'
 		}
 	}
 

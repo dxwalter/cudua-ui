@@ -96,4 +96,19 @@ export default ({app}, inject) => {
 
     inject('numberNotation', numberNotation)
 
+    let pushNotification = (message) => {
+        // Inside page components
+        app.$OneSignal.push(() => {
+          app.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
+            if (isEnabled) {
+              console.log(message)
+            } else {
+              console.log('Push notifications are not enabled yet.')
+            }
+          })
+        })
+    }
+
+    inject('pushNotification', pushNotification)
+
 }

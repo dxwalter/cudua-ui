@@ -40,7 +40,7 @@
                 </div>
             </div>
             
-            <n-link to="/b" class="nav-link-items ">
+            <n-link to="/b" :class="[currentPage === '/b' || currentPage.includes('product') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg">
                         <use xlink:href="~/assets/business/image/all-svg.svg#productIcon"></use>
@@ -49,7 +49,7 @@
                 </div>
             </n-link>
 
-            <n-link to="/b/orders" class="nav-link-items is-active">
+            <n-link to="/b/orders" :class="[currentPage.includes('orders') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg">
                         <use xlink:href="~/assets/business/image/all-svg.svg#order"></use>
@@ -60,7 +60,7 @@
                 <div class="notif-point">10</div>
             </n-link>
 
-            <n-link to="/b/categories" class="nav-link-items ">
+            <n-link to="/b/categories" :class="[currentPage.includes('categories') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
                         <use xlink:href="~/assets/business/image/all-svg.svg#categories"></use>
@@ -70,7 +70,7 @@
                 </div>
             </n-link>
 
-            <n-link to="/b/followers" class="nav-link-items ">
+            <n-link to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
                         <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
@@ -79,7 +79,7 @@
                 </div>
             </n-link>
 
-            <n-link to="/b/notification" class="nav-link-items ">
+            <n-link to="/b/notification" :class="[currentPage.includes('notification') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
                         <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
@@ -89,7 +89,7 @@
             </n-link>
 
 
-            <n-link to="/b/dashboard" class="nav-link-items ">
+            <n-link to="/b/dashboard" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <use xlink:href="~/assets/business/image/all-svg.svg#dashboard"></use>
@@ -98,7 +98,7 @@
                 </div>
             </n-link>
 
-            <n-link to="/b/profile" class="nav-link-items">
+            <n-link to="/b/profile" :class="[currentPage.includes('profile') && !currentPage.includes('profile/edit') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                         <use xlink:href="~/assets/business/image/all-svg.svg#person"></use>
@@ -107,7 +107,7 @@
                 </div>
             </n-link>
 
-            <n-link to="/b/profile/edit" class="nav-link-items">
+            <n-link to="/b/profile/edit" :class="[currentPage.includes('edit') ? activeClass : '', 'nav-link-items']">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
                         <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
@@ -138,7 +138,8 @@ export default {
     data: function () {
         return {
             screenWidth: "",
-            openedModalTarget: ""
+            openedModalTarget: "",
+            activeClass: 'is-active'
         }
     },
     created() {
@@ -149,6 +150,9 @@ export default {
     computed: {
         handleResize() {
             this.screenWidth = window.innerWidth;
+        },
+        currentPage() {
+            return this.$nuxt.$route.path;
         }
     },
     methods : {
@@ -226,6 +230,8 @@ export default {
                 this.$toggleAccordion(accordionHeader[i], accordionItem)
             }, false);
         }
+
+        console.log(this.currentPage)
 
     }
 }

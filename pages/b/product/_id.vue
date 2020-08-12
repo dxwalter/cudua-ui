@@ -7,6 +7,10 @@
                 <SIDENAV />
                 <nuxt />
                     <div class="content-area white-bg-color">
+                        <!-- pageLoader -->
+                        <PAGELOADER v-if="pageLoader" />
+                        <nuxt />
+                        
                         <div class="main-content">
 
                             <div class="page-header">
@@ -212,14 +216,16 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PRODUCTREVIEW from '~/components/business/product/product.review.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW
+        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW, PAGELOADER
     },
     data: function () {
         return {
             currentSlide: 1,
-            slider: ""
+            slider: "",
+            pageLoader: true
         }
     },
     methods : {
@@ -248,6 +254,9 @@ export default {
     mounted () {
         this.slider = document.getElementsByClassName("product-image-slide");
         this.$productImageSlides(this.currentSlide, this.slider);
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>

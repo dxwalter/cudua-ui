@@ -268,7 +268,7 @@
 
       <CUSTOMERFOOTER />
       <nuxt />
-
+      <div class='onesignal-customlink-container'></div>
     </div>
   </div>
 </template>

@@ -1,7 +1,9 @@
 <template>
+    
         <transition v-on:enter="enter" v-on:leave="leave">
-            <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast" />
+            <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications>
         </transition>
+    
 </template>
 
 <script>

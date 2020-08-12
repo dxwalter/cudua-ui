@@ -7,6 +7,10 @@
                 <SIDENAV />
                 <nuxt />
                     <div class="content-area grey-bg-color">
+                        <!-- pageLoader -->
+                        <PAGELOADER v-if="pageLoader" />
+                        <nuxt />
+
                         <div class="main-content">
                             <div class="page-header">
                                 <h4>Invite businesses</h4>
@@ -94,9 +98,15 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
+import PAGELOADER from '~/components/loader/loader.vue'
 export default {
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV
+        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
+    },
+    data: function() {
+        return {
+            pageLoader: true
+        }
     },
     methods: {
         copyLink: function (target) {
@@ -104,7 +114,9 @@ export default {
         }
     },
     mounted () {    
-        
+        setTimeout(() => {
+            this.pageLoader = false
+        }, 5000);
     }
 }
 </script>
