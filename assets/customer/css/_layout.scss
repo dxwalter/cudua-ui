@@ -45,6 +45,11 @@
     display: flex;
     padding: 16px 30px;
     border-bottom: $border;
+    position: relative;
+    .notif-point {
+        position: absolute;
+        right: 16px;
+    }
     span {
         color: $dark-color;
         margin-left: 18px;
@@ -4160,7 +4165,6 @@ h4.order-details-business-name {
     z-index: 10000;
     bottom: 0;
     overflow-y: scroll;
-    padding-top: 32px;
 
     .big-search-banner-search.showEffect {
         display: block;

@@ -543,6 +543,7 @@
 
 <script>
 export default {
+	name: 'MOBILESEARCH',
 	data: function() {
 		return {
 			

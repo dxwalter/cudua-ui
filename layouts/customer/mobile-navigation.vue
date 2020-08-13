@@ -13,10 +13,11 @@
               <span>My cart (5)</span>
             </n-link>
             <n-link to="/c/notification" class="mobile-side-nav-link">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
               </svg>
               <span>Notification</span>
+			  <div class="notif-point">10</div>
             </n-link>
             <n-link to="/c/orders" class="mobile-side-nav-link">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
@@ -25,10 +26,10 @@
               <span>My orders</span>
             </n-link>
             <n-link to="/c/following" class="mobile-side-nav-link">
-              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 384 512">
-                <use xlink:href="~/assets/customer/image/all-svg.svg#bookmark"></use>
+              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512">
+                <use xlink:href="~/assets/customer/image/all-svg.svg#followers"></use>
               </svg>
-              <span>Bookmarks</span>
+              <span>Following</span>
             </n-link>
             <n-link to="/c/saved-items" class="mobile-side-nav-link">
               <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16.349 15">
@@ -61,6 +62,7 @@
 
 <script>
 export default {
+	name: 'MOBILENAVIGATION',
 	data: function () {
 		return {
 			openedModalTarget: "",

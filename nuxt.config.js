@@ -30,7 +30,8 @@ export default {
 	modules: [
 		'@nuxtjs/toast',
 		'@nuxtjs/onesignal',
-		'@nuxtjs/pwa'
+		'@nuxtjs/pwa',
+		'nuxt-graphql-request'
 	],
 	loading: false,
 	oneSignal: {
@@ -81,6 +82,9 @@ export default {
 			offlineAnalytics: true,
 			offlinePage: '/offline.html'
 		}
+	},
+	graphql: {
+		endpoint: 'https://cudua-test-api.herokuapp.com/v1/',	
 	}
 
 }

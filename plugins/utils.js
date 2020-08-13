@@ -111,4 +111,22 @@ export default ({app}, inject) => {
 
     inject('pushNotification', pushNotification)
 
+    let setHTTPHeaders = () => {
+        console.log("good")
+        this.$graphql.setHeaders({
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Headers': 'content-type, authorization, content-length, x-requested-with, accept, origin',
+          'Access-Control-Allow-Methods': 'POST, HEAD',
+          'Origin': 'http://localhost:3000'
+        });
+    }
+    inject('setHTTPHeaders', setHTTPHeaders);
+
+
+    let setAcessToken = (token) => {
+        this.$graphql.setHeader('accessToken', token);
+    }
+    inject('setAccessToken', setAcessToken);
 }

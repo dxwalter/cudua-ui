@@ -5,14 +5,10 @@
       <!-- beginning of navigation container -->
       <div class="nav-container">
 
-        <MOBILENAVIGATION />
-        <nuxt />
-        
-        <MOBILESEARCH />
-        <nuxt />
+        <MOBILENAVIGATION></MOBILENAVIGATION>
+        <MOBILESEARCH></MOBILESEARCH>
 
-        <DESKTOPNAVGATION/>
-        <nuxt />
+        <DESKTOPNAVGATION></DESKTOPNAVGATION>
         
       </div>
       <!-- end of navigation container -->
@@ -20,12 +16,10 @@
 
     <!-- beginning of content container -->
     
-    <!-- big search area -->
-    <ADVANCEDSEARCH />
-    <nuxt />
-
+      <!-- big search area -->
+      <ADVANCEDSEARCH></ADVANCEDSEARCH>
+        {{anonymousId}}
       <div class="content-container">
-
           
             <FOLLOWING />
             <nuxt />
@@ -263,11 +257,10 @@
 
       <!-- footer area -->
 
-      <BOTTOMADS/>
-      <nuxt />
+      <BOTTOMADS></BOTTOMADS>
 
-      <CUSTOMERFOOTER />
-      <nuxt />
+      <CUSTOMERFOOTER></CUSTOMERFOOTER>
+
       <div class='onesignal-customlink-container'></div>
     </div>
   </div>
@@ -281,10 +274,29 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
 import FOLLOWING from '~/components/customer/home-page/following.vue'
 import ADVANCEDSEARCH from '~/components/customer/home-page/advanced-search.vue'
+
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
+    name: "Home-page",
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
     },
-    
+    data: function() {
+      return {
+        anonymousId: ""
+      }
+    },
+    computed: {
+      ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'})
+    },
+    methods: {
+      ...mapActions({'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'}),
+    },
+    created () {
+        this.$setHTTPHeaders;
+        this.anonymousId = this.GetAnonymousId.length > 0 ? this.GetAnonymousId : this.GetAnonymousIdFromApi()
+
+    }
 }
 </script>
