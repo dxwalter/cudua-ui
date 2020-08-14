@@ -23,6 +23,20 @@ export default ({app}, inject) => {
 
     inject("showNotification", showNotification);
 
+
+
+    let initiateNotification = (type, title, text) => {
+        app.$showNotification({
+            type: type,
+            title: title,
+            text: text
+        })
+    }
+
+    inject("initiateNotification", initiateNotification);
+
+    
+
     let showToast = (string, type) => {
         let options = {
             position: 'bottom-center',

@@ -1,34 +1,54 @@
 import { gql } from 'graphql-request';
 
 const state = () => ({
-    userToken: "",
-    fullname: "",
-    anonymousId: ""
+    customer: {
+        userToken: "",
+        fullname: "",
+        email: "",
+        phone: "",
+        userId: "",
+        displaPicture: "",
+        review: [],
+        address: {
+            number: "",
+            street: "",
+            community: "",
+            lga: "",
+            state: "",
+            country: "",
+            busStop: "",
+        },
+        anonymousId: "",
+        isLoggedIn: false
+    }
 });
 
 const actions = {
-    async GetAnonymousIdFromApi({$graphql, params}, state) {
+    async GetAnonymousIdFromApi({$graphql, params}) {
         const query = gql`
-            query GetAnonymousId {
-                anonymousId
-                code
-                success
-                message
+            query {
+                GetAnonymousId{
+                    anonymousId
+                    code
+                    success
+                    message
+                }
             }
         `;
         const getId = await this.$graphql.request(query);
-        console.log(getId)
+        return getId.GetAnonymousId;
     }
 }
 
 
 const getters = {
-    GetAnonymousId: state => state.anonymousId
+    GetAnonymousId: state => state.customer.anonymousId,
+    GetLoginStatus: state => state.customer.isLoggedIn,
 }
 
 
 const mutations = {
-
+    setAnonymousId: (state, id) => { state.customer.anonymousId = id}
 }
 
 export default {

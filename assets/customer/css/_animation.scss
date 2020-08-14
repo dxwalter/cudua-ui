@@ -453,3 +453,14 @@ content: "";
     padding: 24px 120px 32px 120px;
   }
 }
+
+.loader {
+  border: 2px solid #f3f3f3;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+}

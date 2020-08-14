@@ -24,8 +24,8 @@ export default {
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
-		{src: '~/plugins/utils.js', ssr: false},
-		{src: '~/plugins/notification.js', ssr: false}
+		{src: '~/plugins/utils.client.js', ssr: false},
+		{src: '~/plugins/notification.client.js', ssr: false}
 	],
 	modules: [
 		'@nuxtjs/toast',
@@ -84,7 +84,8 @@ export default {
 		}
 	},
 	graphql: {
-		endpoint: 'https://cudua-test-api.herokuapp.com/v1/',	
+		// endpoint: 'https://cudua-test-api.herokuapp.com/v1/',	
+		endpoint: 'http://localhost:4000/v1/',	
 	}
 
 }

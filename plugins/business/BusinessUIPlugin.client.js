@@ -228,15 +228,4 @@ export default ({app}, inject) => {
 
     inject("carouselAction", carouselAction);
 
-
-    let initiateNotification = (type, title, text) => {
-        app.$showNotification({
-            type: type,
-            title: title,
-            text: text
-        })
-    }
-
-    inject("initiateNotification", initiateNotification);
-
 }

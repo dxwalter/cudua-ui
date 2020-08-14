@@ -474,3 +474,29 @@
    display: none;
  }
  
+ .loader-action {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,.5);
+  cursor: not-allowed;
+  height: 100%;
+}
+
+button:disabled .loader-action {
+  display: flex;
+}
+
+.validation-error-design {
+    color: #B82E24;
+    margin-top: 4px;
+    font-size: 14px;
+    display: none;
+    line-height: 21px;
+}

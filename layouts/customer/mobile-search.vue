@@ -17,8 +17,9 @@
             </div>
 
             <div class="mobile-nav-actions">
-              <!-- <n-link to="/auth/create-store" class="btn btn-primary btn-md">Create shop</n-link> -->
-              <n-link to="/b" class="btn btn-white btn-md">Shop manager</n-link>
+			<n-link to="/auth/create-store" class="btn btn-primary btn-md" v-if="!isLoggedIn">Create shop</n-link>
+			<n-link to="/b" class="btn btn-white btn-md" v-else>Shop manager</n-link>
+
               <n-link to="/c/cart" class="btn btn-white btn-small btn-icon">
                 <div class="notif-point">10</div>
                 <svg xmlns="http://www.w3.org/2000/svg">
@@ -542,11 +543,13 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+
 export default {
 	name: 'MOBILESEARCH',
 	data: function() {
 		return {
-			
+			isLoggedIn: "",
 		}
 	},
     created() {
@@ -556,9 +559,16 @@ export default {
     },
 
     computed: {
+		...mapGetters({
+			'GetAnonymousId': 'customer/GetAnonymousId',
+			'GetLoginStatus': 'customer/GetLoginStatus'
+		}),
         handleResize() {
             this.screenWidth = window.innerWidth;
-        }
+		},
+		LoginStatus () {
+			this.isLoggedIn = this.GetLoginStatus
+		}
     },
     methods: {
         toggleCustomerNavBar: function (e) {
@@ -577,7 +587,7 @@ export default {
 		}
     },
     mounted () {
-
+		this.LoginStatus
     }
 }
 </script>

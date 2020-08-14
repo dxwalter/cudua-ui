@@ -23,14 +23,14 @@ export default {
             *  "element" - is a notification element
             *    (before animation, meaning that you can take it's initial height, width, color, etc)
             */
-            let height = this.element.clientHeight
+            let height = this.element.clientHeight;
 
             return {
                 // Animates from 0px to "height"
                 height: [height, 0],
-
                 // Animates from 0 to random opacity (in range between 0.5 and 1)
-                opacity: [Math.random() * 0.5 + 0.5, 0]
+                opacity: [Math.random() * 0.5 + 0.5, 0],
+                // Animate from right to left
             }  
         },
     },

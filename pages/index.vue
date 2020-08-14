@@ -18,7 +18,6 @@
     
       <!-- big search area -->
       <ADVANCEDSEARCH></ADVANCEDSEARCH>
-        {{anonymousId}}
       <div class="content-container">
           
             <FOLLOWING />
@@ -260,6 +259,7 @@
       <BOTTOMADS></BOTTOMADS>
 
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
+	  <INITCOMPONENT></INITCOMPONENT>
 
       <div class='onesignal-customlink-container'></div>
     </div>
@@ -267,6 +267,9 @@
 </template>
 
 <script>
+
+import INITCOMPONENT from '~/components/init.component.vue';
+
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
@@ -280,7 +283,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     name: "Home-page",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
+      INITCOMPONENT, DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
     },
     data: function() {
       return {
@@ -288,15 +291,17 @@ export default {
       }
     },
     computed: {
-      ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'})
+	  ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'}),
     },
     methods: {
-      ...mapActions({'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'}),
-    },
-    created () {
-        this.$setHTTPHeaders;
-        this.anonymousId = this.GetAnonymousId.length > 0 ? this.GetAnonymousId : this.GetAnonymousIdFromApi()
+		...mapActions({'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'}),
 
+    },
+    created: function () {
+
+    },
+    mounted () {
+        this.anonymousId = this.GetAnonymousId
     }
 }
 </script>

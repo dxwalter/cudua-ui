@@ -8,7 +8,7 @@
                     <img src="~/assets/customer/image/cudua-logo-icon.svg">
                 </div>
 
-                <a href="index.html" class="btn btn-primary">Home</a>
+                <n-link to="/" class="btn btn-primary">Home</n-link>
             </div>
             
            <div class="sign-up-content">
@@ -89,8 +89,52 @@
 </template>
 
 <script>
-export default {
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
+export default {
+	name: 'CREATE-BUSINESS',
+	data: function() {
+		return {
+			isLoggedIn: "",
+		}
+	},
+    created() {
+        if (process.client) {
+            window.addEventListener('resize', this.handleResize);
+        }
+    },
+
+    computed: {
+		...mapGetters({
+			'GetAnonymousId': 'customer/GetAnonymousId',
+			'GetLoginStatus': 'customer/GetLoginStatus'
+		}),
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+		},
+		LoginStatus () {
+			this.isLoggedIn = this.GetLoginStatus
+		}
+    },
+    methods: {
+        toggleCustomerNavBar: function (e) {
+            e.preventDefault();
+            let navToggle = document.getElementById('navToggleButton');
+            navToggle.classList.toggle('is-active');
+
+            let sideNav = document.getElementById('mobileSideNav');
+            let sideNavContent = document.getElementById("mobileSideNavContent");
+
+            let toggleStatus = navToggle.getAttribute('data-toggle-status');
+
+            this.screenWidth <= 1023 ? this.$showCustomerMobileNav(sideNav, sideNavContent, toggleStatus) : sideNav.classList.toggle('js-fold-nav');
+            
+            navToggle.getAttribute('data-toggle-status') == "1" ? navToggle.setAttribute('data-toggle-status', '0') : navToggle.setAttribute('data-toggle-status', '1');
+		}
+    },
+    mounted () {
+		this.LoginStatus
+    }
 }
 </script>
 
