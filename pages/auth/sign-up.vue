@@ -64,8 +64,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import NOTIFICATION from '~/components/notification/notification.vue'; 
-import CREATE_USER_MUTATION from '~/graphql/customer';
-import { gql } from 'graphql-request';
+import { CREATE_USER_MUTATION } from '~/graphql/customer';
 
 export default {
     name: 'CREATEACCOUNT',
@@ -141,7 +140,7 @@ export default {
 
 
             if (this.error) {
-                this.$initiateNotification('error', 'Incorrect details', "Your personal account details is not correct")
+                this.$showToast('An input error occurred. Find error and make corrections to continue', 'error')
                 return
             }
 
@@ -152,41 +151,20 @@ export default {
             
         },
         createUser: async function () {
-            
-            const query = gql`
-                    mutation createUser(
-                        $fullname: String!,
-                        $email: String!,
-                        $password: String!,
-                        $anonymousId: String
-                    ) {
-                        createUser(
-                            fullname: $fullname, 
-                            email: $email, 
-                            password: $password, 
-                            anonymousId: $anonymousId
-                        ) {
-                            userData{
-                                fullname
-                                email
-                                phone
-                                userId
-                                accessToken
-                            }
-                                code
-                                success
-                                message
-                            }
-                    }
-            `;
-            const variables = {
+
+
+
+           let result = await this.$apollo.mutate({
+                mutation: CREATE_USER_MUTATION,
+                variables: {
                     fullname: this.fullname,
                     email: this.email,
                     password: this.password,
                     anonymousId: this.anonymousId
-            }
-
-            const create = await this.$graphql.request(query, variables);
+                }
+            })
+            
+            
 
         }
     },

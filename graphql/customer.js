@@ -1,31 +1,11 @@
-import { gql } from 'graphql-request';
+import gql from 'graphql-tag'
 
-const CREATE_USER_MUTATION = gql`mutation createUser(
-    $fullname: String!,
-    $email: String!,
-    $password: String!,
-    $anonymousId: String
-) {
-createUser(
-    fullname: $fullname, 
-    email: $email, 
-    password: $passwprd, 
-    anonymousId: $anonymousId
-) {
-    userData{
-        fullname
-        email
-        phone
-        userId
-        accessToken
+export const CREATE_USER_MUTATION = gql`
+    mutation CreateUser( $fullname: String!, $email: String!, $password: String!, $anonymousId: String )   {
+        createUser(input: {fullname: $fullname, email: $email, password: $password, anonymousId: $anonymousId }) {
+            code
+            success
+            message
+        }
     }
-        code
-        success
-        message
-    }
-}
-}`
-
-export default  {
-    CREATE_USER_MUTATION: 'createUser'
-}
+`;

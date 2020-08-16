@@ -31,7 +31,7 @@ export default {
 		'@nuxtjs/toast',
 		'@nuxtjs/onesignal',
 		'@nuxtjs/pwa',
-		'nuxt-graphql-request'
+		'@nuxtjs/apollo'
 	],
 	loading: false,
 	oneSignal: {
@@ -83,9 +83,12 @@ export default {
 			offlinePage: '/offline.html'
 		}
 	},
-	graphql: {
-		// endpoint: 'https://cudua-test-api.herokuapp.com/v1/',	
-		endpoint: 'http://localhost:4000/v1/',	
+	apollo: {
+		clientConfigs: {
+			default: {
+				httpEndpoint: 'http://localhost:4000/v1/',
+			}
+		}
 	}
 
 }
