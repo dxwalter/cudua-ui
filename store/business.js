@@ -1,12 +1,50 @@
 export const state = () => ({
-    all: [12, 23, 54]
+	business_id: "",
+	businessname: "",
+	username: "",
+	logo: "",
+	coverPhoto: "",
+	description: "",
+	address: {
+        number: "",
+        street: "",
+        community: "",
+        lga: "",
+        state: "",
+        country: "",
+	},
+	contact: {
+		email: "",
+		phone: "",
+		whatsapp: {
+			status: "",
+			number: ""
+		}
+	},
+	businessCategories: [{
+		itemId: "",
+		categoryId: "",
+		categoryName: "",
+		hide: "",
+		subcategories: {
+			itemId: "",
+			subcategoryId: "",
+			subcategoryName: "",
+			hide: ""
+		}
+	}]
 });
 
-export const mutations = {
-    add(state, text) {
-      state.all.push({
-        text,
-        done: false
-      })
-    }
+
+export const actions = {}
+
+export const getters = {}
+
+export const mutations = {}
+
+export default {
+    state,
+    getters,
+    actions,
+    mutations
 }

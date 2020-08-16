@@ -3,7 +3,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { GET_ANONYMOUS_ID } from '~/graphql/customer';
+
 export default {
     name: 'INITCOMPONENT',
         data: function() {
@@ -24,12 +27,15 @@ export default {
 
 			if (getAnonymousIdFromStorage == undefined || getAnonymousIdFromStorage.length < 1) {
 
-				let getId = await this.GetAnonymousIdFromApi();
+				let getId = await this.$apollo.query({
+					query: GET_ANONYMOUS_ID
+				})
 
-				if (getId.success) {
+				let result = getId.data.GetAnonymousId;
+				if (result.success) {
 					// commit and save to local storage and store
-					this.$store.commit('customer/setAnonymousId', getId.anonymousId);
-					this.anonymousId = getId.GetAnonymousId.anonymousId;
+					this.$store.commit('customer/setAnonymousId', result.anonymousId);
+					this.anonymousId = result.anonymousId;
 					localStorage.setItem('CUDUA_ANONYMOUS_ID', this.anonymousId)
 
 				} else {
@@ -43,9 +49,9 @@ export default {
 		}
 	},
     created: async function () {
-		this.$setHTTPHeaders;
 
 		if (process.browser) {
+			this.$setHTTPHeaders;
 			this.setAnonymousId()
 		}
 

@@ -259,7 +259,6 @@
       <BOTTOMADS></BOTTOMADS>
 
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
-	  <INITCOMPONENT></INITCOMPONENT>
 
       <div class='onesignal-customlink-container'></div>
     </div>
@@ -267,8 +266,6 @@
 </template>
 
 <script>
-
-import INITCOMPONENT from '~/components/init.component.vue';
 
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
@@ -283,7 +280,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     name: "Home-page",
     components: {
-      INITCOMPONENT, DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
     },
     data: function() {
       return {

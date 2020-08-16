@@ -112,6 +112,17 @@ svg {
     color: $brand-color;
 }
 
+.create-shop-btn {
+    border: 2px solid $brand-color !important;
+    background-color: $white-color;
+    color: $brand-color;
+}
+
+.create-shop-btn:hover {
+    background-color: $brand-color;
+    color: $white-color;
+}
+
 .btn-primary.btn-add-to-cart:hover {
     color: $white-color;
     background-color: $brand-color;

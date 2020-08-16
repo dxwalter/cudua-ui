@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 import { CREATE_USER_MUTATION } from '~/graphql/customer';
 
@@ -152,9 +152,7 @@ export default {
         },
         createUser: async function () {
 
-
-
-           let result = await this.$apollo.mutate({
+            let result = await this.$apollo.mutate({
                 mutation: CREATE_USER_MUTATION,
                 variables: {
                     fullname: this.fullname,
@@ -163,8 +161,39 @@ export default {
                     anonymousId: this.anonymousId
                 }
             })
-            
-            
+
+            result = result.data.createUser;
+
+            if (!result.success) {
+                
+                if (result.message.search('email') != -1) {
+                    this.addRedBorder('signUpEmail');
+                    this.outputValidationError('emailValidationError', 'This email exists. Choose a different email address');
+                }
+
+                this.$initiateNotification('error', "Registration failed", result.message);
+                this.isDisabled = false;
+
+            } else {
+                // commit user data
+                this.$store.commit('customer/changeLoginStatus', true);
+                this.$store.commit('customer/setCustomerData', {
+                    fullname: result.userData.fullname,
+                    email: result.userData.email,
+                    userId: result.userData.userId,
+                    userToken: result.userData.accessToken
+                });
+
+                // delete anonymous id
+                localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+                this.$store.commit('customer/setAnonymousId', '');
+
+                this.$setAccessToken(result.userData.accessToken)
+                this.$initiateNotification('success', 'Registration successful', result.message);
+                setTimeout(() => {
+                   this.$router.push('/') 
+                }, 2000);
+            }
 
         }
     },

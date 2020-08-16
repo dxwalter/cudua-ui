@@ -3103,7 +3103,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     height: auto;
     background-color: $white-color;
     left: -97px;
-    z-index: 1;
+    z-index: 10000;
     margin-top: 26px;
     border-radius: 4px;
     box-shadow: $btn-box-shadow;
@@ -4318,4 +4318,9 @@ h4.order-details-business-name {
         top: 20px !important;
         right: 27px !important;
     }
+}
+
+.desktop-sign-in {
+    background-color: $light-grey;
+    padding: 4px 16px;
 }

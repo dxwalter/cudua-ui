@@ -25,13 +25,15 @@ export default {
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/utils.client.js', ssr: false},
-		{src: '~/plugins/notification.client.js', ssr: false}
+		{src: '~/plugins/notification.client.js', ssr: false},
+		{ src: '~/plugins/localStorage.js', ssr: false }
 	],
 	modules: [
 		'@nuxtjs/toast',
 		'@nuxtjs/onesignal',
 		'@nuxtjs/pwa',
-		'@nuxtjs/apollo'
+		'@nuxtjs/apollo',
+		'nuxt-graphql-request'
 	],
 	loading: false,
 	oneSignal: {
@@ -89,6 +91,9 @@ export default {
 				httpEndpoint: 'http://localhost:4000/v1/',
 			}
 		}
-	}
+	},
+	graphql: {
+		endpoint: 'http://localhost:4000/v1/',
+	} 
 
 }

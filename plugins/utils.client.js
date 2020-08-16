@@ -112,8 +112,7 @@ export default ({app}, inject) => {
 		inject('pushNotification', pushNotification)
 
 		let setHTTPHeaders = () => {
-				console.log("good")
-				this.$graphql.setHeaders({
+				app.$graphql.setHeaders({
 					'Content-Type': 'application/json',
 					'Accept': 'application/json',
 					'Access-Control-Allow-Credentials': true,
@@ -125,10 +124,11 @@ export default ({app}, inject) => {
 		inject('setHTTPHeaders', setHTTPHeaders);
 
 
-		let setAcessToken = (token) => {
-			this.$graphql.setHeader('accessToken', token);
+		let setAccessToken = (token) => {
+			app.$graphql.setHeader('accessToken', token);
 		}
-		inject('setAccessToken', setAcessToken);
+
+		inject('setAccessToken', setAccessToken);
 
 		let getAnonymousIDFromStorage = () => localStorage.getItem('CUDUA_ANONYMOUS_ID');
 
@@ -139,4 +139,9 @@ export default ({app}, inject) => {
 		}
 		inject('saveAnonymousIdToStorage', saveAnonymousIdToStorage);
 
+		let deleteAnonymousIdFromStorage = () => {
+			localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+		}
+
+		inject('deleteAnonymousIdFromStorage', deleteAnonymousIdFromStorage)
 }
