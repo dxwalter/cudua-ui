@@ -116,7 +116,7 @@
                 </div>
             </n-link>
 
-            <n-link to="#" class="nav-link-items">
+            <n-link to="/c/logout" class="nav-link-items">
                 <div class="nav-icon-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
                         <use xlink:href="~/assets/business/image/all-svg.svg#logout"></use>

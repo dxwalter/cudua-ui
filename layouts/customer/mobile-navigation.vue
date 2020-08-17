@@ -49,7 +49,7 @@
               </svg>
               <span>Account setting</span>
             </n-link>
-            <n-link to="#" class="mobile-side-nav-link" v-if="isLoggedIn">
+            <n-link to="/c/logout" class="mobile-side-nav-link" v-if="isLoggedIn">
               <svg xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
               </svg>

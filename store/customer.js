@@ -22,9 +22,7 @@ const state = () => ({
 });
 
 const actions = {
-    async GetAnonymousIdFromApi({$graphql, params}) {
-   
-    }
+    resetCustomerState: ({ commit }) => commit('resetState')
 }
 
 
@@ -57,6 +55,9 @@ const mutations = {
             state.address.country = dataObject.address.country
         }
 
+    },
+    resetState: (state) => {
+        Object.assign(state, getDefaultState())
     }
 }
 

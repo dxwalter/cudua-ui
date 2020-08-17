@@ -169,8 +169,6 @@ export default {
                 // set business categories and subcategories
                 this.$store.commit('business/setBusinessCategories', result.businessDetails.businessCategories);
 
-            } else {
-                // reset state
             }
 
             // delete anonymous id

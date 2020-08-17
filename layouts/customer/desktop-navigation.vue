@@ -95,7 +95,7 @@
                 </svg>
                 <span>Account setting</span>
             </n-link>
-            <n-link to="#" class="mobile-side-nav-link">
+            <n-link to="/c/logout" class="mobile-side-nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
                 </svg>
@@ -110,7 +110,8 @@
           </div>
         </div>
 
-        <n-link to="/auth/create-store" class="btn create-shop-btn">Create shop</n-link>
+        <n-link to="/auth/create-store" class="btn create-shop-btn" v-if="!isLoggedIn || !isBusinessOwner">Create shop</n-link>
+        <n-link to="/b" class="btn create-shop-btn"  v-if="isLoggedIn && isBusinessOwner">Shop manager</n-link>
 
       </div>
 
@@ -125,19 +126,23 @@ export default {
   name: 'DESKTOPNAVGATION',
 	data: function () {
 		return {
-			isLoggedIn: false
+      isLoggedIn: false,
+      isBusinessOwner: false
 		}
 	},
   computed: {
     ...mapGetters({
-			'GetLoginStatus': 'customer/GetLoginStatus',
+      'GetLoginStatus': 'customer/GetLoginStatus',
+      'GetAnonymousId': 'customer/GetAnonymousId',
+			'GetBusinessStatus': 'business/GetBusinessStatus'
 		}),
-		LoginStatus () {
+		statusChecker () {
 			this.isLoggedIn = this.GetLoginStatus
+			this.isBusinessOwner = this.GetBusinessStatus.length > 0 ? true :  false
 		}
   },
   mounted () {
-    this.LoginStatus
+    this.statusChecker
   }
 }
 </script>
