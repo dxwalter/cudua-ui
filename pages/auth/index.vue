@@ -67,6 +67,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 import INITCOMPONENT from '~/components/init.component.vue';
 import { LOGIN_USER } from '~/graphql/customer';
+
 export default {
     name: "LOGINUSER",
     components: {NOTIFICATION, INITCOMPONENT},
@@ -117,7 +118,7 @@ export default {
             }
 
             this.isDisabled = false
-            
+
             // change login status
             this.$store.commit('customer/changeLoginStatus', true);
 
@@ -176,7 +177,6 @@ export default {
             localStorage.removeItem('CUDUA_ANONYMOUS_ID');
             this.$store.commit('customer/setAnonymousId', '');
 
-            this.$setAccessToken(result.accessToken)
             this.$initiateNotification('success', 'Sign in successful', result.message);
             setTimeout(() => {
                 this.$router.push('/') 

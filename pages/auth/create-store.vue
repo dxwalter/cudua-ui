@@ -68,7 +68,7 @@
                 <a href="#">Contact support</a>
                 <a href="#">Privacy | Terms</a>
             </div>
-
+            <NOTIFICATION></NOTIFICATION>
         </div>
     </div>
   </div>
@@ -78,8 +78,13 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { CREATE_BUSINESS } from '~/graphql/business';
 
+import NOTIFICATION from '~/components/notification/notification.vue'; 
+
 export default {
-	name: 'CREATEBUSINESS',
+    name: 'CREATEBUSINESS',
+    components: {
+        NOTIFICATION
+    },
 	data: function() {
 		return {
             isLoggedIn: false,
@@ -177,15 +182,42 @@ export default {
 
         },
         createBusinessForSigneduser: async function () {
+
             let result = await this.$apollo.mutate({
                 mutation: CREATE_BUSINESS,
                 variables: {
                     name: this.businessName,
                     username: this.username
+                },
+                context: {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
                 }
             })
 
-            console.log(result)
+            result = result.data.CreateBusinessAccount;
+
+            if (result.success ==  false) {
+                this.isDisabled = false
+                this.$initiateNotification('error', 'An error occurred', result.message);
+                return
+            }
+
+            // update business data
+            if (result.businessDetails != null) {
+                // set business data
+                this.$store.commit('business/setBusinessData', {
+                    businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
+                    businessName: result.businessDetails.businessname != null ? result.businessDetails.businessname : "",
+                    username: result.businessDetails.username != null ? result.businessDetails.username : ""
+                });
+            }
+
+            this.$initiateNotification('success', 'Sign in successful', result.message);
+            setTimeout(() => {
+                this.$router.push('/b') 
+            }, 2000);
 
         },
         showUsernameUrlMethod: function(state) {

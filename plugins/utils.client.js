@@ -112,14 +112,7 @@ export default ({app}, inject) => {
 		inject('pushNotification', pushNotification)
 
 		let setHTTPHeaders = () => {
-				app.$graphql.setHeaders({
-					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-					'Access-Control-Allow-Credentials': true,
-					'Access-Control-Allow-Headers': 'content-type, authorization, content-length, x-requested-with, accept, origin',
-					'Access-Control-Allow-Methods': 'POST, HEAD',
-					'Access-Control-Allow-Origin': 'http://localhost:3000'
-				});
+				
 		}
 		inject('setHTTPHeaders', setHTTPHeaders);
 

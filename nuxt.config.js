@@ -33,7 +33,6 @@ export default {
 		'@nuxtjs/onesignal',
 		'@nuxtjs/pwa',
 		'@nuxtjs/apollo',
-		'nuxt-graphql-request'
 	],
 	loading: false,
 	oneSignal: {
@@ -87,13 +86,8 @@ export default {
 	},
 	apollo: {
 		clientConfigs: {
-			default: {
-				httpEndpoint: 'http://localhost:4000/v1/',
-			}
+			default: '~/apollo/client-configs/default.js',
 		}
-	},
-	graphql: {
-		endpoint: 'http://localhost:4000/v1/',
-	} 
+	}
 
 }
