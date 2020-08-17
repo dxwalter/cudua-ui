@@ -10,7 +10,7 @@
                         <img src="~/assets/customer/image/cudua-logo-icon.svg">
                     </div>
 
-                    <a href="index.html" class="btn btn-primary">Home</a>
+                    <n-link to="/" class="btn btn-primary">Home</n-link>
                 </div>
                 
                 <div class="sign-up-content">
@@ -58,16 +58,18 @@
             </div>
         </div>
         <NOTIFICATION></NOTIFICATION>
+        <INITCOMPONENT></INITCOMPONENT>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import NOTIFICATION from '~/components/notification/notification.vue'; 
+import INITCOMPONENT from '~/components/init.component.vue';
 import { LOGIN_USER } from '~/graphql/customer';
 export default {
     name: "LOGINUSER",
-    components: {NOTIFICATION},
+    components: {NOTIFICATION, INITCOMPONENT},
     data: function() {
 		return {
             anonymousId: "",
@@ -78,8 +80,11 @@ export default {
     },
     computed: {
 		...mapGetters({
-			'GetAnonymousId': 'customer/GetAnonymousId'
-		})
+			'GetAnonymousId': 'customer/GetAnonymousId',
+        }),
+        ...mapMutations({
+            'setAnonymousId': 'customer/setAnonymousId'
+        })
     },        
     methods: {
         validateUser: function () {
@@ -104,18 +109,84 @@ export default {
             })
 
             let result = login.data.userLogin;
-            
+
             if (result.success == false) {
                 this.isDisabled = false
                 this.$initiateNotification('error', 'Failed login', result.message);
                 return
             }
 
-            console.log(result)
+            this.isDisabled = false
+            
+            // change login status
+            this.$store.commit('customer/changeLoginStatus', true);
+
+            // set customer data
+            this.$store.commit('customer/setCustomerData', {
+                fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
+                email: result.userDetails.email != null ? result.userDetails.email : "",
+                userId: result.userDetails.userId != null ? result.userDetails.userId : "",
+                phone: result.userDetails.phone != null ? result.userDetails.phone : "",
+                reviewScore: result.userDetails.review != null ? result.userDetails.review : "",
+                displayPicture: result.userDetails.displayPicture != null ? result.userDetails.displayPicture: "",
+                userToken: result.accessToken
+            });
+
+            // update business data
+            if (result.businessDetails != null) {
+                // set business data
+                this.$store.commit('business/setBusinessData', {
+                    businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
+                    businessName: result.businessDetails.businessname != null ? result.businessDetails.businessname : "",
+                    username: result.businessDetails.username != null ? result.businessDetails.username : "",
+                    logo: result.businessDetails.logo != null ? result.businessDetails.logo : "",
+                    coverPhoto: result.businessDetails.coverPhoto != null ? result.businessDetails.coverPhoto : "",
+                    description: result.businessDetails.description != null ? result.businessDetails.description : "",
+                });
+
+                // set business contact
+                this.$store.commit('business/setBusinessContact', {
+                    email: result.businessDetails.contact.email != null ?  result.businessDetails.contact.email : "",
+                    phone:  result.businessDetails.contact.phone != null ?  result.businessDetails.contact.phone : [],
+                    whatsapp: {
+                        phone: result.businessDetails.contact.whatsapp.number,
+                        status: result.businessDetails.contact.whatsapp.status,
+                    }
+                });
+
+                // set business address
+                this.$store.commit('business/setBusinessAddress', {
+                    number: result.businessDetails.address.number != null ? result.businessDetails.address.number : "",
+                    busStop: result.businessDetails.address.busStop != null ? result.businessDetails.address.busStop : "",
+                    street: result.businessDetails.address.street != null ? result.businessDetails.address.street : "",
+                    community: result.businessDetails.address.community != null ? result.businessDetails.address.community : "",
+                    lga: result.businessDetails.address.lga != null ? result.businessDetails.address.lga : "",
+                    state: result.businessDetails.address.state != null ? result.businessDetails.address.state : "",
+                    country: result.businessDetails.address.country != null ? result.businessDetails.address.country: ""
+                });
+
+                // set business categories and subcategories
+                this.$store.commit('business/setBusinessCategories', result.businessDetails.businessCategories);
+
+            } else {
+                // reset state
+            }
+
+            // delete anonymous id
+            localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+            this.$store.commit('customer/setAnonymousId', '');
+
+            this.$setAccessToken(result.accessToken)
+            this.$initiateNotification('success', 'Sign in successful', result.message);
+            setTimeout(() => {
+                this.$router.push('/') 
+            }, 2000);
 
         }
     },
     mounted () {
+        
+        document.querySelector("body").classList.remove("overflow-hidden");
         this.anonymousId = this.GetAnonymousId
     }
 }

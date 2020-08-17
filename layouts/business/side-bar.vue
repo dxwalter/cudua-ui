@@ -231,7 +231,7 @@ export default {
             }, false);
         }
 
-        console.log(this.currentPage)
+        document.querySelector("body").classList.remove("overflow-hidden");
 
     }
 }

@@ -3205,7 +3205,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 }
 
 .sign-up-logo {
-    height: 70px;
+    height: 50px;
     display: inline-block;
     margin-left: -26px;
 }
@@ -3419,7 +3419,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     .sign-up-logo {
         display: flex;
         padding: 22px;
-        height: 120px;
+        height: 90px;
     }
     .sign-up-logo-container {
         width: 1120px;
@@ -4323,4 +4323,40 @@ h4.order-details-business-name {
 .desktop-sign-in {
     background-color: $light-grey;
     padding: 4px 16px;
+}
+
+.personal-acct-action {
+    * {
+        align-self: center;
+    }
+    .action-text {
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+
+        span {
+            color: $brand-color
+        }
+    }
+    button {
+        flex-shrink: 0;
+        margin-left: 16px;
+    }
+}
+
+@media($mq-mb) {
+    .personal-acct-action .action-text {
+        font-size: 14px;
+        line-height: 22px;
+    }
+}
+
+.username-url-sample {
+    font-size: 14px;
+    color: $black-color-06;
+    margin-top: 8px;
+    span {
+        color: $dark-color;
+        font-weight: 500;
+    }
 }

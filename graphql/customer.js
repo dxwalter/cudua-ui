@@ -24,7 +24,7 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                 email
                 phone
                 userId
-                displaPicture
+                displayPicture
                 review
                 address {
                     number

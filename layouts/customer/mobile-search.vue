@@ -17,8 +17,8 @@
             </div>
 
             <div class="mobile-nav-actions">
-			<n-link to="/auth/create-store" class="btn btn-primary btn-md" v-if="!isLoggedIn">Create shop</n-link>
-			<n-link to="/b" class="btn btn-white btn-md" v-else>Shop manager</n-link>
+			<n-link to="/auth/create-store" class="btn btn-primary btn-md" v-if="isLoggedIn && !isBusinessOwner">Create shop</n-link>
+			<n-link to="/b" class="btn btn-white btn-md" v-if="isLoggedIn && isBusinessOwner">Shop manager</n-link>
 
               <n-link to="/c/cart" class="btn btn-white btn-small btn-icon">
                 <div class="notif-point">10</div>
@@ -389,13 +389,17 @@
 							</div>
 
 							<div class="d-flex-between mg-top-64">
-								<div class="flex-column-center">
-								<span>Min</span>
-								<div><span>₦</span> <span id="minPrice">7,000</span></div>
-								</div>
-								<div class="flex-column-center">
-								<span>Max</span>
-								<div><span>₦</span> <span id="maxPrice">930,000</span></div>
+									<div class="flex-column-center">
+										<span>Min</span>
+										<div>
+											<span>₦</span> <span id="minPrice">7,000</span>
+										</div>
+									</div>
+									<div class="flex-column-center">
+										<span>Max</span>
+										<div>
+											<span>₦</span> <span id="maxPrice">930,000</span>
+										</div>
 								</div>
 							</div>
 
@@ -550,6 +554,7 @@ export default {
 	data: function() {
 		return {
 			isLoggedIn: "",
+			isBusinessOwner: false
 		}
 	},
     created() {
@@ -561,13 +566,15 @@ export default {
     computed: {
 		...mapGetters({
 			'GetAnonymousId': 'customer/GetAnonymousId',
-			'GetLoginStatus': 'customer/GetLoginStatus'
+			'GetLoginStatus': 'customer/GetLoginStatus',
+			'GetBusinessStatus': 'business/GetBusinessStatus'
 		}),
         handleResize() {
             this.screenWidth = window.innerWidth;
 		},
-		LoginStatus () {
+		statusChecker () {
 			this.isLoggedIn = this.GetLoginStatus
+			this.isBusinessOwner = this.GetBusinessStatus.length > 0 ? true :  false
 		}
     },
     methods: {
@@ -587,7 +594,7 @@ export default {
 		}
     },
     mounted () {
-		this.LoginStatus
+		this.statusChecker
     }
 }
 </script>

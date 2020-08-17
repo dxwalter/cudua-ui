@@ -11,11 +11,18 @@ export default {
     name: 'INITCOMPONENT',
         data: function() {
       return {
-        anonymousId: ""
+		anonymousId: "",
+		isLoggedIn: false
       }
     },
     computed: {
-	  ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'})
+		...mapGetters({
+			'GetLoginStatus': 'customer/GetLoginStatus',
+			'GetAnonymousId': 'customer/GetAnonymousId'
+		}),
+		LoginStatus () {
+			this.isLoggedIn = this.GetLoginStatus
+		}
     },
     methods: {
 		...mapActions({
@@ -52,7 +59,9 @@ export default {
 
 		if (process.browser) {
 			this.$setHTTPHeaders;
-			this.setAnonymousId()
+			this.LoginStatus
+			// if user is not logged in, create anonymous id
+			if (this.isLoggedIn == false) this.setAnonymousId()
 		}
 
     }

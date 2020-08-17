@@ -24,11 +24,11 @@
                         <div class="create-business-signup">
                             <div class="intent-bg-text">Create your personal account</div>
                             <div class="form-control">
-                                <input type="email" name="fullname" id="signUpFullname" class="input-form" v-model="fullname" placeholder="Fullname">
+                                <input type="text" name="fullname" id="signUpFullname" class="input-form" v-model="fullname" placeholder="Fullname">
                                 <div class="validation-error-design" id="fullnameValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control">
-                                <input type="email" name="email" id="signUpEmail" class="input-form" v-model="email" placeholder="Email address">
+                                <input type="text" name="email" id="signUpEmail" class="input-form" v-model="email" placeholder="Email address">
                                 <div class="validation-error-design" id="emailValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control">
@@ -198,6 +198,7 @@ export default {
         }
     },
     mounted () {
+        document.querySelector("body").classList.remove("overflow-hidden");
         this.anonymousId = this.GetAnonymousId
     }
 }

@@ -17,61 +17,47 @@
                     <div class="sign-up-banner">
                         <img src="~/assets/customer/image/banner-image.jpg" alt="">
                     </div>
-                    <div class="sign-up-tips">
-                        <div class="tips-header">Create your store in two steps</div>
-                        <div class="tips-listing">
-                            <div class="sign-up-checkbox">
-                                <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
-                                    <use xlink:href="~/assets/customer/image/all-svg.svg#bigCheckBox"></use>
-                                </svg>
-                                <div class="check-tip-text">
-                                    Sign in or create personal account
-                                </div>
-                            </div>
-                            <div class="sign-up-checkbox">
-                                <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
-                                    <use xlink:href="~/assets/customer/image/all-svg.svg#bigCheckBox"></use>
-                                </svg>
-                                <div class="check-tip-text">
-                                    Create business account
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="sign-up-form-layer">
                     <div class="sign-up-form-wrapper">
-                        <div class="create-business-signup ">
-                            <div class="create-account-info">Sign in or create an account</div>
-                            <div class="form-control">
-                                <label for="businessType" class="form-label">Email address</label>
-                                <input type="email" name="" id="" class="input-form">
+                        <div class="create-business-signup">
+
+                            <div class="d-flex-between mg-bottom-32 personal-acct-action" v-if="!isLoggedIn">
+                                <div class="action-text"> I already have a personal account. Sign in before creating your business account</div>
+                                <button class="btn btn-md btn-white">Sign in</button>
+                            </div>
+
+                            <div class="d-flex-between mg-bottom-16 personal-acct-action" v-if="isLoggedIn">
+                                <div class="action-text">You are signed into your personal account as <span>{{customerFullname}}</span></div>
+                            </div>
+
+                            <div class="form-control" v-if="!isLoggedIn">
+                                <input type="text" name="fullname" id="signUpFullname" class="input-form" v-model="fullname" placeholder="Fullname">
+                                <div class="validation-error-design" id="fullnameValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control">
-                                <label for="businessType" class="form-label">Password</label>
-                                <input type="password" name="" id="" class="input-form">
-                            </div>
-                            <div class="form-control ">
-                                <button class="btn btn-primary btn-block" type="button">Sign in</button>
-                                <div class="fg-password"><a href="forgot-password.html">Forgot Password?</a></div>
-                            </div>
-                            <div class="form-control ">
-                                <button class="btn btn-white btn-block" type="button" data-trigger="modal" data-target="createAccountModal">Create personal account</button>
-                            </div>
-            
-                        </div>
-                        <div class="display-none">
-                            <div class="form-control">
-                                <label for="businessType" class="form-label">Business name</label>
-                                <input type="text" name="" id="" class="input-form">
+                                <input type="text" name="businessname" id="signUpBusinessName" class="input-form" placeholder="Business name" v-model="businessName" >
+                                <div class="validation-error-design" id="businessNameValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control">
-                                <label for="businessType" class="form-label">Business username</label>
-                                <input type="text" name="" id="" class="input-form">
+                                <input type="text" name="username" id="signUpUsername" class="input-form" placeholder="Username" v-model="username" @focus="showUsernameUrlMethod(true)" @blur="showUsernameUrlMethod(false)" autocomplete="false">
+                                <div v-if="showUsernameUrl" class="username-url-sample">https://www.cudua.com/<span>{{username}}</span></div>
+                                <div class="validation-error-design" id="usernameValidationError" data-error="error"></div>
+                            </div>
+                            <div class="form-control" v-if="!isLoggedIn">
+                                <input type="email" name="email" id="signUpEmail" class="input-form" v-model="email" placeholder="Email address">
+                                <div class="validation-error-design" id="emailValidationError" data-error="error"></div>
+                            </div>
+                            <div class="form-control" v-if="!isLoggedIn">
+                                <input type="password" name="password" id="signUpPassword" class="input-form" v-model="password" placeholder="Password">
+                                <div class="validation-error-design" id="passwordValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control">
-                                <button class="btn btn-block btn-primary" type="button">Continue to store manager</button>
+                                <button class="btn btn-block btn-primary" type="button" @click="validateBusiness" :disabled="isDisabled">
+                                    Create online shop
+                                    <div class="loader-action"><span class="loader"></span></div>    
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -89,13 +75,27 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { CREATE_BUSINESS } from '~/graphql/business';
 
 export default {
-	name: 'CREATE-BUSINESS',
+	name: 'CREATEBUSINESS',
 	data: function() {
 		return {
-			isLoggedIn: "",
+            isLoggedIn: false,
+            fullname: "",
+            email: "",
+            password: "",
+            businessName: "",
+            username: "",
+            // customer details
+            customerFullname: "",
+            accessToken: "",
+            // UI variables
+            showUsernameUrl: false,
+            error: 0,
+            isDisabled: false
+
 		}
 	},
     created() {
@@ -107,33 +107,99 @@ export default {
     computed: {
 		...mapGetters({
 			'GetAnonymousId': 'customer/GetAnonymousId',
-			'GetLoginStatus': 'customer/GetLoginStatus'
+            'GetLoginStatus': 'customer/GetLoginStatus',
+            'GetCustomerDetails': 'customer/GetCustomerDetails'
 		}),
         handleResize() {
             this.screenWidth = window.innerWidth;
 		},
 		LoginStatus () {
-			this.isLoggedIn = this.GetLoginStatus
+            this.isLoggedIn = this.GetLoginStatus
 		}
     },
     methods: {
-        toggleCustomerNavBar: function (e) {
-            e.preventDefault();
-            let navToggle = document.getElementById('navToggleButton');
-            navToggle.classList.toggle('is-active');
+        validateBusiness: function() {
 
-            let sideNav = document.getElementById('mobileSideNav');
-            let sideNavContent = document.getElementById("mobileSideNavContent");
+            this.error = 0;
 
-            let toggleStatus = navToggle.getAttribute('data-toggle-status');
+            if (this.isLoggedIn) {
+                // validate only business name and username
+                this.validateUsernameAndBusinessName()
+            } else {
+                // validate all
+            }
 
-            this.screenWidth <= 1023 ? this.$showCustomerMobileNav(sideNav, sideNavContent, toggleStatus) : sideNav.classList.toggle('js-fold-nav');
-            
-            navToggle.getAttribute('data-toggle-status') == "1" ? navToggle.setAttribute('data-toggle-status', '0') : navToggle.setAttribute('data-toggle-status', '1');
-		}
+            if (this.error) {
+                this.$showToast('An input error occurred. Find error and make corrections to continue', 'error')
+                return
+            }
+
+            this.isDisabled = true
+
+            this.createBusinessForSigneduser()
+
+
+        },
+        validateUsernameAndBusinessName: function () {
+            // business name validation
+            if (this.businessName.length <= 3) {
+                this.$addRedBorder('signUpBusinessName');
+                this.$outputValidationError('businessNameValidationError', 'Your business name must be greater than 3 characters');
+                this.error = 1;
+            } else {
+                this.$removeRedBorder('signUpBusinessName');
+                this.$removeValidationError('businessNameValidationError');
+            }
+
+
+            if (this.username.length <= 3) {
+                this.$addRedBorder('signUpUsername');
+                this.$outputValidationError('usernameValidationError', 'Your business username must be greater than 3 characters');
+                this.error = 1;
+            } else {
+                let checkUsername = new RegExp(/^(?!.*\.\.\s)(?!.*\.$)[^\W][\w.]{0,29}$/ig).test(this.username);
+
+                if (checkUsername == false) {
+                    this.error = 1;
+                    this.$addRedBorder('signUpUsername');
+                    this.$outputValidationError('usernameValidationError', `Your username must not have any space and any character like
+                    <span>
+                        /\ " \` @ - | +
+                    </span>`);
+                } else {
+                    this.$removeRedBorder('signUpUsername');
+                    this.$removeValidationError('usernameValidationError');
+                }
+            }
+
+            return
+
+
+        },
+        createBusinessForSigneduser: async function () {
+            let result = await this.$apollo.mutate({
+                mutation: CREATE_BUSINESS,
+                variables: {
+                    name: this.businessName,
+                    username: this.username
+                }
+            })
+
+            console.log(result)
+
+        },
+        showUsernameUrlMethod: function(state) {
+            this.showUsernameUrl = state
+            this.$removeValidationError('usernameValidationError')
+        }
     },
     mounted () {
-		this.LoginStatus
+        document.querySelector("body").classList.remove("overflow-hidden");
+        this.LoginStatus
+        if (this.isLoggedIn) {
+            this.customerFullname = this.GetCustomerDetails.fullname
+            this.accessToken = this.GetCustomerDetails.userToken
+        }
     }
 }
 </script>

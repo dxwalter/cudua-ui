@@ -47,7 +47,9 @@
 
 <script>
 export default {
-
+    mounted () {
+        document.querySelector("body").classList.remove("overflow-hidden");
+    }
 }
 </script>
 

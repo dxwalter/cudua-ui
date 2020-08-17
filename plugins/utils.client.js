@@ -144,4 +144,27 @@ export default ({app}, inject) => {
 		}
 
 		inject('deleteAnonymousIdFromStorage', deleteAnonymousIdFromStorage)
+
+		let addRedBorder = (target) => {
+            document.getElementById(target).style.border = '1px solid #B82E24';
+		}
+		inject('addRedBorder', addRedBorder);
+
+        let removeRedBorder = (target) => {
+            document.getElementById(target).style.border = '0px';
+		}
+		inject('removeRedBorder', removeRedBorder);
+
+        let outputValidationError = (target, message) => {
+            document.getElementById(target).style.display = 'block';
+            document.getElementById(target).innerHTML = '';
+            document.getElementById(target).innerHTML = message;
+		}
+		inject('outputValidationError', outputValidationError);
+
+        let removeValidationError = (target) => {
+            document.getElementById(target).style.display = 'none';
+		}
+		
+		inject('removeValidationError', removeValidationError);
 }
