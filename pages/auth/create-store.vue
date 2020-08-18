@@ -41,8 +41,8 @@
                                 <div class="validation-error-design" id="businessNameValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control">
-                                <input type="text" name="username" id="signUpUsername" class="input-form" placeholder="Username" v-model="username" @focus="showUsernameUrlMethod(true)" @blur="showUsernameUrlMethod(false)" autocomplete="false">
-                                <div v-if="showUsernameUrl" class="username-url-sample">https://www.cudua.com/<span>{{username}}</span></div>
+                                <input type="text" name="username" id="signUpUsername" class="input-form" placeholder="Username" v-model="username" @focus="showUsernameUrlMethod(true)" autocomplete="false">
+                                <div class="username-url-sample" v-if="username">https://www.cudua.com/<span>{{username}}</span></div>
                                 <div class="validation-error-design" id="usernameValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control" v-if="!isLoggedIn">
@@ -77,6 +77,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { CREATE_BUSINESS } from '~/graphql/business';
+import { CREATE_USER_AND_BUSINESS_MUTATION } from '~/graphql/customer';
 
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 
@@ -95,9 +96,9 @@ export default {
             username: "",
             // customer details
             customerFullname: "",
+            anonymousId: "",
             accessToken: "",
             // UI variables
-            showUsernameUrl: false,
             error: 0,
             isDisabled: false
 
@@ -119,7 +120,8 @@ export default {
             this.screenWidth = window.innerWidth;
 		},
 		LoginStatus () {
-            this.isLoggedIn = this.GetLoginStatus
+            this.isLoggedIn = this.GetLoginStatus;
+            this.anonymousId = this.GetAnonymousId;
 		}
     },
     methods: {
@@ -132,6 +134,42 @@ export default {
                 this.validateUsernameAndBusinessName()
             } else {
                 // validate all
+
+                this.error = 0;
+
+                // validate name
+                if (this.fullname.length < 3) {
+                    this.$addRedBorder('signUpFullname');
+                    this.$outputValidationError('fullnameValidationError', 'Your fullname must be greater than 2 characters')
+                    this.error = 1
+                } else {
+                    this.$removeRedBorder('signUpFullname');
+                    this.$removeValidationError('fullnameValidationError');
+                }
+
+                // validate email
+                if (this.email.length < 5) {
+                    this.$addRedBorder('signUpEmail')
+                    this.$outputValidationError('emailValidationError', 'Enter a valid email address')
+                    this.error = 1
+                } else {
+                    this.$removeRedBorder('signUpEmail')
+                    this.$removeValidationError('emailValidationError');
+                }
+
+                // password
+                if (this.password.length < 6) {
+                    this.$addRedBorder('signUpPassword')
+                    this.$outputValidationError('passwordValidationError', 'Your password must be greater than 5 characters')
+                    this.error = 1
+                } else {
+                    this.$removeRedBorder('signUpPassword')
+                    this.$removeValidationError('passwordValidationError');
+                }
+
+                // validate only business name and username
+                this.validateUsernameAndBusinessName()
+
             }
 
             if (this.error) {
@@ -141,7 +179,12 @@ export default {
 
             this.isDisabled = true
 
-            this.createBusinessForSigneduser()
+            if (this.isLoggedIn) {
+                this.createBusinessForSignedUser()
+            } else {
+                this.createBusinessForUnsignedUser()
+            }
+    
 
 
         },
@@ -181,7 +224,7 @@ export default {
 
 
         },
-        createBusinessForSigneduser: async function () {
+        createBusinessForSignedUser: async function () {
 
             let result = await this.$apollo.mutate({
                 mutation: CREATE_BUSINESS,
@@ -217,11 +260,62 @@ export default {
             this.$initiateNotification('success', 'Sign in successful', result.message);
             setTimeout(() => {
                 this.$router.push('/b') 
-            }, 2000);
+            }, 1000);
 
         },
+        createBusinessForUnsignedUser: async function () {
+            let result = await this.$apollo.mutate({
+                mutation: CREATE_USER_AND_BUSINESS_MUTATION,
+                variables: {
+                    fullname: this.fullname,
+                    email: this.email,
+                    password: this.password,
+                    anonymousId: this.anonymousId,
+                    name: this.businessName,
+                    username: this.username
+                },
+                context: {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
+            })
+
+            result = result.data.createUserAndBusiness;
+
+            if (result.success == false) {
+                this.isDisabled = false
+                this.$initiateNotification('error', 'An error occurred', result.message);
+                return
+            }
+
+            // change login status
+            this.$store.commit('customer/changeLoginStatus', true);
+
+            this.$store.commit('customer/setCustomerData', {
+                fullname: result.userData.fullname,
+                email: result.userData.email,
+                userId: result.userData.userId,
+                userToken: result.userData.accessToken
+            });
+
+            this.$store.commit('business/setBusinessData', {
+                businessId: result.businessDetails.id,
+                businessName: result.businessDetails.businessname,
+                username: result.businessDetails.username
+            });
+
+            // delete anonymous id
+            localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+            this.$store.commit('customer/setAnonymousId', '');
+
+            this.$initiateNotification('success', 'Online shop created', result.message);
+            setTimeout(() => {
+                this.$router.push('/b') 
+            }, 1000);
+            
+        },
         showUsernameUrlMethod: function(state) {
-            this.showUsernameUrl = state
             this.$removeValidationError('usernameValidationError')
         }
     },

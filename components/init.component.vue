@@ -26,7 +26,8 @@ export default {
     },
     methods: {
 		...mapActions({
-			'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'
+			'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi',
+			'setAnonymousId': 'customer/setAnonymousId'
 		}),
 		setAnonymousId: async function () {
 
@@ -41,7 +42,7 @@ export default {
 				let result = getId.data.GetAnonymousId;
 				if (result.success) {
 					// commit and save to local storage and store
-					this.$store.commit('customer/setAnonymousId', result.anonymousId);
+					this.$store.dispatch('customer/setAnonymousId', result.anonymousId);
 					this.anonymousId = result.anonymousId;
 					localStorage.setItem('CUDUA_ANONYMOUS_ID', this.anonymousId)
 
@@ -51,14 +52,13 @@ export default {
 
 			} else {
 				this.anonymousId = getAnonymousIdFromStorage;
-				this.$store.commit('customer/setAnonymousId', this.anonymousId);
+				this.$store.dispatch('customer/setAnonymousId', this.anonymousId);
 			}
 		}
 	},
     created: async function () {
 
 		if (process.browser) {
-			this.$setHTTPHeaders;
 			this.LoginStatus
 			// if user is not logged in, create anonymous id
 			if (this.isLoggedIn == false) this.setAnonymousId()

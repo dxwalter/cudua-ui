@@ -91,3 +91,25 @@ export const GET_ANONYMOUS_ID = gql`
         }
     }
 `;
+
+export const CREATE_USER_AND_BUSINESS_MUTATION = gql`
+    mutation createUserAndBusiness( $fullname: String!, $email: String!, $password: String!, $anonymousId: String, $name: String!, $username: String!)   {
+        createUserAndBusiness(input: {fullname: $fullname, email: $email, password: $password, anonymousId: $anonymousId, name: $name, username: $username}) {
+            userData {
+                fullname
+                email
+                businessId
+                userId
+                accessToken
+            }
+            businessDetails {
+                id
+                businessname
+                username
+            }
+            code
+            success
+            message
+        }
+    }
+`;

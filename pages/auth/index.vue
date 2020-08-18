@@ -69,7 +69,7 @@ import INITCOMPONENT from '~/components/init.component.vue';
 import { LOGIN_USER } from '~/graphql/customer';
 
 export default {
-    name: "LOGINUSER",
+    name: "LOGIN",
     components: {NOTIFICATION, INITCOMPONENT},
     data: function() {
 		return {
@@ -88,6 +88,7 @@ export default {
         })
     },        
     methods: {
+
         validateUser: function () {
             
             if (this.email.length < 2 || this.password.length < 2) {
@@ -120,10 +121,10 @@ export default {
             this.isDisabled = false
 
             // change login status
-            this.$store.commit('customer/changeLoginStatus', true);
+            this.$store.dispatch('customer/changeLoginStatus', true);
 
             // set customer data
-            this.$store.commit('customer/setCustomerData', {
+            this.$store.dispatch('customer/setCustomerData', {
                 fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
                 email: result.userDetails.email != null ? result.userDetails.email : "",
                 userId: result.userDetails.userId != null ? result.userDetails.userId : "",
@@ -136,7 +137,7 @@ export default {
             // update business data
             if (result.businessDetails != null) {
                 // set business data
-                this.$store.commit('business/setBusinessData', {
+                this.$store.dispatch('business/setBusinessData', {
                     businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
                     businessName: result.businessDetails.businessname != null ? result.businessDetails.businessname : "",
                     username: result.businessDetails.username != null ? result.businessDetails.username : "",
@@ -146,39 +147,46 @@ export default {
                 });
 
                 // set business contact
-                this.$store.commit('business/setBusinessContact', {
-                    email: result.businessDetails.contact.email != null ?  result.businessDetails.contact.email : "",
-                    phone:  result.businessDetails.contact.phone != null ?  result.businessDetails.contact.phone : [],
-                    whatsapp: {
-                        phone: result.businessDetails.contact.whatsapp.number,
-                        status: result.businessDetails.contact.whatsapp.status,
-                    }
-                });
+                if (result.businessDetails.contact != null) {
+                    this.$store.dispatch('business/setBusinessContact', {
+                        email: result.businessDetails.contact.email != null ?  result.businessDetails.contact.email : "",
+                        phone:  result.businessDetails.contact.phone != null ?  result.businessDetails.contact.phone : [],
+                        whatsapp: {
+                            phone: result.businessDetails.contact.whatsapp.number,
+                            status: result.businessDetails.contact.whatsapp.status,
+                        }
+                    });
+                }
 
-                // set business address
-                this.$store.commit('business/setBusinessAddress', {
-                    number: result.businessDetails.address.number != null ? result.businessDetails.address.number : "",
-                    busStop: result.businessDetails.address.busStop != null ? result.businessDetails.address.busStop : "",
-                    street: result.businessDetails.address.street != null ? result.businessDetails.address.street : "",
-                    community: result.businessDetails.address.community != null ? result.businessDetails.address.community : "",
-                    lga: result.businessDetails.address.lga != null ? result.businessDetails.address.lga : "",
-                    state: result.businessDetails.address.state != null ? result.businessDetails.address.state : "",
-                    country: result.businessDetails.address.country != null ? result.businessDetails.address.country: ""
-                });
 
-                // set business categories and subcategories
-                this.$store.commit('business/setBusinessCategories', result.businessDetails.businessCategories);
+                if (result.businessDetails.address != null) {
+                    // set business address
+                    this.$store.dispatch('business/setBusinessAddress', {
+                        number: result.businessDetails.address.number != null ? result.businessDetails.address.number : "",
+                        busStop: result.businessDetails.address.busStop != null ? result.businessDetails.address.busStop : "",
+                        street: result.businessDetails.address.street != null ? result.businessDetails.address.street : "",
+                        community: result.businessDetails.address.community != null ? result.businessDetails.address.community : "",
+                        lga: result.businessDetails.address.lga != null ? result.businessDetails.address.lga : "",
+                        state: result.businessDetails.address.state != null ? result.businessDetails.address.state : "",
+                        country: result.businessDetails.address.country != null ? result.businessDetails.address.country: ""
+                    });
+                }
+
+                if (result.businessDetails.businessCategories != null) {
+                    // set business categories and subcategories
+                    this.$store.dispatch('business/setBusinessCategories', result.businessDetails.businessCategories);
+                }
 
             }
 
             // delete anonymous id
             localStorage.removeItem('CUDUA_ANONYMOUS_ID');
-            this.$store.commit('customer/setAnonymousId', '');
+            this.$store.dispatch('customer/setAnonymousId', '');
 
             this.$initiateNotification('success', 'Sign in successful', result.message);
             setTimeout(() => {
                 this.$router.push('/') 
-            }, 2000);
+            }, 1000);
 
         }
     },

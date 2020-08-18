@@ -24,8 +24,42 @@ export const state = () => ({
 	businessCategories: []
 });
 
+const getDefaultState = () => {
+	return {
+		businessId: "",
+		businessName: "",
+		username: "",
+		logo: "",
+		coverPhoto: "",
+		description: "",
+		address: {
+			number: "",
+			street: "",
+			community: "",
+			lga: "",
+			state: "",
+			country: "",
+		},
+		contact: {
+			email: "",
+			phone: [],
+			whatsapp: {
+				status: "",
+				phone: ""
+			}
+		},
+		businessCategories: []
+	}
+}
 
-export const actions = {}
+
+export const actions = {
+	resetBusinessState (context, state) { context.commit('resetBusinessState', state) },
+	setBusinessData (context, payload) { context.commit("setBusinessData", payload) },
+	setBusinessContact (context, payload) { context.commit("setBusinessContact", payload) },
+	setBusinessAddress (context, payload) { context.commit("setBusinessAddress", payload) },
+	setBusinessCategories (context, payload) { context.commit("setBusinessCategories", payload) },
+}
 
 export const getters = {
 	GetBusinessStatus: state => state.businessId
@@ -85,7 +119,8 @@ export const mutations = {
 
 			}
 		}
-	}
+	},
+	resetBusinessState: (state) => Object.assign(state, getDefaultState())
 }
 
 export default {

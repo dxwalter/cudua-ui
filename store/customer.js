@@ -21,8 +21,35 @@ const state = () => ({
 
 });
 
+const getDefaultState = () => {
+	return {
+        userToken: "",
+        fullname: "",
+        email: "",
+        phone: "",
+        userId: "",
+        displayPicture: "",
+        reviewScore: "",
+        review: [],
+        address: {
+            number: "",
+            street: "",
+            community: "",
+            lga: "",
+            state: "",
+            country: "",
+            busStop: "",
+        },
+        anonymousId: "",
+        isLoggedIn: false
+	}
+}
+
 const actions = {
-    resetCustomerState: ({ commit }) => commit('resetState')
+    resetCustomerState (context, state) { context.commit('resetCustomerState', state)},
+    setAnonymousId (context, payload) { context.commit('setAnonymousId',  payload)},
+    setCustomerData (context, payload) { context.commit('setCustomerData', payload)},
+    changeLoginStatus (context, payload) { context.commit('changeLoginStatus', payload) }
 }
 
 
@@ -56,9 +83,7 @@ const mutations = {
         }
 
     },
-    resetState: (state) => {
-        Object.assign(state, getDefaultState())
-    }
+    resetCustomerState: (state) => Object.assign(state, getDefaultState())
 }
 
 export default {
