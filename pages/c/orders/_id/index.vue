@@ -927,16 +927,31 @@ import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
 export default {
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
     },
     data: function() {
         return {
-            pageLoader: true
+            pageLoader: true,
         }
     },
-    methods: {
+    computed: {
+		...mapGetters({
+			'GetLoginStatus': 'customer/GetLoginStatus'
+        }),
+		LoginStatus () {
+			return this.GetLoginStatus
+		}
+    },
+    created: async function () {
+		if (process.browser) {
+            let status = this.LoginStatus
+            if (status == false) this.$router.push('/')
+		}
 
     },
     mounted () {

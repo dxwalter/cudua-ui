@@ -1,7 +1,7 @@
 <template>
     <div class="customer">
         <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script>
         <div class="body-container">
             <div class="sign-up-container">
 
@@ -101,41 +101,62 @@ export default {
         },
         loginUser: async function () {
             
-            let login = await this.$apollo.query({
-                query: LOGIN_USER,
-                variables: {
-                    email: this.email,
-                    password: this.password,
-                    anonymousId: this.anonymousId
+            try {
+
+                let login = await this.$apollo.query({
+                    query: LOGIN_USER,
+                    variables: {
+                        email: this.email,
+                        password: this.password,
+                        anonymousId: this.anonymousId
+                    }
+                })
+
+                let result = login.data.userLogin;
+
+                if (result.success == false) {
+                    this.isDisabled = false
+                    this.$initiateNotification('error', 'Failed login', result.message);
+                    return
                 }
-            })
 
-            let result = login.data.userLogin;
-
-            if (result.success == false) {
                 this.isDisabled = false
-                this.$initiateNotification('error', 'Failed login', result.message);
-                return
+
+                // change login status
+                this.$store.dispatch('customer/changeLoginStatus', true);
+
+                // set customer data
+                this.$store.dispatch('customer/setCustomerData', {
+                    fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
+                    email: result.userDetails.email != null ? result.userDetails.email : "",
+                    userId: result.userDetails.userId != null ? result.userDetails.userId : "",
+                    phone: result.userDetails.phone != null ? result.userDetails.phone : "",
+                    reviewScore: result.userDetails.review != null ? result.userDetails.review : "",
+                    displayPicture: result.userDetails.displayPicture != null ? result.userDetails.displayPicture: "",
+                    userToken: result.accessToken
+                });
+
+                // update business data
+                if (result.businessDetails != null) {
+                    this.setBusinessData(result)
+                }
+
+                // delete anonymous id
+                localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+                this.$store.dispatch('customer/setAnonymousId', '');
+
+                this.$initiateNotification('success', 'Sign in successful', result.message);
+                setTimeout(() => {
+                    this.$router.push('/') 
+                }, 1000);
+
+            } catch (error) {
+                this.isDisabled = false
+                this.$initiateNotification('error', 'Failed request', "A network error occurred");
             }
 
-            this.isDisabled = false
-
-            // change login status
-            this.$store.dispatch('customer/changeLoginStatus', true);
-
-            // set customer data
-            this.$store.dispatch('customer/setCustomerData', {
-                fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
-                email: result.userDetails.email != null ? result.userDetails.email : "",
-                userId: result.userDetails.userId != null ? result.userDetails.userId : "",
-                phone: result.userDetails.phone != null ? result.userDetails.phone : "",
-                reviewScore: result.userDetails.review != null ? result.userDetails.review : "",
-                displayPicture: result.userDetails.displayPicture != null ? result.userDetails.displayPicture: "",
-                userToken: result.accessToken
-            });
-
-            // update business data
-            if (result.businessDetails != null) {
+        },
+        setBusinessData: function(result) {
                 // set business data
                 this.$store.dispatch('business/setBusinessData', {
                     businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
@@ -176,18 +197,6 @@ export default {
                     // set business categories and subcategories
                     this.$store.dispatch('business/setBusinessCategories', result.businessDetails.businessCategories);
                 }
-
-            }
-
-            // delete anonymous id
-            localStorage.removeItem('CUDUA_ANONYMOUS_ID');
-            this.$store.dispatch('customer/setAnonymousId', '');
-
-            this.$initiateNotification('success', 'Sign in successful', result.message);
-            setTimeout(() => {
-                this.$router.push('/') 
-            }, 1000);
-
         }
     },
     mounted () {

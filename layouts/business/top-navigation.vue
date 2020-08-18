@@ -114,6 +114,9 @@
 import BUSINESSREVIEW from '~/components/business/businessreview/business.review.vue';
 import USERNAMEMODAL from '~/components/business/profile/username.vue'; 
 import NOTIFICATION from '~/components/notification/notification.vue'; 
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
 export default {
     components: {
         BUSINESSREVIEW, USERNAMEMODAL, NOTIFICATION
@@ -135,11 +138,25 @@ export default {
         if (process.client) {
             window.addEventListener('resize', this.handleResize);
         }
+
+        if (process.browser) {
+            this.getStatusData()
+		}
     },
 
     computed: {
         handleResize() {
             this.screenWidth = window.innerWidth;
+        },
+        ...mapGetters({
+            'GetLoginStatus': 'customer/GetLoginStatus',
+            'GetBusinessStatus': 'business/GetBusinessStatus'
+        }),
+		LoginStatus () {
+			return this.GetLoginStatus
+        },
+        BusinessStatus () {
+            return this.GetBusinessStatus
         }
     },
     methods : {
@@ -148,6 +165,12 @@ export default {
             let sideNav = document.getElementById('sideNav');
             let sideNavContent = document.getElementById("sideNavContent");
             this.screenWidth <= 1023 ? this.$showMobileNav(sideNav, sideNavContent, navToggle) : sideNav.classList.toggle('js-fold-nav');
+        },
+        getStatusData: function () {
+            let status = this.LoginStatus
+            if (status == false) this.$router.push('/');
+            let businessStatus = this.BusinessStatus;
+            if (businessStatus.length < 1) this.$router.push('/');
         }
     },
     mounted () {

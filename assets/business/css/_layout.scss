@@ -942,10 +942,33 @@
 
 .page-header.with-action {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
 
     h4 {
         margin-bottom: 24px;
+    }
+}
+
+.business-product-search-action {
+    background-color: $light-grey;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    align-self: flex-start;
+    height: auto;
+    * {
+        align-self: center;
+    }
+    svg {
+        margin-right: 8px;
+        fill: black;
+        width: 20px;
+        height: 20px;
+    }
+    span {
+        color: $light-black
     }
 }
 

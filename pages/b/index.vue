@@ -23,9 +23,14 @@
 
                         <div class="page-header with-action">
                             <h4>Product listing</h4>
-
+                            <div class="business-product-search-action">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#searchGlass"></use>
+                                </svg>
+                                <span>Search</span>
+                            </div>
                             <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
-                            <div class="search-area">
+                            <div class="search-area display-none">
                                 <form action="">
                                     <input type="text" name="" id="" class="search-form grey-bg-color" placeholder="Search for products">
                                 </form>
@@ -63,7 +68,7 @@ export default {
     },
     data: function() {
         return {
-            pageLoader: true
+            pageLoader: false
         }
     },
     methods: {
