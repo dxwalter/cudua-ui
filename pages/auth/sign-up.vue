@@ -182,7 +182,8 @@ export default {
                         fullname: result.userData.fullname,
                         email: result.userData.email,
                         userId: result.userData.userId,
-                        userToken: result.userData.accessToken
+                        userToken: result.userData.accessToken,
+                        reviewScore: result.userData.review
                     });
 
                     // delete anonymous id

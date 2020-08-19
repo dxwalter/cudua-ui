@@ -7,6 +7,7 @@ export const CREATE_USER_MUTATION = gql`
                 fullname
                 email
                 userId
+                review
                 accessToken
             }
             code
@@ -44,6 +45,7 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                 logo
                 coverPhoto
                 description
+                review
                 address {
                     number
                     street
@@ -106,6 +108,7 @@ export const CREATE_USER_AND_BUSINESS_MUTATION = gql`
                 id
                 businessname
                 username
+                review
             }
             code
             success

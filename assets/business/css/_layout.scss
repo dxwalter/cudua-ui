@@ -537,6 +537,10 @@
          color: $light-black;
          margin-bottom: 32px;
      }
+
+     .d-flex .btn:first-child {
+         margin-right: 4px;
+     }
 }
 
 @media($mq-mb) {
@@ -958,14 +962,15 @@
     border-radius: 4px;
     align-self: flex-start;
     height: auto;
+    cursor: pointer;
     * {
         align-self: center;
     }
     svg {
-        margin-right: 8px;
-        fill: black;
-        width: 20px;
-        height: 20px;
+        margin-right: 4px;
+        fill: $black-color-06;
+        width: 15px;
+        height: 15px;
     }
     span {
         color: $light-black
@@ -1697,8 +1702,11 @@
     display: flex;
     padding: 16px 24px;
     justify-content: flex-start;
-    button:first-child {
+    .btn {
         margin-right: 10px;
+    }
+    .btn:last-child {
+        margin-right: 0px;
     }
 }
 

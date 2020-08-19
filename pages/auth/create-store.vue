@@ -465,6 +465,7 @@ export default {
                 logo: result.businessDetails.logo != null ? result.businessDetails.logo : "",
                 coverPhoto: result.businessDetails.coverPhoto != null ? result.businessDetails.coverPhoto : "",
                 description: result.businessDetails.description != null ? result.businessDetails.description : "",
+                reviewScore: result.userDetails.review != null ? result.userDetails.review : 0,
             });
                             
             // set business contact
@@ -505,7 +506,7 @@ export default {
                 email: result.userDetails.email != null ? result.userDetails.email : "",
                 userId: result.userDetails.userId != null ? result.userDetails.userId : "",
                 phone: result.userDetails.phone != null ? result.userDetails.phone : "",
-                reviewScore: result.userDetails.review != null ? result.userDetails.review : "",
+                reviewScore: result.userDetails.review != null ? result.userDetails.review : 0,
                 displayPicture: result.userDetails.displayPicture != null ? result.userDetails.displayPicture: "",
                 userToken: result.accessToken
             });

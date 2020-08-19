@@ -26,7 +26,8 @@ export default {
 		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/utils.client.js', ssr: false},
 		{src: '~/plugins/notification.client.js', ssr: false},
-		{ src: '~/plugins/localStorage.js', ssr: false }
+		{ src: '~/plugins/localStorage.js', ssr: false },
+		{ src: '~/plugins/globalUI.client.js', ssr: false }
 	],
 	modules: [
 		'@nuxtjs/toast',

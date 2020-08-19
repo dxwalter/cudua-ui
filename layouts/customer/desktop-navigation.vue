@@ -105,7 +105,7 @@
 
           <!-- logged out in user -->
           <div class="navigation-dropdown" id="anonymousNavigationDropdown" v-if="!isLoggedIn">
-            <n-link to="/auth/sign-in" class="mobile-side-nav-link btn btn-white btn-svg">Sign In</n-link>
+            <n-link to="/auth/" class="mobile-side-nav-link btn btn-white btn-svg">Sign In</n-link>
             <n-link to="/auth/sign-up" class="mobile-side-nav-link btn btn-white btn-svg">Sign Up</n-link>
           </div>
         </div>

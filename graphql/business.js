@@ -29,3 +29,26 @@ mutation CreateBusinessAccount($name: String!, $username: String!) {
 }
 
 `;
+
+export const GET_BUSINESS_CATEGORIES_WITH_SUBCATEGORIES = gql` 
+    query GetBusinessCategoryListingWithSubcategories ($businessId: String!) {
+        GetBusinessCategoriesWithSubcategory (input: { businessId: $businessId}) {
+            businessCategory{
+                itemId
+                categoryId
+                categoryName
+                hide
+                subcategory {
+                    itemId
+                    subcategoryId
+                    subcategoryName
+                    subcategoryProductCount
+                    hide
+                }
+            }
+            code
+            success
+            message
+        }
+  }
+  `

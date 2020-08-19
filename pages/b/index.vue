@@ -68,16 +68,14 @@ export default {
     },
     data: function() {
         return {
-            pageLoader: false
+            pageLoader: false,
         }
     },
     methods: {
 
     },
     mounted () {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        
     }
 }
 </script>

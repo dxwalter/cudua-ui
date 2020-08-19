@@ -5,6 +5,7 @@ export const state = () => ({
 	logo: "",
 	coverPhoto: "",
 	description: "",
+	reviewScore: "",
 	address: {
         number: "",
         street: "",
@@ -32,6 +33,7 @@ const getDefaultState = () => {
 		logo: "",
 		coverPhoto: "",
 		description: "",
+		reviewScore: "",
 		address: {
 			number: "",
 			street: "",
@@ -62,7 +64,8 @@ export const actions = {
 }
 
 export const getters = {
-	GetBusinessStatus: state => state.businessId
+	GetBusinessStatus: state => state.businessId,
+	GetBusinessDetails: state => state
 }
 
 export const mutations = {
@@ -73,6 +76,7 @@ export const mutations = {
 		if (dataObject.logo != undefined) state.logo = dataObject.logo
 		if (dataObject.coverPhoto != undefined) state.coverPhoto = dataObject.coverPhoto
 		if (dataObject.description != undefined) state.description = dataObject.description
+		if (dataObject.reviewScore != undefined) state.reviewScore = dataObject.reviewScore
 	},
 	setBusinessAddress: (state, dataObject) => {
 		if (dataObject.number != undefined) state.address.number = dataObject.number

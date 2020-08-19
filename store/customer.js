@@ -5,7 +5,7 @@ const state = () => ({
     phone: "",
     userId: "",
     displayPicture: "",
-    reviewScore: "",
+    reviewScore: 0,
     review: [],
     address: {
         number: "",

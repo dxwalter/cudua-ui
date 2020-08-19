@@ -125,22 +125,65 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
 export default {
+	name: "BUSINESSPROFILE",
     components: {
         TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
     },
     data: function() {
         return {
-            pageLoader: true
+            pageLoader: false,
+            logo: "",
+            businessCoverPhoto: "",
+            businessName: "",
+            username: "",
+            businessAddress: "",
+            reviewScore: 0,
+            businessContact: {
+                phone: "",
+                email: "",
+            },
+            categories: "",
         }
     },
     methods: {
-
+        ...mapGetters({
+            'GetBusinessData': 'business/GetBusinessDetails'
+		}),
+		formatBusinessCategories: function (data) {
+			let catArrays = []
+			if (data.length > 0) {
+				for (const [index, x] of data.entries()) {
+					catArrays.push(x.categoryName)
+				}
+				return catArrays
+			}
+		},
+		formatBusinessPhoneList: function (data) {
+			let phone = []
+			for (let x of data) {
+				phone.push(x)
+			}
+			return phone
+		},
+        assignBusinessData: function () {
+            let data = this.GetBusinessData()
+			this.businessName = data.businessName;
+			this.logo = data.logo
+			this.businessCoverPhoto = data.coverPhoto
+			this.username = data.username
+			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)
+			this.businessContact.email = data.contact.email,
+			this.businessContact.phone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
+        }
+    },
+    created() {
+        if (process.browser) this.assignBusinessData()
     },
     mounted () {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        
     }
 }
 </script>

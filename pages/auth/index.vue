@@ -165,6 +165,7 @@ export default {
                     logo: result.businessDetails.logo != null ? result.businessDetails.logo : "",
                     coverPhoto: result.businessDetails.coverPhoto != null ? result.businessDetails.coverPhoto : "",
                     description: result.businessDetails.description != null ? result.businessDetails.description : "",
+                    reviewScore: result.businessDetails.review != null ? result.businessDetails.review : 0,
                 });
 
                 // set business contact
