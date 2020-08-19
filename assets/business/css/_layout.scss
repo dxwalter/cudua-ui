@@ -1009,6 +1009,9 @@
     a {
         flex: 1;
         color: $black-color-06;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
 
         h4 {
             padding: 21px 16px 19px 16px;

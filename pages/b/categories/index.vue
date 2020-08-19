@@ -20,41 +20,45 @@
                             <div class="accordion grey-bg-color border-radius-4" v-for="(item, key) in categoriesList" :key="item.categoryId">
                                 <!-- header -->
                                 <div class="accordion-header">
-                                    <a href="#"> 
-                                        <h4 @click="showSubcategoryPane(`${item.categoryName}${key}`, $event)">{{item.categoryName}}</h4>
+                                    <a href="#" class="d-flex flex-between"> 
+                                        <input type="checkbox" class="dropdownCheckBox" :checked="!key" @click="showSubcategoryPane(`${item.categoryName}${key}`, $event)">
+                                        <h4>{{item.categoryName}}</h4>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
+                                            <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
+                                        </svg>
                                     </a>
-                                    <div class="accordion-btn-container">
-                                        <div class="dropdown-area">
-                                            <button class="btn-ellipsis btn-checkbox">
+                                    <!-- <div class="accordion-btn-container">
+                                        <div class="dropdown-area"> -->
+                                            <!-- <button class="btn-ellipsis btn-checkbox">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
                                                     <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
                                                 </svg>
-                                            </button>
-                                            <input type="checkbox" class="dropdownCheckBox">
-                                            <div class="dropdown-container">
-                                            <!-- hide category -->
-                                            <a href="#" @click="hideCategory(item.itemId)" v-if="item.hide == 0">
-                                                <svg>
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#visibilityOff"></use>
-                                                </svg>
-                                                <span>Hide category</span>
-                                            </a>
-                                            <!-- show category -->
-                                            <a href="#" @click="hideCategory(item.itemId)" v-if="item.hide == 1">
-                                                <svg>
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#visibilityOn"></use>
-                                                </svg>
-                                                <span>Show category</span>
-                                            </a>
-                                            <a href="#" @click="deleteCategory(item.categoryId)">
-                                                <svg>
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#delete"></use>
-                                                </svg>
-                                                <span>Delete category</span>
-                                            </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            </button> -->
+                                            <!-- <input type="checkbox" class="dropdownCheckBox"> -->
+                                            <!-- <div class="dropdown-container"> -->
+                                                <!-- hide category -->
+                                                <!-- <a href="#" @click="hideCategory(item.itemId, $event)" v-if="item.hide == 0">
+                                                    <svg>
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#visibilityOff"></use>
+                                                    </svg>
+                                                    <span>Hide category</span>
+                                                </a> -->
+                                                <!-- show category -->
+                                                <!-- <a href="#" @click="showCategory(item.itemId)" v-if="item.hide == 1">
+                                                    <svg>
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#visibilityOn"></use>
+                                                    </svg>
+                                                    <span>Show category</span>
+                                                </a> -->
+                                                <!-- <a href="#" @click="deleteCategory(item.categoryId)">
+                                                    <svg>
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#delete"></use>
+                                                    </svg>
+                                                    <span>Delete category</span>
+                                                </a> -->
+                                            <!-- </div> -->
+                                        <!-- </div>
+                                    </div> -->
                                 </div>
                                 <!-- end of header -->
                                 <!-- beginning of subcategory list -->
@@ -82,11 +86,28 @@
                                                         <n-link v-bind:to="`/b/product/add-product?sub=${subcategory.subcategoryId}&cat=${item.categoryId}`" v-if="!subcategory.subcategoryProductCount"  class="btn btn-white btn-small">Add item</n-link>
 
                                                         <!-- hide sub category -->
-                                                        <button class="btn btn-light-grey btn-small" v-if="subcategory.hide == 0" @click="hideSubcategory(subcategory.itemId)">Hide</button>
+                                                        <button class="btn btn-light-grey btn-small" 
+															v-bind:class="{'display-none': !subcategory.hide}" 
+															@click="hideSubcategory(subcategory.itemId, subcategory.subcategoryId, item.categoryId, $event)" 
+															v-bind:id="`hide${subcategory.itemId}`"
+														>
+                                                            Hide
+                                                            <div class="loader-action"><span class="loader"></span></div>    
+                                                        </button>
 
-                                                        <!-- shoe subcategory -->
-                                                        <button class="btn btn-light-grey btn-small" v-if="subcategory.hide == 1" @click="showSubcategory(subcategory.itemId)">Show</button>
-                                                        <button class="btn btn-light-grey btn-small" >Remove</button>
+                                                        <!-- show subcategory -->
+                                                        <button class="btn btn-light-grey btn-small" 
+															v-bind:class="{'display-none': subcategory.hide}" 
+															@click="showSubcategory(subcategory.itemId, $event)" 
+															v-bind:id="`show${subcategory.itemId}`"
+														>
+															Show
+														</button>
+
+                                                        <button class="btn btn-light-grey btn-small" >
+                                                            Remove
+                                                            <div class="loader-action"><span class="loader"></span></div>        
+                                                        </button>
                                                         
                                                     </div>
 
@@ -133,6 +154,7 @@ import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
 import { GET_BUSINESS_CATEGORIES_WITH_SUBCATEGORIES } from '~/graphql/business';
+import { HIDE_BUSINESS_SUBCATEGORY } from '~/graphql/business';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -211,7 +233,50 @@ export default {
         hideCategory: function () {
 
         },
-        hideSubcategory: function () {
+        hideSubcategory: async function (itemId, subcategoryId, categoryId, e) {
+            e.preventDefault()
+            let target = document.getElementById('hide'+itemId);
+            target.disabled = true
+
+        
+            let variables = { 
+                subcategoryId: subcategoryId,
+                categoryId: categoryId,
+                businessId: this.businessId
+            }
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+    
+			try {
+
+				let result = await this.$apollo.mutate({
+                    mutation: HIDE_BUSINESS_SUBCATEGORY,
+					variables: variables,
+					context: context
+                });
+
+                result = result.data.HideSelectedBusinessSubcategory;
+
+                if (result.success) {
+                    this.$initiateNotification('success', 'Subcategory hidden', result.message);
+                    target.disabled = false;
+                    target.classList.add('display-none');
+
+					let showButton = document.getElementById('show'+itemId);
+					showButton.classList.remove('display-none')
+										
+                    
+                }
+
+				
+                
+				
+			} catch (error) {
+				this.$initiateNotification('error', 'Failed request', "A network error occurred");
+			}
 
         },
         showSubcategory: function () {

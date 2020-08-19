@@ -111,17 +111,6 @@ export default ({app}, inject) => {
 
 		inject('pushNotification', pushNotification)
 
-		let setHTTPHeaders = () => {
-				
-		}
-		inject('setHTTPHeaders', setHTTPHeaders);
-
-
-		let setAccessToken = (token) => {
-			app.$graphql.setHeader('accessToken', token);
-		}
-
-		inject('setAccessToken', setAccessToken);
 
 		let getAnonymousIDFromStorage = () => localStorage.getItem('CUDUA_ANONYMOUS_ID');
 
@@ -160,4 +149,35 @@ export default ({app}, inject) => {
 		}
 		
 		inject('removeValidationError', removeValidationError);
+		
+		// perform graphql queries
+
+		let performGraphQlMutation = async (queryString, variables, context) => {
+
+			try {
+
+				console.log(this.$apollo)
+				let result = await this.$apollo.mutate({
+                    mutation: queryString,
+					variables: variables,
+					context: context
+                });
+
+				return {
+					error: false,
+					result: result
+				}
+				
+			} catch (error) {
+				return {
+					error: true,
+					message: error.message
+				}
+			}
+
+
+		}
+
+		inject('performGraphQlMutation', performGraphQlMutation);
+
 }

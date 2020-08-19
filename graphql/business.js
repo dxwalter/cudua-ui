@@ -52,3 +52,17 @@ export const GET_BUSINESS_CATEGORIES_WITH_SUBCATEGORIES = gql`
         }
   }
   `
+
+export const HIDE_BUSINESS_SUBCATEGORY = gql`
+    mutation HideBusinessSubcategory ($subcategoryId: String!, $businessId: String!, $categoryId: String!) {
+        HideSelectedBusinessSubcategory(input:{
+            subcategoryId: $subcategoryId,
+            businessId: $businessId,
+            categoryId: $categoryId
+        }) {
+            code
+            success
+            message
+        }
+    }
+`;
