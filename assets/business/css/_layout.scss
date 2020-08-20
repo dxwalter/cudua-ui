@@ -1681,6 +1681,8 @@
     flex-direction: column;
     padding: 24px;
     border-bottom: $border;
+    position: relative;
+    overflow: hidden;
 
     h3 {
         margin: 0;
@@ -1690,6 +1692,19 @@
         overflow: hidden;
         text-overflow: ellipsis;
         width: 100%
+    }
+
+    .visibility-status {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 4px 8px;
+        background-color: $placeholder-bg;
+        color: $light-grey;
+        border-radius: 0px 0px 0px 4px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
     }
 
     .subcat-details {
@@ -3618,4 +3633,8 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
         top: 82px !important;
         right: 27px !important;
     }
+}
+
+.transform-svg {
+    transform: rotate(180deg);
 }

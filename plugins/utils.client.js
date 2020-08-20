@@ -152,12 +152,12 @@ export default ({app}, inject) => {
 		
 		// perform graphql queries
 
-		let performGraphQlMutation = async (queryString, variables, context) => {
+		let performGraphQlMutation = async (apollo, queryString, variables, context) => {
 
 			try {
 
-				console.log(this.$apollo)
-				let result = await this.$apollo.mutate({
+				
+				let result = await apollo.mutate({
                     mutation: queryString,
 					variables: variables,
 					context: context

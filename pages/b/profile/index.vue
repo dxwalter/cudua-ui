@@ -31,15 +31,15 @@
 
 										<div class="profile-content-container">
 											<div class="business-name">
-												<h2>Oremit Power Solution Limited</h2>
-												<div class="profile-username">@appleComputer</div>
+												<h2>{{businessName}}</h2>
+												<div class="profile-username">@{{username}}</div>
 											</div>
 
 											<div class="business-address">
 												<svg xmlns="http://www.w3.org/2000/svg">
 													<use xlink:href="~/assets/business/image/all-svg.svg#mapPlace"></use>
 												</svg>
-												<p>39 Ada-George road, opposite Eagle palace hotel, Port Harcourt, Rivers state.</p>
+												<p>{{getBusinessFormattedAddress}}</p>
 											</div>
 
 											<div class="business-review">
@@ -72,15 +72,20 @@
 												<div id="tabContent">
 													<div class="tab-content-area is-active" id="contactDetails">
 														<div class="business-contact">
-															<div class="contact-details">
-																08104685729
+															<div class="contact-details" v-if="businessPhone.length < 1">
+																Edit your profile to add your business phone number
+																
 															</div>
-															<div class="contact-details">
-																08104685729
+															<div  v-else v-for="(phone, index) in getBusinessPhoneNumbers" :key="index"  class="contact-details">
+																{{phone}}
 															</div>
-															<div class="contact-details">
-																theceoforlife@gmail.com
+															
+															<div class="contact-details" v-if="businessEmail.length < 1">
+																Edit your profile to add your business phone number
 															</div>
+
+															<div class="contact-details" v-else>{{businessEmail}}</div>
+
 
 															<nuxt-link to="/b/profile/edit" class="btn btn-white">Edit profile</nuxt-link>
 														</div>
@@ -141,13 +146,28 @@ export default {
             username: "",
             businessAddress: "",
             reviewScore: 0,
-            businessContact: {
-                phone: "",
-                email: "",
-            },
+			businessPhone: "",
+			businessEmail: "",
             categories: "",
         }
-    },
+	},
+	computed: {
+		getBusinessFormattedAddress () {
+			if (typeof this.businessAddress == "string") {
+				return "Edit your profile to add your business addresss";
+			} else if (typeof this.businessAddress == "object") {
+				return `
+					${this.businessAddress.number}, 
+					${this.businessAddress.street}
+					${this.businessAddress.community},
+					${this.businessAddress.state}.
+				`
+			}
+		},
+		getBusinessPhoneNumbers () {
+			return this.businessPhone
+		}
+	},
     methods: {
         ...mapGetters({
             'GetBusinessData': 'business/GetBusinessDetails'
@@ -168,6 +188,13 @@ export default {
 			}
 			return phone
 		},
+		formatAddress: function(address) {
+			if (address.street == undefined || address.street.length == 0) {
+				return "";
+			}
+
+			return address
+		},
         assignBusinessData: function () {
             let data = this.GetBusinessData()
 			this.businessName = data.businessName;
@@ -175,8 +202,10 @@ export default {
 			this.businessCoverPhoto = data.coverPhoto
 			this.username = data.username
 			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)
-			this.businessContact.email = data.contact.email,
-			this.businessContact.phone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
+			this.businessEmail = data.contact.email,
+			this.businessPhone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
+			this.businessAddress = this.formatAddress(data.address);
+			this.reviewScore = data.reviewScore
         }
     },
     created() {

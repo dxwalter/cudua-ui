@@ -66,3 +66,17 @@ export const HIDE_BUSINESS_SUBCATEGORY = gql`
         }
     }
 `;
+
+export const SHOW_BUSINESS_SUBCATEGORY = gql`
+    mutation ShowBusinessSubcategory ($subcategoryId: String!, $businessId: String!, $categoryId: String!) {
+        ShowSelectedBusinessSubcategory(input:{
+            subcategoryId: $subcategoryId,
+            businessId: $businessId,
+            categoryId: $categoryId
+        }) {
+            code
+            success
+            message
+        }
+    }
+`;
