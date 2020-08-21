@@ -3331,9 +3331,12 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
         padding: 0px 16px 32px 16px;
     }
     .sign-up-content {
-        margin-top: 30px;
-        border: $border;
+        border: 1px solid rgb(0 0 0 / 9%);
         padding: 32px;
+        width: 500px;
+        margin: 0 auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
     .sign-up-logo {
         margin-left: -26px;
@@ -3358,15 +3361,26 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     .sign-up-content {
         display: flex;
         justify-content: space-between;
+        width: 100%;
     }
 
     .sign-up-checkbox {
         display: inline-flex;
     }
 
+    .sign-up-banner {
+        display: flex;
+        width: 319px;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
     .intent-bg-text {
         width: 100%;
-        text-align: center;
+    }
+
+    .sign-up-form-layer {
+        align-self: center;
     }
     
     .sign-up-checkbox {
@@ -3398,9 +3412,6 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
     .sign-up-tips {
         text-align: left;
-    }
-    .sign-up-form-layer {
-        align-self: center;
     }
     .create-account-info {
         font-size: 20px;

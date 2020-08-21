@@ -22,7 +22,13 @@ export const state = () => ({
 			phone: ""
 		}
 	},
-	businessCategories: []
+	businessCategories: [],
+	businessReview: {
+		status: 0,
+		reviews: []
+	},
+	newNotificationCount: 0,
+	newOrderCount: 0,
 });
 
 const getDefaultState = () => {
@@ -50,7 +56,13 @@ const getDefaultState = () => {
 				phone: ""
 			}
 		},
-		businessCategories: []
+		businessCategories: [],
+		businessReview: {
+			status: 0,
+			reviews: []
+		},
+		newNotificationCount: 0,
+		newOrderCount: 0,
 	}
 }
 
@@ -61,6 +73,7 @@ export const actions = {
 	setBusinessContact (context, payload) { context.commit("setBusinessContact", payload) },
 	setBusinessAddress (context, payload) { context.commit("setBusinessAddress", payload) },
 	setBusinessCategories (context, payload) { context.commit("setBusinessCategories", payload) },
+	setNotificationData (context, payload) { context.commit("setNotificationCount", payload )}
 }
 
 export const getters = {
@@ -123,6 +136,10 @@ export const mutations = {
 
 			}
 		}
+	},
+	setNotificationCount: (state, dataObject) => {
+		if (dataObject.newNotificationCount != undefined) state.newNotificationCount = dataObject.newNotificationCount
+		if (dataObject.newOrderCount != undefined) state.newOrderCount = dataObject.newOrderCount
 	},
 	resetBusinessState: (state) => Object.assign(state, getDefaultState())
 }

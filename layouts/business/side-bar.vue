@@ -57,7 +57,7 @@
                     <span>New orders</span>
                 </div>
 
-                <div class="notif-point">10</div>
+                <div class="notif-point" v-show="getNewOrderCount > 0">{{getNewOrderCount}}</div>
             </n-link>
 
             <n-link to="/b/categories" :class="[currentPage.includes('categories') ? activeClass : '', 'nav-link-items']">
@@ -86,6 +86,7 @@
                     </svg>                          
                     <span>Notification</span>
                 </div>
+                <div class="notif-point" v-show="getNotificationCount > 0">{{getNotificationCount}}</div>
             </n-link>
 
 
@@ -131,7 +132,11 @@
 </template>
 
 <script>
+
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
+    name: "SIDEBAR",
     components: {
         
     },
@@ -148,11 +153,20 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            'GetBusinessData': 'business/GetBusinessDetails',
+        }),
         handleResize() {
             this.screenWidth = window.innerWidth;
         },
         currentPage() {
             return this.$nuxt.$route.path;
+        },
+        getNotificationCount () {
+            return this.GetBusinessData.newNotificationCount
+        },
+        getNewOrderCount () {
+            return this.GetBusinessData.newOrderCount
         }
     },
     methods : {

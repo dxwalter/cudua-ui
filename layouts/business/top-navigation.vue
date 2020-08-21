@@ -3,21 +3,27 @@
         
         <div class="d-flex">
             <button class="nav-toggle-btn hamburger hamburger--spring" id="navToggleButton" data-toggle-status="0" v-on:click="toggleNavBar">
-                <div class="notif-point">10</div>
+                <div class="notif-point md-display-none" v-show="getTotalNotificationCount > 0">{{getTotalNotificationCount}}</div>
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
                 </span>
             </button>
-            <n-link to="/b/" class="nav-logo">
+            <!-- <n-link to="/b/" class="nav-logo">
                 <img src="~/assets/business/image/cudua-logo-icon.svg" alt="">
                 <img src="~/assets/business/image/cudua-logo-full.svg" alt="">
+            </n-link> -->
+            <n-link to="/" class="btn btn-white btn-icon nav-home-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24.706" height="21" viewBox="0 0 24.706 21">
+                    <use xlink:href="~/assets/business/image/all-svg.svg#homeIcon"></use>
+                </svg> 
             </n-link>
+            
         </div>
 
         <div class="nav-links d-flex">
             <n-link to="#" class="btn btn-white btn-icon">
                 <input type="checkbox" name="" class="dropdownCheckBox" data-single-tab="singleTab" data-target="navNotification">
-                <div class="notif-point">10</div>
+                <div class="notif-point" v-show="notificationCount">{{notificationCount}}</div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
                     <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
                 </svg> 
@@ -29,83 +35,38 @@
         <div class="nav-notification-container product-card" id="navNotification">
             <div class="notification-dd-header">
                 <h3>Notification</h3>
-                <n-link to="edit-business-profile.html" class="btn btn-small btn-white">
+                <n-link to="/b/profile/edit" class="btn btn-small btn-white">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
                         <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
                     </svg>
                 </n-link>
             </div>
-            <n-link to="#" class="chat-recipient">
-                <div class="chat-recipient-img">
-                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                </div>
-                <div class="last-chat-details">
-                    <div class="chat-time-recipient">
-                        <span>John Mayers</span>
-                        <span>3 min ago</span>
+
+            
+                <div class="chat-recipient" v-for="(notification, index) in getComputedNotifications" :key="index" v-bind:class="{'is-read': notification.isRead == 1}"
+
+                @click="markAsRead(notification.type, notification.actionId, notification.notificationId, notification.isRead, $event)">
+                    <div class="chat-recipient-img">
+                        <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
                     </div>
-                    <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                </div>
-            </n-link>
-            <n-link to="#" class="chat-recipient">
-                <div class="chat-recipient-img">
-                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                </div>
-                <div class="last-chat-details">
-                    <div class="chat-time-recipient">
-                        <span>John Mayers</span>
-                        <span>3 min ago</span>
+                    <div class="last-chat-details">
+                        <div class="chat-time-recipient">
+                            <span>John Mayers</span>
+                            <span>3 min ago</span>
+                        </div>
+                        <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
                     </div>
-                    <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
                 </div>
-            </n-link>
-            <n-link to="#" class="chat-recipient">
-                <div class="chat-recipient-img">
-                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                </div>
-                <div class="last-chat-details">
-                    <div class="chat-time-recipient">
-                        <span>John Mayers</span>
-                        <span>3 min ago</span>
-                    </div>
-                    <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                </div>
-            </n-link>
-            <n-link to="#" class="chat-recipient">
-                <div class="chat-recipient-img">
-                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                </div>
-                <div class="last-chat-details">
-                    <div class="chat-time-recipient">
-                        <span>John Mayers</span>
-                        <span>3 min ago</span>
-                    </div>
-                    <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                </div>
-            </n-link>
-            <n-link to="#" class="chat-recipient">
-                <div class="chat-recipient-img">
-                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                </div>
-                <div class="last-chat-details">
-                    <div class="chat-time-recipient">
-                        <span>John Mayers</span>
-                        <span>3 min ago</span>
-                    </div>
-                    <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                </div>
-            </n-link>
+        
+
             <n-link to="/b/notification" class="chat-recipient text-center display-block">
                 All notifications
             </n-link>
         </div>
 
-        <BUSINESSREVIEW />
-        <nuxt />
-        <USERNAMEMODAL />
-        <nuxt />
-        <NOTIFICATION />
-        <nuxt />
+        <BUSINESSREVIEW></BUSINESSREVIEW>
+        <USERNAMEMODAL></USERNAMEMODAL>
+        <NOTIFICATION></NOTIFICATION>
 
   </div>
 </template>
@@ -115,42 +76,75 @@ import BUSINESSREVIEW from '~/components/business/businessreview/business.review
 import USERNAMEMODAL from '~/components/business/profile/username.vue'; 
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { GET_BUSINESS_NOTIFICATION, MARK_BUSINESS_NOTIFICATION_AS_READ, GET_NEW_NOTIFICATION_COUNT, GET_NEW_ORDER_COUNT } from '~/graphql/business';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
+    name: "TOPNAVIGATION",
     components: {
         BUSINESSREVIEW, USERNAMEMODAL, NOTIFICATION
     },
     data: function () {
         return {
-            businessName: "Daniel business name"
+            businessName: "",
+			accessToken: "",
+			businessId: "",
+			notifications: "",
+			page: 1,
+            allNotification: 0,
+            notificationCount: 0,
+            getCount: 1,
+            isLoggedIn: '',
+            isBusiness: '',
+            newBusinessOrderCount: ''
         }
     },
     head() {
         return {
-            title: this.businessName,
+            title: `${this.businessName} - Shop manager`,
             meta: [
                 { name: 'robot', content: 'noindex'}
             ]
         }
     },
-    created() {
-        if (process.client) {
-            window.addEventListener('resize', this.handleResize);
-        }
-
+    async created () {
         if (process.browser) {
+            window.addEventListener('resize', this.handleResize);
+            this.assignBusinessData()
             this.getStatusData()
-		}
+
+            await this.getNotification();
+            
+            // if lg
+            if (this.isLoggedIn && this.isBusiness) {
+                await setInterval(() => {
+                    if (this.getCount) {
+                        this.newNotifier();
+                        this.getNewOrderCount()
+                        this.getCount = 0;
+                    }
+                }, 300000);
+            }
+
+        }
     },
 
     computed: {
+        getTotalNotificationCount () {
+            // a combination of new order and notification
+            return this.newBusinessOrderCount + this.notificationCount;
+        },
         handleResize() {
             this.screenWidth = window.innerWidth;
         },
+        getComputedNotifications () {
+			return this.notifications.slice(0, 4)
+		},
         ...mapGetters({
             'GetLoginStatus': 'customer/GetLoginStatus',
-            'GetBusinessStatus': 'business/GetBusinessStatus'
+            'GetBusinessStatus': 'business/GetBusinessStatus',
+            'GetBusinessData': 'business/GetBusinessDetails',
+            'GetUserData': 'customer/GetCustomerDetails'
         }),
 		LoginStatus () {
 			return this.GetLoginStatus
@@ -168,13 +162,142 @@ export default {
         },
         getStatusData: function () {
             let status = this.LoginStatus
+            this.isLoggedIn = status;
+
             if (status == false) this.$router.push('/');
+
             let businessStatus = this.BusinessStatus;
+            this.isBusiness = businessStatus;
+
             if (businessStatus.length < 1) this.$router.push('/');
+        },
+        assignBusinessData: function () {
+            let data = this.GetBusinessData
+            this.businessId = data.businessId;
+            this.businessName = data.businessName;
+            let customerData = this.GetUserData;
+            this.accessToken = customerData.userToken
+		},
+		getNotification: async function () {
+			
+			let variables = {
+				businessId: this.businessId,
+				page: this.page
+			}
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+			let query = await this.$performGraphQlQuery(this.$apollo, GET_BUSINESS_NOTIFICATION, variables, context);
+
+			if (query.error == true) {
+				this.$initiateNotification('error', 'Failed request', request.message);
+                return
+			}
+
+			let result = query.result.data.GetBusinessNotification;
+
+			if (result.success == false) {
+				notificationCount = 0;
+                return
+			} 
+
+            this.notifications = result.notification;
+			
+		},
+		getNotificationLink: function (type, id) {
+			return this.$businessNotificationLink(type, id)
+		},
+		getNotificationHeader: function (type) {
+            return this.$businessNotificationTitle(type)
+		},
+		markAsRead: async function (type, actionId, notificationId, status, e) {
+			let url = this.getNotificationLink(type, actionId);
+			if (status == 0) {
+				// notificatio has not been read, perform query to mark as read
+				let variables = { 
+					notificationId: notificationId,
+					type: 'business'
+				}
+				let context = {
+					headers: {
+						'accessToken': this.accessToken
+					}
+				}
+
+                let request = await this.$performGraphQlMutation(this.$apollo, MARK_BUSINESS_NOTIFICATION_AS_READ, variables, context);
+                let currentCount = this.GetBusinessData.newNotificationCount - 1;
+                this.$store.dispatch('business/setNotificationData', {
+                        'newNotificationCount': currentCount
+                })
+			}
+
+			this.$router.push(url)
+		},
+		formatNotificationTimer: function (timeStamp) {
+			console.log(timeStamp)
+			return timeStamp
+        },
+        newNotifier: async function () {
+            let variables = {
+                businessId: this.businessId
+            };
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_NEW_NOTIFICATION_COUNT, variables, context);
+
+            if (request.error == false) {
+                let result = request.result.data.GetBusinessNotificationCount;
+                if (result.success) {
+                    let count = result.count;
+                    this.notificationCount = count
+                    this.$store.dispatch('business/setNotificationData', {
+                        'newNotificationCount': count
+                    })
+                }
+            }
+            this.getCount = 1
+        },
+        getNewOrderCount: async function () {
+
+            let variables = {
+                businessId: this.businessId
+            };
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_NEW_ORDER_COUNT, variables, context);
+
+            if (request.error == false) {
+                let result = request.result.data.GetNewOrderCount;
+                if (result.success) {
+                    let count = result.count;
+                    this.newBusinessOrderCount = count
+                    this.$store.dispatch('business/setNotificationData', {
+                        'newOrderCount': count
+                    })
+                }
+            }
         }
+    
+    },
+    watch: {
     },
     mounted () {
         document.querySelector("body").classList.remove("overflow-hidden");
     }
+
 }
 </script>

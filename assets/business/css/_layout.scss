@@ -29,6 +29,13 @@
     bottom: 0;
 }
 
+.notif-point {
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .bottom-nav-item {
     display: flex;
     flex-direction: column;
@@ -1178,6 +1185,30 @@
     .cover-photo-container {
         width: 100%;
         height: 204px;
+        background-color: rgba(11, 11, 26, 1);
+        position: relative; 
+        .profile-edit-btn {
+            right: 14px;
+            position: absolute;
+            top: 11px;
+            z-index: 1;
+        }
+        .no-cover-photo {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            color: $light-grey;
+            text-align: center;
+            font-size: 14px;
+            right: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
     }
 
     img {
@@ -1189,6 +1220,9 @@
 @media($mq-md) {
     .cover-photo-area .cover-photo-container {
         height: 387px;
+        .no-cover-photo {
+            font-weight: 500;
+        }
     }
 }
 
@@ -1202,6 +1236,17 @@
     z-index: 1;
     margin-left: 16px;
     position: absolute;
+    border: $border;
+
+    .temporal-logo {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 900;
+    }
 }
 
 .btn-rounded {
@@ -1232,6 +1277,10 @@
         width: 136px;
         height: 136px;
         margin-top: -80px;
+
+        .temporal-logo {
+            font-size: 50px;
+        }
     }
 
     .btn-rounded {
@@ -2218,6 +2267,7 @@
     background-color: $white-color;
     border-bottom: $border;
     display: flex;
+    cursor: pointer;
 }
 
 .chat-recipient:hover {
@@ -2279,12 +2329,7 @@
         width: 350px;
         height: calc(100vh - 200px);
         overflow-y: scroll;
-        padding-bottom: 32px;
         background-color: $white-color;
-
-        .chat-recipient:last-child {
-            border-bottom: 0;
-        }
     }
     .chat-listing::-webkit-scrollbar {
         width: 8px;
@@ -2820,12 +2865,15 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
         width: 100%;
         height: auto;
         overflow: unset;
-        background-color: $light-grey;
     }
 
     .chat-listing .is-read {
         background-color: $light-grey;
     }
+}
+
+.chat-recipient.is-read {
+    background-color: $light-grey;
 }
 
 .filter-btn-container {
@@ -3637,4 +3685,24 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 
 .transform-svg {
     transform: rotate(180deg);
+}
+
+.move-center {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-home-icon {
+    padding: 8px 7px !important;
+    margin-left: 10px;
+    svg {
+        width: 32px;
+        // height: 30px;
+    }
+}
+
+@media(min-width: 1024px) {
+   .md-display-none {
+       display: none;
+   } 
 }

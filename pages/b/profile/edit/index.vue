@@ -1,12 +1,12 @@
 <template>
     <div class="business">
         <div class="body-container">
-            <TOPHEADER />
-            <nuxt/>
+            <TOPHEADER></TOPHEADER>
             <div class="content-container">
-                <SIDENAV />
-                <nuxt />
+                <SIDENAV></SIDENAV>
                     <div class="content-area grey-bg-color">
+                        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+
                         <div class="main-content">
                             <div class="page-header">
                                 <h4>Edit business profile</h4>
@@ -35,7 +35,7 @@
                                                 <button class="btn btn-white">Select logo</button>
                                             </div>
                                             
-                                            <div>loader here</div>
+                                            <!-- <div>loader here</div> -->
                                         </div>
 
                                         <div class="edit-logo-container">
@@ -48,26 +48,29 @@
                                                 <button class="btn btn-white">Select cover photo</button>
                                             </div>
                                             <!-- once a logo is selected, an animated loaded is shown to tell the progress of the upload -->
-                                            <div>loader here</div>
+                                            <!-- <div>loader here</div> -->
                                         </div>
 
                                         <div class="form-control">
                                             <!-- <label for="businessType" class="form-label">Business name <span>- optional</span></label> -->
-                                            <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Business name">
+                                            <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Business name" v-model="businessName">
                                         </div>
 
                                         <div class="form-control">
                                             <!-- <label for="businessType" class="form-label">Change your business username <span>- optional</span></label> -->
-                                            <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Change your business username">
+                                            <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Username" v-model="username">
                                         </div>
 
                                         <div class="form-control">
                                             <!-- <label for="businessType" class="form-label">Write about your business <span>- optional</span></label> -->
-                                            <textarea name="" id="" cols="30" rows="7" class="input-form white-bg-color" placeholder="Write about your business"></textarea>
+                                            <textarea name="" id="" cols="30" rows="7" class="input-form white-bg-color" placeholder="Write about your business" v-model="businessDescription"></textarea>
                                         </div>
 
                                         <div class="form-control">
-                                            <button class="btn btn-primary btn-block">Submit update</button>
+                                            <button class="btn btn-primary btn-block" @click="updateBasicData($event)" id="updateBasicProfile">
+                                                Submit update
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
                                         </div>
 
                                     </div>
@@ -85,8 +88,8 @@
 
                                             <div class="more-details-input-container js-accordionBody">
                                                 <div class="form-control">
-                                                    <!-- <label for="businessType" class="form-label">Add at least one or multiple phone numbers seperated by comma</label> -->
-                                                    <textarea name="" id="" cols="30" rows="4" class="input-form white-bg-color" placeholder="Add one or multiple phone numbers seperated by comma"></textarea>
+                                                    <label for="businessType" class="form-label">Add at least one or multiple phone numbers seperated by comma</label>
+                                                    <textarea name="" id="" cols="30" rows="4" class="input-form white-bg-color" placeholder="Number 1, Number2, ..., Number N"></textarea>
                                                 </div>
                                                 <div class="form-control">
                                                     <button class="btn btn-white btn-block">Update phone number</button>
@@ -184,7 +187,7 @@
                                     </div>
 
 
-                                    <!-- contact -->
+                                    <!-- online payments -->
                                     <div class="tab-content-area" id="onlinePayment">
                                         <div class="unavailable-feature">We are currently working on this feature</div>
                                         <div class="mg-bottom-32">We strongly advice you create an account with any of the payment gateways below.</div>
@@ -299,13 +302,11 @@
 
                             </div> <!-- main content ends here -->
                         </div>
-                        <BOTTOMNAV />
-                        <nuxt/>
+                        <BOTTOMNAV></BOTTOMNAV>
                     </div>
             </div>
 
-            <ADDLOCATION />
-            <nuxt/>
+            <ADDLOCATION></ADDLOCATION>
         </div>
     </div>
 </template>
@@ -316,14 +317,167 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDLOCATION from '~/components/location/add.location.vue'
+import PAGELOADER from '~/components/loader/loader.vue'
+
+import { EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS } from '~/graphql/business';
+
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
+    name: "EDITBUSINESSPROFILE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER
     },
-    methods : {
+    data: function() {
+        return {
+            pageLoader: true,
+            businessId: "",
+            logo: "",
+            businessCoverPhoto: "",
+            businessName: "",
+            username: "",
+            businessAddress: "",
+            reviewScore: 0,
+			businessPhone: "",
+			businessEmail: "",
+            categories: "",
+            businessDescription: "",
+            accessToken: ""
+        }
+	},
+	computed: {
+		getBusinessFormattedAddress () {
+			if (typeof this.businessAddress == "string") {
+				return "Edit your profile to add your business addresss";
+			} else if (typeof this.businessAddress == "object") {
+				return `
+					${this.businessAddress.number}, 
+					${this.businessAddress.street}
+					${this.businessAddress.community},
+					${this.businessAddress.state}.
+				`
+			}
+		},
+		getBusinessPhoneNumbers () {
+			return this.businessPhone
+		},
+		getBusinessCategories () {
+			return this.categories
+		},
+		convertBusinessNameToLogo() {
+			let businessName = this.businessName.toUpperCase();
+			let splitName = businessName.split(' ');
+			let newLogo;
+			if (splitName.length > 1) {
+				newLogo = `${splitName[0][0]}${splitName[1][0]}`;
+			} else {
+				newLogo = `${splitName[0][0]}${splitName[0][1]}`;
+			}
+
+			return newLogo
+		}
+	},
+    methods: {
         previewImage: function (e, preview) {
             this.$previewImage(e, preview)
+        },
+        ...mapGetters({
+            'GetBusinessData': 'business/GetBusinessDetails',
+            'GetUserData': 'customer/GetCustomerDetails'
+        }),
+		formatBusinessCategories: function (data) {
+			let catArrays = []
+			if (data.length > 0) {
+				for (const [index, x] of data.entries()) {
+					catArrays.push(x.categoryName)
+				}
+				return catArrays
+			}
+		},
+		formatBusinessPhoneList: function (data) {
+			let phone = []
+			for (let x of data) {
+				phone.push(x)
+			}
+			return phone
+		},
+		formatAddress: function(address) {
+			if (address.street == undefined || address.street.length == 0) {
+				return "";
+			}
+
+			return address
+		},
+        assignBusinessData: function () {
+            let data = this.GetBusinessData()
+            this.businessId = data.businessId;
+			this.businessName = data.businessName;
+			this.logo = data.logo
+			this.businessCoverPhoto = data.coverPhoto
+			this.username = data.username
+			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)
+			this.businessEmail = data.contact.email,
+			this.businessPhone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
+			this.businessAddress = this.formatAddress(data.address);
+            this.reviewScore = data.reviewScore;
+            this.businessDescription = data.description
+
+            let customerData = this.GetUserData();
+            this.accessToken = customerData.userToken
+        },
+        updateBasicData: async function (e) {
+            e.preventDefault();
+
+            let actionButton = document.getElementById('updateBasicProfile');
+            actionButton.disabled = true;
+
+            let variables = { 
+                businessId: this.businessId,
+                businessName: this.businessName,
+                businessUsername: this.username,
+                businessDescription: this.businessDescription
+            }
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BASIC_BUSINESS_DETAILS, variables, context);
+
+            actionButton.disabled = false;
+
+            if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+			}
+                
+            let result = request.result.data.EditBusinessBasicDetails;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+
+            this.$store.commit('business/setBusinessData', {
+                businessName: this.businessName[0].toUpperCase() +  this.businessName.slice(1),
+                username: this.username,
+                description: this.businessDescription
+            });
+
+            this.$initiateNotification('success', 'Profile update', result.message);
+            return;
+            
+            
+
         }
+    },
+    created() {
+        if (process.browser) this.assignBusinessData()
+    },
+    mounted () {
+		this.pageLoader = false
     }
 }
 </script>

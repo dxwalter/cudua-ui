@@ -1,15 +1,12 @@
 <template>
 	<div class="business">
 		<div class="body-container">
-				<TOPHEADER />
-				<nuxt/>
+				<TOPHEADER></TOPHEADER>
 				<div class="content-container">
-						<SIDENAV />
-						<nuxt />
+						<SIDENAV></SIDENAV>
 						<div class="content-area grey-bg-color">
 							<!-- pageLoader -->
-							<PAGELOADER v-if="pageLoader" />
-							<nuxt />
+							<PAGELOADER v-if="pageLoader"></PAGELOADER>
 							<!-- content goes in here -->
 							<div class="main-content">
 
@@ -22,10 +19,21 @@
 									<div class="business-profile-container">
 										<div class="cover-photo-area">
 											<div class="cover-photo-container">
-												<img src="~/assets/business/image/cover-photo.png" alt="">
+												<n-link to="/b/profile/edit" class="close-modal-btn profile-edit-btn">
+													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+														<use xlink:href="/_nuxt/assets/customer/image/all-svg.svg#pencil"></use>
+													</svg>
+												</n-link>
+												<img src="~/assets/business/image/cover-photo.png" alt="" v-if="businessCoverPhoto.length > 0">
+												<div class="no-cover-photo" v-else>
+													No cover photo has been added to your business profile
+												</div>
 											</div>
 											<div class="logo-area">
-												<img src="~/assets/business/image/mainOremitLogo.png" alt="">
+												<div class="temporal-logo" v-if="logo.length < 1">
+													{{convertBusinessNameToLogo}}
+												</div>
+												<img src="~/assets/business/image/mainOremitLogo.png" alt="" v-else>
 											</div>
 										</div>
 
@@ -74,7 +82,6 @@
 														<div class="business-contact">
 															<div class="contact-details" v-if="businessPhone.length < 1">
 																Edit your profile to add your business phone number
-																
 															</div>
 															<div  v-else v-for="(phone, index) in getBusinessPhoneNumbers" :key="index"  class="contact-details">
 																{{phone}}
@@ -94,17 +101,17 @@
 													<!-- FOR CATEGORIES -->
 													<div class="tab-content-area" id="categoryDetails">
 														<div class="business-contact">
-															<div class="contact-details">
-																Shoes
-															</div>
-															<div class="contact-details">
-																Jewelries
-															</div>
-															<div class="contact-details">
-																Trousers
+															
+															<div class="contact-details" v-if="categories.length < 1">
+																No product category has been added to your shop
 															</div>
 
-															<nuxt-link to="/b/categories" class="btn btn-white">Edit categories</nuxt-link>
+															<div class="contact-details"  v-else v-for="(category, index) in getBusinessCategories" :key="index">
+																{{category}}
+															</div>
+
+															<nuxt-link to="/b/categories/add-Categories" class="btn btn-white" v-if="categories.length < 1">Add categories</nuxt-link>
+															<nuxt-link to="/b/categories/" class="btn btn-white"  v-if="categories.length > 0">Edit categories</nuxt-link>
 														</div>
 													</div>
 												</div>
@@ -116,8 +123,7 @@
 									</div>
 								</div>
 							</div>
-							<BOTTOMNAV />
-							<nuxt/>
+							<BOTTOMNAV></BOTTOMNAV>
 						</div>
 				</div>
 		</div>
@@ -139,7 +145,7 @@ export default {
     },
     data: function() {
         return {
-            pageLoader: false,
+            pageLoader: true,
             logo: "",
             businessCoverPhoto: "",
             businessName: "",
@@ -166,6 +172,21 @@ export default {
 		},
 		getBusinessPhoneNumbers () {
 			return this.businessPhone
+		},
+		getBusinessCategories () {
+			return this.categories
+		},
+		convertBusinessNameToLogo() {
+			let businessName = this.businessName.toUpperCase();
+			let splitName = businessName.split(' ');
+			let newLogo;
+			if (splitName.length > 1) {
+				newLogo = `${splitName[0][0]}${splitName[1][0]}`;
+			} else {
+				newLogo = `${splitName[0][0]}${splitName[0][1]}`;
+			}
+
+			return newLogo
 		}
 	},
     methods: {
@@ -212,7 +233,7 @@ export default {
         if (process.browser) this.assignBusinessData()
     },
     mounted () {
-        
+		this.pageLoader = false
     }
 }
 </script>

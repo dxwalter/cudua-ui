@@ -190,14 +190,14 @@ export default {
                     localStorage.removeItem('CUDUA_ANONYMOUS_ID');
                     this.$store.commit('customer/setAnonymousId', '');
 
-                    this.$setAccessToken(result.userData.accessToken)
                     this.$initiateNotification('success', 'Registration successful', result.message);
                     setTimeout(() => {
-                    this.$router.push('/') 
+                        this.$router.push('/') 
                     }, 1000);
                 }
             } catch (error) {
                 this.isDisabled = false;
+                console.log(error)
                 this.$initiateNotification('error', 'Failed request', "A network error occurred");
             }
 

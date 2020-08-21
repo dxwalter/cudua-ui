@@ -80,3 +80,89 @@ export const SHOW_BUSINESS_SUBCATEGORY = gql`
         }
     }
 `;
+
+
+export const EDIT_BASIC_BUSINESS_DETAILS = gql`
+mutation EditBusinessBasicDetails($businessId: String!, $businessName: String, $businessUsername: String, $businessDescription: String) {
+  EditBusinessBasicDetails(input:{
+    businessId: $businessId,
+    businessName: $businessName,
+    businessUsername: $businessUsername,
+    businessDescription: $businessDescription
+  }){
+    code
+    success
+    message
+  }
+}
+`
+
+export const EDIT_BUSINESS_PHONE_NUMBERS = gql`
+mutation EditBusinessPhoneNumber($phoneNumbers: String!, $businessId: String!){
+    EditBusinessPhoneNumber(input: { phoneNumbers: $phoneNumbers, businessId: $businessId }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_BUSINESS_NOTIFICATION = gql `
+query GetBusinessNotification ($businessId: String!, $page: Int!) {
+  GetBusinessNotification(input:{
+    businessId: $businessId,
+    page: $page
+  }) {
+    notification {
+      notificationId
+      isRead
+      owner
+      actionId
+      type
+      message
+      timeStamp
+    }
+    code
+    success
+    message
+  }
+}
+`;
+
+export const MARK_BUSINESS_NOTIFICATION_AS_READ = gql`
+mutation MarkNotification ($notificationId: String!, $type: String!) {
+  MarkNotificationAsRead (input: {
+    notificationId: $notificationId,
+    type: $type
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+export const GET_NEW_NOTIFICATION_COUNT = gql`
+query GetNewNotificationCount ($businessId: String!) {
+  GetBusinessNotificationCount (input: {
+    businessId: $businessId
+  }){
+    count
+    code
+    success
+    message
+  }
+}
+` 
+
+export const GET_NEW_ORDER_COUNT = gql`
+query GetNewOrderCount ($businessId: String!) {
+  GetNewOrderCount (input: {
+    businessId: $businessId
+  }){
+    count
+    code
+    success
+    message
+  }
+}
+` 
