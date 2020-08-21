@@ -89,10 +89,13 @@
                                             <div class="more-details-input-container js-accordionBody">
                                                 <div class="form-control">
                                                     <label for="businessType" class="form-label">Add at least one or multiple phone numbers seperated by comma</label>
-                                                    <textarea name="" id="" cols="30" rows="4" class="input-form white-bg-color" placeholder="Number 1, Number2, ..., Number N"></textarea>
+                                                    <textarea name="" id="" cols="30" rows="4" class="input-form white-bg-color" placeholder="Number 1, Number2, ..., Number N" v-model="businessPhone"></textarea>
                                                 </div>
                                                 <div class="form-control">
-                                                    <button class="btn btn-white btn-block">Update phone number</button>
+                                                    <button class="btn btn-white btn-block" @click="updateBusinessPhoneNumber()" id="updateBusinessPhoneNumber">
+                                                        Update phone number
+                                                        <div class="loader-action"><span class="loader"></span></div>    
+                                                    </button>
                                                 </div>
                                             </div>
 
@@ -395,9 +398,17 @@ export default {
 			}
 		},
 		formatBusinessPhoneList: function (data) {
-			let phone = []
-			for (let x of data) {
-				phone.push(x)
+            let phone = "";
+            let dataLength = data.length
+
+			for (let [index, x] of data.entries()) {
+                console.log(index)
+                
+                if ((index + 1) != dataLength) {
+                    phone = phone + x +', '
+                } else {
+                    phone = phone + x
+                }
 			}
 			return phone
 		},
