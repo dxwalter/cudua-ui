@@ -251,15 +251,15 @@ a.close-modal-btn {
     transition: .4s;
   }
   
-  input:checked + .slider {
+  input[type="checkbox"]:checked + .slider {
     background-color: $brand-color;
   }
   
-  input:focus + .slider {
+  input[type="checkbox"]:focus + .slider {
     box-shadow: $btn-box-shadow;
   }
   
-  input:checked + .slider:before {
+  input[type="checkbox"]:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);

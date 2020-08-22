@@ -133,7 +133,8 @@ export default {
                     phone: result.userDetails.phone != null ? result.userDetails.phone : "",
                     reviewScore: result.userDetails.review != null ? result.userDetails.review : "",
                     displayPicture: result.userDetails.displayPicture != null ? result.userDetails.displayPicture: "",
-                    userToken: result.accessToken
+                    userToken: result.accessToken,
+                    emailNotification: result.userDetails.email_notification
                 });
 
                 // update business data
@@ -165,7 +166,7 @@ export default {
                     logo: result.businessDetails.logo != null ? result.businessDetails.logo : "",
                     coverPhoto: result.businessDetails.coverPhoto != null ? result.businessDetails.coverPhoto : "",
                     description: result.businessDetails.description != null ? result.businessDetails.description : "",
-                    reviewScore: result.businessDetails.review != null ? result.businessDetails.review : 0,
+                    reviewScore: result.businessDetails.review != null ? result.businessDetails.review : 0
                 });
 
                 // set business contact

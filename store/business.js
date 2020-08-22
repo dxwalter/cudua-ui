@@ -101,16 +101,20 @@ export const mutations = {
 	},
 	setBusinessContact: (state, dataObject) => {
 		if (dataObject.email != undefined) state.contact.email = dataObject.email
-		if (dataObject.phone.length > 0) {
-			
-			dataObject.phone.forEach(element => {
-				state.contact.phone.push(element.trim())
-			});
+		if (dataObject.phone != undefined) {
+			if (dataObject.phone.length > 0) {
+				state.contact.phone = []
+				dataObject.phone.forEach(element => {
+					state.contact.phone.push(element.trim())
+				});
+			}
 		}
 		
-		if (dataObject.whatsapp.phone != undefined) {
-			state.contact.whatsapp.phone = dataObject.whatsapp.phone.trim()
-			state.contact.whatsapp.status = dataObject.whatsapp.status
+		if (dataObject.whatsapp != undefined) {
+			if (dataObject.whatsapp.phone != undefined) {
+				state.contact.whatsapp.phone = dataObject.whatsapp.phone.trim()
+				state.contact.whatsapp.status = dataObject.whatsapp.status
+			}
 		}
 	},
 	setBusinessCategories: (state, dataObject) => {

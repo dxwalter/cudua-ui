@@ -27,6 +27,7 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                 userId
                 displayPicture
                 review
+                email_notification
                 address {
                     number
                     street

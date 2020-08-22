@@ -98,8 +98,21 @@ mutation EditBusinessBasicDetails($businessId: String!, $businessName: String, $
 `
 
 export const EDIT_BUSINESS_PHONE_NUMBERS = gql`
-mutation EditBusinessPhoneNumber($phoneNumbers: String!, $businessId: String!){
+mutation EditBusinessPhoneNumber($phoneNumbers: [String]!, $businessId: String!){
     EditBusinessPhoneNumber(input: { phoneNumbers: $phoneNumbers, businessId: $businessId }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const EDIT_BUSINESS_EMAIL = gql`
+mutation EditBusinessEmail ($email: String!, $businessId: String!){
+  EditBusinessEmailAddress(input:{
+    email: $email,
+    businessId: $businessId,
+  }) {
     code
     success
     message
@@ -166,3 +179,4 @@ query GetNewOrderCount ($businessId: String!) {
   }
 }
 ` 
+

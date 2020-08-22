@@ -17,7 +17,8 @@ const state = () => ({
         busStop: "",
     },
     anonymousId: "",
-    isLoggedIn: false
+    isLoggedIn: false,
+    emailNotification: 1
 
 });
 
@@ -41,7 +42,8 @@ const getDefaultState = () => {
             busStop: "",
         },
         anonymousId: "",
-        isLoggedIn: false
+        isLoggedIn: false,
+        emailNotification: 1,
 	}
 }
 
@@ -71,6 +73,7 @@ const mutations = {
         if (dataObject.phone != undefined) state.phone = dataObject.phone
         if (dataObject.displayPicture != undefined) state.displayPicture = dataObject.displayPicture
         if (dataObject.reviewScore != undefined) state.reviewScore = dataObject.reviewScore
+        if (dataObject.emailNotification != undefined) state.emailNotification = dataObject.emailNotification
 
         if (dataObject.address != undefined) {
             state.address.busStop = dataObject.address.busStop

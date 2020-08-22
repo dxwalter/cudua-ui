@@ -194,7 +194,7 @@ export default {
 			let query = await this.$performGraphQlQuery(this.$apollo, GET_BUSINESS_NOTIFICATION, variables, context);
 
 			if (query.error == true) {
-				this.$initiateNotification('error', 'Failed request', request.message);
+				this.$initiateNotification('error', 'Failed request', query.message);
                 return
 			}
 

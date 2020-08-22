@@ -92,7 +92,7 @@
                                                     <textarea name="" id="" cols="30" rows="4" class="input-form white-bg-color" placeholder="Number 1, Number2, ..., Number N" v-model="businessPhone"></textarea>
                                                 </div>
                                                 <div class="form-control">
-                                                    <button class="btn btn-white btn-block" @click="updateBusinessPhoneNumber()" id="updateBusinessPhoneNumber">
+                                                    <button class="btn btn-white btn-block" @click="updateBusinessPhoneNumber($event)" id="updateBusinessPhoneNumber">
                                                         Update phone number
                                                         <div class="loader-action"><span class="loader"></span></div>    
                                                     </button>
@@ -113,18 +113,21 @@
                                                 <div class="form-control">
                                                     <!-- <label for="businessType" class="form-label">Type in your business email address</label> -->
                                                     
-                                                    <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Type in your business email address">
+                                                    <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Type in your business email address" v-model="businessEmail">
 
-                                                    <div class="email-noti-switcher">
+                                                    <!-- <div class="email-noti-switcher">
                                                         <span class="form-label">Email notification</span>
                                                         <label class="switch">
-                                                            <input type="checkbox">
+                                                            <input type="checkbox" v-model="emailNotification">
                                                             <span class="slider round"></span>
                                                         </label>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="form-control">
-                                                    <button class="btn btn-white btn-block">Update email address</button>
+                                                    <button class="btn btn-white btn-block" @click="updateBusinessEmail($event)" id="updateBusinessEmail">
+                                                        Update email address
+                                                        <div class="loader-action"><span class="loader"></span></div>    
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -322,7 +325,7 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDLOCATION from '~/components/location/add.location.vue'
 import PAGELOADER from '~/components/loader/loader.vue'
 
-import { EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS } from '~/graphql/business';
+import { EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS, EDIT_BUSINESS_EMAIL } from '~/graphql/business';
 
 import { mapActions, mapGetters } from 'vuex';
 
@@ -345,7 +348,8 @@ export default {
 			businessEmail: "",
             categories: "",
             businessDescription: "",
-            accessToken: ""
+            accessToken: "",
+            emailNotification: 0
         }
 	},
 	computed: {
@@ -402,8 +406,6 @@ export default {
             let dataLength = data.length
 
 			for (let [index, x] of data.entries()) {
-                console.log(index)
-                
                 if ((index + 1) != dataLength) {
                     phone = phone + x +', '
                 } else {
@@ -435,6 +437,7 @@ export default {
 
             let customerData = this.GetUserData();
             this.accessToken = customerData.userToken
+            this.emailNotification = customerData.emailNotification
         },
         updateBasicData: async function (e) {
             e.preventDefault();
@@ -471,7 +474,7 @@ export default {
             }
 
 
-            this.$store.commit('business/setBusinessData', {
+            this.$store.dispatch('business/setBusinessData', {
                 businessName: this.businessName[0].toUpperCase() +  this.businessName.slice(1),
                 username: this.username,
                 description: this.businessDescription
@@ -479,9 +482,97 @@ export default {
 
             this.$initiateNotification('success', 'Profile update', result.message);
             return;
-            
-            
 
+        },
+        updateBusinessPhoneNumber: async function (e) {
+            
+            e.preventDefault();
+
+            if (this.businessPhone.length < 4) {
+                this.$initiateNotification('error', 'Input error', "Enter a valid phone number");
+                return
+            }
+
+            let target = document.getElementById('updateBusinessPhoneNumber');
+            target.disabled = true
+
+            let phone = this.businessPhone.split(',');
+
+            let variables = { 
+                businessId: this.businessId,
+                phoneNumbers: phone
+            }
+
+            console.log(variables)
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_PHONE_NUMBERS, variables, context);
+
+            target.disabled = false;
+
+            if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+			}
+                
+            let result = request.result.data.EditBusinessPhoneNumber;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+            this.$store.dispatch('business/setBusinessContact', {
+                phone: phone
+            })
+            this.$initiateNotification('success', 'Profile update', result.message);
+
+        },
+        updateBusinessEmail: async function (e) {
+            
+            e.preventDefault();
+
+            let actionButton = document.getElementById('updateBusinessEmail');
+            actionButton.disabled = true;
+
+            let variables = { 
+                businessId: this.businessId,
+                email: this.businessEmail
+            }
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_EMAIL, variables, context);
+
+            actionButton.disabled = false;
+
+            if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+			}
+                
+            let result = request.result.data.EditBusinessEmailAddress;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+
+            this.$store.dispatch('business/setBusinessContact', {
+                email: this.businessEmail
+            });
+
+            this.$initiateNotification('success', 'Profile update', result.message);
+            return;
         }
     },
     created() {
