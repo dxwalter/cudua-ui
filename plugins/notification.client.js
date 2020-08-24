@@ -37,14 +37,14 @@ export default ({app}, inject) => {
 
     
 
-    let showToast = (message, type) => {
+    let showToast = (message, type, time = 1500) => {
         let options = {
             position: 'bottom-center',
             duration: 10000,
             keepOnHover: true,
             type: type
         }
-        app.$toast.show(message, options).goAway(1500)
+        app.$toast.show(message, options).goAway(time)
     }
 
     inject("showToast", showToast);

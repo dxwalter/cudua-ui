@@ -1,4 +1,5 @@
 
+
 export default ({app}, inject) => {
 
 		let copyToClipBoard = (target) => {
@@ -156,7 +157,6 @@ export default ({app}, inject) => {
 
 			try {
 
-				
 				let result = await apollo.mutate({
                     mutation: queryString,
 					variables: variables,
@@ -211,4 +211,13 @@ export default ({app}, inject) => {
 
 		inject('performGraphQlQuery', performGraphQlQuery);
 
+		let checkFileExtension = (name) => {
+			if ( /\.(jpe?g|png|gif)$/i.test(name) === false ) { 
+				return false
+			} 
+
+			return true;
+		}
+
+		inject('checkFileExtension', checkFileExtension)
 }

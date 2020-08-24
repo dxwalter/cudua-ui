@@ -29,6 +29,7 @@ export const state = () => ({
 	},
 	newNotificationCount: 0,
 	newOrderCount: 0,
+	bookmarks: []
 });
 
 const getDefaultState = () => {
@@ -63,6 +64,7 @@ const getDefaultState = () => {
 		},
 		newNotificationCount: 0,
 		newOrderCount: 0,
+		bookmarks: []
 	}
 }
 

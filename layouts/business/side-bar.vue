@@ -54,7 +54,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg">
                         <use xlink:href="~/assets/business/image/all-svg.svg#order"></use>
                     </svg>
-                    <span>New orders</span>
+                    <span>Orders</span>
                 </div>
 
                 <div class="notif-point" v-show="getNewOrderCount > 0">{{getNewOrderCount}}</div>
@@ -197,16 +197,16 @@ export default {
             })
         }
 
-        // close modal with esc key
-        window.onkeyup = (e) => {
-            e.preventDefault();
-            if (e.keyCode == 27) {
-                if (document.querySelector('.overflow-hidden') !== null) {
-                    // .. it exists so remove modal
-                    this.$closeModal(this.openedModalTarget);
-                }
-            }
-        }
+        // // close modal with esc key
+        // window.onkeyup = (e) => {
+        //     e.preventDefault();
+        //     if (e.keyCode == 27) {
+        //         if (document.querySelector('.overflow-hidden') !== null) {
+        //             // .. it exists so remove modal
+        //             this.$closeModal(this.openedModalTarget);
+        //         }
+        //     }
+        // }
 
         // close modal by clicking outside the modal window
         window.addEventListener("click", (e) => {

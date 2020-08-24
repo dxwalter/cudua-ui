@@ -51,10 +51,10 @@
                     </div>
                     <div class="last-chat-details">
                         <div class="chat-time-recipient">
-                            <span>John Mayers</span>
-                            <span>3 min ago</span>
+                            <span>{{getNotificationHeader(notification.type)}}</span>
+                            <span>{{formatNotificationTimer(notification.timeStamp)}}</span>
                         </div>
-                        <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
+                        <div class="last-chat-preview">{{notification.message}}</div>
                     </div>
                 </div>
         

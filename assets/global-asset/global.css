@@ -500,3 +500,76 @@ button:disabled .loader-action {
     display: none;
     line-height: 21px;
 }
+
+.modal-content {
+  position: relative;
+}
+
+.is-loading-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .7);
+    left: 0;
+    top: 0;
+    z-index: 1
+}
+
+.is-loading-container > .is-loading-inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+}
+
+.is-loading-container > .is-loading-inner-container > .loader-action {
+  display: flex !important;
+}
+
+.recent-search-list-container {
+    width: 100%;
+    height: auto;
+    background-color: rgb(255 255 255);
+    position: absolute;
+    z-index: 3001;
+    border-radius: 0px 0px 4px 4px;
+    overflow: hidden;
+}
+
+.recent-search-list-container a,
+.recent-search-list-container div{
+    display: block;
+    border-bottom: 1px solid rgb(0 0 0 / 9%);
+    font-size: 14px;
+    color: rgb(64 64 64);
+    cursor: pointer;
+}
+
+.recent-search-list-container a .action-content, 
+.recent-search-list-container div .action-content {
+  padding: 14px 12px;
+}
+
+.recent-search-list-container > a > span,
+.recent-search-list-container > div > span {
+    font-size: 12px !important;
+    margin-left: 4px !important;
+    color: rgb(0 0 0 / 60%) !important;
+}
+
+.recent-search-list-container a:hover,
+.recent-search-list-container div:hover {
+    background-color: rgb(244 244 244);
+}
+
+.recent-search-list-container a:last-child,
+.recent-search-list-container div:last-child {
+  border-bottom: 0;
+}
+
+.vue-notification-group {
+  z-index: 11000;
+}

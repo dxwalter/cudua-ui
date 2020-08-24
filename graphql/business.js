@@ -120,6 +120,63 @@ mutation EditBusinessEmail ($email: String!, $businessId: String!){
 }
 `
 
+export const EDIT_BUSINESS_WHATSAPP_CONTACT = gql`
+mutation EditBusinessWhatsapp($phoneNumber: String!, $businessId: String!, $notification: Int!) {
+  EditWhatsappContact(input:{
+    phoneNumber: $phoneNumber,
+    businessId: $businessId,
+    notification: $notification,
+  }) {
+    code
+    success
+    message
+  }
+}
+`;
+
+export const EDIT_BUSINESS_LOGO = gql`
+mutation EditBusinessLogo ($file: Upload!, $businessId: String!) {
+  EditBusinesslogo(input: {
+    file: $file,
+    businessId: $businessId
+  }) {
+    imagePath
+    code
+    success
+    message
+  }
+}
+`
+
+export const EDIT_BUSINESS_COVERPHOTO = gql`
+mutation EditBusinessCoverPhoto ($file: Upload!, $businessId: String!) {
+  EditBusinessCoverPhoto(input: {
+    file: $file,
+    businessId: $businessId
+  }) {
+    imagePath
+    code
+    success
+    message
+  }
+}
+`
+
+export const EDIT_BUSINESS_ADDRESS = gql`
+mutation EditBusinessAddress($streetNumber: String!, $streetId: String!, $closestBusStop: String!, $businessId: String!){
+    EditBusinessAddress(input:{
+      streetNumber: $streetNumber,
+      streetId: $streetId,	
+      closestBusStop: $closestBusStop,
+      businessId: $businessId
+    }) {
+      code
+      success
+      message
+    }
+}
+`
+
 export const GET_BUSINESS_NOTIFICATION = gql `
 query GetBusinessNotification ($businessId: String!, $page: Int!) {
   GetBusinessNotification(input:{
@@ -179,4 +236,3 @@ query GetNewOrderCount ($businessId: String!) {
   }
 }
 ` 
-

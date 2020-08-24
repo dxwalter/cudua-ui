@@ -31,8 +31,8 @@
                                                 <div id="previewBusinessLogo" class="edit-logo-preview"></div>
                                             </div>
                                             <div class="upload-action">
-                                                <input type="file" id="selectimage" @change="previewImage($event, 'previewBusinessLogo')">
-                                                <button class="btn btn-white">Select logo</button>
+                                                <input type="file" id="selectimage" @change="uploadLogoImage($event, 'previewBusinessLogo')">
+                                                <button class="btn btn-white btn-small">Select logo</button>
                                             </div>
                                             
                                             <!-- <div>loader here</div> -->
@@ -44,8 +44,8 @@
                                                 <div id="previewBusinessCover" class="edit-logo-preview"></div>
                                             </div>
                                             <div class="upload-action">
-                                                <input type="file" id="selectimage" @change="previewImage($event, 'previewBusinessCover')">
-                                                <button class="btn btn-white">Select cover photo</button>
+                                                <input type="file" id="selectLogoImage" @change="uploadCoverPhoto($event, 'previewBusinessCover')">
+                                                <button class="btn btn-white btn-small">Select cover photo</button>
                                             </div>
                                             <!-- once a logo is selected, an animated loaded is shown to tell the progress of the upload -->
                                             <!-- <div>loader here</div> -->
@@ -141,22 +141,34 @@
                                             </div>
 
                                             <div class="more-details-input-container js-accordionBody">
+                                                
                                                 <div class="form-control">
-                                                    <!-- <label for="businessType" class="form-label">Street number</label> -->
-                                                    <input type="number" name="" id="businessType" class="input-form white-bg-color" placeholder="Street number">
+                                                    <label for="businessType" class="form-label">Street number</label>
+                                                    <input type="text" name="" id="streetNumber" class="input-form white-bg-color"  v-model="streetNumber" @keydown="validateStreetNumber">
                                                 </div>
-                                                <div class="form-control">
+
+                                                <div class="form-control position-relative">
                                                     <!-- <label for="businessType" class="form-label">Name of street</label> -->
-                                                    <input type="number" name="" id="businessType" class="input-form white-bg-color" placeholder="Name of street">
-                                                    <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">Add your business location</a>
+                                                    <input type="text" name="" id="businessStreet" class="input-form white-bg-color" placeholder="Name of street" v-model="streetName" @keyup="findStreet">
+                                                    <div class="recent-search-list-container" id="streetSearchSuggestion"  v-show="streetName">
+                                                        <div v-for="(suggestion, index) in streetSuggestion" :key="index">
+                                                            <div @click="setStreetID(suggestion.streetId, suggestion.streetName, 'streetSearchSuggestion')" class="action-content">
+                                                                {{suggestion.streetName}} <span>- {{suggestion.community.name}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my street? <span class="action-span">Add it</span></a>
                                                 </div>
 
                                                 <div class="form-control">
-                                                    <input type="type" name="" id="businessType" class="input-form white-bg-color" placeholder="Name of closest bus stop">
+                                                    <input type="type" name="" id="busStop" class="input-form white-bg-color" placeholder="Name of closest bus stop" v-model="busStop">
                                                 </div>
 
                                                 <div class="form-control">
-                                                <button class="btn btn-white btn-block">Update business address</button>
+                                                    <button class="btn btn-white btn-block" id="updateBusinessAddress" @click="updateBusinessAddress">
+                                                        Update business address
+                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,7 +186,7 @@
                                                     <div class="email-noti-switcher">
                                                         <span class="form-label">Activate whatsapp chat</span>
                                                         <label class="switch">
-                                                            <input type="checkbox">
+                                                            <input type="checkbox" v-model="whatsappStatus">
                                                             <span class="slider round"></span>
                                                         </label>
                                                     </div>
@@ -182,10 +194,13 @@
 
                                                 <div class="form-control">
                                                     <!-- <label for="businessType" class="form-label">Update whatsapp number</label> -->
-                                                    <input type="number" name="" id="businessType" class="input-form white-bg-color" placeholder="Type your whatsapp number">
+                                                    <input type="number" name="" id="businessType" class="input-form white-bg-color" placeholder="Type your whatsapp number" v-model="whatsappNumber">
                                                 </div>
                                                 <div class="form-control">
-                                                <button class="btn btn-white btn-block">Update business address</button>
+                                                <button class="btn btn-white btn-block" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
+                                                    Update business address
+                                                    <div class="loader-action"><span class="loader"></span></div>    
+                                                </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -325,9 +340,16 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDLOCATION from '~/components/location/add.location.vue'
 import PAGELOADER from '~/components/loader/loader.vue'
 
-import { EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS, EDIT_BUSINESS_EMAIL } from '~/graphql/business';
+import { 
+    EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS, EDIT_BUSINESS_ADDRESS,
+    EDIT_BUSINESS_EMAIL, EDIT_BUSINESS_LOGO, EDIT_BUSINESS_COVERPHOTO, EDIT_BUSINESS_WHATSAPP_CONTACT,
+} from '~/graphql/business';
+
+import { SEARCH_FOR_STREET } from '~/graphql/location'
 
 import { mapActions, mapGetters } from 'vuex';
+
+import { createUploadLink } from 'apollo-upload-client'
 
 export default {
     name: "EDITBUSINESSPROFILE",
@@ -349,7 +371,17 @@ export default {
             categories: "",
             businessDescription: "",
             accessToken: "",
-            emailNotification: 0
+            emailNotification: 0,
+
+            whatsappNumber: "",
+            whatsappStatus: 0,
+
+            // street data
+            streetNumber: 1,
+            streetName: "",
+            streetId: "",
+            busStop: "",
+            streetSuggestion: "",
         }
 	},
 	computed: {
@@ -385,8 +417,96 @@ export default {
 		}
 	},
     methods: {
-        previewImage: function (e, preview) {
-            this.$previewImage(e, preview)
+        uploadLogoImage: async function(e, preivewData) {
+            let file = e.target.files[0];
+            let uploadFile = e.target.files[0];
+
+            if (uploadFile == undefined) return
+
+            let fileValidation = this.$checkFileExtension(uploadFile.name);
+
+            if (fileValidation == false) {
+                this.$initiateNotification('info', "", "Choose a valid image for your logo")
+                return
+            } 
+            this.$previewImage(e, preivewData);
+
+            let variables = { 
+                businessId: this.businessId,
+                file: uploadFile
+            }
+            let context = {
+                hasUpload: true,
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_LOGO, variables, context);
+
+            if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', 'A network error occurred');
+                return
+			}
+
+            let result = request.result.data.EditBusinesslogo
+
+            if (!result.success) {
+                this.$initiateNotification('error', "Failed upload", result.message)
+                return
+            }
+
+            this.$initiateNotification('success', "Profile updated", result.message);
+            // update store
+
+            this.$store.dispatch('business/setBusinessData', {
+                logo: result.imagePath
+            });
+                
+        },
+        uploadCoverPhoto: async function(e, preivewData) {
+            let file = e.target.files[0];
+            let uploadFile = e.target.files[0];
+
+            if (uploadFile == undefined) return
+
+            let fileValidation = this.$checkFileExtension(uploadFile.name);
+
+            if (fileValidation == false) {
+                this.$initiateNotification('info', "", "Choose a valid image for your cover photo")
+                return
+            } 
+            this.$previewImage(e, preivewData);
+
+            let variables = { 
+                businessId: this.businessId,
+                file: uploadFile
+            }
+            let context = {
+                hasUpload: true,
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_COVERPHOTO, variables, context);
+
+            if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', 'A network error occurred');
+                return
+			}
+
+            let result = request.result.data.EditBusinessCoverPhoto
+
+            if (!result.success) {
+                this.$initiateNotification('error', "Failed upload", result.message)
+                return
+            }
+
+            
+            this.$initiateNotification('error', "Profile updated", result.message)
+
+                
         },
         ...mapGetters({
             'GetBusinessData': 'business/GetBusinessDetails',
@@ -434,6 +554,9 @@ export default {
 			this.businessAddress = this.formatAddress(data.address);
             this.reviewScore = data.reviewScore;
             this.businessDescription = data.description
+
+            this.whatsappNumber = data.contact.whatsapp.phone;
+            this.whatsappStatus = data.contact.whatsapp.status;
 
             let customerData = this.GetUserData();
             this.accessToken = customerData.userToken
@@ -503,8 +626,6 @@ export default {
                 phoneNumbers: phone
             }
 
-            console.log(variables)
-
             let context = {
                 headers: {
                     'accessToken': this.accessToken
@@ -529,6 +650,56 @@ export default {
 
             this.$store.dispatch('business/setBusinessContact', {
                 phone: phone
+            })
+            this.$initiateNotification('success', 'Profile update', result.message);
+
+        },
+        updateBusinessWhatsappContact: async function (e) {
+            
+            e.preventDefault();
+
+            if (this.businessPhone.length < 4) {
+                this.$initiateNotification('error', 'Input error', "Enter a valid phone number");
+                return
+            }
+
+            let target = document.getElementById('updateBusinessWhatsapp');
+            target.disabled = true
+
+
+            let variables = { 
+                businessId: this.businessId,
+                phoneNumber: this.whatsappNumber,
+                notification: this.whatsappStatus == true ? 1 : 0
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_WHATSAPP_CONTACT, variables, context);
+
+            target.disabled = false;
+
+            if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+            }
+                
+            let result = request.result.data.EditWhatsappContact;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+            this.$store.dispatch('business/setBusinessContact', {
+                whatsapp: {
+                    phone: this.whatsappNumber,
+                    status: this.whatsappStatus
+                }
             })
             this.$initiateNotification('success', 'Profile update', result.message);
 
@@ -573,6 +744,151 @@ export default {
 
             this.$initiateNotification('success', 'Profile update', result.message);
             return;
+        },
+        findStreet: async function () {
+            if (this.streetName.length < 2) return
+
+            console
+            document.getElementById('streetSearchSuggestion').style.display = "block"
+            
+            let variables = {
+                keyword: this.streetName
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, SEARCH_FOR_STREET, variables, {});
+
+        
+
+            if (request.error) {
+                this.$showToast("Network error", 'error')
+                return
+            }
+
+            let result = request.result.data.GetStreet;
+
+            if (result.success) {
+                if (result.streetData != null) {
+                    this.streetSuggestion = result.streetData
+                } else {
+                    this.streetSuggestion = ''
+                    document.getElementById('streetSearchSuggestion').style.display = "none"
+                }
+            }
+
+        },
+        setStreetID: function (streetId, streetName, suggestionBoxId) {
+            document.getElementById(suggestionBoxId).style.display = 'none'
+            this.streetId = streetId
+            this.streetName = streetName
+        },
+        validateStreetNumber: function () {
+            if (this.streetNumber == 0) {
+                this.streetNumber = 0
+                this.streetNumber = 1
+            }
+        },
+        updateBusinessAddress: async function () {
+            let error = 0;
+
+            if (this.streetNumber.toString().length < 1) {
+                this.$addRedBorder('streetNumber')
+                error = 1
+            } else {
+                this.$removeRedBorder('streetNumber')
+            }
+
+            let community;
+            let state;
+
+
+            if (this.streetName.length > 0) {
+                let check = 0;
+                for (let x of this.streetSuggestion) {
+                    if (x.streetName.toLowerCase() == this.streetName.toLowerCase()) {
+                        this.streetId = x.streetId
+                        community = x.community.name
+                        state = x.state.name
+
+                        check = 1
+
+                        break
+                    }
+                }
+                if (check == 0) {
+                    this.$addRedBorder('businessStreet')
+                    this.$showToast("The street you chose does not exist on this app. kindly add it", "info", 5000);
+                    error = 1
+                } else {
+                    this.$removeRedBorder('businessStreet')
+                }
+            } else {
+                this.$addRedBorder('businessStreet')
+                error = 1
+            }
+
+            // when street id is set and street name is not
+            if (this.streetId.length < 1) {
+                this.streetId = ""
+                error = 1
+                this.$addRedBorder('businessStreet')
+            }
+
+            if (this.busStop.length < 1) {
+                this.$addRedBorder('busStop')
+                error = 1
+            } else {
+                this.$removeRedBorder('busStop')
+            }
+
+            if (error == 1) {
+                this.$showToast('Fill the forms above', 'error', 3000)
+                return
+            }
+
+     
+
+            let target = document.getElementById('updateBusinessAddress');
+            target.disabled = true
+
+            let variables = {
+                streetNumber: this.streetNumber.toString(),
+                streetId: this.streetId,	
+                closestBusStop: this.busStop,
+                businessId: this.businessId
+            };
+
+            let context = {
+                headers: {
+                    accessToken: this.accessToken
+                }
+            }
+
+            target.disabled = false
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_ADDRESS, variables, context);
+
+            if (request.error) {
+                this.$initiateNotification('error', "Network Error", request.message)
+                return
+            }
+
+            let result = request.result.data.EditBusinessAddress;
+
+            if (result.success) {
+                this.$initiateNotification('success', "Profile updated", result.message)
+
+                this.$store.dispatch('business/setBusinessAddress', {
+                    number: this.streetNumber.toString(),
+                    busStop:this.busStop,
+                    street: this.streetName,
+                    community: community,
+                    state: state,
+                });
+
+            } else {
+                this.$initiateNotification('error', "Update error", result.message)
+            }
+
         }
     },
     created() {
@@ -587,5 +903,10 @@ export default {
 <style scoped>
   .font-14 {
     font-size: 14px;
+  }
+  .action-span {
+      color: rgb(238 100 37);
+      margin-left: 10px;
+      font-weight: 500;
   }
 </style>
