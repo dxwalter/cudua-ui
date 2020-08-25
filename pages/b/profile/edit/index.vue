@@ -540,7 +540,14 @@ export default {
 			}
 
 			return address
-		},
+        },
+        assignBusinessAddress: function () {
+            if (this.businessAddress.street != undefined || this.businessAddress.street.length > 0) {
+                this.streetName = this.businessAddress.street
+                this.streetNumber = this.businessAddress.number
+                this.busStop = this.businessAddress.busStop
+            }
+        },
         assignBusinessData: function () {
             let data = this.GetBusinessData()
             this.businessId = data.businessId;
@@ -557,6 +564,9 @@ export default {
 
             this.whatsappNumber = data.contact.whatsapp.phone;
             this.whatsappStatus = data.contact.whatsapp.status;
+
+
+            this.assignBusinessAddress()
 
             let customerData = this.GetUserData();
             this.accessToken = customerData.userToken
@@ -748,7 +758,6 @@ export default {
         findStreet: async function () {
             if (this.streetName.length < 2) return
 
-            console
             document.getElementById('streetSearchSuggestion').style.display = "block"
             
             let variables = {
@@ -891,7 +900,7 @@ export default {
 
         }
     },
-    created() {
+    created: function () {
         if (process.browser) this.assignBusinessData()
     },
     mounted () {

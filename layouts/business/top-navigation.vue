@@ -114,21 +114,10 @@ export default {
             this.getStatusData()
 
             await this.getNotification();
-            
-            // if lg
-            if (this.isLoggedIn && this.isBusiness) {
-                await setInterval(() => {
-                    if (this.getCount) {
-                        this.newNotifier();
-                        this.getNewOrderCount()
-                        this.getCount = 0;
-                    }
-                }, 300000);
-            }
-
+            this.newNotifier();
+            this.getNewOrderCount()
         }
     },
-
     computed: {
         getTotalNotificationCount () {
             // a combination of new order and notification
@@ -204,7 +193,7 @@ export default {
 				notificationCount = 0;
                 return
 			} 
-
+            
             this.notifications = result.notification;
 			
 		},
@@ -229,7 +218,8 @@ export default {
 				}
 
                 let request = await this.$performGraphQlMutation(this.$apollo, MARK_BUSINESS_NOTIFICATION_AS_READ, variables, context);
-                let currentCount = this.GetBusinessData.newNotificationCount - 1;
+                let currentCount = this.GetBusinessData.newNotificationCount < 1 ? 0: this.GetBusinessData.newNotificationCount - 1;
+
                 this.$store.dispatch('business/setNotificationData', {
                         'newNotificationCount': currentCount
                 })
@@ -238,8 +228,7 @@ export default {
 			this.$router.push(url)
 		},
 		formatNotificationTimer: function (timeStamp) {
-			console.log(timeStamp)
-			return timeStamp
+            return this.$timeStampModifier(timeStamp)
         },
         newNotifier: async function () {
             let variables = {
@@ -297,6 +286,17 @@ export default {
     },
     mounted () {
         document.querySelector("body").classList.remove("overflow-hidden");
+
+        // if lg
+        if (this.isLoggedIn && this.isBusiness) {
+            setInterval(() => {
+                if (this.getCount) {
+                    this.newNotifier();
+                    this.getNewOrderCount()
+                    this.getCount = 0;
+                }
+            }, 600000);
+        }
     }
 
 }

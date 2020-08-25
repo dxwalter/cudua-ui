@@ -220,4 +220,59 @@ export default ({app}, inject) => {
 		}
 
 		inject('checkFileExtension', checkFileExtension)
+
+		let timeStampModifier = (timestamp) => {
+
+			timestamp = Date.parse(timestamp);
+
+			let difference = Date.now() - timestamp;
+
+			let result = "";
+			
+			if (difference < 5 * 1000) {
+				return 'just now';
+			} else if (difference < 90 * 1000) {
+				return 'moments ago';
+			}
+		
+			//it has minutes
+			if ((difference % 1000 * 3600) > 0) {
+				if (Math.floor(difference / 1000 / 60 % 60) > 0) {
+					let s = Math.floor(difference / 1000 / 60 % 60) == 1 ? '' : 's';
+					result = `${Math.floor(difference / 1000 / 60 % 60)} min${s} `;
+				}
+			}
+		
+			//it has hours
+			if ((difference % 1000 * 3600 * 60) > 0) {
+				if (Math.floor(difference / 1000 / 60 / 60 % 24) > 0) {
+					let s = Math.floor(difference / 1000 / 60 / 60 % 24) == 1 ? '' : 's';
+					result = `${Math.floor(difference / 1000 / 60 / 60 % 24)} hr${s}`;
+				}
+			}
+		
+			//it has days
+			if ((difference % 1000 * 3600 * 60 * 24) > 0) {
+				if (Math.floor(difference / 1000 / 60 / 60 / 24) > 0) {
+					let s = Math.floor(difference / 1000 / 60 / 60 / 24) == 1 ? '' : 's';
+					result = `${Math.floor(difference / 1000 / 60 / 60 / 24)} day${s}`;
+				}
+		
+			}
+
+			//it has weeks
+			if ((difference % 1000 * 3600 * 60 * 24 * 7) > 0) {
+				if (Math.floor(difference / 1000 / 60 / 60 / 24 / 7) > 0) {
+					let s = Math.floor(difference / 1000 / 60 / 60 / 24 / 7) == 1 ? '' : 's';
+					result = `${Math.floor(difference / 1000 / 60 / 60 / 24 / 7)} week${s}`;
+				}
+		
+			}
+		
+			return result + ' ago';
+
+
+		}
+
+		inject ('timeStampModifier', timeStampModifier)
 }

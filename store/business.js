@@ -12,7 +12,9 @@ export const state = () => ({
         community: "",
         lga: "",
         state: "",
-        country: "",
+		country: "",
+		busStop: "",
+		
 	},
 	contact: {
 		email: "",
@@ -28,8 +30,7 @@ export const state = () => ({
 		reviews: []
 	},
 	newNotificationCount: 0,
-	newOrderCount: 0,
-	bookmarks: []
+	newOrderCount: 0
 });
 
 const getDefaultState = () => {
@@ -48,6 +49,7 @@ const getDefaultState = () => {
 			lga: "",
 			state: "",
 			country: "",
+			busStop: "",
 		},
 		contact: {
 			email: "",
@@ -100,6 +102,7 @@ export const mutations = {
 		if (dataObject.lga != undefined) state.address.lga = dataObject.lga
 		if (dataObject.state != undefined) state.address.state = dataObject.state
 		if (dataObject.country != undefined) state.address.country = dataObject.country
+		if (dataObject.busStop != undefined) state.address.busStop = dataObject.busStop
 	},
 	setBusinessContact: (state, dataObject) => {
 		if (dataObject.email != undefined) state.contact.email = dataObject.email

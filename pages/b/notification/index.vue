@@ -40,7 +40,10 @@
 
 								</div>
 								<div class="load-more-action move-center mg-top-16" v-if="allNotification">
-									<button class="btn btn-white">Load more notifications</button>
+									<button class="btn btn-white" @click="loadMoreNotification()" id="notificationLoader">
+										Load more notifications
+										<div class="loader-action"><span class="loader"></span></div>
+									</button>
 								</div>
 							</div>
 
@@ -95,7 +98,7 @@ export default {
             let customerData = this.GetUserData;
             this.accessToken = customerData.userToken
 		},
-		getNotification: async function () {
+		getNotification: async function (lazyload = false) {
 			
 			let variables = {
 				businessId: this.businessId,
@@ -122,23 +125,43 @@ export default {
                 return
 			} 
 
-			// 12 items notifications are retrieved per query
-			if (result.notification.length > 0) {
-				// check if greater than 12
-				if (result.notification.length > 11) {
+			if (result.notification != null) {
+				// 12 items notifications are retrieved per query
+				if (result.notification.length > 0) {
+					// check if greater than 12
+					if (result.notification.length > 11) {
 
-					this.notifications = result.notification;
-					this.page = this.page + 1;
-					this.allNotification = 1
+						if (lazyload == false) {
+							this.notifications = result.notification;
+						} else {
+							// append to notifications array
+							
+							for (let x of result.notification) {
+								this.notifications.push(x)
+							}
+						}
 
-				} else {
-					this.notifications = result.notification
-					this.allNotification = 0;
-				}
-				return
-			} 
+						this.page = this.page + 1;
+						this.allNotification = 1
+
+					} else {
+						if (lazyload == false) {
+							this.notifications = result.notification
+						} else {
+							// append to notifications array
+							for (let x of result.notification) {
+								this.notifications.push(x)
+							}
+						}
+						this.allNotification = 0;
+					}
+					return
+				} 
+			}
 			
 			this.notifications = []
+
+			return
 
 		},
 		getNotificationLink: function (type, id) {
@@ -172,7 +195,15 @@ export default {
 			this.$router.push(url)
 		},
 		formatNotificationTimer: function (timeStamp) {
-			return timeStamp
+			return this.$timeStampModifier(timeStamp)
+		},
+		loadMoreNotification: async function () {
+			let target = document.getElementById('notificationLoader');
+			target.disabled = true;
+			let lazyload = true;
+			await this.getNotification(lazyload);
+
+			target.disabled = false
 		}
 	},
 	async created() {

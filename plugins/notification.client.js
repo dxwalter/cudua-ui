@@ -50,7 +50,7 @@ export default ({app}, inject) => {
     inject("showToast", showToast);
 
     let businessNotificationTitle = (type) => {
-        type = type.toLowerCase();
+        type = type.toLowerCase().trim();
         let header;
         switch (type) {
             case "follow":
@@ -64,6 +64,10 @@ export default ({app}, inject) => {
             case "business_profile":
                 header = "Business Profile";
                 break;
+
+            case "businessreview":
+                header = "Business review";
+                break;
         
             default:
                 header = "Notification"
@@ -75,7 +79,8 @@ export default ({app}, inject) => {
     inject('businessNotificationTitle', businessNotificationTitle);
 
     let businessNotificationLink = (type, id) => {
-        type = type.toLowerCase();
+
+            type = type.toLowerCase();
 			let url;
 			switch (type) {
 				case "follow":
@@ -88,7 +93,11 @@ export default ({app}, inject) => {
 
 				case "business_profile":
 					url = "/b/profile/";
-					break;
+                    break;
+                    
+                case "businessreview":
+                    url = "/b/profile/";
+                    break;
 			
 				default:
 					url = "#"

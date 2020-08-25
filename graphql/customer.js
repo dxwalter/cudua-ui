@@ -54,6 +54,7 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                     lga
                     state
                     country
+                    busStop
                 }
                 contact {
                     email
