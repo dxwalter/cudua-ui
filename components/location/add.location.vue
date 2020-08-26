@@ -152,6 +152,8 @@ export default {
 
             let stateSelectForm = document.getElementById('locationStates');
 
+            console.log(stateSelectForm)
+
             states.forEach((element, index, array) => {
                 let stateId = element.stateId;
                 let stateName = element.name;
@@ -159,7 +161,6 @@ export default {
                 let option = document.createElement("option");
                 option.innerHTML = stateName;
                 option.value = stateId;
-
                 stateSelectForm.appendChild(option);
             });
 

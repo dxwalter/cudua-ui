@@ -275,4 +275,21 @@ export default ({app}, inject) => {
 		}
 
 		inject ('timeStampModifier', timeStampModifier)
+
+		let convertNameToLogo = (name) => {
+			name = name.toUpperCase();
+
+			let splitName = name.split(' ');
+			let newLogo;
+
+			if (splitName.length > 1) {
+				newLogo = `${splitName[0][0]}${splitName[1][0]}`;
+			} else {
+				newLogo = `${splitName[0][0]}${splitName[0][1]}`;
+			}
+
+			return newLogo
+		}
+
+		inject('convertNameToLogo', convertNameToLogo)
 }

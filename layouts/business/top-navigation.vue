@@ -127,7 +127,11 @@ export default {
             this.screenWidth = window.innerWidth;
         },
         getComputedNotifications () {
-			return this.notifications.slice(0, 4)
+            if (this.notifications != null && this.notifications.length > 4) {
+                return this.notifications.slice(0, 4)
+            } else {
+                return this.notifications
+            }
 		},
         ...mapGetters({
             'GetLoginStatus': 'customer/GetLoginStatus',

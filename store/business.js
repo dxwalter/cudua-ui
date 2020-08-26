@@ -5,7 +5,7 @@ export const state = () => ({
 	logo: "",
 	coverPhoto: "",
 	description: "",
-	reviewScore: "",
+	reviewScore: 0,
 	address: {
         number: "",
         street: "",
@@ -25,10 +25,7 @@ export const state = () => ({
 		}
 	},
 	businessCategories: [],
-	businessReview: {
-		status: 0,
-		reviews: []
-	},
+	reviewsArray: [],
 	newNotificationCount: 0,
 	newOrderCount: 0
 });
@@ -41,7 +38,7 @@ const getDefaultState = () => {
 		logo: "",
 		coverPhoto: "",
 		description: "",
-		reviewScore: "",
+		reviewScore: 0,
 		address: {
 			number: "",
 			street: "",
@@ -60,10 +57,7 @@ const getDefaultState = () => {
 			}
 		},
 		businessCategories: [],
-		businessReview: {
-			status: 0,
-			reviews: []
-		},
+		reviewsArray: [],
 		newNotificationCount: 0,
 		newOrderCount: 0,
 		bookmarks: []
@@ -77,7 +71,9 @@ export const actions = {
 	setBusinessContact (context, payload) { context.commit("setBusinessContact", payload) },
 	setBusinessAddress (context, payload) { context.commit("setBusinessAddress", payload) },
 	setBusinessCategories (context, payload) { context.commit("setBusinessCategories", payload) },
-	setNotificationData (context, payload) { context.commit("setNotificationCount", payload )}
+	setNotificationData (context, payload) { context.commit("setNotificationCount", payload )},
+
+	setBusinessReviews (context, payload) {context.commit("setBusinessReviews", payload)}
 }
 
 export const getters = {
@@ -150,6 +146,13 @@ export const mutations = {
 		if (dataObject.newNotificationCount != undefined) state.newNotificationCount = dataObject.newNotificationCount
 		if (dataObject.newOrderCount != undefined) state.newOrderCount = dataObject.newOrderCount
 	},
+
+	setBusinessReviews: (state, dataObject) => {
+		if (dataObject.totalReviewScore != undefined) state.reviewScore = dataObject.totalReviewScore;
+
+		if (dataObject.review != undefined) state.reviewsArray = dataObject.review
+	},
+
 	resetBusinessState: (state) => Object.assign(state, getDefaultState())
 }
 

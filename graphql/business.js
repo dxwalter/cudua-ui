@@ -236,3 +236,27 @@ query GetNewOrderCount ($businessId: String!) {
   }
 }
 ` 
+
+export const GET_BUSINESS_REVIEW = gql`
+query GetReviewForBusiness ($businessId: String!) {
+  GetBusinessReview (input: {
+    businessId: $businessId,
+  })
+  {
+    score
+    reviews{
+      author {
+        fullname
+        userId
+        displayPicture
+      }
+      description
+      rating
+      timeStamp
+    }
+    code
+    success
+    message
+  }
+}
+`

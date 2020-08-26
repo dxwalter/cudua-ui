@@ -19,6 +19,10 @@
 
 							<div class="notification-listing-container">
 								<div class="chat-listing">
+									<div v-show="!pageLoader && !allNotification" class="alert alert-info">
+										There is no new notification for your business
+									</div>
+
 									<div v-for="(notification, index) in returnNotification" :key="index">
 										<div class="chat-recipient" 
 										v-bind:class="{'is-read': notification.isRead == 1}" 

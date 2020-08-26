@@ -96,7 +96,7 @@ export default ({app}, inject) => {
                     break;
                     
                 case "businessreview":
-                    url = "/b/profile/";
+                    url = "/b/profile/?newReview";
                     break;
 			
 				default:

@@ -573,3 +573,22 @@ button:disabled .loader-action {
 .vue-notification-group {
   z-index: 11000;
 }
+
+.no-logo-review {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 1);
+}
+
+.temporal-logo {
+  background: rgba(255, 255, 255, 1);
+}
+
+.review-image,
+.edit-profile-logo {
+  border: 2px solid rgba(0, 0, 0, 0.09);
+}

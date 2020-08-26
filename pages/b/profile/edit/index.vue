@@ -27,9 +27,12 @@
                                         
                                         <div class="edit-logo-container">
                                             <div class="edit-profile-logo">
-                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+												<div class="no-logo-review" v-show="!logo">
+													{{getNameLogo(businessName)}}
+												</div>
+												<img src="~/assets/business/image/mainOremitLogo.png" alt=""  v-show="logo">
                                                 <div id="previewBusinessLogo" class="edit-logo-preview"></div>
-                                            </div>
+											</div>
                                             <div class="upload-action">
                                                 <input type="file" id="selectimage" @change="uploadLogoImage($event, 'previewBusinessLogo')">
                                                 <button class="btn btn-white btn-small">Select logo</button>
@@ -40,7 +43,11 @@
 
                                         <div class="edit-logo-container">
                                             <div class="edit-profile-logo">
-                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+                                                <div class="no-logo-review" v-show="!businessCoverPhoto">
+													{{getNameLogo(businessName)}}
+												</div>
+                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" v-show="businessCoverPhoto">
+
                                                 <div id="previewBusinessCover" class="edit-logo-preview"></div>
                                             </div>
                                             <div class="upload-action">
@@ -542,7 +549,7 @@ export default {
 			return address
         },
         assignBusinessAddress: function () {
-            if (this.businessAddress.street != undefined || this.businessAddress.street.length > 0) {
+            if (this.businessAddress.street != undefined || this.businessAddress.street != null) {
                 this.streetName = this.businessAddress.street
                 this.streetNumber = this.businessAddress.number
                 this.busStop = this.businessAddress.busStop
@@ -898,7 +905,13 @@ export default {
                 this.$initiateNotification('error', "Update error", result.message)
             }
 
-        }
+        },
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+		}
     },
     created: function () {
         if (process.browser) this.assignBusinessData()

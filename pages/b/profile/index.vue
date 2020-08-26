@@ -30,10 +30,10 @@
 												</div>
 											</div>
 											<div class="logo-area">
-												<div class="temporal-logo" v-if="logo.length < 1">
-													{{convertBusinessNameToLogo}}
+												<div class="temporal-logo" v-show="!logo">
+													{{getNameLogo(businessName)}}
 												</div>
-												<img src="~/assets/business/image/mainOremitLogo.png" alt="" v-else>
+												<img src="~/assets/business/image/mainOremitLogo.png" alt=""  v-show="logo">
 											</div>
 										</div>
 
@@ -176,18 +176,6 @@ export default {
 		getBusinessCategories () {
 			return this.categories
 		},
-		convertBusinessNameToLogo() {
-			let businessName = this.businessName.toUpperCase();
-			let splitName = businessName.split(' ');
-			let newLogo;
-			if (splitName.length > 1) {
-				newLogo = `${splitName[0][0]}${splitName[1][0]}`;
-			} else {
-				newLogo = `${splitName[0][0]}${splitName[0][1]}`;
-			}
-
-			return newLogo
-		}
 	},
     methods: {
         ...mapGetters({
@@ -227,7 +215,13 @@ export default {
 			this.businessPhone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
 			this.businessAddress = this.formatAddress(data.address);
 			this.reviewScore = data.reviewScore
-        }
+		},
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+		}
     },
     created() {
         if (process.browser) this.assignBusinessData()
