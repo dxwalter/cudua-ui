@@ -303,6 +303,12 @@
     border-radius: 100%;
     overflow: hidden;
     flex-shrink: 0;
+    border: $border;
+    
+    .temporal-logo {
+        font-size: 20px;
+        font-weight: bold;
+    }
 }
 
 @media($mq-md) {
@@ -311,6 +317,9 @@
         height: 70px;
         margin: 0 auto;
         margin-bottom: 16px;
+        .temporal-logo {
+            font-size: 24px;
+        }
     }
 }
 
@@ -318,6 +327,9 @@
     .side-nav-logo {
         width: 97px;
         height: 97px;
+        .temporal-logo {
+            font-size: 30px;
+        }
     }
 }
 
@@ -776,6 +788,7 @@
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .review-details {
@@ -1101,6 +1114,14 @@
     width: 100%;
     height: 144px;
     border-bottom: $border;
+    .temporal-logo {
+		width: 80px !important;
+        height: 80px !important;
+        border-radius: 50% !important;
+		border: 1px solid rgba(0, 0, 0, 0.09);
+		font-size: 24px;
+		font-weight: 900;
+	}
 }
 
 .product-card-details {
@@ -3586,6 +3607,7 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
     margin-top: 2px;
     .btn {
         margin-top: 8px;
+        flex-shrink: 0;
         align-self: flex-start;
     }
 }

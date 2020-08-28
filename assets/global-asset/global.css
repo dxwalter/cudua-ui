@@ -574,7 +574,8 @@ button:disabled .loader-action {
   z-index: 11000;
 }
 
-.no-logo-review {
+.no-logo-review,
+.temporal-logo {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -591,4 +592,9 @@ button:disabled .loader-action {
 .review-image,
 .edit-profile-logo {
   border: 2px solid rgba(0, 0, 0, 0.09);
+}
+
+.d-flex-between {
+  display: flex !important;
+  justify-content: space-between;
 }

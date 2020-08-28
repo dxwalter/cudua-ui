@@ -5,14 +5,19 @@
         <div class="side-nav-content" id="sideNavContent">
 
             <div class="side-nav-logo-area" >
+                
                 <n-link to="/b/profile/" class="side-nav-logo">
-                    <img src="~/assets/business/image/apple-logo.png" alt="">
+                    <div class="temporal-logo" v-show="!businessLogo">
+                        {{getNameLogo(businessName)}}
+                    </div>
+                    <img src="~/assets/business/image/apple-logo.png" alt="" v-show="businessLogo">
                 </n-link>
+
                 <div class="nav-name">
-                    <h4 class="side-nav-biz-name"><n-link to="/b/profile">Oremit Power Solution Limited</n-link></h4>
+                    <h4 class="side-nav-biz-name"><n-link to="/b/profile">{{businessName}}</n-link></h4>
                         <div>
                             <a href="javasscript:;" class="nav-username display-flex" data-trigger="modal" data-target="changeUsername">
-                                <span>@appleComputer</span>
+                                <span>@{{username}}</span>
                                 <span class="username-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="11.054" height="20">
                                         <use xlink:href="~/assets/business/image/all-svg.svg#pencil"></use>
@@ -20,21 +25,7 @@
                                 </span>
                             </a>
                             <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                </svg>
+                                <STARRATING :rating="`${reviewScore}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                             </a>
                         </div>
                 </div>
@@ -75,7 +66,7 @@
                     <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
                         <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
                     </svg>                          
-                    <span>Followers (30)</span>
+                    <span>Followers</span>
                 </div>
             </n-link>
 
@@ -135,27 +126,31 @@
 
 import { mapActions, mapGetters } from 'vuex';
 
+import STARRATING from 'vue-star-rating'
+
 export default {
     name: "SIDEBAR",
     components: {
-        
+        STARRATING
     },
     data: function () {
         return {
             screenWidth: "",
             openedModalTarget: "",
-            activeClass: 'is-active'
+            activeClass: 'is-active',
+            businessName: "",
+            businessLogo: "",
+            reviewScore: 0,
+            username: ""
         }
     },
     created() {
         if (process.client) {
             window.addEventListener('resize', this.handleResize);
+            this.assignBusinessData()
         }
     },
     computed: {
-        ...mapGetters({
-            'GetBusinessData': 'business/GetBusinessDetails',
-        }),
         handleResize() {
             this.screenWidth = window.innerWidth;
         },
@@ -163,19 +158,35 @@ export default {
             return this.$nuxt.$route.path;
         },
         getNotificationCount () {
-            return this.GetBusinessData.newNotificationCount
+            return this.GetBusinessData().newNotificationCount
         },
         getNewOrderCount () {
-            return this.GetBusinessData.newOrderCount
+            return this.GetBusinessData().newOrderCount
         }
     },
     methods : {
+        ...mapGetters({
+            'GetBusinessData': 'business/GetBusinessDetails',
+        }),
         closeNav: function () {
             let closeNavWithOverlay = document.getElementById('sideNav');
             let navToggle = document.getElementById('navToggleButton');
             let sideNavContent = document.getElementById("sideNavContent");
             this.screenWidth <= 1023 ? this.$showMobileNav(closeNavWithOverlay, sideNavContent, navToggle) : "";
-        }
+        },
+        assignBusinessData: function () {
+            let businessData = this.GetBusinessData();
+            this.businessLogo = businessData.logo
+            this.businessName = businessData.businessName
+            this.reviewScore = businessData.reviewScore
+            this.username = businessData.username
+        },
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+		}
     },
     mounted () {
         // open modal

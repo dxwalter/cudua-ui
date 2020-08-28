@@ -307,7 +307,7 @@ export default {
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);
                     setTimeout(() => {
-                        this.$router.push('/b') 
+                        window.location.assign('/b')
                     }, 1000);   
 
             } catch (error) {
@@ -367,7 +367,7 @@ export default {
 
                 this.$initiateNotification('success', 'Online shop created', result.message);
                 setTimeout(() => {
-                    this.$router.push('/b') 
+                    window.location.assign('/b')
                 }, 1000);
              } catch (error) {
                 this.isDisabled = false
@@ -430,9 +430,11 @@ export default {
                 localStorage.removeItem('CUDUA_ANONYMOUS_ID');
                 this.$store.dispatch('customer/setAnonymousId', '');
 
-                this.loginIsDisabled = false
+                this.loginIsDisabled = true
 
                 if (result.businessDetails != null) {
+                    
+                    this.setCustomerData(result)
                     this.setBusinessData(result)
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);

@@ -28,7 +28,7 @@
                     <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
                 </svg> 
             </n-link>
-            <n-link to="/c/:cudua" class="btn btn-white btn-md">Visit shop</n-link>
+            <n-link :to="`/${username}`" class="btn btn-white btn-md">Visit shop</n-link>
             <n-link to="/b/product/add-product" class="btn btn-primary btn-md">Add products</n-link>
         </div>
 
@@ -89,7 +89,8 @@ export default {
             businessName: "",
 			accessToken: "",
 			businessId: "",
-			notifications: "",
+            notifications: "",
+            username: "",
 			page: 1,
             allNotification: 0,
             notificationCount: 0,
@@ -133,20 +134,20 @@ export default {
                 return this.notifications
             }
 		},
+		LoginStatus () {
+			return this.GetLoginStatus()
+        },
+        BusinessStatus () {
+            return this.GetBusinessStatus()
+        }
+    },
+    methods : {
         ...mapGetters({
             'GetLoginStatus': 'customer/GetLoginStatus',
             'GetBusinessStatus': 'business/GetBusinessStatus',
             'GetBusinessData': 'business/GetBusinessDetails',
             'GetUserData': 'customer/GetCustomerDetails'
         }),
-		LoginStatus () {
-			return this.GetLoginStatus
-        },
-        BusinessStatus () {
-            return this.GetBusinessStatus
-        }
-    },
-    methods : {
         toggleNavBar: function () {
             let navToggle = document.getElementById('navToggleButton');
             let sideNav = document.getElementById('sideNav');
@@ -165,10 +166,11 @@ export default {
             if (businessStatus.length < 1) this.$router.push('/');
         },
         assignBusinessData: function () {
-            let data = this.GetBusinessData
+            let data = this.GetBusinessData()
             this.businessId = data.businessId;
             this.businessName = data.businessName;
-            let customerData = this.GetUserData;
+            this.username = data.username;
+            let customerData = this.GetUserData();
             this.accessToken = customerData.userToken
 		},
 		getNotification: async function () {
@@ -194,7 +196,7 @@ export default {
 			let result = query.result.data.GetBusinessNotification;
 
 			if (result.success == false) {
-				notificationCount = 0;
+				this.notificationCount = 0;
                 return
 			} 
             
@@ -222,7 +224,7 @@ export default {
 				}
 
                 let request = await this.$performGraphQlMutation(this.$apollo, MARK_BUSINESS_NOTIFICATION_AS_READ, variables, context);
-                let currentCount = this.GetBusinessData.newNotificationCount < 1 ? 0: this.GetBusinessData.newNotificationCount - 1;
+                let currentCount = this.GetBusinessData().newNotificationCount < 1 ? 0: this.GetBusinessData().newNotificationCount - 1;
 
                 this.$store.dispatch('business/setNotificationData', {
                         'newNotificationCount': currentCount

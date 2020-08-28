@@ -1,393 +1,60 @@
 <template>
 	<div class="business">
 		<div class="body-container">
-			<TOPHEADER />
-			<nuxt/>
+			<TOPHEADER></TOPHEADER>
 			<div class="content-container">
-				<SIDENAV />
-				<nuxt />
+				<SIDENAV></SIDENAV>
 				<div class="content-area grey-bg-color">
 					<!-- pageLoader -->
-					<PAGELOADER v-if="pageLoader" />
-					<nuxt />
+					<PAGELOADER v-if="pageLoader"></PAGELOADER>
 
 					<div class="main-content">
 
 						<div class="page-header">
-							<h4>Followers (4)</h4>
+							<h4>Followers</h4>
 						</div>
 
 						<div><!-- main content goes in here -->
 							<div class="row">
 										
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(follower, index) in returnComputedFollowers" :key="index">
 									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+										<div class="product-card-image d-flex-center">
+											<div class="temporal-logo" v-show="!follower.profilePhoto">
+												{{getNameLogo(follower.name)}}
+											</div>
+											<img src="~/assets/business/image/daniel-chigisoft.jpg" :alt="`${follower.name}`" v-show="follower.profilePhoto">
 										</div>
 										<div class="product-card-details">
 											<div class="product-name">
-												Daniel Walter
+												{{follower.name}}
 											</div>
 											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
+												<STARRATING :rating="`${follower.reviewScore}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
 											</div>
 										</div>
 									</div>
 								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-									<div class="product-card">
-										<div class="product-card-image">
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-										</div>
-										<div class="product-card-details">
-											<div class="product-name">
-												Daniel Walter
-											</div>
-											<div class="navbar-review-icon">
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-												<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-													<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-												</svg>
-											</div>
-										</div>
-									</div>
-								</div>
-										
-							
-
 
 							</div>
+
+							<div class="load-more-action move-center mg-top-16" v-if="followersCount >= 12">
+								<button class="btn btn-white" @click="loadMoreFollowers()" id="loadMoreFollowers">
+									Load more followers
+									<div class="loader-action"><span class="loader"></span></div>
+								</button>
+							</div>
+
+							<div v-show="!followersCount && !pageLoader">
+								<div class="alert alert-info notification-alert">
+									<div id="infoArea">You do not have any new follower. Do not fret, you can gain followers by sharing your shop's URL/address</div>
+									<button class="btn btn-white btn-small"  data-trigger="modal" data-target="changeUsername">Share shop address</button>
+								</div>
+							</div>
+
 						</div>
 					</div>
-					<BOTTOMNAV />
-					<nuxt/>
+					<BOTTOMNAV></BOTTOMNAV>
 				</div>
 			</div>
 		</div>
@@ -400,20 +67,125 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
+
+import { GET_BUSINESS_FOLLOWERS } from '~/graphql/business';
+import { mapGetters } from 'vuex';
+
+import STARRATING from 'vue-star-rating'
+
+
 export default {
+	name: "BUSINESSFOLLOWERS",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
+		TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER,
+		STARRATING
     },
     data : function () {
         return {
-            pageLoader: true
+			pageLoader: true,
+			businessId: "",
+			accessToken: "",
+			followers: 0,
+			followersCount: 0,
+			isError: 0,
+			page: 1,
         }
 	},
+	created () {
+		if (process.browser) {
+			this.GetBusinessDataFromStore();
+			this.GetBusinessFollowers()
+		}
+	},
+	computed: {
+		returnComputedFollowers () {
+			return this.followers
+		}
+	},
+	methods: {
+        ...mapGetters({
+			'GetBusinessData': 'business/GetBusinessDetails',
+			'GetUserData': 'customer/GetCustomerDetails'
+		}),
+        GetBusinessDataFromStore: function () {
+            let businessData = this.GetBusinessData();
+			this.businessId = businessData.businessId
+			let customerData = this.GetUserData();
+            this.accessToken = customerData.userToken
+		},
+		GetBusinessFollowers: async function () {
+
+			let variables = {
+				businessId: this.businessId,
+				page: this.page
+			}
+
+			let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+			let query = await this.$performGraphQlQuery(this.$apollo, GET_BUSINESS_FOLLOWERS, variables, context);
+			
+			if (query.error) {
+				this.$initiateNotification('error', 'Failed request', query.message);
+                return
+			}
+
+			let result = query.result.data.GetFollowers;
+
+			if (result.success == false) {
+				this.isError = 1
+				this.$initiateNotification('error', 'Error occurred', result.message);
+				return
+			}
+
+			// if (result.customerData == null ) {
+			// 	this.followersCount = this.followersCount + 0
+			// 	return
+			// }
+			
+			this.followersCount = this.followersCount + result.customerData.length
+
+			if (this.page < 2) {
+				this.followers = result.customerData
+			} else {
+				this.followersCount = result.customerData.length < 12 ? 0 : this.followersCount + result.customerData.length
+				for (let x of result.customerData) {
+					this.followers.push(x)
+				}
+			}
+
+			this.page = this.page + 1;
+
+		},
+		loadMoreFollowers: function () {
+			let target = document.getElementById('loadMoreFollowers');
+			target.disabled = true
+
+			this.GetBusinessFollowers();
+
+			target.disabled = false
+		},
+		getNameLogo: function (name) {
+			return this.$convertNameToLogo(name)
+		}
+	},
     mounted() {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+
+		this.pageLoader = false
     }
 
 }
 </script>
+<style scoped>
+	.d-flex-center {
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+	}
+	.notification-alert {
+		border-radius: 4px;
+	}
+</style>

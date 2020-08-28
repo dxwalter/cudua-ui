@@ -24,7 +24,7 @@
             <span>Notification</span>
         </n-link>
 
-        <n-link to="/bubbieklassiq" class="bottom-nav-item">
+        <n-link :to="`/${username}`" class="bottom-nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
                 <use xlink:href="~/assets/business/image/all-svg.svg#visitShop"></use>
             </svg>
@@ -37,16 +37,32 @@
 import { mapActions, mapGetters } from 'vuex';
 export default {
     name: "BOTTOM-MOBILE-NAV",
+    data: function () {
+        return {
+            username: ""
+        }
+    },
     computed: {
+        getNotificationCount () {
+            return this.GetBusinessData().newNotificationCount
+        },
+        getNewOrderCount () {
+            return this.GetBusinessData().newOrderCount
+        }
+    },
+    methods: {
         ...mapGetters({
             'GetBusinessData': 'business/GetBusinessDetails',
         }),
-        getNotificationCount () {
-            return this.GetBusinessData.newNotificationCount
+        getUsername: function () {
+            let businessDetails = this.GetBusinessData();
+            this.username = businessDetails.username
         },
-        getNewOrderCount () {
-            return this.GetBusinessData.newOrderCount
-        }
     },
+    created() {
+        if (process.browser) {
+            this.getUsername()
+        }
+    }
 }
 </script>

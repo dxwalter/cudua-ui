@@ -260,3 +260,22 @@ query GetReviewForBusiness ($businessId: String!) {
   }
 }
 `
+
+export const GET_BUSINESS_FOLLOWERS = gql`
+query GetBusinessFollowers($page: Int!, $businessId: String!) {
+  GetFollowers(input:{
+    page: $page,
+    businessId: $businessId
+  })
+  {
+    customerData {
+      name
+      profilePhoto
+      reviewScore
+    }
+    code
+    success
+    message
+  }
+}
+`

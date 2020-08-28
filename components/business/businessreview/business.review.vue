@@ -7,21 +7,7 @@
                     <h4>Business review</h4>
                     <div class="review-text nav-rating-result" v-if="!isLoading && reviewScore">
                         <a href="javasscript:;" class="navbar-review-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
+                            <star-rating :rating="`${reviewScore}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
                         </a>
                         <div class="rating-score">
                             {{reviewScore}}/5
@@ -36,7 +22,7 @@
                 </button>
             </div>
 
-            <div class="modal-content modal-fixed-height" v-bind:class="{'no-height': isNetworkError}">
+            <div class="modal-content modal-fixed-height" v-bind:class="{'no-height': isNetworkError || reviewsData.length <  1}">
 
                 <div v-if="isLoading" class="is-loading-container">
                     <div class="is-loading-inner-container" id="loadingContainer">
@@ -47,6 +33,10 @@
                 <div class="alert alert-info notification-alert" v-show="isNetworkError">
                     <div id="infoArea">An error occurred. Please try again</div>
                     <button class="btn btn-white btn-small" @click="GetBusinessReview()">Try again</button>
+                </div>
+
+                <div class="alert alert-info notification-alert" v-show="reviewsData.length <  1">
+                    <div id="infoArea">No review has been written for your business. Add a product to sell</div>
                 </div>
 
                <div class="business-review-container">
@@ -67,24 +57,10 @@
                                 <div class="display-flex">
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
+                                        <STARRATING :rating="`${review.rating}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                                     </div>
                                 </div>
-                                <div class="review-date">- 15/12/19</div>
+                                <div class="review-date">- {{formatNotificationTimer(review.timeStamp)}}</div>
                                 </div>
                             </div>
                         </div>
@@ -108,16 +84,18 @@ import { mapActions, mapGetters } from 'vuex';
 
 import { GET_BUSINESS_REVIEW } from '~/graphql/business'
 
+import STARRATING from 'vue-star-rating'
+
 export default {
     name: "BUSINESSREVIEWMODAL",
     components: {
-
+        STARRATING
     },
     data: function() {
         return {
             isLoading: 1,
             reviewsData: [],
-            reviewScore: "",
+            reviewScore: 0,
             businessId: "",
 
             // errors
@@ -212,12 +190,24 @@ export default {
         },
         CustomerNameAsDP: function (name) {
             return this.$convertNameToLogo(name)
+        },
+		formatNotificationTimer: function (timeStamp) {
+			return this.$timeStampModifier(timeStamp)
         }
     },
     async created () {
         if (process.browser) {
             this.GetBusinessDataFromStore();
+            
+            let newReview = this.$route.query.newReview == null ? true : undefined
+
             if (this.reviewsData.length < 1 || this.reviewsData == '') {
+                await this.GetBusinessReview()
+            }
+
+            if (newReview == undefined) {
+                // alert(this.$route.query.newReview )
+                // alert(typeof this.$route.query.newReview)
                 await this.GetBusinessReview()
             }
         }

@@ -120,7 +120,7 @@
                                                 <div class="form-control">
                                                     <!-- <label for="businessType" class="form-label">Type in your business email address</label> -->
                                                     
-                                                    <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Type in your business email address" v-model="businessEmail">
+                                                    <input type="text" name="" id="editbusinessEmailAddress" class="input-form white-bg-color" placeholder="Type in your business email address" v-model="businessEmail">
 
                                                     <!-- <div class="email-noti-switcher">
                                                         <span class="form-label">Email notification</span>
@@ -550,7 +550,6 @@ export default {
         },
         assignBusinessAddress: function () {
             if (this.businessAddress.street != undefined || this.businessAddress.street != null) {
-                this.streetName = this.businessAddress.street
                 this.streetNumber = this.businessAddress.number
                 this.busStop = this.businessAddress.busStop
             }
@@ -724,6 +723,16 @@ export default {
         updateBusinessEmail: async function (e) {
             
             e.preventDefault();
+
+            let target = 'editbusinessEmailAddress';
+
+            if (this.businessEmail.length < 1) {
+                this.$showToast("Enter an email address for your business", 'error')
+                this.$addRedBorder(target)
+                return
+            }  
+
+            this.$removeRedBorder(target)
 
             let actionButton = document.getElementById('updateBusinessEmail');
             actionButton.disabled = true;

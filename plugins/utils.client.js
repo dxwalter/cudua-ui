@@ -292,4 +292,5 @@ export default ({app}, inject) => {
 		}
 
 		inject('convertNameToLogo', convertNameToLogo)
+
 }

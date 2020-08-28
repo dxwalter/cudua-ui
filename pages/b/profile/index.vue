@@ -51,24 +51,10 @@
 											</div>
 
 											<div class="business-review">
-												<a href="javasscript:;" class="navbar-review-icon">
-													<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-														<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-													</svg>
-													<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-														<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-													</svg>
-													<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-														<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-													</svg>
-													<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-														<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-													</svg>
-													<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-														<use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-													</svg>
+												<a href="javasscript:;" class="navbar-review-icon d-flex-between"  data-trigger="modal" data-target="reviewModal">
+													<STARRATING :rating="`${reviewScore}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+													<div class="review-action">read all reviews</div>
 												</a>
-												<a href="#" class="review-action" data-trigger="modal" data-target="reviewModal">read revirews</a>
 											</div>
 
 											<div class="business-tab-area">
@@ -138,10 +124,13 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
+import STARRATING from 'vue-star-rating'
+
 export default {
 	name: "BUSINESSPROFILE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
+		TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER,
+		STARRATING
     },
     data: function() {
         return {
@@ -231,3 +220,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+	.d-flex-between *{
+		align-self: center;
+	}
+</style>
