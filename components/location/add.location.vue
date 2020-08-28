@@ -152,8 +152,6 @@ export default {
 
             let stateSelectForm = document.getElementById('locationStates');
 
-            console.log(stateSelectForm)
-
             states.forEach((element, index, array) => {
                 let stateId = element.stateId;
                 let stateName = element.name;

@@ -153,7 +153,7 @@ export default ({app}, inject) => {
 		
 		// perform graphql queries
 
-		let performGraphQlMutation = async (apollo, queryString, variables, context) => {
+		let performGraphQlMutation = async (apollo, queryString, variables = {}, context = {}) => {
 
 			try {
 
@@ -182,7 +182,7 @@ export default ({app}, inject) => {
 		inject('performGraphQlMutation', performGraphQlMutation);
 
 
-		let performGraphQlQuery = async (apollo, queryString, variables, context) => {
+		let performGraphQlQuery = async (apollo, queryString, variables = {}, context = {}) => {
 
 			try {
 
