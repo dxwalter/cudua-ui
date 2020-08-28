@@ -67,7 +67,7 @@ export default {
 			author: "Cudua Inc.",
 			description: "Cudua is an ecommerce service that allows businesses to create and manage their online stores. Customers buy products from these businesses by searching for the business using the business name or location",
 			theme_color: '#ee6425',
-			ogHost: "https://www.cudua.com",
+			ogHost: "https://cudua-ui.herokuapp.com/",
 			nativeUI: true,
 		},
 		manifest: {
