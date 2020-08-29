@@ -96,6 +96,9 @@ dist
 # vuepress build output
 .vuepress/dist
 
+# apollo
+apollo/client_configs
+
 # Serverless directories
 .serverless/
 
