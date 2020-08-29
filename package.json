@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nuxt",
+    "dev": "nuxt --port 3333",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
