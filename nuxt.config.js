@@ -1,9 +1,4 @@
 export default {
-	build: {
-		analyze: true,
-		minifyCSS: false,
-		minifyJS: false,
-	},
 	head: {
 		title: 'Business name',
 		meta: [

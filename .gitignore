@@ -45,6 +45,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+apollo/
 
 # TypeScript v1 declaration files
 typings/
@@ -96,8 +97,6 @@ dist
 # vuepress build output
 .vuepress/dist
 
-# apollo
-apollo/client_configs
 
 # Serverless directories
 .serverless/
