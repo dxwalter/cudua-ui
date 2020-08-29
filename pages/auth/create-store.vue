@@ -85,7 +85,7 @@
                 <button class="close-modal-btn">
                     <div class="dropdownCheckBox" @click="hideSignInBox"></div>
                     <svg data-v-2478c6c0="" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
-                        <use data-v-2478c6c0="" xlink:href="/_nuxt/assets/business/image/all-svg.svg#times"></use>
+                        <use data-v-2478c6c0="" xlink:href="~/assets/business/image/all-svg.svg#times"></use>
                     </svg>
                 </button>
             </div>

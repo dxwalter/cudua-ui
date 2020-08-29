@@ -219,7 +219,7 @@
 
 <script>
 export default {
-
+	name: "BUSINESSREVIEW"
 }
 </script>
 

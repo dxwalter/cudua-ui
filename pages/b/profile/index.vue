@@ -21,7 +21,7 @@
 											<div class="cover-photo-container">
 												<n-link to="/b/profile/edit" class="close-modal-btn profile-edit-btn">
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-														<use xlink:href="/_nuxt/assets/customer/image/all-svg.svg#pencil"></use>
+														<use xlink:href="~/assets/customer/image/all-svg.svg#pencil"></use>
 													</svg>
 												</n-link>
 												<img src="~/assets/business/image/cover-photo.png" alt="" v-if="businessCoverPhoto.length > 0">
@@ -52,7 +52,7 @@
 
 											<div class="business-review">
 												<a href="javasscript:;" class="navbar-review-icon d-flex-between"  data-trigger="modal" data-target="reviewModal">
-													<STARRATING :rating="`${reviewScore}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+													<STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
 													<div class="review-action">read all reviews</div>
 												</a>
 											</div>

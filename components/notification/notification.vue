@@ -1,9 +1,8 @@
 <template>
-    
-        <transition v-on:enter="enter" v-on:leave="leave">
-            <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications>
-        </transition>
-    
+        
+            <transition v-on:enter="enter" v-on:leave="leave">
+                <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications>
+            </transition>
 </template>
 
 <script>
@@ -41,7 +40,7 @@ export default {
         },
     },
     mounted () {
-        if (process.browser)  this.element = document.getElementById('notificationToast')
+        if (process.client)  this.element = document.getElementById('notificationToast')
     }
 }
 </script>

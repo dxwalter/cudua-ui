@@ -66,7 +66,9 @@
 
         <BUSINESSREVIEW></BUSINESSREVIEW>
         <USERNAMEMODAL></USERNAMEMODAL>
-        <NOTIFICATION></NOTIFICATION>
+        <client-only>
+            <NOTIFICATION></NOTIFICATION>
+        </client-only>
 
   </div>
 </template>

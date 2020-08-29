@@ -177,7 +177,7 @@
 
 <script>
 export default {
-
+	name: "BUSINESSSEARCHMODAL"
 }
 </script>
 
