@@ -7,7 +7,13 @@
 </template>
 
 <script>
+
+
 export default {
+    name: "NOTIFICATIONHANDLER",
+    components: {
+        
+    },
     data: function () {
         return {
             element: "",
@@ -35,7 +41,7 @@ export default {
         },
     },
     mounted () {
-        this.element = document.getElementById('notificationToast')
+        if (process.browser)  this.element = document.getElementById('notificationToast')
     }
 }
 </script>
