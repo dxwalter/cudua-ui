@@ -42,5 +42,8 @@
   "bugs": {
     "url": "https://github.com/dxwalter/cudua-ui/issues"
   },
-  "homepage": "https://github.com/dxwalter/cudua-ui#readme"
+  "homepage": "https://github.com/dxwalter/cudua-ui#readme",
+  "engines": {
+    "node": "12.x"
+  }
 }
