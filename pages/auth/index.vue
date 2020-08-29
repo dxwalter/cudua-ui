@@ -148,7 +148,8 @@ export default {
 
                 this.$initiateNotification('success', 'Sign in successful', result.message);
                 setTimeout(() => {
-                    window.location.assign('/')
+                    // window.location.assign('/')
+                    this.$router.push('/')
                 }, 1000);
 
             } catch (error) {

@@ -307,7 +307,8 @@ export default {
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);
                     setTimeout(() => {
-                        window.location.assign('/b')
+
+                        this.$router.push('/b')
                     }, 1000);   
 
             } catch (error) {
@@ -367,7 +368,8 @@ export default {
 
                 this.$initiateNotification('success', 'Online shop created', result.message);
                 setTimeout(() => {
-                    window.location.assign('/b')
+                    // window.location.assign('/b')
+                    this.$router.push('/b')
                 }, 1000);
              } catch (error) {
                 this.isDisabled = false

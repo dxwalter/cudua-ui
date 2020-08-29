@@ -192,7 +192,7 @@ export default {
 
                     this.$initiateNotification('success', 'Registration successful', result.message);
                     setTimeout(() => {
-                        window.location.assign('/')
+                        this.$router.push('/')
                     }, 1000);
                 }
             } catch (error) {
