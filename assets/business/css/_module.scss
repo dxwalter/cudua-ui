@@ -150,7 +150,6 @@
     border-radius: 54px;
     margin-right: 8px;
     margin-bottom: 16px;
-    cursor: pointer;
 
     * {
         margin-left: 8px;
@@ -161,9 +160,6 @@
 .chip:hover {
     background-color: $black-color-06;
     color: $white-color;
-    svg {
-        fill: $white-color;
-    }
 }
 
 .close-modal-btn, 

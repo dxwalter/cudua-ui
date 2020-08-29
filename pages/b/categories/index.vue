@@ -114,10 +114,10 @@
 															<div class="loader-action"><span class="loader"></span></div>   
 														</button>
 
-                                                        <button class="btn btn-light-grey btn-small" >
+                                                        <!-- <button class="btn btn-light-grey btn-small" >
                                                             Remove
                                                             <div class="loader-action"><span class="loader"></span></div>        
-                                                        </button>
+                                                        </button> -->
                                                         
                                                     </div>
 
@@ -135,7 +135,7 @@
                                     <h2>No category has been added to your store</h2>
                                     <p>Categorise the products in your store</p>
                                     <div class="d-flex">
-                                        <n-link to="/b/categories/add-Categories" class="btn btn-primary btn-lg">Add a category</n-link>
+                                        <n-link to="/b/categories/add-Categories" class="btn btn-white btn-lg">Add a category</n-link>
                                     </div>
                                 </div>
                             </div>
