@@ -57,7 +57,7 @@
                                 <div class="display-flex">
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
-                                        <STARRATING :rating=review.reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+                                        <STARRATING :rating=review.rating :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                                     </div>
                                 </div>
                                 <div class="review-date">- {{formatNotificationTimer(review.timeStamp)}}</div>

@@ -30,7 +30,7 @@
 												{{follower.name}}
 											</div>
 											<div class="navbar-review-icon">
-												<STARRATING :rating="`${follower.reviewScore}`" :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+												<STARRATING :rating=follower.reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
 											</div>
 										</div>
 									</div>

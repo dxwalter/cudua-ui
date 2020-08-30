@@ -1,5 +1,4 @@
 <template>
-    <client-only>
         <div class="side-nav-container" id="sideNav" v-on:click="closeNav">
                 <!-- the .js-fold-nav class along-with .side-nav-content folds
                 the navigation bar -->
@@ -121,7 +120,6 @@
                 </div>
             
         </div>
-    </client-only>
 </template>
 
 <script>
@@ -188,78 +186,82 @@ export default {
 				let name =  this.$convertNameToLogo(businessName)
 				return name
 			}
-		}
-    },
-    mounted () {
-        // open modal
-        let openModalAction = document.querySelectorAll("[data-trigger]");
-            for (const action of openModalAction) {
-            action.addEventListener('click', (e) => {
+        },
+        _initMethod: function () {
+            // open modal
+            let openModalAction = document.querySelectorAll("[data-trigger]");
+                for (const action of openModalAction) {
+                action.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.openedModalTarget = action.getAttribute('data-target');
+                    this.$openModal(this.openedModalTarget);
+                })
+            }
+
+            // close modal with icon
+            let closeModalAction = document.querySelectorAll('[data-dismiss]');
+            for (const action of closeModalAction) {
+                action.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.$closeModal(action.getAttribute('data-target'));
+                })
+            }
+
+            // close modal with esc key
+            window.onkeyup = (e) => {
                 e.preventDefault();
-                this.openedModalTarget = action.getAttribute('data-target');
-                this.$openModal(this.openedModalTarget);
-            })
-        }
-
-        // close modal with icon
-        let closeModalAction = document.querySelectorAll('[data-dismiss]');
-        for (const action of closeModalAction) {
-            action.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.$closeModal(action.getAttribute('data-target'));
-            })
-        }
-
-        // // close modal with esc key
-        // window.onkeyup = (e) => {
-        //     e.preventDefault();
-        //     if (e.keyCode == 27) {
-        //         if (document.querySelector('.overflow-hidden') !== null) {
-        //             // .. it exists so remove modal
-        //             this.$closeModal(this.openedModalTarget);
-        //         }
-        //     }
-        // }
-
-        // close modal by clicking outside the modal window
-        window.addEventListener("click", (e) => {
-            for (const action of document.querySelectorAll(".modal-container")) {
-                if (e.target === action) {
-                    this.$closeModal(this.openedModalTarget);
+                if (e.keyCode == 27) {
+                    if (document.querySelector('.overflow-hidden') !== null) {
+                        // .. it exists so remove modal
+                        this.$closeModal(this.openedModalTarget);
+                    }
                 }
             }
-        });
 
-        // tabs
-        let Tabs = document.querySelectorAll("#tabList > #tabLink");
-        for (let i = 0; i < Tabs.length; i++) {
-            Tabs[i].addEventListener("click", (e) => {
-                this.$myTabClicks(e, Tabs)
-            })
+            // close modal by clicking outside the modal window
+            window.addEventListener("click", (e) => {
+                for (const action of document.querySelectorAll(".modal-container")) {
+                    if (e.target === action) {
+                        this.$closeModal(this.openedModalTarget);
+                    }
+                }
+            });
+
+            // tabs
+            let Tabs = document.querySelectorAll("#tabList > #tabLink");
+            for (let i = 0; i < Tabs.length; i++) {
+                Tabs[i].addEventListener("click", (e) => {
+                    this.$myTabClicks(e, Tabs)
+                })
+            }
+
+            // single drop down
+            let singleTabClick = document.querySelectorAll('[data-single-tab]');
+            for (const action of singleTabClick) {
+                action.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    let getTarget = e.target;
+                    let singleTabContainer = document.getElementById(getTarget.getAttribute('data-target'));
+                    singleTabContainer.classList.toggle(`showEffect`);
+                })
+            }
+
+            // accordion
+            let accordionItem = document.getElementsByClassName('js-accordionItem');
+            let accordionHeader = document.getElementsByClassName('js-accordionHeader');
+            for (let i = 0; i < accordionHeader.length; i++) {
+                accordionHeader[i].addEventListener('click', (e) => {
+                    this.$toggleAccordion(accordionHeader[i], accordionItem)
+                }, false);
+            }
+
+            document.querySelector("body").classList.remove("overflow-hidden");
         }
-
-        // single drop down
-        let singleTabClick = document.querySelectorAll('[data-single-tab]');
-        for (const action of singleTabClick) {
-            action.addEventListener('click', (e) => {
-                e.preventDefault();
-                let getTarget = e.target;
-                let singleTabContainer = document.getElementById(getTarget.getAttribute('data-target'));
-                singleTabContainer.classList.toggle(`showEffect`);
-            })
+    },
+    mounted () {
+        if (process.browser) {
+            this._initMethod()
         }
-
-        // accordion
-        let accordionItem = document.getElementsByClassName('js-accordionItem');
-        let accordionHeader = document.getElementsByClassName('js-accordionHeader');
-        for (let i = 0; i < accordionHeader.length; i++) {
-            accordionHeader[i].addEventListener('click', (e) => {
-                this.$toggleAccordion(accordionHeader[i], accordionItem)
-            }, false);
-        }
-
-        document.querySelector("body").classList.remove("overflow-hidden");
-
     }
 }
 </script>
