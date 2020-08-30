@@ -1,7 +1,9 @@
 <template>
     <div class="customer">
-        <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script>
+        
+        <!-- <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script> -->
+
         <div class="body-container">
             <div class="sign-up-container">
 

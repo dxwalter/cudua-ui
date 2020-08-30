@@ -1,17 +1,18 @@
 <template>
-        
-            <transition v-on:enter="enter" v-on:leave="leave">
-                <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications>
-            </transition>
+            
+                <transition v-on:enter="enter" v-on:leave="leave">
+                        <client-only>
+                            <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications>
+                        </client-only>
+                </transition>
 </template>
 
 <script>
 
-
 export default {
     name: "NOTIFICATIONHANDLER",
     components: {
-        
+    
     },
     data: function () {
         return {
@@ -21,6 +22,9 @@ export default {
                 opacity: 0
             }
         }
+    },
+    created () {
+
     },
     methods: {
         enter () {
@@ -40,7 +44,7 @@ export default {
         },
     },
     mounted () {
-        if (process.client)  this.element = document.getElementById('notificationToast')
+        if (process.client)  this.element = `<div class="vue-notification-group" id="notificationToast" style="width: 300px; top: 0px; right: 0px; position: absolute;"><span name="vn-fade"></span></div>`
     }
 }
 </script>
