@@ -1,5 +1,6 @@
 <template>
     <div class="business">
+        <div class="image-progress"></div>
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
             <div class="content-container">
@@ -205,7 +206,7 @@
                                                 </div>
                                                 <div class="form-control">
                                                 <button class="btn btn-white btn-block" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
-                                                    Update business address
+                                                    Update whatsapp contact
                                                     <div class="loader-action"><span class="loader"></span></div>    
                                                 </button>
                                                 </div>
@@ -356,6 +357,7 @@ import { SEARCH_FOR_STREET } from '~/graphql/location'
 
 import { mapActions, mapGetters } from 'vuex';
 
+import { buildAxiosFetch } from "@lifeomic/axios-fetch";
 import { createUploadLink } from 'apollo-upload-client'
 
 export default {
@@ -389,6 +391,8 @@ export default {
             streetId: "",
             busStop: "",
             streetSuggestion: "",
+
+            apiLink: 'http://localhost:4000/v1/'
         }
 	},
 	computed: {
@@ -424,6 +428,21 @@ export default {
 		}
 	},
     methods: {
+        intervalId: null,
+        imageFileProgress: function(size) {
+            size = parseInt(Math.floor(Math.log(size) / Math.log(1024)));
+
+            let timeOut = 0;
+
+            if (size == 1) timeOut = 20000
+            if (size == 2) timeOut = 30000
+            if (size > 2) timeOut = 50000
+
+            this.$options.intervalId = setInterval(() => {
+                console.log(5000)
+            }, 1000);
+
+        },
         uploadLogoImage: async function(e, preivewData) {
             let file = e.target.files[0];
             let uploadFile = e.target.files[0];
@@ -442,12 +461,15 @@ export default {
                 businessId: this.businessId,
                 file: uploadFile
             }
+
             let context = {
                 hasUpload: true,
                 headers: {
                     'accessToken': this.accessToken
                 }
             }
+
+            this.imageFileProgress(uploadFile.size)
 
             let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_LOGO, variables, context);
 
@@ -511,7 +533,11 @@ export default {
             }
 
             
-            this.$initiateNotification('error', "Profile updated", result.message)
+            this.$initiateNotification('success', "Profile updated", result.message);
+
+            this.$store.dispatch('business/setBusinessData', {
+                coverPhoto: result.imagePath
+            });
 
                 
         },
@@ -927,6 +953,9 @@ export default {
     },
     mounted () {
 		this.pageLoader = false
+    },
+    beforeDestroy () {
+        clearInterval(this.$options.intervalId);
     }
 }
 </script>

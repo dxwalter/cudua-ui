@@ -24,9 +24,9 @@
                                         <input type="text" name="" id="businessType" class="input-form">
                                     </div> -->
 
-                                    <div class="form-control">
+                                    <div class="form-control mg-bottom-0" v-bind:class="{'mg-bottom-24': clickedCategory}">
                                         <!-- <label for="businessCategory" class="form-label">Select a category</label> -->
-                                        <select class="input-form" id="selectCategoryDropDown"  @change="onSelectCategory($event)">
+                                        <select class="input-form" id="selectCategoryDropDown"  @change="onSelectCategory($event)" @click="clickedCategory = 1">
                                             <option selected>Select a product category</option>
                                             <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
                                         </select>
@@ -43,10 +43,10 @@
                                     </div>
 
 
-                                    <div class="form-control">
-                                        <label for="businessCategory" class="form-label">I cannot find my product's category/subcategory</label>
+                                    <div class="form-control" v-show="clickedCategory">
+                                        <label for="businessCategory" class="form-label mg-bottom-8">Add your product's category/subcategory</label>
                                         <div class="create-footer-options">
-                                            <button type="button" class="btn btn-white btn-small" data-trigger="modal" data-target="createCategoryModal">Create category/subcategories</button>
+                                            <button type="button" class="btn btn-white btn-small" data-trigger="modal" data-target="createCategoryModal">Add category/subcategories</button>
                                         </div>
                                     </div>
 
@@ -120,6 +120,9 @@ export default {
     data : function () {
         return {
             pageLoader: true,
+
+            clickedCategory: 0,
+
             accessToken: "",
             businessId: "",
             // this holds all the category and corresponding subcategories
@@ -181,6 +184,9 @@ export default {
                 }
             }
             this.allCategories = categorylisting;
+
+            // emit to add category component
+            $nuxt.$emit('categoryListing', this.returnCategories)
         },
         onSelectCategory: function(e) {
             let selectedCategory = e.target.options
@@ -278,3 +284,11 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .mg-bottom-0 {
+        margin-bottom: 0 !important;
+    }
+    .mg-bottom-24 {
+        margin-bottom: 24px !important;
+    }
+</style>

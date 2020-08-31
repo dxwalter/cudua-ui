@@ -158,12 +158,14 @@ export default {
             let status = this.LoginStatus
             this.isLoggedIn = status;
 
-            if (status == false) this.$router.push('/');
+            if (status == false) 
+                return this.$router.push('/');
 
             let businessStatus = this.BusinessStatus;
             this.isBusiness = businessStatus;
 
-            if (businessStatus.length < 1) this.$router.push('/');
+            if (businessStatus.length < 1) 
+                return this.$router.push('/');
         },
         assignBusinessData: function () {
             let data = this.GetBusinessData()
@@ -290,19 +292,20 @@ export default {
     },
     watch: {
     },
+    intervalId: null,
     mounted () {
         document.querySelector("body").classList.remove("overflow-hidden");
 
         // if lg
         if (this.isLoggedIn && this.isBusiness) {
-            setInterval(() => {
-                if (this.getCount) {
-                    this.newNotifier();
-                    this.getNewOrderCount()
-                    this.getCount = 0;
-                }
+            this.$options.intervalId = setInterval(() => {
+                this.newNotifier()
+                this.getNewOrderCount()
             }, 600000);
         }
+    },
+    beforeDestroy () {
+        clearInterval(this.$options.intervalId);
     }
 
 }

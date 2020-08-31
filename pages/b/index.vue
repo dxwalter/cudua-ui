@@ -44,7 +44,6 @@
                             <n-link to="/b/product/add-product" class="btn btn-primary btn-lg">Upload a product</n-link>
                         </div>
 
-
                     </div>
                     <BOTTOMNAV />
                     <nuxt/>

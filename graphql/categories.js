@@ -31,3 +31,30 @@ mutation Create($businessId: String!, $categoryId: String!, $subcategories: [Str
   }
 }
 `;
+
+
+export const CREATE_NEW_CATEGORIES = gql`
+mutation create($categoryName: String!, $subcategories: String!) {
+  createCategory(input:{
+    categoryName: $categoryName,
+    subcategories: $subcategories,
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const CREATE_NEW_SUBCATEGORIES = gql`
+mutation create ($subcategories: String!, $categoryId: String!) {
+  createSubCategory(input:{
+    subcategories: $subcategories,
+    categoryId: $categoryId
+  }) {
+    code
+    success
+    message
+  }
+}
+`

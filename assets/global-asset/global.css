@@ -598,3 +598,11 @@ button:disabled .loader-action {
   display: flex !important;
   justify-content: space-between;
 }
+
+.image-progress {
+  width: 50%;
+  height: 4px;
+  background-color: #ee6425;
+  position: fixed;
+  z-index: 4000;
+}

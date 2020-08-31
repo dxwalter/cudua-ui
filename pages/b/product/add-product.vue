@@ -41,13 +41,11 @@
                                     <div class="form-control " id="singleTabContainer">
                                         <div class="mg-bottom-16">
                                             <!-- <label for="businessType" class="form-label">Select category</label> -->
-                                            <select class="input-form white-bg-color">
-                                                <option value="1">Select category</option>
-                                                <option value="1">Create categories</option>
-                                                <option value="1">Category 2</option>
-                                                <option value="1">Category 3</option>
+                                            <select class="input-form white-bg-color" @click="clickedCategory = 1">
+                                                <option selected>Select category</option>
+                                                <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
                                             </select>
-                                            <div class="add-categories">
+                                            <div class="add-categories" v-show="clickedCategory">
                                                 <button type="button" class="btn btn-white btn-small btn-block" data-trigger="modal" data-target="createCategoryModal">Add your category/subcategories</button>
                                             </div>
 
@@ -373,13 +371,13 @@
                                 </div>
 
                                 <div class="js-accordionItem">
-                                        <div class="product-upload-dropdown js-accordionHeader">
-                                            <span>Product suggestion <span>- optional</span></span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
-                                                <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
-                                            </svg>
-                                        </div>
+                                    <div class="product-upload-dropdown js-accordionHeader">
+                                        <span>Product suggestion <span>- optional</span></span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
+                                            <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
+                                        </svg>
                                     </div>
+                                </div>
 
                                 <div class="js-accordionItem">
                                         <div class="product-upload-dropdown js-accordionHeader">
@@ -435,6 +433,10 @@ import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDCATEGORIESMODAL from'~/components/business/categories/addCategories.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
+
+import { GET_ALL_CATEGORIES } from '~/graphql/categories';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
 export default {
     components: {
         TOPHEADER, SIDENAV, BOTTOMNAV, ADDCATEGORIESMODAL, PAGELOADER
@@ -442,10 +444,30 @@ export default {
     data : function () {
         return {
             dragZone: '',
-            pageLoader: true
+            pageLoader: true,
+            
+            allCategories: "",
+            businessId: "",
+            accessToken: "",
+            clickedCategory: 0
         }
     },
+    computed: {
+        returnCategories: function () {
+            return this.allCategories;
+        },
+    },
     methods: {
+        ...mapGetters({
+            'GetCustomerData': 'customer/GetCustomerDetails',
+            'GetBusinessData': 'business/GetBusinessDetails'
+        }),
+        GetBusinessDataFromStore: function () {
+            let businessData = this.GetBusinessData();
+			this.businessId = businessData.businessId
+			let customerData = this.GetCustomerData();
+            this.accessToken = customerData.userToken
+		},
         dragOverHandler: function(e) {
             this.$dragOverHandler(e, this.dragZone)
         },
@@ -457,13 +479,47 @@ export default {
         },
         previewImage: function (e, preview) {
             this.$previewImage(e, preview)
+        },
+        GetAllCategories: async function () {
+            let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
+            if (query.error) {
+                this.$initiateNotification('error', 'Failed request', query.message);
+                return
+            }
+            let result = query.result.data.GetAllCategories;
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+            let categorylisting = [];
+            for (const [index, category] of result.category.entries()) {
+                categorylisting[index] = {
+                    categoryId: category.id,
+                    categoryName: category.categoryName,
+                    subcategory: []
+                }
+                for (const [subcategoryIndex, subcategory] of category.subcategories.entries()) {
+                    categorylisting[index].subcategory.push({
+                        subcategoryId: subcategory.subcategoryId,
+                        subcategoryName: subcategory.subcategoryName
+                    })
+                }
+            }
+            this.allCategories = categorylisting;
+
+            // emit to add category component
+            $nuxt.$emit('categoryListing', this.returnCategories)
+        },
+    },
+    created () {
+        if (process.browser) {
+            this.allCategories = "";
+            this.GetBusinessDataFromStore()
+            this.GetAllCategories();
         }
     },
     mounted() {
-        this.dragZone = document.getElementById('dropZoneOverlay');
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        this.pageLoader = false
     }
 }
 </script>
