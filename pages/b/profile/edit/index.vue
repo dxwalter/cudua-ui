@@ -637,7 +637,7 @@ export default {
                 return
             }
                 
-            this.businessCoverPhoto = data.coverPhoto
+            this.businessCoverPhoto = coverPhoto
             
         },
         assignBusinessData: function () {
@@ -670,6 +670,7 @@ export default {
             this.assignBusinessAddress()
 
             let customerData = this.GetUserData();
+            console.log(customerData)
             this.accessToken = customerData.userToken
             this.emailNotification = customerData.emailNotification
         },
@@ -1028,7 +1029,6 @@ export default {
     },
     mounted () {
         this.pageLoader = false;
-        console.log(this.accessToken)
     },
     beforeDestroy () {
         
