@@ -14,6 +14,7 @@ import { createStore } from './store.js'
 
 import nuxt_plugin_workbox_6ed76082 from 'nuxt_plugin_workbox_6ed76082' // Source: .\\workbox.js (mode: 'client')
 import nuxt_plugin_onesignal_bfa6a164 from 'nuxt_plugin_onesignal_bfa6a164' // Source: .\\onesignal.js (mode: 'client')
+import nuxt_plugin_plugin_5c0ce28c from 'nuxt_plugin_plugin_5c0ce28c' // Source: .\\lozad-module\\plugin.js (mode: 'client')
 import nuxt_plugin_apollomodule_18e912b2 from 'nuxt_plugin_apollomodule_18e912b2' // Source: .\\apollo-module.js (mode: 'all')
 import nuxt_plugin_toast_06b24cd6 from 'nuxt_plugin_toast_06b24cd6' // Source: .\\toast.js (mode: 'client')
 import nuxt_plugin_BusinessUIPluginclient_d9f64744 from 'nuxt_plugin_BusinessUIPluginclient_d9f64744' // Source: ..\\plugins\\business\\BusinessUIPlugin.client.js (mode: 'client')
@@ -22,6 +23,7 @@ import nuxt_plugin_utilsclient_1ad1f319 from 'nuxt_plugin_utilsclient_1ad1f319' 
 import nuxt_plugin_notificationclient_01319fff from 'nuxt_plugin_notificationclient_01319fff' // Source: ..\\plugins\\notification.client.js (mode: 'client')
 import nuxt_plugin_localStorage_830ec59e from 'nuxt_plugin_localStorage_830ec59e' // Source: ..\\plugins\\localStorage.js (mode: 'client')
 import nuxt_plugin_globalUIclient_f48116ea from 'nuxt_plugin_globalUIclient_f48116ea' // Source: ..\\plugins\\globalUI.client.js (mode: 'client')
+import nuxt_plugin_imagePluginclient_865321d4 from 'nuxt_plugin_imagePluginclient_865321d4' // Source: ..\\plugins\\imagePlugin.client.js (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -205,6 +207,10 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_onesignal_bfa6a164(app.context, inject)
   }
 
+  if (process.client && typeof nuxt_plugin_plugin_5c0ce28c === 'function') {
+    await nuxt_plugin_plugin_5c0ce28c(app.context, inject)
+  }
+
   if (typeof nuxt_plugin_apollomodule_18e912b2 === 'function') {
     await nuxt_plugin_apollomodule_18e912b2(app.context, inject)
   }
@@ -235,6 +241,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (process.client && typeof nuxt_plugin_globalUIclient_f48116ea === 'function') {
     await nuxt_plugin_globalUIclient_f48116ea(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_imagePluginclient_865321d4 === 'function') {
+    await nuxt_plugin_imagePluginclient_865321d4(app.context, inject)
   }
 
   // Lock enablePreview in context

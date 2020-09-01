@@ -111,7 +111,11 @@ export default {
             lgaInput: "",
             communityInput: "",
             streetInput: "",
-            proximity: ""
+            proximity: "",
+
+            // timeout
+            lgaTimeOut: null,
+            communityTimeOut: null
         }
     },
     computed: {
@@ -173,13 +177,15 @@ export default {
                 return
             }
 
-            this.$removeRedBorder('locationStates')
+            this.$removeRedBorder('locationStates');
+
+            clearTimeout(this.lgaTimeOut)
 
             if (this.lgaInput.length > 2) {
 
                 document.getElementById('lgaSearchSuggestion').style.display = "block"
 
-                setTimeout(async () => {
+               this.lgaTimeOut = setTimeout(async () => {
                     let variables = {keyword: this.lgaInput}
                     let request = await this.$performGraphQlQuery(this.$apollo, FIND_LGA, variables, {});
 
@@ -206,13 +212,14 @@ export default {
                 return
             }
 
-            this.$removeRedBorder('locationLga')
+            this.$removeRedBorder('locationLga');
+
+            clearTimeout(this.communityTimeOut)
 
             if (this.communityInput.length > 2) {
 
                 document.getElementById('communitySearchSuggestion').style.display = "block"
-
-                setTimeout(async () => {
+                this.communityTimeOut = setTimeout(async () => {
                     let variables = {keyword: this.communityInput}
                     let request = await this.$performGraphQlQuery(this.$apollo, FIND_COMMUNITY, variables, {});
 
@@ -312,6 +319,10 @@ export default {
             this.getStatesInNigeria()
         }
     },
+    destroyed() {
+        clearTimeout(this.lgaTimeout)
+        clearTimeout(this.communityTimeOut)
+    }
 }
 </script>
 

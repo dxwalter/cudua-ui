@@ -1,125 +1,127 @@
 <template>
-        <div class="side-nav-container" id="sideNav" v-on:click="closeNav">
-                <!-- the .js-fold-nav class along-with .side-nav-content folds
-                the navigation bar -->
-                <div class="side-nav-content" id="sideNavContent">
+        <client-only>
+            <div class="side-nav-container" id="sideNav" v-on:click="closeNav">
+                    <!-- the .js-fold-nav class along-with .side-nav-content folds
+                    the navigation bar -->
+                    <div class="side-nav-content" id="sideNavContent">
 
-                    <div class="side-nav-logo-area" >
-                        
-                        <n-link to="/b/profile/" class="side-nav-logo">
-                            <div class="temporal-logo" v-show="!businessLogo">
-                                {{getNameLogo(businessName)}}
+                        <div class="side-nav-logo-area" >
+                            
+                            <n-link to="/b/profile/" class="side-nav-logo">
+                                <div class="temporal-logo" v-show="!businessLogo">
+                                    {{getNameLogo(businessName)}}
+                                </div>
+                                <img src="~/assets/business/image/apple-logo.png" alt="" v-show="businessLogo">
+                            </n-link>
+
+                            <div class="nav-name">
+                                <h4 class="side-nav-biz-name"><n-link to="/b/profile">{{businessName}}</n-link></h4>
+                                    <div>
+                                        <a href="javasscript:;" class="nav-username display-flex" data-trigger="modal" data-target="changeUsername">
+                                            <span>@{{username}}</span>
+                                            <span class="username-icon">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="11.054" height="20">
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#pencil"></use>
+                                                </svg>                                      
+                                            </span>
+                                        </a>
+                                        <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
+                                            <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+                                        </a>
+                                    </div>
                             </div>
-                            <img src="~/assets/business/image/apple-logo.png" alt="" v-show="businessLogo">
+                        </div>
+                        
+                        <n-link to="/b" :class="[currentPage === '/b' || currentPage.includes('product') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#productIcon"></use>
+                                </svg>
+                                <span>Products</span>
+                            </div>
                         </n-link>
 
-                        <div class="nav-name">
-                            <h4 class="side-nav-biz-name"><n-link to="/b/profile">{{businessName}}</n-link></h4>
-                                <div>
-                                    <a href="javasscript:;" class="nav-username display-flex" data-trigger="modal" data-target="changeUsername">
-                                        <span>@{{username}}</span>
-                                        <span class="username-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11.054" height="20">
-                                                <use xlink:href="~/assets/business/image/all-svg.svg#pencil"></use>
-                                            </svg>                                      
-                                        </span>
-                                    </a>
-                                    <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
-                                        <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
-                                    </a>
-                                </div>
-                        </div>
+                        <n-link to="/b/orders" :class="[currentPage.includes('orders') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#order"></use>
+                                </svg>
+                                <span>Orders</span>
+                            </div>
+
+                            <div class="notif-point" v-show="getNewOrderCount > 0">{{getNewOrderCount}}</div>
+                        </n-link>
+
+                        <n-link to="/b/categories" :class="[currentPage.includes('categories') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#categories"></use>
+                                </svg>
+                                
+                                <span>Categories</span>
+                            </div>
+                        </n-link>
+
+                        <n-link to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
+                                </svg>                          
+                                <span>Followers</span>
+                            </div>
+                        </n-link>
+
+                        <n-link to="/b/notification" :class="[currentPage.includes('notification') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
+                                </svg>                          
+                                <span>Notification</span>
+                            </div>
+                            <div class="notif-point" v-show="getNotificationCount > 0">{{getNotificationCount}}</div>
+                        </n-link>
+
+
+                        <n-link to="/b/dashboard" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#dashboard"></use>
+                                </svg>
+                                <span>Analytics</span>
+                            </div>
+                        </n-link>
+
+                        <n-link to="/b/profile" :class="[currentPage.includes('profile') && !currentPage.includes('profile/edit') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#person"></use>
+                                </svg>
+                                <span>Profile</span>
+                            </div>
+                        </n-link>
+
+                        <n-link to="/b/profile/edit" :class="[currentPage.includes('edit') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
+                                </svg>
+                                <span>Account settings</span>
+                            </div>
+                        </n-link>
+
+                        <n-link to="/c/logout" class="nav-link-items">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#logout"></use>
+                                </svg>
+                                <span>Logout</span>
+                            </div>
+                        </n-link>
+                        
                     </div>
-                    
-                    <n-link to="/b" :class="[currentPage === '/b' || currentPage.includes('product') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#productIcon"></use>
-                            </svg>
-                            <span>Products</span>
-                        </div>
-                    </n-link>
-
-                    <n-link to="/b/orders" :class="[currentPage.includes('orders') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#order"></use>
-                            </svg>
-                            <span>Orders</span>
-                        </div>
-
-                        <div class="notif-point" v-show="getNewOrderCount > 0">{{getNewOrderCount}}</div>
-                    </n-link>
-
-                    <n-link to="/b/categories" :class="[currentPage.includes('categories') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#categories"></use>
-                            </svg>
-                            
-                            <span>Categories</span>
-                        </div>
-                    </n-link>
-
-                    <n-link to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
-                            </svg>                          
-                            <span>Followers</span>
-                        </div>
-                    </n-link>
-
-                    <n-link to="/b/notification" :class="[currentPage.includes('notification') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
-                            </svg>                          
-                            <span>Notification</span>
-                        </div>
-                        <div class="notif-point" v-show="getNotificationCount > 0">{{getNotificationCount}}</div>
-                    </n-link>
-
-
-                    <n-link to="/b/dashboard" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#dashboard"></use>
-                            </svg>
-                            <span>Analytics</span>
-                        </div>
-                    </n-link>
-
-                    <n-link to="/b/profile" :class="[currentPage.includes('profile') && !currentPage.includes('profile/edit') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#person"></use>
-                            </svg>
-                            <span>Profile</span>
-                        </div>
-                    </n-link>
-
-                    <n-link to="/b/profile/edit" :class="[currentPage.includes('edit') ? activeClass : '', 'nav-link-items']">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
-                            </svg>
-                            <span>Account settings</span>
-                        </div>
-                    </n-link>
-
-                    <n-link to="/c/logout" class="nav-link-items">
-                        <div class="nav-icon-text">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#logout"></use>
-                            </svg>
-                            <span>Logout</span>
-                        </div>
-                    </n-link>
-                    
-                </div>
-            
-        </div>
+                
+            </div>
+        </client-only>
 </template>
 
 <script>
@@ -259,7 +261,7 @@ export default {
         }
     },
     mounted () {
-        if (process.browser) {
+        if (process.browser  || process.client) {
             this._initMethod()
         }
     }

@@ -1,6 +1,5 @@
 <template>
     <div class="business">
-        <div class="image-progress"></div>
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
             <div class="content-container">
@@ -28,18 +27,19 @@
                                         
                                         <div class="edit-logo-container">
                                             <div class="edit-profile-logo">
-												<div class="no-logo-review" v-show="!logo">
+												<div class="no-logo-review" v-show="!businessLogo">
 													{{getNameLogo(businessName)}}
 												</div>
-												<img src="~/assets/business/image/mainOremitLogo.png" alt=""  v-show="logo">
+                                                
+												<img :src="businessLogo" alt=""  v-show="businessLogo">
                                                 <div id="previewBusinessLogo" class="edit-logo-preview"></div>
 											</div>
                                             <div class="upload-action">
-                                                <input type="file" id="selectimage" @change="uploadLogoImage($event, 'previewBusinessLogo')">
+                                                <input type="file" id="selectimage" ref="logoUpload" @change="uploadLogoImage($event, 'previewBusinessLogo')">
                                                 <button class="btn btn-white btn-small">Select logo</button>
                                             </div>
                                             
-                                            <!-- <div>loader here</div> -->
+                                            <div v-show="LogoProgressProps"><PROGRESS :count-down-time=LogoProgressProps></PROGRESS></div>
                                         </div>
 
                                         <div class="edit-logo-container">
@@ -47,16 +47,16 @@
                                                 <div class="no-logo-review" v-show="!businessCoverPhoto">
 													{{getNameLogo(businessName)}}
 												</div>
-                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" v-show="businessCoverPhoto">
+                                                <img :src="businessCoverPhoto" alt="" v-show="businessCoverPhoto">
 
                                                 <div id="previewBusinessCover" class="edit-logo-preview"></div>
                                             </div>
                                             <div class="upload-action">
-                                                <input type="file" id="selectLogoImage" @change="uploadCoverPhoto($event, 'previewBusinessCover')">
+                                                <input type="file" id="selectLogoImage" ref="coverUpload" @change="uploadCoverPhoto($event, 'previewBusinessCover')">
                                                 <button class="btn btn-white btn-small">Select cover photo</button>
                                             </div>
                                             <!-- once a logo is selected, an animated loaded is shown to tell the progress of the upload -->
-                                            <!-- <div>loader here</div> -->
+                                            <div v-show="coverPhotoProgressProps"><PROGRESS :count-down-time=coverPhotoProgressProps></PROGRESS></div>
                                         </div>
 
                                         <div class="form-control">
@@ -86,131 +86,159 @@
                                     <!-- contact -->
                                     <div class="tab-content-area" id="editContact">
 
-                                        <div class="js-accordionItem">
-                                            <div class="product-upload-dropdown  js-accordionHeader">
-                                                <span>Phone numbers</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
-                                                </svg>
-                                            </div>
+                                        <div class="edit-profile-container card">
+                                            <!-- business phone numbers -->
+                                            <div class="edit-profile-section">
+                                                <a href="#" class="header-area">
+                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editPhoneDetails">
+                                                    <div class="edit-action-description accord-chip-name">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                                            <use xlink:href="~/assets/business/image/all-svg.svg#phone"></use>
+                                                        </svg>
+                                                        <span>Phone numbers</span>
+                                                    </div>
 
-                                            <div class="more-details-input-container js-accordionBody">
-                                                <div class="form-control">
-                                                    <label for="businessType" class="form-label">Add at least one or multiple phone numbers seperated by comma</label>
-                                                    <textarea name="" id="" cols="30" rows="4" class="input-form white-bg-color" placeholder="Number 1, Number2, ..., Number N" v-model="businessPhone"></textarea>
-                                                </div>
-                                                <div class="form-control">
-                                                    <button class="btn btn-white btn-block" @click="updateBusinessPhoneNumber($event)" id="updateBusinessPhoneNumber">
-                                                        Update phone number
-                                                        <div class="loader-action"><span class="loader"></span></div>    
-                                                    </button>
-                                                </div>
-                                            </div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
+                                                    </svg>
+                                                </a>
+                                                <div class="edit-profile-content" id="editPhoneDetails">
+                                                    <!-- content here -->
+                                                    <div class="form-control">
+                                                        <label for="businessType" class="form-label">Add at least one or multiple phone numbers seperated by comma</label>
+                                                        <textarea name="" id="" cols="30" rows="4" class="input-form" placeholder="Number 1, Number2, ..., Number N" v-model="businessPhone"></textarea>
+                                                    </div>
+                                                    <div class="form-control">
+                                                        <button class="btn btn-primary btn-block" @click="updateBusinessPhoneNumber($event)" id="updateBusinessPhoneNumber">
+                                                            Update phone number
+                                                            <div class="loader-action"><span class="loader"></span></div>    
+                                                        </button>
+                                                    </div>
 
-                                        </div>
-                                        
-                                        <div class="js-accordionItem">
-                                            <div href="#" class="product-upload-dropdown js-accordionHeader">
-                                                <span>Email address</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
-                                                </svg>
-                                            </div>
-
-                                            <div class="more-details-input-container js-accordionBody">
-                                                <div class="form-control">
-                                                    <!-- <label for="businessType" class="form-label">Type in your business email address</label> -->
-                                                    
-                                                    <input type="text" name="" id="editbusinessEmailAddress" class="input-form white-bg-color" placeholder="Type in your business email address" v-model="businessEmail">
-
-                                                    <!-- <div class="email-noti-switcher">
-                                                        <span class="form-label">Email notification</span>
-                                                        <label class="switch">
-                                                            <input type="checkbox" v-model="emailNotification">
-                                                            <span class="slider round"></span>
-                                                        </label>
-                                                    </div> -->
-                                                </div>
-                                                <div class="form-control">
-                                                    <button class="btn btn-white btn-block" @click="updateBusinessEmail($event)" id="updateBusinessEmail">
-                                                        Update email address
-                                                        <div class="loader-action"><span class="loader"></span></div>    
-                                                    </button>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="js-accordionItem">
-                                            <div class="product-upload-dropdown js-accordionHeader">
-                                                <span>Business address</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
-                                                </svg>
+                                            <!-- business email address -->
+                                            <div class="edit-profile-section">
+                                                <a href="#" class="header-area">
+                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editEmailDetails">
+                                                    <div class="edit-action-description accord-chip-name">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                                                            <use xlink:href="~/assets/business/image/all-svg.svg#email"></use>
+                                                        </svg>
+                                                        <span>Business email address</span>
+                                                    </div>
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
+                                                    </svg>
+                                                </a>
+                                                <div class="edit-profile-content" id="editEmailDetails">
+                                                    <!-- content here -->
+                                                    <div class="form-control">
+                                                        <input type="text" name="" id="editbusinessEmailAddress" class="input-form" placeholder="Type in your business email address" v-model="businessEmail">
+                                                    </div>
+                                                    <div class="form-control">
+                                                        <button class="btn btn-primary btn-block" @click="updateBusinessEmail($event)" id="updateBusinessEmail">
+                                                            Update email address
+                                                            <div class="loader-action"><span class="loader"></span></div>    
+                                                        </button>
+                                                    </div>
+
+                                                </div>
                                             </div>
 
-                                            <div class="more-details-input-container js-accordionBody">
-                                                
-                                                <div class="form-control">
-                                                    <label for="businessType" class="form-label">Street number</label>
-                                                    <input type="text" name="" id="streetNumber" class="input-form white-bg-color"  v-model="streetNumber" @keydown="validateStreetNumber">
-                                                </div>
+                                            <!-- business address -->
+                                            <div class="edit-profile-section">
+                                                <a href="#" class="header-area">
+                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editBusinessAddress">
+                                                    <div class="edit-action-description accord-chip-name">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
+                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#visitShop"></use>
+                                                        </svg>
+                                                        <span>Business address</span>
+                                                    </div>
 
-                                                <div class="form-control position-relative">
-                                                    <!-- <label for="businessType" class="form-label">Name of street</label> -->
-                                                    <input type="text" name="" id="businessStreet" class="input-form white-bg-color" placeholder="Name of street" v-model="streetName" @keyup="findStreet">
-                                                    <div class="recent-search-list-container" id="streetSearchSuggestion"  v-show="streetName">
-                                                        <div v-for="(suggestion, index) in streetSuggestion" :key="index">
-                                                            <div @click="setStreetID(suggestion.streetId, suggestion.streetName, 'streetSearchSuggestion')" class="action-content">
-                                                                {{suggestion.streetName}} <span>- {{suggestion.community.name}}</span>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
+                                                    </svg>
+                                                </a>
+                                                <div class="edit-profile-content" id="editBusinessAddress">
+                                                    <!-- content here -->
+                                                    <div class="form-control">
+                                                        <label for="businessType" class="form-label">Street number</label>
+                                                        <input type="text" name="" id="streetNumber" class="input-form"  v-model="streetNumber" @keydown="validateStreetNumber">
+                                                    </div>
+
+                                                    <div class="form-control position-relative">
+                                                        <!-- <label for="businessType" class="form-label">Name of street</label> -->
+                                                        <input type="text" name="" id="businessStreet" class="input-form" placeholder="Name of street" v-model="streetName" @keyup="findStreet">
+                                                        <div class="recent-search-list-container" id="streetSearchSuggestion"  v-show="streetName">
+                                                            <div v-for="(suggestion, index) in streetSuggestion" :key="index">
+                                                                <div @click="setStreetID(suggestion.streetId, suggestion.streetName, 'streetSearchSuggestion')" class="action-content">
+                                                                    {{suggestion.streetName}} <span>- {{suggestion.community.name}}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my street? <span class="action-span">Add it</span></a>
                                                     </div>
-                                                    <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my street? <span class="action-span">Add it</span></a>
-                                                </div>
 
-                                                <div class="form-control">
-                                                    <input type="type" name="" id="busStop" class="input-form white-bg-color" placeholder="Name of closest bus stop" v-model="busStop">
-                                                </div>
-
-                                                <div class="form-control">
-                                                    <button class="btn btn-white btn-block" id="updateBusinessAddress" @click="updateBusinessAddress">
-                                                        Update business address
-                                                        <div class="loader-action"><span class="loader"></span></div>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="js-accordionItem">
-                                            <div class="product-upload-dropdown js-accordionHeader">
-                                                <span>Business support with Whatsapp </span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
-                                                </svg>
-                                            </div>
-
-                                            <div class="more-details-input-container js-accordionBody">
-                                                <div class="form-control">
-                                                    <div class="email-noti-switcher">
-                                                        <span class="form-label">Activate whatsapp chat</span>
-                                                        <label class="switch">
-                                                            <input type="checkbox" v-model="whatsappStatus">
-                                                            <span class="slider round"></span>
-                                                        </label>
+                                                    <div class="form-control">
+                                                        <input type="type" name="" id="busStop" class="input-form" placeholder="Name of closest bus stop" v-model="busStop">
                                                     </div>
-                                                </div>
 
-                                                <div class="form-control">
-                                                    <!-- <label for="businessType" class="form-label">Update whatsapp number</label> -->
-                                                    <input type="number" name="" id="businessType" class="input-form white-bg-color" placeholder="Type your whatsapp number" v-model="whatsappNumber">
-                                                </div>
-                                                <div class="form-control">
-                                                <button class="btn btn-white btn-block" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
-                                                    Update whatsapp contact
-                                                    <div class="loader-action"><span class="loader"></span></div>    
-                                                </button>
+                                                    <div class="form-control">
+                                                        <button class="btn btn-primary btn-block" id="updateBusinessAddress" @click="updateBusinessAddress">
+                                                            Update business address
+                                                            <div class="loader-action"><span class="loader"></span></div>
+                                                        </button>
+                                                    </div>
+
                                                 </div>
                                             </div>
+
+                                            <!-- business support with whatsapp -->
+
+                                            <div class="edit-profile-section">
+                                                <a href="#" class="header-area">
+                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="businessSupportWithWhatsapp">
+                                                    <div class="edit-action-description accord-chip-name">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 512 512">
+                                                            <use xlink:href="~/assets/business/image/all-svg.svg#whatsappIcon2"></use>
+                                                        </svg>
+                                                        <span>Whatsapp messanger</span>
+                                                    </div>
+
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
+                                                    </svg>
+                                                </a>
+                                                <div class="edit-profile-content" id="businessSupportWithWhatsapp">
+                                                    <!-- content here -->
+                                                    <div class="form-control">
+                                                        <div class="email-noti-switcher">
+                                                            <span class="form-label">Activate whatsapp chat</span>
+                                                            <label class="switch">
+                                                                <input type="checkbox" v-model="whatsappStatus">
+                                                                <span class="slider round"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-control">
+                                                        <label for="businessType" class="form-label">Let customers chat with you</label>
+                                                        <input type="number" name="" id="businessType" class="input-form" placeholder="Type your whatsapp number" v-model="whatsappNumber">
+                                                    </div>
+                                                    <div class="form-control">
+                                                        <button class="btn btn-primary btn-block" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
+                                                            Update whatsapp contact
+                                                            <div class="loader-action"><span class="loader"></span></div>    
+                                                        </button>
+                                                    </div>
+                                                        
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </div>
@@ -347,6 +375,7 @@ import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDLOCATION from '~/components/location/add.location.vue'
 import PAGELOADER from '~/components/loader/loader.vue'
+import PROGRESS from '~/components/progress/progress.vue'
 
 import { 
     EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS, EDIT_BUSINESS_ADDRESS,
@@ -363,13 +392,13 @@ import { createUploadLink } from 'apollo-upload-client'
 export default {
     name: "EDITBUSINESSPROFILE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS
     },
     data: function() {
         return {
             pageLoader: true,
             businessId: "",
-            logo: "",
+            businessLogo: "",
             businessCoverPhoto: "",
             businessName: "",
             username: "",
@@ -392,7 +421,13 @@ export default {
             busStop: "",
             streetSuggestion: "",
 
-            apiLink: 'http://localhost:4000/v1/'
+            apiLink: 'http://localhost:4000/v1/',
+
+            // upload progress
+            LogoProgressProps: 0,
+            coverPhotoProgressProps: 0,
+
+            setTimeoutForStreet: null
         }
 	},
 	computed: {
@@ -425,23 +460,16 @@ export default {
 			}
 
 			return newLogo
-		}
+        }
 	},
     methods: {
-        intervalId: null,
-        imageFileProgress: function(size) {
-            size = parseInt(Math.floor(Math.log(size) / Math.log(1024)));
+        imageFileProgress: function (size) {
+            let count = 0;
 
-            let timeOut = 0;
+            if (size == 1) count = 20;
+            if (size >= 2) count = 30;
 
-            if (size == 1) timeOut = 20000
-            if (size == 2) timeOut = 30000
-            if (size > 2) timeOut = 50000
-
-            this.$options.intervalId = setInterval(() => {
-                console.log(5000)
-            }, 1000);
-
+            return count
         },
         uploadLogoImage: async function(e, preivewData) {
             let file = e.target.files[0];
@@ -469,11 +497,16 @@ export default {
                 }
             }
 
-            this.imageFileProgress(uploadFile.size)
+            
+            this.LogoProgressProps = this.imageFileProgress(uploadFile.size);
 
             let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_LOGO, variables, context);
 
+            this.LogoProgressProps = 0;
+
             if (request.error == true) {
+                // reset input
+                this.$refs.logoUpload.value=null;
                 this.$initiateNotification('error', 'Failed request', 'A network error occurred');
                 return
 			}
@@ -481,6 +514,7 @@ export default {
             let result = request.result.data.EditBusinesslogo
 
             if (!result.success) {
+                this.$refs.logoUpload.value=null;
                 this.$initiateNotification('error', "Failed upload", result.message)
                 return
             }
@@ -488,7 +522,7 @@ export default {
             this.$initiateNotification('success', "Profile updated", result.message);
             // update store
 
-            this.$store.dispatch('business/setBusinessData', {
+            this.$store.dispatch('business/BusinessData', {
                 logo: result.imagePath
             });
                 
@@ -518,9 +552,15 @@ export default {
                 }
             }
 
+            this.coverPhotoProgressProps = this.imageFileProgress(uploadFile.size);
+
             let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_COVERPHOTO, variables, context);
 
+            this.coverPhotoProgressProps = 0
+
             if (request.error == true) {
+                // reset input
+                this.$refs.coverUpload.value=null;
                 this.$initiateNotification('error', 'Failed request', 'A network error occurred');
                 return
 			}
@@ -528,6 +568,7 @@ export default {
             let result = request.result.data.EditBusinessCoverPhoto
 
             if (!result.success) {
+                this.$refs.coverUpload.value=null;
                 this.$initiateNotification('error', "Failed upload", result.message)
                 return
             }
@@ -580,12 +621,36 @@ export default {
                 this.busStop = this.businessAddress.busStop
             }
         },
+        formatCoverPhoto: function (coverPhoto) {
+            if(coverPhoto) {
+                let extension = coverPhoto.split('.');
+
+                if (extension[1] != 'jepg') {
+                    coverPhoto = `${extension[0]}.jpeg`
+                }
+
+                this.businessCoverPhoto = `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto,,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1598967937/cudua_commerce/business/${this.businessId}/cover/${coverPhoto}`
+                return
+            }
+                
+            this.businessCoverPhoto = data.coverPhoto
+            
+        },
         assignBusinessData: function () {
             let data = this.GetBusinessData()
             this.businessId = data.businessId;
-			this.businessName = data.businessName;
-			this.logo = data.logo
-			this.businessCoverPhoto = data.coverPhoto
+            this.businessName = data.businessName;
+
+            // logo
+            if (data.logo) {
+                this.businessLogo = this.$getBusinessLogoUrl(this.businessId, data.logo)
+            } else {
+                this.businessLogo = ""
+            }
+
+            // coverPhoto
+            this.formatCoverPhoto(data.coverPhoto)
+
 			this.username = data.username
 			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)
 			this.businessEmail = data.contact.email,
@@ -797,6 +862,9 @@ export default {
             this.$initiateNotification('success', 'Profile update', result.message);
             return;
         },
+        clearTimeOut: function (timerOut) {
+            clearTimeout(timerOut)
+        },
         findStreet: async function () {
             if (this.streetName.length < 2) return
 
@@ -805,26 +873,29 @@ export default {
             let variables = {
                 keyword: this.streetName
             }
+            
+            this.clearTimeOut(this.setTimeoutForStreet)
+            this.setTimeoutForStreet = setTimeout( async() => {
+                
+                let request = await this.$performGraphQlQuery(this.$apollo, SEARCH_FOR_STREET, variables, {});
 
-            let request = await this.$performGraphQlQuery(this.$apollo, SEARCH_FOR_STREET, variables, {});
-
-        
-
-            if (request.error) {
-                this.$showToast("Network error", 'error')
-                return
-            }
-
-            let result = request.result.data.GetStreet;
-
-            if (result.success) {
-                if (result.streetData != null) {
-                    this.streetSuggestion = result.streetData
-                } else {
-                    this.streetSuggestion = ''
-                    document.getElementById('streetSearchSuggestion').style.display = "none"
+                if (request.error) {
+                    this.$showToast("Network error", 'error')
+                    return
                 }
-            }
+
+                let result = request.result.data.GetStreet;
+
+                if (result.success) {
+                    if (result.streetData != null) {
+                        this.streetSuggestion = result.streetData
+                    } else {
+                        this.streetSuggestion = ''
+                        document.getElementById('streetSearchSuggestion').style.display = "none"
+                    }
+                }
+
+            }, 2000);
 
         },
         setStreetID: function (streetId, streetName, suggestionBoxId) {
@@ -955,7 +1026,10 @@ export default {
 		this.pageLoader = false
     },
     beforeDestroy () {
-        clearInterval(this.$options.intervalId);
+        
+    },
+    destroyed () {
+        clearTimeout(this.setTimeoutForStreet);
     }
 }
 </script>

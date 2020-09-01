@@ -27,13 +27,15 @@ export default {
 		{src: '~/plugins/utils.client.js', ssr: false},
 		{src: '~/plugins/notification.client.js', ssr: false},
 		{ src: '~/plugins/localStorage.js', ssr: false },
-		{ src: '~/plugins/globalUI.client.js', ssr: false }
+		{ src: '~/plugins/globalUI.client.js', ssr: false },
+		{ src: '~/plugins/imagePlugin.client.js', ssr: false },
 	],
 	modules: [
 		'@nuxtjs/toast',
 		'@nuxtjs/onesignal',
 		'@nuxtjs/pwa',
 		'@nuxtjs/apollo',
+		'@ax2/lozad-module',
 	],
 	loading: false,
 	oneSignal: {

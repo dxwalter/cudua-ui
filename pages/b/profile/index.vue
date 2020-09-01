@@ -33,7 +33,7 @@
 												<div class="temporal-logo" v-show="!logo">
 													{{getNameLogo(businessName)}}
 												</div>
-												<img src="~/assets/business/image/mainOremitLogo.png" alt=""  v-show="logo">
+												<img :src="logo" alt=""  v-show="logo">
 											</div>
 										</div>
 
@@ -143,7 +143,8 @@ export default {
             reviewScore: 0,
 			businessPhone: "",
 			businessEmail: "",
-            categories: "",
+			categories: "",
+			businessId: ""
         }
 	},
 	computed: {
@@ -196,7 +197,16 @@ export default {
         assignBusinessData: function () {
             let data = this.GetBusinessData()
 			this.businessName = data.businessName;
-			this.logo = data.logo
+			this.businessId = data.businessId
+
+            // logo
+            if (data.logo) {
+                this.logo = this.$getBusinessLogoUrl(this.businessId, data.logo)
+            } else {
+                this.logo = ""
+            }
+			// this.logo = data.logo
+
 			this.businessCoverPhoto = data.coverPhoto
 			this.username = data.username
 			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)

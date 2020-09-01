@@ -3733,3 +3733,48 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
        display: none;
    } 
 }
+
+.edit-profile-section {
+    border-bottom: $border;
+    .header-area {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        padding: 24px 24px;
+        .edit-action-description {
+            display: flex;
+            span {
+                margin-left: 2px;
+                font-weight: 500;
+            }
+            svg {
+                width: 20px;
+                margin-right: 16px;
+            }
+        }
+
+        .edit-action-description + svg {
+            width: 16px;
+            align-self: center;
+        }
+    }
+}
+
+.edit-profile-content {
+    padding: 24px 24px;
+    display: none;
+}
+
+.edit-profile-content.showEffect {
+    display: block;
+}
+
+.edit-profile-container {
+    overflow: hidden;
+    background-color: $white-color;
+}
+
+input[type=checkbox]:checked.dropdownCheckBox  + .accord-chip-name + svg, 
+input[type=checkbox]:checked.dropdownCheckBox + span + svg{
+    transform: rotate(180deg);
+}
