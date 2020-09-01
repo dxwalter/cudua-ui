@@ -304,6 +304,18 @@
     overflow: hidden;
     flex-shrink: 0;
     border: $border;
+    position: relative;
+    img {
+        -o-object-position: 100% 100%;
+        object-position: 100% 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+
+    }
     
     .temporal-logo {
         font-size: 20px;
@@ -1235,6 +1247,10 @@
     img {
         object-position: 100% 100%;
         object-fit: cover;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
     }
 }
 

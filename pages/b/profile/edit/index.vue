@@ -483,12 +483,16 @@ export default {
                 this.$initiateNotification('info', "", "Choose a valid image for your logo")
                 return
             } 
+
+
             this.$previewImage(e, preivewData);
 
             let variables = { 
                 businessId: this.businessId,
                 file: uploadFile
             }
+
+            alert(this.accessToken)
 
             let context = {
                 hasUpload: true,
