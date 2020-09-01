@@ -492,8 +492,6 @@ export default {
                 file: uploadFile
             }
 
-            alert(this.accessToken)
-
             let context = {
                 hasUpload: true,
                 headers: {
@@ -670,7 +668,6 @@ export default {
             this.assignBusinessAddress()
 
             let customerData = this.GetUserData();
-            console.log(customerData)
             this.accessToken = customerData.userToken
             this.emailNotification = customerData.emailNotification
         },
