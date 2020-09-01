@@ -1027,7 +1027,8 @@ export default {
         if (process.browser) this.assignBusinessData()
     },
     mounted () {
-		this.pageLoader = false
+        this.pageLoader = false;
+        console.log(this.accessToken)
     },
     beforeDestroy () {
         
