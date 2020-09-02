@@ -523,8 +523,8 @@ export default {
 
             this.$initiateNotification('success', "Profile updated", result.message);
             // update store
-
-            this.$store.dispatch('business/BusinessData', {
+    
+            this.$store.dispatch('business/setBusinessData', {
                 logo: result.imagePath
             });
                 
@@ -642,7 +642,7 @@ export default {
             let data = this.GetBusinessData()
             this.businessId = data.businessId;
             this.businessName = data.businessName;
-
+            console.log(data.logo)
             // logo
             if (data.logo) {
                 this.businessLogo = this.$getBusinessLogoUrl(this.businessId, data.logo)

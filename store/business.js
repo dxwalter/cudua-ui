@@ -86,7 +86,7 @@ export const mutations = {
 		if (dataObject.businessId != undefined) state.businessId = dataObject.businessId
 		if (dataObject.businessName != undefined) state.businessName = dataObject.businessName
 		if (dataObject.username != undefined) state.username = dataObject.username
-		if (dataObject.logo != undefined) state.logo = dataObject.logo
+		if (dataObject.logo != undefined) { state.logo = dataObject.logo }
 		if (dataObject.coverPhoto != undefined) state.coverPhoto = dataObject.coverPhoto
 		if (dataObject.description != undefined) state.description = dataObject.description
 		if (dataObject.reviewScore != undefined) state.reviewScore = dataObject.reviewScore

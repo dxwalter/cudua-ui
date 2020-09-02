@@ -11,7 +11,7 @@
                                 <div class="temporal-logo" v-show="!businessLogo">
                                     {{getNameLogo(businessName)}}
                                 </div>
-                                <img src="~/assets/business/image/apple-logo.png" alt="" v-show="businessLogo">
+                                <img :src="businessLogo" alt="" v-show="businessLogo">
                             </n-link>
 
                             <div class="nav-name">
@@ -143,7 +143,8 @@ export default {
             businessName: "",
             businessLogo: "",
             reviewScore: 0,
-            username: ""
+            username: "",
+            businessId: "",
         }
     },
     created() {
@@ -178,7 +179,8 @@ export default {
         },
         assignBusinessData: function () {
             let businessData = this.GetBusinessData();
-            this.businessLogo = businessData.logo
+            this.businessId = businessData.businessId
+            this.businessLogo = businessData.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, businessData.logo) : ""
             this.businessName = businessData.businessName
             this.reviewScore = businessData.reviewScore
             this.username = businessData.username
