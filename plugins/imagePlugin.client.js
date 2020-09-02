@@ -8,7 +8,7 @@ export default ({app}, inject) => {
             logoPath = `${extension[0]}.jpeg`
         }
 
-        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,b_rgb:ffffff,bo_0px_solid_rgb:ff0000,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/cudua_commerce/business/${businessId}/logo/${logoPath}`
+        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/cudua_commerce/business/${businessId}/logo/${logoPath}`
     }
 
     inject("getBusinessLogoUrl", getBusinessLogoUrl);

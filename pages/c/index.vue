@@ -9,7 +9,7 @@ export default {
     },
     middleware: [
         function({ redirect }) {
-            redirect('/');
+           return redirect('/');
         },
     ],
 }

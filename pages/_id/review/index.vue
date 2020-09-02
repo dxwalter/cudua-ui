@@ -155,6 +155,7 @@ import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 export default {
+    name: "BUSINESSREVIEW",
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, BUSINESSREVIEW, PAGELOADER
     },

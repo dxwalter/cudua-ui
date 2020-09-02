@@ -349,6 +349,7 @@ import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
 import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
 
 export default {
+    name: "BUSINESSSHOP",
     components: {
         DESKTOPNAVGATION, 
         MOBILENAVIGATION, 

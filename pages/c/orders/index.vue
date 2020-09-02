@@ -636,7 +636,8 @@ export default {
     created: async function () {
 		if (process.browser) {
             let status = this.LoginStatus
-            if (status == false) this.$router.push('/')
+            if (status == false) 
+                return this.$router.push('/')
 		}
 
     },

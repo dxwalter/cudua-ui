@@ -510,9 +510,8 @@ export default {
 
     },
     mounted () {
-        setTimeout(() => {
+    
             this.pageLoader = false
-        }, 5000);
     }
 }
 </script>

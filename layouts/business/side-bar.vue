@@ -1,5 +1,5 @@
 <template>
-        <client-only>
+        <!-- <client-only> -->
             <div class="side-nav-container" id="sideNav" v-on:click="closeNav">
                     <!-- the .js-fold-nav class along-with .side-nav-content folds
                     the navigation bar -->
@@ -119,21 +119,27 @@
                         </n-link>
                         
                     </div>
-                
+                    <BUSINESSREVIEWSIDEBAR></BUSINESSREVIEWSIDEBAR>
+                    <USERNAMEMODALSIDEBAR></USERNAMEMODALSIDEBAR>
             </div>
-        </client-only>
+        <!-- </client-only> -->
 </template>
 
 <script>
 
 import { mapActions, mapGetters } from 'vuex';
 
+import BUSINESSREVIEWSIDEBAR from '~/components/business/businessreview/business.review.vue';
+import USERNAMEMODALSIDEBAR from '~/components/business/profile/username.vue'; 
+
 import STARRATING from 'vue-star-rating'
 
 export default {
     name: "SIDEBAR",
     components: {
-        STARRATING
+        STARRATING,
+        USERNAMEMODALSIDEBAR,
+        BUSINESSREVIEWSIDEBAR
     },
     data: function () {
         return {
@@ -263,7 +269,7 @@ export default {
         }
     },
     mounted () {
-        if (process.browser  || process.client) {
+        if (process.browser) {
             this._initMethod()
         }
     }
