@@ -767,8 +767,8 @@ export default {
             
             e.preventDefault();
 
-            if (this.businessPhone.length < 4) {
-                this.$initiateNotification('error', 'Input error', "Enter a valid phone number");
+            if (this.whatsappNumber.length < 4) {
+                this.$showToast("Enter a valid phone number", 'error');
                 return
             }
 
