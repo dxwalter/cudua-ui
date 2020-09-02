@@ -269,8 +269,9 @@ export default {
         }
     },
     mounted () {
-        if (process.browser) {
+        if (process.client) {
             this._initMethod()
+            // this.closeNav()
         }
     }
 }

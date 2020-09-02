@@ -82,7 +82,11 @@
                                             <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')">
                                             <button class="btn btn-light-grey btn-block">Upload an image</button>
                                         </div>
-                                        <a href="https://remove.bg" target="_blank">Remove image background</a>
+                                        <div  class="mg-top-8 display-block font-14">
+                                            Pictures look better on white background
+                                            <a href="https://remove.bg" target="_blank">Remove background</a>
+                                        </div>
+                                        
 
                                         <div id="previewPrimaryImage" class="image-upload-preview"></div>
                                     </div>

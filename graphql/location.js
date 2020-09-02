@@ -83,10 +83,10 @@ query SearchStreet($keyword: String!) {
         name
         communityId
       }
-      state {
-        name
-        stateId
-      }
+      # state {
+      #   name
+      #   stateId
+      # }
     }
     code
     success

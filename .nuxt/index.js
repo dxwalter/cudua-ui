@@ -13,9 +13,9 @@ import { createStore } from './store.js'
 /* Plugins */
 
 import nuxt_plugin_workbox_6ed76082 from 'nuxt_plugin_workbox_6ed76082' // Source: .\\workbox.js (mode: 'client')
+import nuxt_plugin_onesignal_bfa6a164 from 'nuxt_plugin_onesignal_bfa6a164' // Source: .\\onesignal.js (mode: 'client')
 import nuxt_plugin_plugin_5c0ce28c from 'nuxt_plugin_plugin_5c0ce28c' // Source: .\\lozad-module\\plugin.js (mode: 'client')
 import nuxt_plugin_apollomodule_18e912b2 from 'nuxt_plugin_apollomodule_18e912b2' // Source: .\\apollo-module.js (mode: 'all')
-import nuxt_plugin_onesignal_bfa6a164 from 'nuxt_plugin_onesignal_bfa6a164' // Source: .\\onesignal.js (mode: 'client')
 import nuxt_plugin_toast_06b24cd6 from 'nuxt_plugin_toast_06b24cd6' // Source: .\\toast.js (mode: 'client')
 import nuxt_plugin_BusinessUIPluginclient_d9f64744 from 'nuxt_plugin_BusinessUIPluginclient_d9f64744' // Source: ..\\plugins\\business\\BusinessUIPlugin.client.js (mode: 'client')
 import nuxt_plugin_customerUIPluginclient_ca04dc04 from 'nuxt_plugin_customerUIPluginclient_ca04dc04' // Source: ..\\plugins\\customer\\customerUIPlugin.client.js (mode: 'client')
@@ -52,7 +52,7 @@ Vue.component(Nuxt.name, Nuxt)
 
 Vue.use(Meta, {"keyName":"head","attribute":"data-n-head","ssrAttribute":"data-n-head-ssr","tagIDKeyName":"hid"})
 
-const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
+const defaultTransition = {"name":"page","mode":"out-in","appear":false,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp(ssrContext, config = {}) {
   const router = await createRouter(ssrContext)
@@ -61,12 +61,16 @@ async function createApp(ssrContext, config = {}) {
   // Add this.$router into store actions/mutations
   store.$router = router
 
+  // Fix SSR caveat https://github.com/nuxt/nuxt.js/issues/3757#issuecomment-414689141
+  const registerModule = store.registerModule
+  store.registerModule = (path, rawModule, options) => registerModule.call(store, path, rawModule, Object.assign({ preserveState: process.client }, options))
+
   // Create Root instance
 
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Business name","meta":[{"charset":"utf-8"},{"name":"viewport","content":"user-scalable=no, initial-scale=1, maximum-scale=1"},{"hid":"description","name":"description","content":"my website description"},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"apple-mobile-web-app-title","name":"apple-mobile-web-app-title","content":"Cudua"},{"hid":"author","name":"author","content":"Cudua Inc."},{"hid":"theme-color","name":"theme-color","content":"#ee6425"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:title","name":"og:title","property":"og:title","content":"Cudua"},{"hid":"og:site_name","name":"og:site_name","property":"og:site_name","content":"Cudua"},{"hid":"og:description","name":"og:description","property":"og:description","content":"Cudua is an ecommerce service that allows businesses to create and manage their online stores. Customers buy products from these businesses by searching for the business using the business name or location"},{"hid":"og:url","name":"og:url","property":"og:url","content":"https:\u002F\u002Fcudua-ui.herokuapp.com\u002F"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.972b234e.json"}],"style":[],"script":[{"async":true,"src":"https:\u002F\u002Fcdn.onesignal.com\u002Fsdks\u002FOneSignalSDK.js","hid":"onesignal"}],"htmlAttrs":{"lang":"en"}},
+    head: {"title":"Business name","meta":[{"charset":"utf-8"},{"name":"viewport","content":"user-scalable=no, initial-scale=1, maximum-scale=1"},{"hid":"description","name":"description","content":"my website description"},{"hid":"mobile-web-app-capable","name":"mobile-web-app-capable","content":"yes"},{"hid":"apple-mobile-web-app-title","name":"apple-mobile-web-app-title","content":"Cudua"},{"hid":"author","name":"author","content":"Cudua Inc."},{"hid":"theme-color","name":"theme-color","content":"#ee6425"},{"hid":"og:type","name":"og:type","property":"og:type","content":"website"},{"hid":"og:title","name":"og:title","property":"og:title","content":"Cudua"},{"hid":"og:site_name","name":"og:site_name","property":"og:site_name","content":"Cudua"},{"hid":"og:description","name":"og:description","property":"og:description","content":"Cudua is an ecommerce service that allows businesses to create and manage their online stores. Customers buy products from these businesses by searching for the business using the business name or location"},{"hid":"og:url","name":"og:url","property":"og:url","content":"https:\u002F\u002Fcudua-ui.herokuapp.com\u002F"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"manifest","href":"\u002F_nuxt\u002Fmanifest.763b52fb.json"}],"style":[],"script":[{"async":true,"src":"https:\u002F\u002Fcdn.onesignal.com\u002Fsdks\u002FOneSignalSDK.js","hid":"onesignal"}],"htmlAttrs":{"lang":"en"}},
 
     store,
     router,
@@ -199,16 +203,16 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_workbox_6ed76082(app.context, inject)
   }
 
+  if (process.client && typeof nuxt_plugin_onesignal_bfa6a164 === 'function') {
+    await nuxt_plugin_onesignal_bfa6a164(app.context, inject)
+  }
+
   if (process.client && typeof nuxt_plugin_plugin_5c0ce28c === 'function') {
     await nuxt_plugin_plugin_5c0ce28c(app.context, inject)
   }
 
   if (typeof nuxt_plugin_apollomodule_18e912b2 === 'function') {
     await nuxt_plugin_apollomodule_18e912b2(app.context, inject)
-  }
-
-  if (process.client && typeof nuxt_plugin_onesignal_bfa6a164 === 'function') {
-    await nuxt_plugin_onesignal_bfa6a164(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_toast_06b24cd6 === 'function') {
