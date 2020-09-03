@@ -178,10 +178,12 @@ export default {
             'GetBusinessData': 'business/GetBusinessDetails',
         }),
         closeNav: function () {
-            let closeNavWithOverlay = document.getElementById('sideNav');
-            let navToggle = document.getElementById('navToggleButton');
-            let sideNavContent = document.getElementById("sideNavContent");
-            this.screenWidth <= 1023 ? this.$showMobileNav(closeNavWithOverlay, sideNavContent, navToggle) : "";
+            if (process.client) {
+                let closeNavWithOverlay = document.getElementById('sideNav');
+                let navToggle = document.getElementById('navToggleButton');
+                let sideNavContent = document.getElementById("sideNavContent");
+                this.screenWidth <= 1023 ? this.$showMobileNav(closeNavWithOverlay, sideNavContent, navToggle) : "";
+            }
         },
         assignBusinessData: function () {
             let businessData = this.GetBusinessData();
@@ -200,7 +202,7 @@ export default {
         _initMethod: function () {
             // open modal
             let openModalAction = document.querySelectorAll("[data-trigger]");
-                for (const action of openModalAction) {
+            for (const action of openModalAction) {
                 action.addEventListener('click', (e) => {
                     e.preventDefault();
                     this.openedModalTarget = action.getAttribute('data-target');

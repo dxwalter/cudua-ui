@@ -293,4 +293,11 @@ export default ({app}, inject) => {
 
 		inject('convertNameToLogo', convertNameToLogo)
 
+		let firstLetterUpperCase = (s)  => {
+			if (typeof s !== 'string') return ''
+			return s.charAt(0).toUpperCase() + s.slice(1)
+		}
+
+		inject('firstLetterUpperCase', firstLetterUpperCase)
+
 }

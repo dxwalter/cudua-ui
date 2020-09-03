@@ -662,7 +662,8 @@
     padding: 0 22px 40px 22px;
 }
 
-.modal-container {
+.modal-container,
+.modal-container-2 {
     background-color: rgba(0, 0, 0, 0.56);
     position: fixed;
     left: 0;
@@ -677,8 +678,13 @@
     overflow-y: auto;
 }
 
+.modal-container-2 {
+    display: block;
+}
+
+
 @media($mq-md) {
-    .modal-container {
+    .modal-container, .moda-container-2 {
         padding: 32px;
     }
 }
@@ -1848,10 +1854,11 @@
         display: block;
         font-weight: 500;
         color: $black-color-06;
+        font-size: 14px;
     }
 
     span:first-child {
-        margin-right: 8px;
+        margin-right: 12px;
     }
 
     * {
@@ -1859,9 +1866,11 @@
     }
 
     svg {
-        width:15px;
-        height: 15px;
+        width:12px;
+        height: 12px;
         fill: $black-color-06;
+        margin-top: -2px;
+        margin-right: 8px;
     }
 }
 
@@ -3468,7 +3477,7 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 }
 
 .image-upload-preview {
-    width: 150px;
+    width: 90px;
     display: none;
     border-radius: 4px;
     padding: 4px;
@@ -3793,4 +3802,51 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 input[type=checkbox]:checked.dropdownCheckBox  + .accord-chip-name + svg, 
 input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     transform: rotate(180deg);
+}
+
+
+.success-order-modal-container {
+    padding-top: 50px;
+    
+    .thumbs-up-container {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        // border: $border;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        margin-bottom: 24px;
+        background-color: rgba(238, 238, 238, 1);
+        svg {
+            width: 45px;
+            height: 45px;
+            fill: $brand-color;
+        }
+    }
+
+    .success-order-modal-container .modal-content{
+        display: flex;
+        justify-content: center;
+    }
+
+    .success-order-text {
+        margin: 0 auto;
+        margin-bottom: 24px;
+        text-align: center;
+        width: 95%;
+        p {
+            font-weight: 500;
+            color: $dark-color;
+            line-height: 20px;
+            margin-bottom: 4px;
+        }
+    }
+}
+
+@media($mq-mb) {
+    .success-order-modal-container {
+        width: 424px;
+    }
 }
