@@ -234,8 +234,8 @@
 
                         <!-- footer area -->
                         <div class="mobile-hide-nav-bottom-add">
-                            <!-- <BOTTOMADS></BOTTOMADS>
-                            <CUSTOMERFOOTER></CUSTOMERFOOTER> -->
+                            <BOTTOMADS></BOTTOMADS>
+                            <CUSTOMERFOOTER></CUSTOMERFOOTER>
                         </div>
 
                 <!-- modals -->
@@ -249,7 +249,9 @@
 </template>
 
 <script>
-import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
+import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -257,7 +259,8 @@ export default {
     name: "BUSINESSPAGE",
     components: {
       MOBILENAVIGATION, 
-        // MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
+        // MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, 
+        BOTTOMADS, CUSTOMERFOOTER
     },
     data: function() {
       return {
