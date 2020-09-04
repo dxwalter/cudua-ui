@@ -5,8 +5,8 @@
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
                             <!-- <MOBILESEARCH></MOBILESEARCH> -->
-                            <!-- <BUSINESSNAV></BUSINESSNAV>
-                            <MOBILENAVIGATION></MOBILENAVIGATION> -->
+                            <!-- <BUSINESSNAV></BUSINESSNAV> -->
+                            <MOBILENAVIGATION></MOBILENAVIGATION>
                         </div>
 
                         <!-- pageLoader -->
@@ -249,13 +249,15 @@
 </template>
 
 <script>
+import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
 
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
     name: "BUSINESSPAGE",
     components: {
-    //   DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
+      MOBILENAVIGATION, 
+        // MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
     },
     data: function() {
       return {
