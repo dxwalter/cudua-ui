@@ -368,7 +368,8 @@ export default {
     },
     data: function() {
       return {
-        anonymousId: ""
+        anonymousId: "",
+        pageLoader: ""
       }
     },
     computed: {

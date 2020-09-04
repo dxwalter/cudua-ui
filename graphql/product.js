@@ -29,6 +29,7 @@ query getProduct($businessId: String!, $page: Int!){
       name
       price
       primaryImage
+      hide
     }
     code
     success

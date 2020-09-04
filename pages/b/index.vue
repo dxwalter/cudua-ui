@@ -13,7 +13,7 @@
                     <nuxt />
                     
                     <div>
-                        <div class="alert alert-info notification-alert" v-show="productListingCount > 0">
+                        <div class="alert alert-info notification-alert" v-show="page && allProducts.length > 1">
                             <div>Invite three businesses to register and get one month basic plan for free</div>
                             <nuxt-link to="/b/invite" class="btn btn-small btn-white">Get started</nuxt-link>
                         </div>
@@ -37,12 +37,47 @@
                             </div>
                         </div>
 
-                        <div class="no-account-category" v-show="!productListingCount && !pageLoader">
+                        <div class="no-account-category" v-show="!productListingCount && !pageLoader && page == 1">
                             <!-- when no category has been added to the account -->
                             <h2>No product has been added to your store</h2>
                             <p>Start uploading the products that you want to sell</p>
                             <n-link to="/b/product/add-product" class="btn btn-primary btn-lg">Upload a product</n-link>
                         </div>
+
+                        <!-- main content goes in here -->
+                        <div class="row">
+                                    
+                            <n-link :to="`/b/product/${product.id}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3"
+                                v-for="(product, index) in returnAllproducts" :key="index"
+                            >
+                                <div class="product-card">
+                                    <div class="product-card-image">
+                                        <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
+                                    </div>
+                                    <div class="product-card-details">
+                                        <div class="product-name">
+                                            {{product.name}}
+                                        </div>
+                                        <div class="product-price">₦ {{product.price}}</div>
+                                    </div>
+                                </div>
+                            </n-link>
+
+                        </div>
+
+                        <!-- show this button when the total number of results returned is 12 -->
+                        <div class="load-more-action move-center mg-top-16" v-if="productListingCount == 12">
+                            <button class="btn btn-white" id="loadMoreProducts" @click="loadMoreProducts()">
+                                Load more products
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </button>
+                        </div>
+
+                        <!-- this is when all the products have been listed -->
+                        <div v-show="finalProduct" class="alert alert-info mg-top-16">
+                            That was all the products in your store
+                        </div>
+
 
                     </div>
                     <BOTTOMNAV />
@@ -76,7 +111,14 @@ export default {
             productListingCount: 0,
             businessId: "",
             accessToken: "",
+            allProducts: "",
+            finalProduct: false,
             page: 1,
+        }
+    },
+    computed: {
+        returnAllproducts () {
+            return this.allProducts
         }
     },
     created () {
@@ -95,7 +137,7 @@ export default {
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
         },
-        getAllProductFromBusiness: async function () {
+        getAllProductFromBusiness: async function (pageData = false) {
 
             let variables = {
                 businessId: this.businessId,
@@ -118,18 +160,55 @@ export default {
             let result = query.result.data.GetProductsUsingBusinessId;
 
             this.productListingCount = result.products.length
-            
+
+            if (result.products.length <  12) this.finalProduct = true
             if (result.products.length == 0) return
 
+            if (!pageData) {
 
-            let productArray = [];
+                let productArray = [];
 
-            for (let x of result.products) {
-                productArray.push({
+                for (let x of result.products) {
+                    productArray.push({
+                        id: x.id,
+                        name: x.name,
+                        price: this.$numberNotation(x.price),
+                        image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                        hide: x.hide
+                    })
+                }
+
+                this.allProducts = productArray
+
+            } else {
+
+                for (const [index, x] of result.products.entries()) {
                     
-                })
+                    this.allProducts.push({
+                        name: x.name,
+                        id: x.id,
+                        price: this.$numberNotation(x.price),
+                        image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                        hide: x.hide
+                    })
+                }
+
             }
 
+            this.page += 1
+            return
+
+
+        },
+        loadMoreProducts: async function () {
+
+            let target = document.getElementById("loadMoreProducts");
+
+            target.disabled = true;
+
+            await this.getAllProductFromBusiness(true)
+
+            target.disabled = false
 
         }
     },
