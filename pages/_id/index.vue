@@ -323,11 +323,11 @@
                         </div>
 
                 <!-- modals -->
-                <!-- <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL>
+                <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL>
                 <BUSINESSREVIEW></BUSINESSREVIEW>
                 <BUSINESSSEARCH></BUSINESSSEARCH>
                 <BUSINESSCONTACT></BUSINESSCONTACT>
-                <REPORTBUSINESS></REPORTBUSINESS> -->
+                <REPORTBUSINESS></REPORTBUSINESS>
             </div>
     </div>
 </template>
@@ -341,6 +341,13 @@ import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
+// business modal
+import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
+import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
+import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
+import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
+import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
+
 import { mapActions, mapGetters } from 'vuex'
 
 
@@ -352,7 +359,12 @@ export default {
         BOTTOMADS, 
         CUSTOMERFOOTER, 
         BUSINESSNAV, 
-        PAGELOADER
+        PAGELOADER,
+        ABOUTBUSINESSMODAL,
+        BUSINESSREVIEW,
+        BUSINESSSEARCH,
+        BUSINESSCONTACT,
+        REPORTBUSINESS
     },
     data: function() {
       return {

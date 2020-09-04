@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _2b76a426 = () => interopDefault(import('..\\pages\\404.vue' /* webpackChunkName: "pages/404" */))
 const _df0742d0 = () => interopDefault(import('..\\pages\\auth\\index.vue' /* webpackChunkName: "pages/auth/index" */))
 const _3ec016b2 = () => interopDefault(import('..\\pages\\b\\index.vue' /* webpackChunkName: "pages/b/index" */))
 const _4671bc11 = () => interopDefault(import('..\\pages\\c\\index.vue' /* webpackChunkName: "pages/c/index" */))
@@ -61,6 +62,10 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/404",
+    component: _2b76a426,
+    name: "404"
+  }, {
     path: "/auth",
     component: _df0742d0,
     name: "auth"

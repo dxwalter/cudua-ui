@@ -1,5 +1,12 @@
 [
   {
+    "name": "404",
+    "path": "/404",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\404.vue",
+    "chunkName": "pages/404",
+    "_name": "_2b76a426"
+  },
+  {
     "name": "auth",
     "path": "/auth",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\index.vue",

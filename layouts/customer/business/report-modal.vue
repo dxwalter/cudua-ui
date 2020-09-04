@@ -41,7 +41,7 @@
 
 <script>
 export default {
-	name: "REPORTMODAL"
+	name: "REPORTBUSINESSMODAL"
 }
 </script>
 
