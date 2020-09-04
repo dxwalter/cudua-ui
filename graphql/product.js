@@ -17,3 +17,34 @@ mutation CreateProduct($file: Upload!, $name: String!, $price: Int!, $category: 
   }
 }
 `
+
+export const GET_PRODUCT_BY_SUBCATEGORY = gql`
+query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
+  BusinessGetProductBysubCategory(input: {
+    businessId: $businessId,
+    subcategoryId: $subcategoryId,
+    page: $page
+  }) {
+    products {
+      id
+      name
+      price
+      hide
+      reviewScore
+      category {
+        categoryId
+        categoryName
+      }
+      subcategory {
+        subcategoryId
+        subcategoryName
+      }
+      primaryImage
+    }
+    totalProductsInSubcategoryCount
+    code
+    success
+    message
+  }
+}
+`

@@ -25,7 +25,7 @@
 															<use xlink:href="~/assets/customer/image/all-svg.svg#pencil"></use>
 														</svg>
 													</n-link>
-													<img :src="businessCoverPhoto" :data-src="businessCoverPhoto" :alt="businessName" v-if="businessCoverPhoto.length > 0">
+													<img :data-src="businessCoverPhoto" :alt="businessName" v-if="businessCoverPhoto.length > 0" v-lazy-load>
 													<div class="no-cover-photo" v-else>
 														No cover photo has been added to your business profile
 													</div>
@@ -34,7 +34,7 @@
 													<div class="temporal-logo" v-show="!logo">
 														{{getNameLogo(businessName)}}
 													</div>
-													<img :src="logo" :data-src="logo" alt=""  v-show="logo">
+													<img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
 												</div>
 											</div>
 
@@ -226,7 +226,6 @@ export default {
         if (process.browser) this.assignBusinessData()
     },
     mounted () {
-		this.$lozad.observe();
 		this.pageLoader = false
     }
 }

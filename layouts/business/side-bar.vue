@@ -11,7 +11,7 @@
                                 <div class="temporal-logo" v-show="!businessLogo">
                                     {{getNameLogo(businessName)}}
                                 </div>
-                                <img :src="businessLogo" alt="" v-show="businessLogo">
+                                <img :data-src="businessLogo" alt="" v-show="businessLogo" v-lazy-load>
                             </n-link>
 
                             <div class="nav-name">

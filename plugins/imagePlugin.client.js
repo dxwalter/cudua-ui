@@ -27,5 +27,17 @@ export default ({app}, inject) => {
 
     inject("getBusinessCoverPhotoUrl", getBusinessCoverPhotoUrl);
 
+    let formatProductImageUrl = (businessId, imagePath, type) => {
+        let extension = imagePath.split('.');
+
+        if (extension[1] != 'jpg') {
+            imagePath = `${extension[0]}.jpeg`
+        }
+
+        return `https://res.cloudinary.com/cudua-images/image/upload/w_500,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
+    }
+
+    inject("formatProductImageUrl", formatProductImageUrl)
+
 }
 

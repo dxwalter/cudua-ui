@@ -14,7 +14,7 @@ import { createStore } from './store.js'
 
 import nuxt_plugin_workbox_6ed76082 from 'nuxt_plugin_workbox_6ed76082' // Source: .\\workbox.js (mode: 'client')
 import nuxt_plugin_onesignal_bfa6a164 from 'nuxt_plugin_onesignal_bfa6a164' // Source: .\\onesignal.js (mode: 'client')
-import nuxt_plugin_plugin_5c0ce28c from 'nuxt_plugin_plugin_5c0ce28c' // Source: .\\lozad-module\\plugin.js (mode: 'client')
+import nuxt_plugin_vlazyload_36a2e554 from 'nuxt_plugin_vlazyload_36a2e554' // Source: .\\v-lazy-load.js (mode: 'all')
 import nuxt_plugin_apollomodule_18e912b2 from 'nuxt_plugin_apollomodule_18e912b2' // Source: .\\apollo-module.js (mode: 'all')
 import nuxt_plugin_toast_06b24cd6 from 'nuxt_plugin_toast_06b24cd6' // Source: .\\toast.js (mode: 'client')
 import nuxt_plugin_BusinessUIPluginclient_d9f64744 from 'nuxt_plugin_BusinessUIPluginclient_d9f64744' // Source: ..\\plugins\\business\\BusinessUIPlugin.client.js (mode: 'client')
@@ -207,8 +207,8 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_onesignal_bfa6a164(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_plugin_5c0ce28c === 'function') {
-    await nuxt_plugin_plugin_5c0ce28c(app.context, inject)
+  if (typeof nuxt_plugin_vlazyload_36a2e554 === 'function') {
+    await nuxt_plugin_vlazyload_36a2e554(app.context, inject)
   }
 
   if (typeof nuxt_plugin_apollomodule_18e912b2 === 'function') {

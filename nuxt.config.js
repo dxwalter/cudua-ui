@@ -35,7 +35,12 @@ export default {
 		'@nuxtjs/onesignal',
 		'@nuxtjs/pwa',
 		'@nuxtjs/apollo',
-		'@ax2/lozad-module',
+		['nuxt-lazy-load', {
+			defaultImage: '/images/loading.gif',
+			observerConfig: {
+				// See IntersectionObserver documentation
+			}
+		}]
 	],
 	loading: false,
 	oneSignal: {

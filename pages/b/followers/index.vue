@@ -23,7 +23,7 @@
 											<div class="temporal-logo" v-show="!follower.profilePhoto">
 												{{getNameLogo(follower.name)}}
 											</div>
-											<img src="~/assets/business/image/daniel-chigisoft.jpg" :alt="`${follower.name}`" v-show="follower.profilePhoto">
+											<img :data-src="`~/assets/business/image/daniel-chigisoft.jpg`" :alt="`${follower.name}`" v-show="follower.profilePhoto" v-lazy-load>
 										</div>
 										<div class="product-card-details">
 											<div class="product-name">

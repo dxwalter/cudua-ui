@@ -42,7 +42,7 @@
 								</div>
 								<div class="load-more-action move-center mg-top-16" v-if="allNotification">
 									<button class="btn btn-white" @click="loadMoreNotification()" id="notificationLoader">
-										Load more notifications
+										Load more
 										<div class="loader-action"><span class="loader"></span></div>
 									</button>
 								</div>
