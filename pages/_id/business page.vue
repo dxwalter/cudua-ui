@@ -370,30 +370,39 @@ export default {
     },
     methods: {
         showMobileCategory: function () {
-            let businessCategoryContainer = document.getElementById('businessCategoryContainer');
-            let businessCategoryContent = document.getElementById('businessCategoryContent');
-            this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, "0");
+            if (process.client) {
+                let businessCategoryContainer = document.getElementById('businessCategoryContainer');
+                let businessCategoryContent = document.getElementById('businessCategoryContent');
+                this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, "0");
+            }
         },
         hideMobileCategory: function () {
-            let businessCategoryContainer = document.getElementById('businessCategoryContainer');
-            let businessCategoryContent = document.getElementById('businessCategoryContent');
-            this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, '1')
+            if (process.client) {
+                let businessCategoryContainer = document.getElementById('businessCategoryContainer');
+                let businessCategoryContent = document.getElementById('businessCategoryContent');
+                this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, '1')
+            }
         },
         closeBySubcategory: function (CategoryContainer) {
-            for (let i = 0; i < CategoryContainer.length; i++) {
-                CategoryContainer[i].addEventListener("click", event => {
-                    this.hideMobileCategory();
-                })
+            if (process.client) {
+                for (let i = 0; i < CategoryContainer.length; i++) {
+                    CategoryContainer[i].addEventListener("click", event => {
+                        this.hideMobileCategory();
+                    })
+                }
             }
         }
     },
     mounted () {
-        let CategoryContainer = document.querySelectorAll('.shop-cat-item .subcat-listing a');
-        if (CategoryContainer) this.closeBySubcategory(CategoryContainer)
+
+        if (process.client) {
+            let CategoryContainer = document.querySelectorAll('.shop-cat-item .subcat-listing a');
+            if (CategoryContainer) this.closeBySubcategory(CategoryContainer)
+        }
         
-        setTimeout(() => {
+        // setTimeout(() => {
             this.pageLoader = false
-        }, 5000);
+        // }, 5000);
     }
 }
 </script>

@@ -4,13 +4,13 @@
             
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
-                            <!-- <MOBILESEARCH></MOBILESEARCH> -->
-                            <!-- <BUSINESSNAV></BUSINESSNAV> -->
+                            <MOBILESEARCH></MOBILESEARCH>
+                            <BUSINESSNAV></BUSINESSNAV>
                             <MOBILENAVIGATION></MOBILENAVIGATION>
                         </div>
 
                         <!-- pageLoader -->
-                        <!-- <PAGELOADER v-if="pageLoader"></PAGELOADER> -->
+                        <PAGELOADER v-if="pageLoader"></PAGELOADER>
 
                         <!-- begining of content container -->
                         <div class="content-container-second business-page-container">
@@ -252,15 +252,23 @@
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 
 import { mapActions, mapGetters } from 'vuex'
+
 
 export default {
     name: "BUSINESSPAGE",
     components: {
-      MOBILENAVIGATION, 
-        // MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, 
-        BOTTOMADS, CUSTOMERFOOTER
+        MOBILENAVIGATION, 
+        MOBILESEARCH, 
+        FOLLOWING, 
+        ADVANCEDSEARCH, 
+        BOTTOMADS, 
+        CUSTOMERFOOTER,
+        BUSINESSNAV
     },
     data: function() {
       return {
@@ -271,8 +279,29 @@ export default {
 	  ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'}),
     },
     methods: {
-		...mapActions({'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'}),
-
+        showMobileCategory: function () {
+            if (process.client) {
+                let businessCategoryContainer = document.getElementById('businessCategoryContainer');
+                let businessCategoryContent = document.getElementById('businessCategoryContent');
+                this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, "0");
+            }
+        },
+        hideMobileCategory: function () {
+            if (process.client) {
+                let businessCategoryContainer = document.getElementById('businessCategoryContainer');
+                let businessCategoryContent = document.getElementById('businessCategoryContent');
+                this.$showCustomerMobileNav(businessCategoryContainer, businessCategoryContent, '1')
+            }
+        },
+        closeBySubcategory: function (CategoryContainer) {
+            if (process.client) {
+                for (let i = 0; i < CategoryContainer.length; i++) {
+                    CategoryContainer[i].addEventListener("click", event => {
+                        this.hideMobileCategory();
+                    })
+                }
+            }
+        }
     },
     created: function () {
 
