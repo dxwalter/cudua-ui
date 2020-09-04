@@ -18,6 +18,26 @@ mutation CreateProduct($file: Upload!, $name: String!, $price: Int!, $category: 
 }
 `
 
+export const GET_PRODUCT_BY_BUSINESS_ID = gql`
+query getProduct($businessId: String!, $page: Int!){
+  GetProductsUsingBusinessId(input:{
+    businessId: $businessId,
+    page: $page
+  }) {
+    products {
+      id
+      name
+      price
+      primaryImage
+    }
+    code
+    success
+    message
+    
+  }
+}
+`
+
 export const GET_PRODUCT_BY_SUBCATEGORY = gql`
 query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
   BusinessGetProductBysubCategory(input: {

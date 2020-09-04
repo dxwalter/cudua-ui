@@ -13,7 +13,7 @@
                     <nuxt />
                     
                     <div>
-                        <div class="alert alert-info notification-alert">
+                        <div class="alert alert-info notification-alert" v-show="productListingCount > 0">
                             <div>Invite three businesses to register and get one month basic plan for free</div>
                             <nuxt-link to="/b/invite" class="btn btn-small btn-white">Get started</nuxt-link>
                         </div>
@@ -37,7 +37,7 @@
                             </div>
                         </div>
 
-                        <div class="no-account-category">
+                        <div class="no-account-category" v-show="!productListingCount && !pageLoader">
                             <!-- when no category has been added to the account -->
                             <h2>No product has been added to your store</h2>
                             <p>Start uploading the products that you want to sell</p>
@@ -61,20 +61,81 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { GET_PRODUCT_BY_BUSINESS_ID } from '~/graphql/product';
+
 export default {
+    name: "BUSINESSPRODUCTLISTING",
     components: {
         TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
     },
     data: function() {
         return {
-            pageLoader: false,
+            pageLoader: true,
+            productListingCount: 0,
+            businessId: "",
+            accessToken: "",
+            page: 1,
+        }
+    },
+    created () {
+        if (process.client) {
+            this.GetBusinessDataFromStore();
         }
     },
     methods: {
+        ...mapGetters({
+            'GetCustomerData': 'customer/GetCustomerDetails',
+            'GetBusinessData': 'business/GetBusinessDetails'
+        }),
+        GetBusinessDataFromStore: function () {
+            let businessData = this.GetBusinessData();
+			this.businessId = businessData.businessId
+			let customerData = this.GetCustomerData();
+            this.accessToken = customerData.userToken
+        },
+        getAllProductFromBusiness: async function () {
 
+            let variables = {
+                businessId: this.businessId,
+                page: this.page,
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let query = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_BUSINESS_ID, variables, context);
+
+			if (query.error == true) {
+				this.$initiateNotification('error', 'Failed request', query.message);
+                return
+			}
+
+            let result = query.result.data.GetProductsUsingBusinessId;
+
+            this.productListingCount = result.products.length
+            
+            if (result.products.length == 0) return
+
+
+            let productArray = [];
+
+            for (let x of result.products) {
+                productArray.push({
+                    
+                })
+            }
+
+
+        }
     },
-    mounted () {
-        
+    async mounted () {
+        await this.getAllProductFromBusiness()
+        this.pageLoader = false
     }
 }
 </script>

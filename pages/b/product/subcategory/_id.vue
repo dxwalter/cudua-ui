@@ -202,7 +202,7 @@ export default {
 
         }
     },
-    async created () {
+    created () {
         if (process.client) {
             this.subcategoryId = this.$route.params.id;
             this.GetBusinessDataFromStore();
