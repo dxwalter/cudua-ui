@@ -164,6 +164,90 @@
                                                     </div>
                                                 </div>
                                             </n-link>
+                                                        
+                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="product-card">
+                                                    <div class="product-card-image">
+                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                    </div>
+                                                    <div class="product-card-details">
+                                                        <div class="product-name">
+                                                            Asus Zenfone 15xd modellite spax
+                                                        </div>
+                                                        <div class="product-price">₦ 1,200</div>
+                                                    </div>
+                                                </div>
+                                            </n-link>
+                                
+                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="product-card">
+                                                    <div class="product-card-image">
+                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                    </div>
+                                                    <div class="product-card-details">
+                                                        <div class="product-name">
+                                                            Asus Zenfone
+                                                        </div>
+                                                        <div class="product-price">₦ 1,200</div>
+                                                    </div>
+                                                </div>
+                                            </n-link>
+                                                        
+                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="product-card">
+                                                    <div class="product-card-image">
+                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                    </div>
+                                                    <div class="product-card-details">
+                                                        <div class="product-name">
+                                                            Asus Zenfone 15xd modellite spax
+                                                        </div>
+                                                        <div class="product-price">₦ 1,200</div>
+                                                    </div>
+                                                </div>
+                                            </n-link>
+                                
+                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="product-card">
+                                                    <div class="product-card-image">
+                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                    </div>
+                                                    <div class="product-card-details">
+                                                        <div class="product-name">
+                                                            Asus Zenfone
+                                                        </div>
+                                                        <div class="product-price">₦ 1,200</div>
+                                                    </div>
+                                                </div>
+                                            </n-link>
+                                                        
+                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="product-card">
+                                                    <div class="product-card-image">
+                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                    </div>
+                                                    <div class="product-card-details">
+                                                        <div class="product-name">
+                                                            Asus Zenfone 15xd modellite spax
+                                                        </div>
+                                                        <div class="product-price">₦ 1,200</div>
+                                                    </div>
+                                                </div>
+                                            </n-link>
+                                
+                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                <div class="product-card">
+                                                    <div class="product-card-image">
+                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                    </div>
+                                                    <div class="product-card-details">
+                                                        <div class="product-name">
+                                                            Asus Zenfone
+                                                        </div>
+                                                        <div class="product-price">₦ 1,200</div>
+                                                    </div>
+                                                </div>
+                                            </n-link>
                                 
                                         </div>
                                         <!-- end of business product listing -->
@@ -249,10 +333,11 @@
 </template>
 
 <script>
+
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
-import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
@@ -264,11 +349,10 @@ export default {
     components: {
         MOBILENAVIGATION, 
         MOBILESEARCH, 
-        FOLLOWING, 
-        ADVANCEDSEARCH, 
         BOTTOMADS, 
-        CUSTOMERFOOTER,
-        BUSINESSNAV
+        CUSTOMERFOOTER, 
+        BUSINESSNAV, 
+        PAGELOADER
     },
     data: function() {
       return {
