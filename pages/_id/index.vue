@@ -4,8 +4,8 @@
             
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
-                            <!-- <MOBILESEARCH></MOBILESEARCH>
-                            <BUSINESSNAV></BUSINESSNAV>
+                            <!-- <MOBILESEARCH></MOBILESEARCH> -->
+                            <!-- <BUSINESSNAV></BUSINESSNAV>
                             <MOBILENAVIGATION></MOBILENAVIGATION> -->
                         </div>
 
@@ -250,10 +250,27 @@
 
 <script>
 export default {
+    name: "BUSINESSPAGE",
+    components: {
+    //   DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
+    },
+    data: function() {
+      return {
+        anonymousId: ""
+      }
+    },
+    computed: {
+	  ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'}),
+    },
+    methods: {
+		...mapActions({'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'}),
 
+    },
+    created: function () {
+
+    },
+    mounted () {
+        this.anonymousId = this.GetAnonymousId
+    }
 }
 </script>
-
-<style>
-
-</style>
