@@ -23,17 +23,21 @@
 
                         <div class="page-header with-action">
                             <h4>Product listing</h4>
-                            <div class="business-product-search-action">
+                            <div class="business-product-search-action" id="" @click="showSearchBar()">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#searchGlass"></use>
                                 </svg>
                                 <span>Search</span>
                             </div>
                             <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
-                            <div class="search-area display-none">
-                                <form action="">
-                                    <input type="text" name="" id="" class="search-form grey-bg-color" placeholder="Search for products">
-                                </form>
+                            <div class="search-area" id="productSearchArea">
+                                <input type="text" name="" class="search-form grey-bg-color" placeholder="Search for products" id="productSearchInput">
+                                <button id="tabLink" class="close-component-search">
+                                    <input type="checkbox" class="dropdownCheckBox" @click="hideSearchBar()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                        <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
 
@@ -210,6 +214,22 @@ export default {
 
             target.disabled = false
 
+        },
+        showSearchBar: function(){
+            // show product search area
+            let target = document.getElementById("productSearchArea");
+            target.style.display = "flex";
+
+            // focus form
+            document.getElementById('productSearchInput').focus()
+        },
+        hideSearchBar: function () {
+            // show product search area
+            let target = document.getElementById("productSearchArea");
+            target.style.display = "none";
+
+            // focus form
+            document.getElementById('productSearchInput').blur() 
         }
     },
     async mounted () {

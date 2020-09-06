@@ -12,12 +12,29 @@
                         <nuxt />
 
                         <div class="main-content">
-                            <div class="page-header">
-                                <h4>Product categories</h4>
+
+                            <div class="page-header with-action">
+                                <h4>Product category</h4>
+                                <div class="business-product-search-action" id="" @click="showSearchBar()">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                        <use xlink:href="~/assets/business/image/all-svg.svg#searchGlass"></use>
+                                    </svg>
+                                    <span>Search</span>
+                                </div>
+                                <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
+                                <div class="search-area" id="productSearchArea">
+                                    <input type="text" name="" class="search-form grey-bg-color" placeholder="Search for a category" id="productSearchInput">
+                                    <button id="tabLink" class="close-component-search">
+                                        <input type="checkbox" class="dropdownCheckBox" @click="hideSearchBar()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                            <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                             
                             <!-- main content goes in here -->
-                            <div class="accordion grey-bg-color border-radius-4" v-for="(item, key) in categoriesList" :key="item.categoryId">
+                            <div class="accordion grey-bg-color border-radius-4" v-for="(item, key) in categoriesList" :key="item.categoryId" :id="`categoryHeader${item.categoryId}`">
                                 <!-- header -->
                                 <div class="accordion-header">
                                     <a href="#" class="d-flex flex-between"> 
@@ -26,51 +43,47 @@
 
                                         <h4>{{item.categoryName}}</h4>
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616" 
+                                        <div class="chip small-chip" v-show="item.hide" :id="`hiddenCategory${item.categoryId}`">Hidden</div>
+
+                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616" 
                                         v-bind:class="{'transform-svg': !key}" v-bind:id="`svg${item.itemId}${key}`">
                                             <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
-                                        </svg>
+                                        </svg> -->
                                         
                                     </a>
-                                    <!-- <div class="accordion-btn-container">
-                                        <div class="dropdown-area"> -->
-                                            <!-- <button class="btn-ellipsis btn-checkbox">
+                                    <div class="accordion-btn-container">
+                                        <div class="dropdown-area">
+                                            <button class="btn-ellipsis btn-checkbox">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
                                                     <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
                                                 </svg>
-                                            </button> -->
-                                            <!-- <input type="checkbox" class="dropdownCheckBox"> -->
-                                            <!-- <div class="dropdown-container"> -->
+                                            </button>
+                                            <input type="checkbox" class="dropdownCheckBox">
+                                            <div class="dropdown-container">
                                                 <!-- hide category -->
-                                                <!-- <a href="#" @click="hideCategory(item.itemId, $event)" v-if="item.hide == 0">
-                                                    <svg>
-                                                        <use xlink:href="~/assets/business/image/all-svg.svg#visibilityOff"></use>
-                                                    </svg>
+                                                <a href="#" @click="hideCategory(item.categoryId, $event)" v-show="!item.hide" :id="`hideCategoryAction${item.categoryId}`">
                                                     <span>Hide category</span>
-                                                </a> -->
+                                                    <div class="loader-action"><span class="loader"></span></div>
+                                                </a>
                                                 <!-- show category -->
-                                                <!-- <a href="#" @click="showCategory(item.itemId)" v-if="item.hide == 1">
-                                                    <svg>
-                                                        <use xlink:href="~/assets/business/image/all-svg.svg#visibilityOn"></use>
-                                                    </svg>
+                                                <a href="#" @click="showCategory(item.categoryId, $event)" v-show="item.hide" :id="`showCategoryAction${item.categoryId}`">
                                                     <span>Show category</span>
-                                                </a> -->
-                                                <!-- <a href="#" @click="deleteCategory(item.categoryId)">
-                                                    <svg>
-                                                        <use xlink:href="~/assets/business/image/all-svg.svg#delete"></use>
-                                                    </svg>
+                                                    <div class="loader-action"><span class="loader"></span></div>
+                                                </a>
+                                                <a href="#" @click="deleteCategory(item.categoryId, item.categoryName, $event)">
                                                     <span>Delete category</span>
-                                                </a> -->
-                                            <!-- </div> -->
-                                        <!-- </div>
-                                    </div> -->
+                                                    <div class="loader-action"><span class="loader"></span></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- end of header -->
                                 <!-- beginning of subcategory list -->
                                 <div class="accordion-content-container" v-bind:id="`${item.itemId}${key}`" v-bind:class="{'showEffect': !key}">
                                     <div class="row">
                                         <!--  beginning for loop for subcategories -->
-                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(subcategory) in item.subcategory" :key="subcategory.subcategoryId">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(subcategory) in item.subcategory" :key="subcategory.subcategoryId" :id="`subcategoryHeader${subcategory.subcategoryId}`">
 
                                                 <div class="product-card">
 
@@ -114,10 +127,9 @@
 															<div class="loader-action"><span class="loader"></span></div>   
 														</button>
 
-                                                        <!-- <button class="btn btn-light-grey btn-small" >
-                                                            Remove
-                                                            <div class="loader-action"><span class="loader"></span></div>        
-                                                        </button> -->
+                                                        <button class="btn btn-light-grey btn-small" @click="DeleteSubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event)">
+                                                            Delete
+                                                        </button>
                                                         
                                                     </div>
 
@@ -153,6 +165,63 @@
                 </nuxt-link>
             </div>
         </div>
+
+
+            <!-- delete category modal -->
+            <div class="modal-container-2" id="confirmedOrderModal" v-show="categoryToDeleteId">
+                <div class="modal-dialog-box success-order-modal-container">
+
+
+                    <div class="modal-content">
+                        <div class="thumbs-up-container">
+                            <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <use xlink:href="~/assets/business/image/all-svg.svg#bigDelete"></use>
+                            </svg>
+                        </div>
+                        <div class="success-order-text">
+                            <p>Delete <span class="dark-color">{{categoryTodeleteName}}</span> category</p>
+                            <div class="price-info">When you delete this category, you will lose all the subcategories and products in it.</div>
+                        </div>
+                        <div class="mg-bottom-32">
+                            <button class="btn btn-primary btn-block mg-bottom-8" @click="`${categoryToDeleteId = ''}`">Cancel action</button>
+                            <button class="btn btn-white btn-block" id="continueToDelete" @click="continueToDelete($event)">Delete category
+                                <div class="loader-action"><span class="loader"></span></div> 
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--  delete category modal -->
+
+
+            <!-- delete subcategory modal -->
+            <div class="modal-container-2" id="confirmedOrderModal" v-show="subcategoryToDeleteId">
+                <div class="modal-dialog-box success-order-modal-container">
+
+
+                    <div class="modal-content">
+                        <div class="thumbs-up-container">
+                            <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                <use xlink:href="~/assets/business/image/all-svg.svg#bigDelete"></use>
+                            </svg>
+                        </div>
+                        <div class="success-order-text">
+                            <p>Delete <span class="dark-color">{{subcategoryToDeleteName}}</span> subcategory</p>
+                            <div class="price-info">When you delete this subcategory, you will lose all the products in it.</div>
+                        </div>
+                        <div class="mg-bottom-32">
+                            <button class="btn btn-primary btn-block mg-bottom-8" @click="`${subcategoryToDeleteId = ''}`">Cancel action</button>
+                            <button class="btn btn-white btn-block" id="continueToDeleteSubcategory" @click="continueToDeleteSubcategory($event)">Delete subcategory
+                                <div class="loader-action"><span class="loader"></span></div> 
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--  delete category modal -->
+    
     </div>
 </template>
 
@@ -162,7 +231,15 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
-import { GET_BUSINESS_CATEGORIES_WITH_SUBCATEGORIES, HIDE_BUSINESS_SUBCATEGORY, SHOW_BUSINESS_SUBCATEGORY } from '~/graphql/business';
+import { 
+    GET_BUSINESS_CATEGORIES_WITH_SUBCATEGORIES, 
+    HIDE_BUSINESS_SUBCATEGORY, 
+    SHOW_BUSINESS_SUBCATEGORY,
+    DELETE_BUSINESS_SUBCATEGORY,
+    HIDE_CATEGORY,
+    SHOW_CATEGORY,
+    DELETE_CATEGORY   
+} from '~/graphql/business';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
@@ -177,7 +254,15 @@ export default {
             accessToken: "",
             categoriesList: "",
             categoryListCount: 0,
-            isLoading: true
+            isLoading: true,
+
+            // delete category
+            categoryToDeleteId: "",
+            categoryTodeleteName: "",
+
+            // delete subcategory id
+            subcategoryToDeleteId: "",
+            subcategoryToDeleteName: ""
         }
     },
     async created() {
@@ -235,12 +320,116 @@ export default {
             }
 
         },
-        showCategory: function () {
+        // show category
+        showCategory: async function (categoryId, e) {
+
+            e.preventDefault();
+
+            let variables = {
+                categoryId: categoryId,
+                businessId: this.businessId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            let target = document.getElementById('showCategoryAction'+categoryId);
+
+            target.classList.add("show-loader")
+
+            let request = await this.$performGraphQlMutation(this.$apollo, SHOW_CATEGORY, variables, context);
+
+            target.disabled = false;
+
+			if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+            }
+            
+            target.classList.remove("show-loader");
+
+            let result = request.result.data.ShowSelectedBusinessCategory;
+
+            if (result.success) {
+                this.$initiateNotification('success', 'Category visible', result.message);
+
+                // hide show category action
+                target.style.display = "none";
+
+                // hidden label
+                document.getElementById('hiddenCategory'+categoryId).style.display = "none"
+
+                // show hide category action
+                document.getElementById('hideCategoryAction'+categoryId).style.display = "block"
+
+                return
+            }
+
+            this.$initiateNotification('error', 'Failed request', result.message);
+
+            
+        },
+
+        // hide category
+        hideCategory: async function (categoryId, e) {
+
+            
+            e.preventDefault();
+
+            let variables = {
+                categoryId: categoryId,
+                businessId: this.businessId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            let target = document.getElementById('hideCategoryAction'+categoryId);
+
+            target.classList.add("show-loader")
+
+            let request = await this.$performGraphQlMutation(this.$apollo, HIDE_CATEGORY, variables, context);
+
+            target.disabled = false;
+
+			if (request.error == true) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+            }
+            
+            target.classList.remove("show-loader")
+
+            let result = request.result.data.HideSelectedBusinessCategory;
+
+            if (result.success) {
+
+                this.$initiateNotification('success', 'Category Hidden', result.message);
+
+                // hide category action
+                target.style.display = "none"
+
+                // hidden label - make it visible
+                document.getElementById('hiddenCategory'+categoryId).style.display = "block"
+
+                // show category action
+                document.getElementById('showCategoryAction'+categoryId).style.display = "block"
+                
+                return;
+            }
+
+
+            this.$initiateNotification('error', 'Failed request', result.message);
+
+
 
         },
-        hideCategory: function () {
-
-        },
+        // hide subcategory
         hideSubcategory: async function (itemId, subcategoryId, categoryId, e) {
             e.preventDefault()
             let target = document.getElementById('hide'+itemId);
@@ -284,6 +473,7 @@ export default {
     
 
         },
+        // show subcategory
         showSubcategory: async function (itemId, subcategoryId, categoryId, e) {
             e.preventDefault()
             let target = document.getElementById('show'+itemId);
@@ -302,36 +492,160 @@ export default {
 			
 			let request = await this.$performGraphQlMutation(this.$apollo, SHOW_BUSINESS_SUBCATEGORY, variables, context);
 
+            target.disabled = false;
+
 			if (request.error == true) {
-				target.disabled = false;
-				this.$initiateNotification('error', 'Failed request', request.message);
-			} else {
-
-                let result = request.result.data.ShowSelectedBusinessSubcategory;
-					
-                if (result.success) {
-                    this.$initiateNotification('success', 'Subcategory visible', result.message);
-                    target.disabled = false;
-                    target.classList.add('display-none');
-
-					let showButton = document.getElementById('hide'+itemId);
-					let hiddenTag = document.getElementById('tag'+itemId);
-
-					showButton.classList.remove('display-none');
-					hiddenTag.classList.add('display-none');
-
-					return
-				} 
-				target.disabled = false;
-				this.$initiateNotification('error', 'Failed request', result.message);
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
 			}
+
+            let result = request.result.data.ShowSelectedBusinessSubcategory;
+                
+            if (result.success) {
+                this.$initiateNotification('success', 'Subcategory visible', result.message);
+                target.disabled = false;
+                target.classList.add('display-none');
+
+                let showButton = document.getElementById('hide'+itemId);
+                let hiddenTag = document.getElementById('tag'+itemId);
+
+                showButton.classList.remove('display-none');
+                hiddenTag.classList.add('display-none');
+
+                return
+            } 
+                
+            target.disabled = false;
+            this.$initiateNotification('error', 'Failed request', result.message);
+			
         },
         showSubcategoryPane: function (element, e) {
             e.preventDefault();
             let getElement = document.getElementById(element);
-            let svgElement = document.getElementById("svg"+element);
+            // let svgElement = document.getElementById("svg"+element);
             getElement.classList.toggle(`showEffect`);
-            svgElement.classList.toggle(`transform-svg`);
+            // svgElement.classList.toggle(`transform-svg`);
+        },
+        deleteCategory: async function (categoryId, categoryName, e) {
+            e.preventDefault()
+            this.categoryTodeleteName = categoryName
+            this.categoryToDeleteId = categoryId
+        },
+        continueToDelete: async function  (e) {
+            e.preventDefault();
+
+            let target = document.getElementById('continueToDelete');
+
+            let variables = {
+                businessId: this.businessId,
+                categoryId: this.categoryToDeleteId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, DELETE_CATEGORY, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+            }
+
+
+            let result = request.result.data.DeleteSelectedCategory;
+
+            if (!result.success) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+
+            document.getElementById("categoryHeader"+this.categoryToDeleteId).classList.add('display-none');
+
+            this.categoryToDeleteId = "";
+
+            this.categoryTodeleteName = "";
+
+            this.$initiateNotification('success', 'Category deleted', result.message);
+
+            return
+
+
+        },
+        DeleteSubCategory: function (subcategoryId, subcategoryName, e) {
+            this.subcategoryToDeleteName = subcategoryName;
+            this.subcategoryToDeleteId = subcategoryId;
+
+        },
+        continueToDeleteSubcategory: async function (e) {
+
+            e.preventDefault();
+
+            let target = document.getElementById('continueToDeleteSubcategory');
+
+            let variables = {
+                businessId: this.businessId,
+                subcategoryId: this.subcategoryToDeleteId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, DELETE_BUSINESS_SUBCATEGORY, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+            }
+
+
+            let result = request.result.data.DeleteSelectedSubcategory;
+
+            if (!result.success) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+
+            document.getElementById("subcategoryHeader"+this.subcategoryToDeleteId).classList.add('display-none');
+
+            this.subcategoryToDeleteId = "";
+
+            this.subcategoryToDeleteName = "";
+
+            this.$initiateNotification('success', 'Subcategory deleted', result.message);
+
+            return
+        },
+        showSearchBar: function(){
+            // show product search area
+            let target = document.getElementById("productSearchArea");
+            target.style.display = "flex";
+
+            // focus form
+            document.getElementById('productSearchInput').focus()
+        },
+        hideSearchBar: function () {
+            // show product search area
+            let target = document.getElementById("productSearchArea");
+            target.style.display = "none";
+
+            // focus form
+            document.getElementById('productSearchInput').blur() 
         }
     },
     computed: {
@@ -344,3 +658,36 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .small-chip {
+        padding: 7px 14px;
+        font-size: 12px;
+        background-color: white;
+    }
+    .dropdown-container a {
+        justify-content: end;
+    }
+    .dropdown-container {
+        top: 45px;
+        right: 16px;
+        z-index: 999;
+    }
+    .accordion-btn-container {
+        padding: 15px 5px 16px 16px;
+    }
+    .accordion-header {
+        padding-right: 0;
+    }
+    .show-loader {
+        overflow: hidden;
+    }
+    .show-loader .loader-action {
+        display: flex;
+    }
+    .dark-color {
+        color: rgba(238, 100, 37, 1);
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+</style>

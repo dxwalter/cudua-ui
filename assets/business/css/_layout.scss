@@ -536,13 +536,24 @@
 }
 
 .page-header {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
+    position: relative;
+
     h4 {
         color: $dark-color;
         margin: 0;
     }
     .upload-tab-category {
         margin-top: 8px;
+    }
+    .search-area {
+        display: none;
+        position: absolute;
+        width: 100%;
+
+        .search-form {
+            border-radius: 4px 0px 0px 4px;
+        }
     }
 }
 
@@ -862,9 +873,20 @@
     margin-bottom: 0;
 }
 
-@media($mq-mb) {
-    .search-area {
+@media($mq-md) {
+    .page-header .search-area {
         width: 344px;
+        .search-form {
+            border-radius: 4px 4px;
+        }
+    }
+}
+
+@media($mq-md) {
+    .page-header .search-area{
+        display: block;
+        position: relative;
+
     }
 }
 
@@ -1012,6 +1034,12 @@
     }
     span {
         color: $light-black
+    }
+}
+
+@media($mq-md) {
+    .business-product-search-action {
+        display: none;
     }
 }
 
@@ -3851,5 +3879,19 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 @media($mq-mb) {
     .success-order-modal-container {
         width: 424px;
+    }
+}
+.close-component-search {
+    position: relative;
+    border: 0;
+    border-radius: 0px 4px 4px 0px;
+    background-color: $bg-color;
+    left: 0;
+    padding: 0px 14px;
+}
+
+@media($mq-md) {
+    .close-component-search {
+        display: none;
     }
 }

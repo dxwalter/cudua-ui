@@ -111,7 +111,7 @@
         </div>
 
         <n-link to="/auth/create-store" class="btn create-shop-btn" v-if="!isLoggedIn || !isBusinessOwner">Create shop</n-link>
-        <n-link to="/b" class="btn create-shop-btn"  v-if="isLoggedIn && isBusinessOwner">Shop manager</n-link>
+        <n-link to="/b" class="btn create-shop-btn"  v-if="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
 
       </div>
 

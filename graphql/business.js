@@ -81,6 +81,19 @@ export const SHOW_BUSINESS_SUBCATEGORY = gql`
     }
 `;
 
+export const  DELETE_BUSINESS_SUBCATEGORY = gql`
+mutation DeleteSubcategory($subcategoryId: String!, $businessId: String!){
+  DeleteSelectedSubcategory(input: {
+    subcategoryId: $subcategoryId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
 
 export const EDIT_BASIC_BUSINESS_DETAILS = gql`
 mutation EditBusinessBasicDetails($businessId: String!, $businessName: String, $businessUsername: String, $businessDescription: String) {
@@ -273,6 +286,45 @@ query GetBusinessFollowers($page: Int!, $businessId: String!) {
       profilePhoto
       reviewScore
     }
+    code
+    success
+    message
+  }
+}
+`
+
+export const HIDE_CATEGORY = gql`
+mutation HideCategory ($categoryId: String!, $businessId: String!) {
+  HideSelectedBusinessCategory(input:{
+    categoryId: $categoryId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const SHOW_CATEGORY = gql`
+mutation ShowCategory ($categoryId: String!, $businessId: String!) {
+  ShowSelectedBusinessCategory(input:{
+    categoryId: $categoryId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const DELETE_CATEGORY = gql`
+mutation DeleteCategory($categoryId: String!, $businessId: String!){
+  DeleteSelectedCategory(input:{
+    categoryId: $categoryId,
+    businessId: $businessId
+  }) {
     code
     success
     message

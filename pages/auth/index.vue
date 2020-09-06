@@ -1,8 +1,8 @@
 <template>
     <div class="customer">
         
-        <!-- <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script> -->
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script>
 
         <div class="body-container">
             <div class="sign-up-container">
@@ -28,7 +28,7 @@
                                 <div class="create-business-signup">
                                     <div class="intent-bg-text">Sign into your account</div>
                                     
-                                    <!-- <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div> -->
+                                    <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div>
                                     
                                     <div class="form-control">
                                         <input type="email" name="email" class="input-form" v-model="email" placeholder="Email address">
