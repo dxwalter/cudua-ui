@@ -1,6 +1,6 @@
 <template>
   		<!-- mobile search modal -->
-		<div class="modal-container mobile-search-modal-container" id="mobileSearchModal" v-bind:class="{'show-search-modal': showMobileSearch}">
+		<div class="modal-container mobile-search-modal-container" id="mobileSearchModal" v-bind:class="{'show-search-modal': showMobileSearch == 1}">
 			<div class="modal-dialog-box">
 				<div class="card">
 					<!-- close search modal -->
@@ -515,7 +515,7 @@ export default {
     data: function () {
       return {
         screenWidth: "",
-        showMobileSearch: 1
+        showMobileSearch: 0
       }
     },
     computed: {
