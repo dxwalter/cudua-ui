@@ -150,13 +150,14 @@ export default {
 		},
 		showMobileSearch: function(mobilePrimarySearchInput) {
 			mobilePrimarySearchInput.addEventListener('focus', e => {
-				this.openedModalTarget = 'mobileSearchModal';
-				this.$openModal(this.openedModalTarget)
-				let modalSearchForm = document.getElementById('mobileSearchInput');
-				modalSearchForm.focus() //focus
-				modalSearchForm.value = mobilePrimarySearchInput.value; //change value
-				mobilePrimarySearchInput.blur()
-				mobilePrimarySearchInput.value = '';
+				// this.openedModalTarget = 'mobileSearchModal';
+				// this.$openModal(this.openedModalTarget)
+				// let modalSearchForm = document.getElementById('mobileSearchInput');
+				// modalSearchForm.focus() //focus
+				// modalSearchForm.value = mobilePrimarySearchInput.value; //change value
+				// mobilePrimarySearchInput.blur()
+				// mobilePrimarySearchInput.value = '';
+				this.$router.push('/search')
 			});
 		},
 		customerTabs: function () {
