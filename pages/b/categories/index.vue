@@ -23,7 +23,7 @@
                                 </div>
                                 <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
                                 <div class="search-area" id="productSearchArea">
-                                    <input type="text" name="" class="search-form grey-bg-color" placeholder="Search for a category" id="productSearchInput" v-model="categorySearchString" @keyup="searchBusinessCategories()">
+                                    <input type="text" name="" class="search-form grey-bg-color" placeholder="Search for a category" id="productSearchInput" v-model="categorySearchString">
                                     <button id="tabLink" class="close-component-search">
                                         <input type="checkbox" class="dropdownCheckBox" @click="hideSearchBar()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
@@ -38,114 +38,7 @@
                             
                             <!-- main content goes in here -->
                             <!-- this is for category search -->
-                            <div v-show="categorySearchString.length <= 2">
-                                <div class="accordion grey-bg-color border-radius-4" v-for="(item, key) in categoriesList" :key="item.categoryId" :id="`categoryHeader${item.categoryId}`">
-                                    <!-- header -->
-                                    <div class="accordion-header">
-                                        <a href="#" class="d-flex flex-between"> 
-                                            <input type="checkbox" class="dropdownCheckBox" 
-                                            @click="showSubcategoryPane(`${item.itemId}${key}`, $event)">
 
-                                            <h4>{{item.categoryName}}</h4>
-
-                                            <div class="chip small-chip" v-show="item.hide" :id="`hiddenCategory${item.categoryId}`">Hidden</div>
-
-                                            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616" 
-                                            v-bind:class="{'transform-svg': !key}" v-bind:id="`svg${item.itemId}${key}`">
-                                                <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
-                                            </svg> -->
-                                            
-                                        </a>
-                                        <div class="accordion-btn-container">
-                                            <div class="dropdown-area">
-                                                <button class="btn-ellipsis btn-checkbox">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
-                                                        <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
-                                                    </svg>
-                                                </button>
-                                                <input type="checkbox" class="dropdownCheckBox">
-                                                <div class="dropdown-container">
-                                                    <!-- hide category -->
-                                                    <a href="#" @click="hideCategory(item.categoryId, $event)" v-show="!item.hide" :id="`hideCategoryAction${item.categoryId}`">
-                                                        <span>Hide category</span>
-                                                        <div class="loader-action"><span class="loader"></span></div>
-                                                    </a>
-                                                    <!-- show category -->
-                                                    <a href="#" @click="showCategory(item.categoryId, $event)" v-show="item.hide" :id="`showCategoryAction${item.categoryId}`">
-                                                        <span>Show category</span>
-                                                        <div class="loader-action"><span class="loader"></span></div>
-                                                    </a>
-                                                    <a href="#" @click="deleteCategory(item.categoryId, item.categoryName, $event)">
-                                                        <span>Delete category</span>
-                                                        <div class="loader-action"><span class="loader"></span></div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end of header -->
-                                    <!-- beginning of subcategory list -->
-                                    <div class="accordion-content-container" v-bind:id="`${item.itemId}${key}`" v-bind:class="{'showEffect': !key}">
-                                        <div class="row">
-                                            <!--  beginning for loop for subcategories -->
-                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(subcategory) in item.subcategory" :key="subcategory.subcategoryId" :id="`subcategoryHeader${subcategory.subcategoryId}`">
-
-                                                    <div class="product-card">
-
-                                                        <n-link v-bind:to="`/b/product/subcategory/${subcategory.subcategoryId}`" class="category-name-area">
-                                                            
-                                                            <div class="visibility-status" 
-                                                            v-bind:class="{'display-none': !subcategory.hide}"
-                                                            v-bind:id="`tag${subcategory.itemId}`"
-                                                            >Hidden</div>
-
-                                                            <h3>{{subcategory.subcategoryName}}</h3>
-
-                                                            <div class="subcat-details" v-if="!subcategory.subcategoryProductCount">No product in this subcategory</div>
-
-                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount == 1">1 product in this subcategory</div>
-
-                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount > 1">{{subcategory.subcategoryProductCount}} products in this subcategory</div>
-
-                                                        </n-link>
-
-                                                        <!-- action area -->
-                                                        <div class="subcat-action-area">
-                                                            <n-link v-bind:to="`/b/product/add-product?sub=${subcategory.subcategoryId}&cat=${item.categoryId}`"  class="btn btn-white btn-small">Add product</n-link>
-                                                            <!-- hide sub category -->
-                                                            <button class="btn btn-light-grey btn-small" 
-                                                                v-bind:class="{'display-none': subcategory.hide}" 
-                                                                @click="hideSubcategory(subcategory.itemId, subcategory.subcategoryId, item.categoryId, $event)" 
-                                                                v-bind:id="`hide${subcategory.itemId}`"
-                                                            >
-                                                                Hide
-                                                                <div class="loader-action"><span class="loader"></span></div>    
-                                                            </button>
-
-                                                            <!-- show subcategory -->
-                                                            <button class="btn btn-light-grey btn-small" 
-                                                                v-bind:class="{'display-none': !subcategory.hide}" 
-                                                                @click="showSubcategory(subcategory.itemId, subcategory.subcategoryId, item.categoryId, $event)" 
-                                                                v-bind:id="`show${subcategory.itemId}`"
-                                                            >
-                                                                Show
-                                                                <div class="loader-action"><span class="loader"></span></div>   
-                                                            </button>
-
-                                                            <button class="btn btn-light-grey btn-small" @click="DeleteSubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event)">
-                                                                Delete
-                                                            </button>
-                                                            
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            <!--  end for loop for subcategories -->
-                                        </div>
-                                    </div>
-                                    <!-- end of subcategory list -->
-                                </div>
-                            </div>
 
                             <div v-show="categorySearchString.length > 2">
                                 <div v-show="categorySearchResultCount == 0" class="alert alert-light">
@@ -259,6 +152,116 @@
                                 </div>
                             </div>
 
+                            <div v-show="categorySearchString.length <= 2">
+                                <div class="accordion grey-bg-color border-radius-4" v-for="(item, key) in categoriesList" :key="item.categoryId" :id="`categoryHeader${item.categoryId}`">
+                                    <!-- header -->
+                                    <div class="accordion-header">
+                                        <a href="#" class="d-flex flex-between"> 
+                                            <input type="checkbox" class="dropdownCheckBox" 
+                                            @click="showSubcategoryPane(`${item.itemId}${key}`, $event)">
+
+                                            <h4>{{item.categoryName}}</h4>
+
+                                            <div class="chip small-chip" v-show="item.hide" :id="`hiddenCategory${item.categoryId}`">Hidden</div>
+
+                                            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616" 
+                                            v-bind:class="{'transform-svg': !key}" v-bind:id="`svg${item.itemId}${key}`">
+                                                <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
+                                            </svg> -->
+                                            
+                                        </a>
+                                        <div class="accordion-btn-container">
+                                            <div class="dropdown-area">
+                                                <button class="btn-ellipsis btn-checkbox">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
+                                                        <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
+                                                    </svg>
+                                                </button>
+                                                <input type="checkbox" class="dropdownCheckBox">
+                                                <div class="dropdown-container">
+                                                    <!-- hide category -->
+                                                    <a href="#" @click="hideCategory(item.categoryId, $event)" v-show="!item.hide" :id="`hideCategoryAction${item.categoryId}`">
+                                                        <span>Hide category</span>
+                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                    </a>
+                                                    <!-- show category -->
+                                                    <a href="#" @click="showCategory(item.categoryId, $event)" v-show="item.hide" :id="`showCategoryAction${item.categoryId}`">
+                                                        <span>Show category</span>
+                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                    </a>
+                                                    <a href="#" @click="deleteCategory(item.categoryId, item.categoryName, $event)">
+                                                        <span>Delete category</span>
+                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of header -->
+                                    <!-- beginning of subcategory list -->
+                                    <div class="accordion-content-container" v-bind:id="`${item.itemId}${key}`" v-bind:class="{'showEffect': !key}">
+                                        <div class="row">
+                                            <!--  beginning for loop for subcategories -->
+                                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(subcategory) in item.subcategory" :key="subcategory.subcategoryId" :id="`subcategoryHeader${subcategory.subcategoryId}`">
+
+                                                    <div class="product-card">
+
+                                                        <n-link v-bind:to="`/b/product/subcategory/${subcategory.subcategoryId}`" class="category-name-area">
+                                                            
+                                                            <div class="visibility-status" 
+                                                            v-bind:class="{'display-none': !subcategory.hide}"
+                                                            v-bind:id="`tag${subcategory.itemId}`"
+                                                            >Hidden</div>
+
+                                                            <h3>{{subcategory.subcategoryName}}</h3>
+
+                                                            <div class="subcat-details" v-if="!subcategory.subcategoryProductCount">No product in this subcategory</div>
+
+                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount == 1">1 product in this subcategory</div>
+
+                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount > 1">{{subcategory.subcategoryProductCount}} products in this subcategory</div>
+
+                                                        </n-link>
+
+                                                        <!-- action area -->
+                                                        <div class="subcat-action-area">
+                                                            <n-link v-bind:to="`/b/product/add-product?sub=${subcategory.subcategoryId}&cat=${item.categoryId}`"  class="btn btn-white btn-small">Add product</n-link>
+                                                            <!-- hide sub category -->
+                                                            <button class="btn btn-light-grey btn-small" 
+                                                                v-bind:class="{'display-none': subcategory.hide}" 
+                                                                @click="hideSubcategory(subcategory.itemId, subcategory.subcategoryId, item.categoryId, $event)" 
+                                                                v-bind:id="`hide${subcategory.itemId}`"
+                                                            >
+                                                                Hide
+                                                                <div class="loader-action"><span class="loader"></span></div>    
+                                                            </button>
+
+                                                            <!-- show subcategory -->
+                                                            <button class="btn btn-light-grey btn-small" 
+                                                                v-bind:class="{'display-none': !subcategory.hide}" 
+                                                                @click="showSubcategory(subcategory.itemId, subcategory.subcategoryId, item.categoryId, $event)" 
+                                                                v-bind:id="`show${subcategory.itemId}`"
+                                                            >
+                                                                Show
+                                                                <div class="loader-action"><span class="loader"></span></div>   
+                                                            </button>
+
+                                                            <button class="btn btn-light-grey btn-small" @click="DeleteSubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event)">
+                                                                Delete
+                                                            </button>
+                                                            
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            <!--  end for loop for subcategories -->
+                                        </div>
+                                    </div>
+                                    <!-- end of subcategory list -->
+                                </div>
+                            </div>
+
+
 
 
                             <div v-if="!categoryListCount && !isLoading">
@@ -304,7 +307,7 @@
                     </div>
                     <div class="mg-bottom-32">
                         <button class="btn btn-primary btn-block mg-bottom-8" @click="`${categoryToDeleteId = ''}`">Cancel action</button>
-                        <button class="btn btn-white btn-block" id="continueToDelete" @click="continueToDelete($event)">Delete category
+                        <button class="btn btn-white btn-block" id="continueToDelete" @click="continueToDeleteCategory($event)">Delete category
                             <div class="loader-action"><span class="loader"></span></div> 
                         </button>
                     </div>
@@ -657,7 +660,7 @@ export default {
             this.categoryTodeleteName = categoryName
             this.categoryToDeleteId = categoryId
         },
-        continueToDelete: async function  (e) {
+        continueToDeleteCategory: async function  (e) {
             e.preventDefault();
 
             let target = document.getElementById('continueToDelete');
@@ -680,6 +683,7 @@ export default {
             target.disabled = false
 
             if (request.error) {
+                this.categoryToDeleteId = "";
                 this.$initiateNotification('error', 'Failed request', request.message);
                 return
             }
@@ -692,12 +696,10 @@ export default {
                 return
             }
 
-
             document.getElementById("categoryHeader"+this.categoryToDeleteId).classList.add('display-none');
 
-            this.categoryToDeleteId = "";
-
             this.categoryTodeleteName = "";
+            this.categoryToDeleteId = "";
 
             this.$initiateNotification('success', 'Category deleted', result.message);
 
@@ -742,6 +744,7 @@ export default {
             let result = request.result.data.DeleteSelectedSubcategory;
 
             if (!result.success) {
+                this.subcategoryToDeleteId = ""
                 this.$initiateNotification('error', 'Failed request', result.message);
                 return
             }
@@ -798,6 +801,11 @@ export default {
         },
         returnSearchResult: function () {
             return this.categorySearchResult
+        }
+    },
+    watch: {
+        categorySearchString: function () {
+            this.searchBusinessCategories()
         }
     },
     async mounted () {    
