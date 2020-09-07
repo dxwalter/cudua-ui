@@ -642,7 +642,6 @@ export default {
             let data = this.GetBusinessData()
             this.businessId = data.businessId;
             this.businessName = data.businessName;
-            console.log(data.logo)
             // logo
             if (data.logo) {
                 this.businessLogo = this.$getBusinessLogoUrl(this.businessId, data.logo)
