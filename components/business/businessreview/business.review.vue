@@ -42,14 +42,11 @@
                <div class="business-review-container">
                     <div class="review-item" v-for="(review, index) in displayReviews" :key="index">
                         <div class="review-header">
-                            <div class="review-image" v-show="review.displayPicture">
-                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                            </div>
                             <div class="review-image" v-show="!review.displayPicture">
                                 <div class="no-logo-review">{{CustomerNameAsDP(review.fullname)}}</div>
                             </div>
                             <div class="review-image" v-show="review.displayPicture">
-                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+                                <img :data-src="`${getImageInLogoSize(review.userId, review.displayPicture)}`" :alt="`${review.fullname}'s picture`" v-lazy-load>
                             </div>
 
                             <div class="review-details">
@@ -193,6 +190,9 @@ export default {
         },
 		formatNotificationTimer: function (timeStamp) {
 			return this.$timeStampModifier(timeStamp)
+        },
+        getImageInLogoSize: function (customerId, imagePath) {
+            return this.$getCustomerProfilePictureUrl(customerId, imagePath)
         }
     },
     async created () {
@@ -206,8 +206,6 @@ export default {
             }
 
             if (newReview == undefined) {
-                // alert(this.$route.query.newReview )
-                // alert(typeof this.$route.query.newReview)
                 await this.GetBusinessReview()
             }
         }

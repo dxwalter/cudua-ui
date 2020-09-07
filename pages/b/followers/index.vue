@@ -23,7 +23,9 @@
 											<div class="temporal-logo" v-show="!follower.profilePhoto">
 												{{getNameLogo(follower.name)}}
 											</div>
-											<img :data-src="`~/assets/business/image/daniel-chigisoft.jpg`" :alt="`${follower.name}`" v-show="follower.profilePhoto" v-lazy-load>
+											<div class="temporal-logo"  v-show="follower.profilePhoto" >
+											<img :data-src="`${getImageInLogoSize(follower.userId, follower.profilePhoto)}`" :alt="`${follower.name}`" v-lazy-load>
+											</div>
 										</div>
 										<div class="product-card-details">
 											<div class="product-name">
@@ -170,6 +172,9 @@ export default {
 		},
 		getNameLogo: function (name) {
 			return this.$convertNameToLogo(name)
+		},
+		getImageInLogoSize: function(userId, imagePath) {
+			return this.$getCustomerProfilePictureUrl(userId, imagePath)
 		}
 	},
     mounted() {

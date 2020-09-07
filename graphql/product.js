@@ -69,3 +69,23 @@ query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
   }
 }
 `
+
+export const SHOP_ADMIN_SEARCH_PRODUCT_IN_MANAGER = gql`
+query searchProduct($keyword: String!, $businessId: String!){
+  BusinessSearchProduct(input: {
+    keyword: $keyword,
+    businessId: $businessId
+  })
+  {
+    products{
+      id
+      name
+      price
+      primaryImage
+    }
+    code
+    success
+    message
+  }
+}
+`

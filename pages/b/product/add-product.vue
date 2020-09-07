@@ -8,8 +8,14 @@
                 <nuxt />
                 <div class="content-area grey-bg-color">
                     <!-- pageLoader -->
-                    <PAGELOADER v-if="pageLoader" />
-                    <nuxt />
+                    <PAGELOADER v-if="pageLoader"></PAGELOADER>
+
+                    <div>
+                        <div class="alert alert-secondary notification-alert">
+                            <div>Images on white/transparent background look better. Remove background before upload</div>
+                            <a href="https://remove.bg" target="_blank" class="btn btn-small btn-white">Remove background</a>
+                        </div>
+                    </div>
 
                     <div class="main-content">
 
@@ -40,7 +46,8 @@
                                             <option selected value="">Select category</option>
                                             <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
                                         </select>
-                                        <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="createCategoryModal">I can't find a category/subcategory<span class="action-span">Add it</span></a>
+
+                                        <a href="#" target="" class="mg-top-8 font-14 dd-block" data-trigger="modal" data-target="createCategoryModal" v-show="clickedCategory">I can't find a category/subcategory<span class="action-span">Add it</span></a>
 
                                     </div>
                                     <!-- after the user has selected a category and subcategory, show the details below by removing display-none -->
@@ -498,5 +505,8 @@ export default {
     color: rgb(238 100 37);
     margin-left: 10px;
     font-weight: 500;
+}
+.dd-block {
+    display: block;
 }
 </style>

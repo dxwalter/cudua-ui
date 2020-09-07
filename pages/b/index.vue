@@ -1,19 +1,18 @@
 <template>
-    <div class="business">
+    <div class="business" :key="componentKey">
         <div class="body-container">
-            <TOPHEADER />
+            <TOPHEADER></TOPHEADER>
             <nuxt/>
             <div class="content-container">
-                <SIDENAV />
+                <SIDENAV></SIDENAV>
                 <nuxt />
                 <div class="content-area">
 
                     <!-- pageLoader -->
-                    <PAGELOADER v-if="pageLoader" />
-                    <nuxt />
+                    <PAGELOADER v-if="pageLoader"></PAGELOADER>
                     
                     <div>
-                        <div class="alert alert-info notification-alert" v-show="page && allProducts.length > 1">
+                        <div class="alert alert-secondary notification-alert" v-show="page && allProducts.length > 1">
                             <div>Invite three businesses to register and get one month basic plan for free</div>
                             <nuxt-link to="/b/invite" class="btn btn-small btn-white">Get started</nuxt-link>
                         </div>
@@ -23,15 +22,15 @@
 
                         <div class="page-header with-action">
                             <h4>Product listing</h4>
-                            <div class="business-product-search-action" id="" @click="showSearchBar()">
+                            <div class="business-product-search-action" id="" @click="showSearchBar()" v-show="productListingCount > 4">
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#searchGlass"></use>
                                 </svg>
                                 <span>Search</span>
                             </div>
                             <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
-                            <div class="search-area" id="productSearchArea">
-                                <input type="text" name="" class="search-form grey-bg-color" placeholder="Search for products" id="productSearchInput">
+                            <div class="search-area" id="productSearchArea" v-show="productListingCount > 4">
+                                <input type="text" name="" class="search-form grey-bg-color" placeholder="Search your shop" id="productSearchInput" v-model="productSearchString">
                                 <button id="tabLink" class="close-component-search">
                                     <input type="checkbox" class="dropdownCheckBox" @click="hideSearchBar()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
@@ -41,7 +40,58 @@
                             </div>
                         </div>
 
-                        <div class="no-account-category" v-show="!productListingCount && !pageLoader && page == 1">
+                        <!-- product search -->
+
+                        <div class="accordion grey-bg-color border-radius-4 search-result-container " id="searchResultContainer"
+                        v-bind:class="{showEffect: productSearchString.length > 2}"
+                        >
+                        <div class="search-result-header">
+                            <div class="search-result-keyword">
+                                <span>Search result for </span>
+                                <span>- {{productSearchString}}</span>
+                            </div>
+                            <button class="close-modal-btn hide-for-mobile" @click="productSearchString = ''">
+                                <input type="checkbox" name="" class="dropdownCheckBox" data-single-tab="singleTab" data-target="searchResultContainer">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#times"></use>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="product-search-loader" v-show="!initiateSearch">
+                            <div class="show-loader">
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </div>
+                        </div>
+
+                        <!-- this is when all the products have been listed -->
+                        <div v-show="noResultFound" class="alert alert-info mg-top-16  notification-alert add-radius">
+                            No result was found for "{{productSearchString}}"
+                        </div>
+
+                        <div class="row" v-show="initiateSearch">
+                                    
+                            <n-link :to="`/b/product/${product.id}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3"
+                                v-for="(product, index) in returnSearchResult" :key="index"
+                            >
+                                <div class="product-card">
+                                    <div class="product-card-image">
+                                        <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
+                                    </div>
+                                    <div class="product-card-details">
+                                        <div class="product-name">
+                                            {{product.name}}
+                                        </div>
+                                        <div class="product-price">₦ {{product.price}}</div>
+                                    </div>
+                                </div>
+                            </n-link>
+
+                        </div>
+                    </div>
+                    <!-- end of product search -->
+
+                        <div class="no-account-category" v-show="!productListingCount && !pageLoader && page == 1 && finalProduct">
                             <!-- when no category has been added to the account -->
                             <h2>No product has been added to your store</h2>
                             <p>Start uploading the products that you want to sell</p>
@@ -78,8 +128,9 @@
                         </div>
 
                         <!-- this is when all the products have been listed -->
-                        <div v-show="finalProduct" class="alert alert-info mg-top-16">
+                        <div v-show="finalProduct && productListingCount" class="alert alert-info mg-top-16  notification-alert add-radius">
                             That was all the products in your store
+                            <n-link to="/b/product/add-product" class="btn btn-white btn-small">Upload a new product</n-link>
                         </div>
 
 
@@ -102,7 +153,9 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-import { GET_PRODUCT_BY_BUSINESS_ID } from '~/graphql/product';
+import { 
+    GET_PRODUCT_BY_BUSINESS_ID,
+    SHOP_ADMIN_SEARCH_PRODUCT_IN_MANAGER } from '~/graphql/product';
 
 export default {
     name: "BUSINESSPRODUCTLISTING",
@@ -118,16 +171,35 @@ export default {
             allProducts: "",
             finalProduct: false,
             page: 1,
+
+            // force component re-render
+            componentKey: 0,
+
+            // product search
+            productSearchString: "",
+            initiateSearch: 0,
+            setTimeoutForProductSearch: null,
+            noResultFound: 0,
+            productSearchResult: ""
         }
     },
     computed: {
         returnAllproducts () {
             return this.allProducts
+        },
+        returnSearchResult () {
+            return this.productSearchResult
         }
     },
     created () {
         if (process.client) {
             this.GetBusinessDataFromStore();
+        }
+    },
+    watch: {
+        productSearchString: function () {
+            if (this.productSearchString.length == 0) return
+            this.searchProductInShop()
         }
     },
     methods: {
@@ -229,12 +301,126 @@ export default {
             target.style.display = "none";
 
             // focus form
-            document.getElementById('productSearchInput').blur() 
+            document.getElementById('productSearchInput').blur() ;
+            this.productSearchString = ""
+        },
+        reRenderComponent: function () {
+            this.$nextTick(() => {
+                this.componentKey += 1
+            })
+        },
+        clearTimeOut: function (timerOut) {
+            clearTimeout(timerOut)
+        },
+        searchProductInShop: async function () {
+
+            if (this.productSearchString.length <= 2) return
+
+            // when start search
+            this.initiateSearch = 0;
+
+            // reset no result found;
+            this.noResultFound = 0
+
+            // clear previous time out
+            this.clearTimeOut(this.setTimeoutForProductSearch)
+
+            this.setTimeoutForProductSearch = setTimeout( async() => {
+
+                let variables = {
+                    businessId: this.businessId,
+                    keyword: this.productSearchString
+                }
+
+                let context = {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
+
+                let query = await this.$performGraphQlQuery(this.$apollo, SHOP_ADMIN_SEARCH_PRODUCT_IN_MANAGER, variables, context);
+                
+                // when search ends
+                this.initiateSearch = 1
+                this.productSearchResult = []
+
+                if (query.error == true) {
+                    this.$initiateNotification('error', 'Failed request', query.message);
+                    return
+                }
+
+                let result = query.result.data.BusinessSearchProduct;
+
+                if (result.success == false) {
+                    this.$initiateNotification("error", "Failed request", result.message)
+                    return
+                }
+
+                if (result.products == null) {
+                    this.noResultFound = 1
+                    return
+                }
+
+                let searchResultArray = []
+
+                for (let x of result.products) {
+                    searchResultArray.push({
+                        id: x.id,
+                        name: x.name,
+                        price: x.price,
+                        image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    })
+                }
+
+
+                this.productSearchResult = searchResultArray
+
+            }, 2000)
+
         }
     },
     async mounted () {
         await this.getAllProductFromBusiness()
         this.pageLoader = false
+        this.reRenderComponent()
+    },
+    destroyed () {
+        clearTimeout(this.setTimeoutForProductSearch);
     }
 }
 </script>
+<style scoped>
+.add-radius {
+    border-radius: 4px !important;
+}
+.product-search-loader {
+    height: 50px;
+    width: 100%;
+}
+.product-search-loader .show-loader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.show-loader .loader-action {
+    display: block;
+    background-color: #f3f3f3;
+}
+.loader-action .loader {
+    border: 2px solid rgba(0,0,0,.5);
+    width: 30px;
+    height: 30px;
+    border-top: 2px solid transparent;
+}
+.hide-for-mobile {
+    display: none;
+}
+@media (min-width: 959px) {
+    .hide-for-mobile {
+        display: flex;
+    }
+}
+</style>

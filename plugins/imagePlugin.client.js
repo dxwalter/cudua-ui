@@ -39,5 +39,18 @@ export default ({app}, inject) => {
 
     inject("formatProductImageUrl", formatProductImageUrl)
 
+    let getCustomerProfilePictureUrl = (customerId, dpPath) => {
+
+        let extension = dpPath.split('.');
+
+        if (extension[1] != 'jpg') {
+            dpPath = `${extension[0]}.jpeg`
+        }
+
+        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/cudua_commerce/customer/${customerId}/profilePicture/${dpPath}`
+    }
+
+    inject("getCustomerProfilePictureUrl", getCustomerProfilePictureUrl);
+
 }
 

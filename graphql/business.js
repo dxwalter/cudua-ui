@@ -285,6 +285,7 @@ query GetBusinessFollowers($page: Int!, $businessId: String!) {
       name
       profilePhoto
       reviewScore
+      userId
     }
     code
     success

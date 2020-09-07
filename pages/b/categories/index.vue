@@ -1,5 +1,5 @@
 <template>
-    <div class="business">
+    <div class="business" :key="componentKey">
         <div class="body-container">
             <TOPHEADER />
             <nuxt/>
@@ -15,14 +15,14 @@
 
                             <div class="page-header with-action">
                                 <h4>Product category</h4>
-                                <div class="business-product-search-action" id="" @click="showSearchBar()">
+                                <div class="business-product-search-action" id="" @click="showSearchBar()" v-show="categoryListCount">
                                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                         <use xlink:href="~/assets/business/image/all-svg.svg#searchGlass"></use>
                                     </svg>
                                     <span>Search</span>
                                 </div>
                                 <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
-                                <div class="search-area" id="productSearchArea">
+                                <div class="search-area" id="productSearchArea" v-show="categoryListCount">
                                     <input type="text" name="" class="search-form grey-bg-color" placeholder="Search for a category" id="productSearchInput" v-model="categorySearchString">
                                     <button id="tabLink" class="close-component-search">
                                         <input type="checkbox" class="dropdownCheckBox" @click="hideSearchBar()">
@@ -390,8 +390,10 @@ export default {
             // category search
             categorySearchString: "",
             categorySearchResult: "",
-            categorySearchResultCount: ""
-            // 
+            categorySearchResultCount: "",
+            
+            //re-render component
+            componentKey: 0 
         }
     },
     async created() {
@@ -793,6 +795,11 @@ export default {
 
             this.categorySearchResultCount = searchResultArray.length;
             this.categorySearchResult = searchResultArray
+        },
+        reRenderComponent: function () {
+            this.$nextTick(() => {
+                this.componentKey += 1
+            })
         }
     },
     computed: {
@@ -810,6 +817,7 @@ export default {
     },
     async mounted () {    
         this.pageLoader = false;
+        this.reRenderComponent()
     }
 }
 </script>
