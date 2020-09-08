@@ -17,8 +17,8 @@
             </div>
 
             <div class="mobile-nav-actions">
-              <n-link to="/auth/create-store" class="btn btn-primary btn-md" v-if="!isLoggedIn || !isBusinessOwner">Create shop</n-link>
-              <n-link to="/b" class="btn btn-white btn-md" v-if="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
+              <n-link to="/auth/create-store" class="btn btn-primary btn-md" v-show="!isLoggedIn || !isBusinessOwner">Create shop</n-link>
+              <n-link to="/b" class="btn btn-white btn-md" v-show="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
 
               <n-link to="/c/cart" class="btn btn-white btn-small btn-icon">
                 <div class="notif-point">10</div>
