@@ -4,7 +4,7 @@
             
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
-                            <!-- <MOBILESEARCH></MOBILESEARCH> -->
+                            <MOBILESEARCH></MOBILESEARCH>
                             <!-- <BUSINESSNAV></BUSINESSNAV> -->
                             <MOBILENAVIGATION></MOBILENAVIGATION>
                         </div>
@@ -335,7 +335,7 @@
 <script>
 
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
-// import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 // import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 // import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 // import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
@@ -355,7 +355,7 @@ export default {
     name: "BUSINESSPAGE",
     components: {
         MOBILENAVIGATION, 
-        // MOBILESEARCH, 
+        MOBILESEARCH, 
         // BOTTOMADS, 
         // CUSTOMERFOOTER, 
         // BUSINESSNAV, 
