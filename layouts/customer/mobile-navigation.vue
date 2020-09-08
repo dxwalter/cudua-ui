@@ -67,7 +67,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 import INITCOMPONENT from '~/components/init.component.vue';
 
 export default {
-	name: 'MOBILENAVIGATION',
+	name: 'MOBILENAVIGATIONCOMPONENT',
 	components: {INITCOMPONENT},
 	data: function () {
 		return {

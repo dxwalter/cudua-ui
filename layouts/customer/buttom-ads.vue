@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'BOTTOMADS'
+  name: 'BOTTOMADSCOMPONENT'
 }
 </script>
 

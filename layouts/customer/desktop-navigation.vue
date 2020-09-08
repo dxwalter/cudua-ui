@@ -123,7 +123,7 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-  name: 'DESKTOPNAVGATION',
+  name: 'DESKTOPNAVGATIONCOMPONENT',
 	data: function () {
 		return {
       isLoggedIn: false,

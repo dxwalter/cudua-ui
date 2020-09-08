@@ -80,7 +80,7 @@
 
 <script>
 export default {
-  name: 'CUSTOMERFOOTER'
+  name: 'CUSTOMERFOOTERCOMPONENT'
 }
 </script>
 
