@@ -11,11 +11,9 @@
                     <!-- pageLoader -->
                     <PAGELOADER v-if="pageLoader"></PAGELOADER>
                     
-                    <div>
-                        <div class="alert alert-secondary notification-alert" v-show="page && allProducts.length > 1">
-                            <div>Invite three businesses to register and get one month basic plan for free</div>
-                            <nuxt-link to="/b/invite" class="btn btn-small btn-white">Get started</nuxt-link>
-                        </div>
+                    <div class="alert alert-secondary notification-alert" v-show="page && allProducts.length > 1">
+                        <div>Invite three businesses to register and get one month basic plan for free</div>
+                        <nuxt-link to="/b/invite" class="btn btn-small btn-white">Get started</nuxt-link>
                     </div>
                     <div class="main-content">
 

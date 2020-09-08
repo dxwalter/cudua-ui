@@ -82,7 +82,63 @@ query searchProduct($keyword: String!, $businessId: String!){
       name
       price
       primaryImage
+      hide
     }
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_PRODUCT_BY_ID = gql`
+query getproduct($productId: String!) {
+  GetProductById(input:{
+    productId: $productId,
+  })
+  {
+    product{
+      id
+      name
+      price
+      description
+      tags {
+        tagId
+        tagName
+      }
+      colors {
+        colorId
+        color
+      }
+      sizes {
+        sizeId
+        sizeNumber
+      }
+      hide
+      category{
+        categoryId
+        categoryName
+      }
+      subcategory{
+        subcategoryId
+        subcategoryName
+      }
+      images
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const CREATE_PRODUCT_SIZE = gql`
+mutation create ($sizes: [String]!, $productId: String!, $businessId: String!){
+	CreateProductSizes(input:{
+    sizes: $sizes,
+    productId: $productId,
+    businessId: $businessId
+  }) {
     code
     success
     message

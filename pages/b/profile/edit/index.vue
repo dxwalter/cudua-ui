@@ -386,9 +386,6 @@ import { SEARCH_FOR_STREET } from '~/graphql/location'
 
 import { mapActions, mapGetters } from 'vuex';
 
-import { buildAxiosFetch } from "@lifeomic/axios-fetch";
-import { createUploadLink } from 'apollo-upload-client'
-
 export default {
     name: "EDITBUSINESSPROFILE",
     components: {

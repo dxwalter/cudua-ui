@@ -229,15 +229,6 @@ export default {
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
 		},
-        dragOverHandler: function(e) {
-            this.$dragOverHandler(e, this.dragZone)
-        },
-        dragOutHandler: function (e) {
-            this.$dragOutHandler(e, this.dragZone)
-        },
-        dropHandler: function (e, preview) {
-            this.$dropHandler(e, preview, this.dragZone)
-        },
         previewImage: function (e, preview) {
             let file = e.target.files[0];
             let uploadFile = e.target.files[0];

@@ -323,11 +323,11 @@
                         </div>
 
                 <!-- modals -->
-                <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL>
-                <BUSINESSREVIEW></BUSINESSREVIEW>
-                <BUSINESSSEARCH></BUSINESSSEARCH>
-                <BUSINESSCONTACT></BUSINESSCONTACT>
-                <REPORTBUSINESS></REPORTBUSINESS>
+                <!-- <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL> -->
+                <!-- <BUSINESSREVIEW></BUSINESSREVIEW> -->
+                <!-- <BUSINESSSEARCH></BUSINESSSEARCH> -->
+                <!-- <BUSINESSCONTACT></BUSINESSCONTACT> -->
+                <!-- <REPORTBUSINESS></REPORTBUSINESS> -->
             </div>
     </div>
 </template>

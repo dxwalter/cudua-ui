@@ -189,7 +189,7 @@
                                     <div class="product-details-container">
                                         <div class="product-details-action">
                                             <nuxt-link to="#" class="btn btn-light-grey">View</nuxt-link>
-                                            <nuxt-link to="/b/product/edit/34567890876543" class="btn btn-light-grey">Edit</nuxt-link>
+                                            <nuxt-link :to="`/b/product/edit/${productId}`" class="btn btn-light-grey">Edit</nuxt-link>
                                             <button class="btn btn-light-grey">Hide</button>
                                             <button class="btn btn-light-grey">Delete</button>
                                         </div>
@@ -218,6 +218,7 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PRODUCTREVIEW from '~/components/business/product/product.review.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 export default {
+    name: "BUSINESSPRODUCTPAGE",
     components: {
         TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW, PAGELOADER
     },
@@ -225,7 +226,8 @@ export default {
         return {
             currentSlide: 1,
             slider: "",
-            pageLoader: true
+            pageLoader: true,
+            productId: ""
         }
     },
     methods : {
@@ -251,12 +253,18 @@ export default {
             this.$copyToClipBoard(target)
         }
     },
+    created () {
+        // if (process.client) {
+            this.productId = this.$route.params.id;
+        // }
+    },
     mounted () {
-        this.slider = document.getElementsByClassName("product-image-slide");
-        this.$productImageSlides(this.currentSlide, this.slider);
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        if (process.client) {
+            this.slider = document.getElementsByClassName("product-image-slide");
+            this.$productImageSlides(this.currentSlide, this.slider);
+        }
+
+        this.pageLoader = false
     }
 }
-</script>
+</script>   
