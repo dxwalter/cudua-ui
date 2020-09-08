@@ -5,10 +5,10 @@
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
                             <!-- <MOBILESEARCH></MOBILESEARCH> -->
-                            <nuxt/>
+                            <!-- <nuxt/> -->
                             <!-- <BUSINESSNAV></BUSINESSNAV> -->
                             <MOBILENAVIGATION></MOBILENAVIGATION>
-                            <nuxt/>
+                            <!-- <nuxt/> -->
                         </div>
 
                         <!-- pageLoader -->
