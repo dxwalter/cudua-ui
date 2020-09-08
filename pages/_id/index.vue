@@ -10,7 +10,7 @@
                         </div>
 
                         <!-- pageLoader -->
-                        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+                        <!-- <PAGELOADER v-if="pageLoader"></PAGELOADER> -->
 
                         <!-- begining of content container -->
                         <div class="content-container-second business-page-container">
@@ -334,19 +334,19 @@
 
 <script>
 
-import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
-import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
-import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
-import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
-import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
-import PAGELOADER from '~/components/loader/loader.vue';
+// import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+// import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+// import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+// import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+// import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
+// import PAGELOADER from '~/components/loader/loader.vue';
 
 // business modal
-import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
-import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
-import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
-import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
-import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
+// import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
+// import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
+// import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
+// import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
+// import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -354,17 +354,17 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     name: "BUSINESSPAGE",
     components: {
-        MOBILENAVIGATION, 
-        MOBILESEARCH, 
-        BOTTOMADS, 
-        CUSTOMERFOOTER, 
-        BUSINESSNAV, 
-        PAGELOADER,
-        ABOUTBUSINESSMODAL,
-        BUSINESSREVIEW,
-        BUSINESSSEARCH,
-        BUSINESSCONTACT,
-        REPORTBUSINESS
+        // MOBILENAVIGATION, 
+        // MOBILESEARCH, 
+        // BOTTOMADS, 
+        // CUSTOMERFOOTER, 
+        // BUSINESSNAV, 
+        // PAGELOADER,
+        // ABOUTBUSINESSMODAL,
+        // BUSINESSREVIEW,
+        // BUSINESSSEARCH,
+        // BUSINESSCONTACT,
+        // REPORTBUSINESS
     },
     data: function() {
       return {
