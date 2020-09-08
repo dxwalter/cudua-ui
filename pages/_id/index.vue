@@ -6,7 +6,7 @@
                         <div class="nav-container">
                             <!-- <MOBILESEARCH></MOBILESEARCH> -->
                             <!-- <BUSINESSNAV></BUSINESSNAV> -->
-                            <!-- <MOBILENAVIGATION></MOBILENAVIGATION> -->
+                            <MOBILENAVIGATION></MOBILENAVIGATION>
                         </div>
 
                         <!-- pageLoader -->
@@ -334,7 +334,7 @@
 
 <script>
 
-// import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
+import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 // import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 // import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 // import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
@@ -354,7 +354,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     name: "BUSINESSPAGE",
     components: {
-        // MOBILENAVIGATION, 
+        MOBILENAVIGATION, 
         // MOBILESEARCH, 
         // BOTTOMADS, 
         // CUSTOMERFOOTER, 
