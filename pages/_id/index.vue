@@ -4,8 +4,8 @@
             
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
-                            <!-- <MOBILESEARCH></MOBILESEARCH> -->
-                            <!-- <nuxt/> -->
+                            <MOBILESEARCH></MOBILESEARCH>
+                            <nuxt/>
                             <!-- <BUSINESSNAV></BUSINESSNAV> -->
                             <MOBILENAVIGATION></MOBILENAVIGATION>
                             <!-- <nuxt/> -->
