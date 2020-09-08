@@ -318,8 +318,8 @@
 
                         <!-- footer area -->
                         <div class="mobile-hide-nav-bottom-add">
-                            <BOTTOMADS></BOTTOMADS>
-                            <CUSTOMERFOOTER></CUSTOMERFOOTER>
+                            <!-- <BOTTOMADS></BOTTOMADS> -->
+                            <!-- <CUSTOMERFOOTER></CUSTOMERFOOTER> -->
                         </div>
 
                 <!-- modals -->
