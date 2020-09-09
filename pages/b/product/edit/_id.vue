@@ -124,86 +124,41 @@
                                                 </div>
                                                 <div class="more-details-input-container js-accordionBody">
                                                     <div class="form-control">
-
-                                                        <div class="drag-drop-upload-panel" id="dropZone"  v-on:drop.prevent="dropHandler($event, 'moreImages')" @dragover.prevent="dragOverHandler">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="115" height="115" viewBox="0 0 115 115"><defs><style>.a,.b,.f{fill:none;}.a,.b{stroke:#dddfe7;}.b{stroke-width:3px;}.c{fill:#dddfe7;}.d{fill:#f0f2f8;}.e{stroke:none;}</style></defs><g class="a"><circle class="e" cx="57.5" cy="57.5" r="57.5"></circle><circle class="f" cx="57.5" cy="57.5" r="57"></circle></g><g class="b" transform="translate(8.051 8.012)"><circle class="e" cx="49.632" cy="49.632" r="49.632"></circle><circle class="f" cx="49.632" cy="49.632" r="48.132"></circle></g><circle class="c" cx="39.948" cy="39.948" r="39.948" transform="translate(17.735 17.696)"></circle><path class="d" d="M31.906,17.646,18.1.844a2.445,2.445,0,0,0-3.78,0l-13.8,16.8a2.447,2.447,0,0,0,1.89,4.006H9.352V43.466A2.437,2.437,0,0,0,11.8,45.911h8.833a2.437,2.437,0,0,0,2.444-2.444V21.652h6.943A2.447,2.447,0,0,0,31.906,17.646Z" transform="translate(41.183 35.016)"></path></svg>
-                                                            <h2>Drag &amp; Drop</h2>
-                                                            <h5>your image or <span>tap to select image</span></h5>
-                                                            <input type="file" id="selectimage" @change="previewImage($event, 'moreImages')">
-                                                            <div class="drag-drop-overlay" id="dropZoneOverlay" @dragleave.prevent="dragOutHandler">Drop file here</div>
-                                                        </div>
                                         
-                                                        <label for="businessType" class="form-label"><span>Tap image to cancel or remove image</span></label>
+                                                        <label for="businessType" class="form-label"><span>Tap image to remove image or set as primary</span></label>
 
-                                                        <div class="selected-img-preview">
+                                                        <div class="selected-img-preview mg-bottom-24">
                                                             <div id="moreImages">
-
+                                                                
                                                             </div>
 
-                                                            <div class="">
-                                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+                                                            <div class="" v-for="image in returnImages" :key="image">
+                                                                <img :data-src="formatProductImage(image)" v-lazy-load>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
                                                                     <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
                                                                 </svg>
                                                                 <input type="checkbox" class="dropdownCheckBox">
                                                                 <div class="dropdown-container showEffect">
-                                                                    <button class="btn btn-primary btn-small">Set as primary</button>
-                                                                    <button class="btn btn-default btn-small">Delete image</button>
+                                                                    <button class="btn btn-primary btn-small" id="setImageAsPrimary" @click="setImageAsPrimary(image)">
+                                                                        Set as primary
+                                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-small" id="deleteProductImage" @click="deleteProductImage(image)">
+                                                                        Delete image
+                                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                                    </button>
                                                                 </div>
                                                             </div>
 
-                                                            <div class="">
-                                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
-                                                                    <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
-                                                                </svg>
-                                                                <input type="checkbox" class="dropdownCheckBox">
-                                                                <div class="dropdown-container showEffect">
-                                                                    <button class="btn btn-primary btn-small" onclick="alert('primary')">Set as primary</button>
-                                                                    <button class="btn btn-default btn-small" onclick="alert('delete')">Delete image</button>
-                                                                </div>
-                                                            </div>
+                                                                                                   
+                                                        </div>
 
-                                                            <div class="">
-                                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
-                                                                    <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
-                                                                </svg>
-                                                                <input type="checkbox" class="dropdownCheckBox">
-                                                                <div class="dropdown-container showEffect">
-                                                                    <button class="btn btn-primary btn-small">Set as primary</button>
-                                                                    <button class="btn btn-default btn-small">Delete image</button>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="">
-                                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
-                                                                    <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
-                                                                </svg>
-                                                                <input type="checkbox" class="dropdownCheckBox">
-                                                                <div class="dropdown-container showEffect">
-                                                                    <button class="btn btn-primary btn-small">Set as primary</button>
-                                                                    <button class="btn btn-default btn-small">Delete image</button>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="">
-                                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
-                                                                    <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
-                                                                </svg>
-                                                                <input type="checkbox" class="dropdownCheckBox">
-                                                                <div class="dropdown-container showEffect">
-                                                                    <button class="btn btn-primary btn-small">Set as primary</button>
-                                                                    <button class="btn btn-default btn-small">Delete image</button>
-                                                                </div>
-                                                            </div>                                        
+                                                        <div class="drag-drop-upload-panel" v-bind:class="{'is-loading': isUploading}">
+                                                            <input type="file" id="selectimage" @change="uploadProductImage($event, 'moreImages')">
+                                                            Tap/click to select image
+                                                            <div class="loader-action"><span class="loader"></span></div>
                                                         </div>
                                         
-                                                    </div>
-                                                    <div class="form-control">
-                                                        <button class="btn btn-block btn-white">Upload product images</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -301,15 +256,18 @@
                                                     <div class="more-details-input-container js-accordionBody">
                                                         <div class="form-control">
                                                             <!-- <label for="businessType" class="form-label">Type in the product description</label> -->
-                                                            <textarea name="" id="" cols="30" rows="5" class="input-form white-bg-color" placeholder="Type in the product description" v-model="description"></textarea>
+                                                            <textarea name="" id="productDescription" cols="30" rows="5" class="input-form white-bg-color" placeholder="Type in the product description" v-model="description"></textarea>
                                                         </div>
                                                         <div class="form-control">
-                                                            <button class="btn btn-block btn-primary">Update description</button>
+                                                            <button class="btn btn-block btn-primary" id="saveProductDescription" @click="saveProductDescription()">
+                                                                Update description
+                                                                <div class="loader-action"><span class="loader"></span></div>
+                                                            </button>
                                                         </div>
                                                     </div>
                                             </div>
 
-                                            <div class="js-accordionItem">
+                                            <!-- <div class="js-accordionItem">
                                                     <div class="product-upload-dropdown js-accordionHeader">
                                                         <span>Product tags <span>- optional</span></span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
@@ -338,16 +296,16 @@
                                                             </div>
 
                                                         </div>
-                                                        <div class="form-control">
+                                                        <div class="form-control"> -->
                                                             <!-- <label for="businessType" class="form-label">Enter one or more tags seperated by comma</label> -->
-                                                            <textarea name="" id="" cols="30" rows="5" class="input-form white-bg-color" placeholder="Enter one or more tags seperated by comma"></textarea>
+                                                            <!-- <textarea name="" id="" cols="30" rows="5" class="input-form white-bg-color" placeholder="Enter one or more tags seperated by comma"></textarea>
                                                         </div>
                                                         <div class="form-control">
                                                             <button class="btn btn-block btn-white">Sunmit new tags</button>
                                                         </div>
                                                         
                                                     </div>
-                                            </div>
+                                            </div> -->
 
                                             <!-- <div class="js-accordionItem">
                                                     <div class="product-upload-dropdown js-accordionHeader">
@@ -415,7 +373,11 @@ import {
     CREATE_PRODUCT_SIZE,
     REMOVE_PRODUCT_SIZE,
     CREATE_PRODUCT_COLOR,
-    REMOVE_PRODUCT_COLOR
+    REMOVE_PRODUCT_COLOR,
+    CREATE_PRODUCT_DESCRIPTION,
+    ADD_MORE_PRODUCT_PHOTO,
+    SET_IMAGE_PRIMARY,
+    DELETE_PRODUCT_IMAGE
 } from '~/graphql/product';
 
 
@@ -461,7 +423,11 @@ export default {
 
             // Category and subcategory listing
             subcategoriesUnderCategories: "",
-            allCategories: ""
+            allCategories: "",
+
+            // for picture upload
+            isUploading: 0
+
         }
     },
     computed: {
@@ -479,6 +445,9 @@ export default {
         },
         returnOldColors: function () {
             return this.colors
+        },
+        returnImages: function () {
+            return this.productImages
         }
     },
     methods: {
@@ -670,17 +639,9 @@ export default {
             }
             
         },
-        dragOverHandler: function(e) {
-            this.$dragOverHandler(e, this.dragZone)
-        },
-        dragOutHandler: function (e) {
-            this.$dragOutHandler(e, this.dragZone)
-        },
-        dropHandler: function (e, preview) {
-            this.$dropHandler(e, preview, this.dragZone)
-        },
         previewImage: function (e, preview) {
             this.$previewImage(e, preview)
+
         },
         ...mapGetters({
             'GetCustomerData': 'customer/GetCustomerDetails',
@@ -974,9 +935,212 @@ export default {
             }
 
             this.colors = newColorArray
+        },
+        saveProductDescription: async function() {
+            console.log(this.description)
+            if (this.description.length < 1) {
+                this.$addRedBorder('productDescription')
+                this.$showToast('Enter the description for this product', "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder('productDescription');
+            }
 
+            let target = document.getElementById('saveProductDescription');
 
-        }
+            let variables = {
+                description: this.description,
+                businessId: this.businessId,
+                productId: this.productId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, CREATE_PRODUCT_DESCRIPTION, variables, context);
+
+            target.disabled = false;
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.EditDescription;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Description saved", result.message);
+
+        },
+        formatProductImage: function (image) {
+           return this.$formatProductImageUrl(this.businessId, image, "iconSize")
+        },
+        uploadProductImage: async function (e, preview) {
+            let file = e.target.files[0];
+            let uploadFile = e.target.files[0];
+
+            if (uploadFile == undefined) return
+
+            let fileValidation = this.$checkFileExtension(uploadFile.name);
+            if (fileValidation == false) {
+                this.$showToast('Choose a valid image file', "error", 3500)
+                return
+            } 
+
+            this.$previewImage(e, preview);
+
+            let variables = {
+                file: uploadFile,
+                productId: this.productId,
+                businessId: this.businessId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            this.isUploading = 1
+
+            let request = await this.$performGraphQlMutation(this.$apollo, ADD_MORE_PRODUCT_PHOTO, variables, context);
+
+            this.isUploading = 0
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.AddmorePhotos;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Sizes added", result.message)
+
+            let imagePreview = document.getElementById('moreImages');
+            imagePreview.innerHTML = "";
+            imagePreview.style.display = "none";
+
+            this.productImages = result.photos
+
+        },
+        deleteProductImage: async function(imagePath) {
+
+            let target = document.getElementById('deleteProductImage');
+
+            if (imagePath.length < 0) {
+                this.$showToast("An error occurred. Kindly refresh this page and try again", "error", 6000);
+                return
+            }
+
+            let variables = {
+                imageName: imagePath,
+                productId: this.productId,
+                businessId: this.businessId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, DELETE_PRODUCT_IMAGE, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.RemoveProductPicture;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Update successful", result.message)
+
+            let newArray = [];
+
+            for (let x of this.returnImages) {
+                if (x != imagePath) {
+                    newArray.push(x);
+                }
+            }
+            this.productImages = [];
+            this.productImages = newArray
+
+        },
+        setImageAsPrimary: async function(imagePath) {
+
+            let target = document.getElementById('setImageAsPrimary');
+
+            if (imagePath.length < 0) {
+                this.$showToast("An error occurred. Kindly refresh this page and try again", "error", 6000);
+                return
+            }
+
+            let variables = {
+                imageName: imagePath,
+                productId: this.productId,
+                businessId: this.businessId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, SET_IMAGE_PRIMARY, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.MakePrimaryImage;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Update successful", result.message)
+
+            let newArray = [imagePath];
+
+            for (let x of this.returnImages) {
+                if (x != imagePath) {
+                    newArray.push(x);
+                }
+            }
+            this.productImages = [];
+            this.productImages = newArray
+
+        },
     },
     created () {
         if (process.client) {
@@ -1082,5 +1246,12 @@ export default {
     width: 10px;
     height: 10px;
     fill: #bb2320;
+}
+.drag-drop-upload-panel {
+    width: 100%;
+    height: 69px;
+}
+.is-loading .loader-action {
+    display: flex;
 }
 </style>

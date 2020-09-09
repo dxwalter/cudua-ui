@@ -124,7 +124,7 @@ export default ({app}, inject) => {
                 if (e.dataTransfer.items[i].kind === 'file') {
                     let file = e.dataTransfer.items[i].getAsFile();
                     app.$showImagePreview (window.URL.createObjectURL(file), target)
-                    // console.log('... file[' + i + '].name = ' + file.name);
+                    return file
                 }
             }
         } else {
@@ -133,7 +133,7 @@ export default ({app}, inject) => {
                 if (e.dataTransfer.items[i].kind === 'file') {
                     let file = e.dataTransfer.items[i].getAsFile();
                     app.$showImagePreview (window.URL.createObjectURL(file), target)
-                    // console.log('... file[' + i + '].name = ' + file.name);
+                    return file
                 }
             }
         }

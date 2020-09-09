@@ -195,3 +195,61 @@ mutation remove($colorId: String!, $productId: String!, $businessId: String!){
   }
 }
 `
+
+export const CREATE_PRODUCT_DESCRIPTION = gql`
+mutation create ($description: String!, $productId: String!, $businessId: String!) {
+	EditDescription(input:{
+    description: $description,
+    productId: $productId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const ADD_MORE_PRODUCT_PHOTO = gql`
+mutation ($file: Upload!, $productId: String!, $businessId: String!) {
+    AddmorePhotos(input:{
+      file: $file
+      productId: $productId,
+      businessId: $businessId
+  }) {
+    photos
+    code
+    success
+    message
+  }
+}
+`
+
+export const SET_IMAGE_PRIMARY = gql`
+mutation markAsPrimary($imageName: String!, $productId: String!, $businessId: String!) {
+  MakePrimaryImage(input:{
+      imageName: $imageName,
+      productId: $productId,
+      businessId: $businessId
+  }) {
+    images
+    code
+    success
+    message
+  }
+}
+`
+
+export const DELETE_PRODUCT_IMAGE = gql`
+mutation removeImage($imageName: String!, $productId: String!, $businessId: String!) {
+    RemoveProductPicture(input:{
+      imageName: $imageName,
+      productId: $productId,
+      businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+} 
+`
