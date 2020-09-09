@@ -548,26 +548,29 @@ export default {
             }
 
             let target = document.getElementById('createNewSizes');
-            target.disabled = true;
 
             
-            let formatArray = this.formatStringToArray(this.newSizes);
+            let formatSizeInput = this.formatStringToArray(this.newSizes);
 
             let oldArray = [];
 
-            this.sizes.forEach(element => {
-                oldArray.push(element.sizeNumber)
-            });
+            if (this.sizes.length > 0) {
+                this.sizes.forEach(element => {
+                    oldArray.push(element.sizeNumber)
+                });
+            }
 
-            let newArray = [...oldArray, ...formatArray]
+            let newArray = [...oldArray, ...formatSizeInput]
             newArray = new Set(newArray)
 
+            let finalArray = [];
 
-            console.log(newArray);
-            return
+            for (const [index, x] of newArray.entries()) {
+                finalArray.push(x)
+            }
 
             let variables = {
-                sizes: ["124", '133', "143"],
+                sizes: finalArray,
                 businessId: this.businessId,
                 productId: this.productId
             }
@@ -578,9 +581,52 @@ export default {
                 }
             }
 
+            target.disabled = true;
+
             let request = await this.$performGraphQlMutation(this.$apollo, CREATE_PRODUCT_SIZE, variables, context);
 
-            console.log(request);
+            target.disabled = false;
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.CreateProductSizes;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Sizes added", result.message)
+
+            if (this.sizes.length > 0) {
+                for (const y of formatSizeInput) {
+                    let searchResult = 0
+                    for (const [index, checkVariable] of this.sizes.entries()) {
+                        if (checkVariable.sizeNumber == y) {
+                            searchResult = 1
+                            break
+                        }
+                    }
+                    if (searchResult == 0) {
+                        this.sizes.push({
+                            sizeNumber: y,
+                            sizeId: 'user-size'+y
+                        })
+                    } else {
+                        searchResult = 0
+                    }
+                }
+            } else {
+                for (const y of formatSizeInput) {
+                    this.sizes.push({
+                        sizeNumber: y,
+                        sizeId: 'user-size'+y
+                    })
+                }
+            }
             
         },
         formatSizeString: function () {
@@ -654,16 +700,16 @@ export default {
             this.productId = product.id;
             this.categoryName = product.category.categoryName;
             this.categoryId = product.category.categoryId;
-            this.colors = product.colors == null ? "": product.colors;
+            this.colors = product.colors == null ? []: product.colors;
             this.description = product.description;
             this.hide = product.hide;
             this.productImages = product.images;
             this.productName = product.name;
             this.productPrice = product.price;
-            this.sizes = product.sizes == null ? "" : product.sizes;
+            this.sizes = product.sizes == null ? [] : product.sizes;
             this.subcategoryName = product.subcategory.subcategoryName;
             this.subcategoryId = product.subcategory.subcategoryId;
-            this.tags = product.tags == null ? "": product.tags
+            this.tags = product.tags == null ? []: product.tags
         },
         GetAllCategories: async function () {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);

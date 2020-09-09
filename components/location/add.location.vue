@@ -13,7 +13,7 @@
                 </button>
             </div>
             <div class="modal-content" id="tabContent">
-                    <div v-if="isLoading" class="is-loading-container">
+                    <div v-show="isLoading" class="is-loading-container">
                         <div class="is-loading-inner-container" id="loadingContainer">
                             <div class="loader-action"><span class="loader"></span></div>
                         </div>

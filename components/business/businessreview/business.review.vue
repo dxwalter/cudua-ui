@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <div>
                     <h4>Business review</h4>
-                    <div class="review-text nav-rating-result" v-if="!isLoading && reviewScore">
+                    <div class="review-text nav-rating-result" v-show="!isLoading && reviewScore">
                         <a href="javasscript:;" class="navbar-review-icon">
                             <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                         </a>
@@ -24,7 +24,7 @@
 
             <div class="modal-content modal-fixed-height" v-bind:class="{'no-height': isNetworkError || reviewsData.length <  1}">
 
-                <div v-if="isLoading" class="is-loading-container">
+                <div v-show="isLoading" class="is-loading-container">
                     <div class="is-loading-inner-container" id="loadingContainer">
                         <div class="loader-action"><span class="loader"></span></div>
                     </div>
