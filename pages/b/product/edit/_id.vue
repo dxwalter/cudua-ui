@@ -216,11 +216,11 @@
                                                     </svg>
                                                 </div>
                                                 <div class="more-details-input-container js-accordionBody">
-                                                    <div class=""  v-show="sizes.length > 1">
+                                                    <div class=""  v-show="sizes.length > 0">
                                                         <div class="form-label mg-bottom-16">Tap/click to remove sizes</div>
                                                         <div class="color-picker-container mg-bottom-8">
                                                             
-                                                            <div class="size-card" v-for="size in returnProductSizes" :key="size.sizeId" @click="removeSizeFromSizes(size.sizeNumber, size.sizeId)">
+                                                            <div class="size-card" v-for="size in returnProductSizes" :key="size.sizeId" @click="removeSizeFromSizes(size.sizeNumber, size.sizeId)" :id="`size-${size.sizeId}`">
                                                                 {{size.sizeNumber}}
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                                                     <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
@@ -253,75 +253,22 @@
                                                         </svg>
                                                     </div>
                                                     <div class="more-details-input-container js-accordionBody">
-                                                        <div class="form-control">
+                                                        <div class="form-control"  v-show="returnOldColors.length > 0">
                                                             <div class="form-label mg-bottom-16">Tap/click to remove colors</div>
                                                             <div class="color-picker-container">
-                                                                <div style="background-color: #1232B1;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                                                
+                                                                <div v-bind:style="{'background-color': color.color}" v-for="color in returnOldColors" :key="color.colorId" @click="removeOldColor(color.colorId, $event)" :id="`color${color.colorId}`">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" v>
                                                                         <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
                                                                     </svg>
                                                                 </div>
-                                                                <div style="background-color: #BB2320;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #2C2C2C;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #FBC02D;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #F4F6F8;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #388E3C;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #2874F0;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #1232B1;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #BB2320;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #2C2C2C;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #FBC02D;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #F4F6F8;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #388E3C;">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                                                        <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
-                                                                    </svg>
-                                                                </div>
-                                                                <div style="background-color: #2874F0;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-control" v-show="returnNewColors.length > 0">
+                                                            <div class="form-label">Selected colors. <span>Tap/click to remove color</span></div>
+                                                            <div class="color-picker-container">
+                                                                <div v-bind:style="{'background-color': color.color}" v-for="color in returnNewColors" :key="color.id" @click="removeNewColor(color.id, $event)">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                                                         <use xlink:href="~/assets/business/image/all-svg.svg#chipDelete"></use>
                                                                     </svg>
@@ -331,12 +278,15 @@
                                                         <div class="form-control">
                                                             <label for="businessType" class="form-label">Use the color picker to select available colors</label>
                                                             <div class="color-picker-form">
-                                                                <input type="color" value="#ffffff" class="btn color-picker" placeholder="pick a color">
+                                                                <input type="color" value="#ffffff" class="btn color-picker" placeholder="pick a color" @change="getColorFromInput($event)" id="colorPicker">
                                                                 <span class="color-picker-placeholder">Tap to select colors</span>
                                                             </div>
                                                         </div>
                                                         <div class="form-control">
-                                                            <button class="btn btn-block btn-white">Submit available colors</button>
+                                                            <button class="btn btn-block btn-primary" @click="createNewColors()" id="createNewColors">
+                                                                Update available colors
+                                                                <div class="loader-action"><span class="loader"></span></div>
+                                                            </button>
                                                         </div>
                                                     </div>
                                             </div>
@@ -462,7 +412,10 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { GET_ALL_CATEGORIES } from '~/graphql/categories';
 import { 
     GET_PRODUCT_BY_ID,
-    CREATE_PRODUCT_SIZE
+    CREATE_PRODUCT_SIZE,
+    REMOVE_PRODUCT_SIZE,
+    CREATE_PRODUCT_COLOR,
+    REMOVE_PRODUCT_COLOR
 } from '~/graphql/product';
 
 
@@ -498,8 +451,11 @@ export default {
             // more details
             sizes: "",
             newSizes: "",
+        
             tags: "",
+
             colors: "",
+            newColorArray: [],
             description: "",
             tags: "",
 
@@ -517,6 +473,12 @@ export default {
         },
         returnProductSizes: function () {
             return this.sizes
+        },
+        returnNewColors: function () {
+            return this.newColorArray
+        },
+        returnOldColors: function () {
+            return this.colors
         }
     },
     methods: {
@@ -560,7 +522,7 @@ export default {
                 });
             }
 
-            let newArray = [...oldArray, ...formatSizeInput]
+            let newArray = [...formatSizeInput,...oldArray]
             newArray = new Set(newArray)
 
             let finalArray = [];
@@ -601,46 +563,112 @@ export default {
 
             this.$initiateNotification("success", "Sizes added", result.message)
 
-            if (this.sizes.length > 0) {
-                for (const y of formatSizeInput) {
-                    let searchResult = 0
-                    for (const [index, checkVariable] of this.sizes.entries()) {
-                        if (checkVariable.sizeNumber == y) {
-                            searchResult = 1
-                            break
-                        }
-                    }
-                    if (searchResult == 0) {
-                        this.sizes.push({
-                            sizeNumber: y,
-                            sizeId: 'user-size'+y
-                        })
-                    } else {
-                        searchResult = 0
-                    }
-                }
-            } else {
-                for (const y of formatSizeInput) {
-                    this.sizes.push({
-                        sizeNumber: y,
-                        sizeId: 'user-size'+y
-                    })
-                }
+
+            this.sizes = [];
+
+            for(let y of result.sizes) {
+                this.sizes.push({
+                    sizeId: y.sizeId,
+                    sizeNumber: y.sizeNumber,
+                })
             }
             
         },
-        formatSizeString: function () {
-            let size = this.sizes.split(',');
-            let sizeArray = [];
-            size.forEach(element => {
-                if (element != "") sizeArray.push(element.trim())
-            });
-
-            return new Set(sizeArray);
-        },
-        removeSizeFromSizes: function (size, id="") {
+        removeSizeFromSizes: async function (size, sizeId) {
             
-            // let sizes = this.formatSizeString(this.sizes)
+            if(sizeId.search("user-size") == 0) {
+
+                let target = document.getElementById("size-"+sizeId);
+                target.style.display = "none";
+                
+                // format current input string
+                let currentInputString = this.formatStringToArray(this.newSizes);
+
+                this.newSizes = "";
+
+                // remove size from currentInputString
+                let newInputString = [];
+
+                currentInputString.forEach(element => {
+                    if (element != size) {
+                        newInputString.push(element)
+                    }
+                });
+                // this is the string that will be set to this.newSizes
+                let y = "";
+
+                newInputString.forEach(element => {
+                    y = y+` ${element},`
+                });
+
+                // remove trailing ','
+                if (y.slice(-1) == ',') {
+                    y = y.slice(0, -1)
+                }
+
+                let sizesArray = this.returnProductSizes
+                let newSizesArray = [];
+
+                for (let c of sizesArray) {
+                    if (size != c.sizeNumber) {
+                        newSizesArray.push(c)
+                    }
+                }
+
+                this.sizes = newSizesArray
+                this.newSizes = y;
+
+                this.createNewSizes()
+                
+                return
+            }
+
+            if(sizeId.search("user-size") == -1) {
+                let target = document.getElementById("size-"+sizeId);
+                target.style.display = "none";
+
+                let variables = {
+                    sizeId: sizeId,
+                    businessId: this.businessId,
+                    productId: this.productId
+                }
+
+                let context = {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
+
+                let request = await this.$performGraphQlMutation(this.$apollo, REMOVE_PRODUCT_SIZE, variables, context);
+
+                if (request.error) {
+                    this.$initiateNotification("error", "Failed request", request.message)
+                    return
+                }
+
+                let result = request.result.data.RemoveProductSize;
+
+                if (!result.success) {
+                    this.$initiateNotification("error", "Failed request", result.message)
+                    return
+                }
+
+                this.$initiateNotification("success", "Size removed", result.message)
+
+                let newSizesArray = [];
+                let sizesArray = this.returnProductSizes
+
+                
+                for (let m of sizesArray) {
+                    if (size != m.sizeNumber) {
+                        newSizesArray.push(m)
+                    }
+                }
+
+                this.sizes = newSizesArray
+
+            }
+            
         },
         dragOverHandler: function(e) {
             this.$dragOverHandler(e, this.dragZone)
@@ -775,11 +803,179 @@ export default {
             }
         },
         resetCategory: function () {
-            // this.categoryId = "";
-            // this.subcategoryId = "";
             this.categoryName = "";
             this.subcategoryName = ""
             this.setCategoryAndSubcategory = 0
+        },
+        getColorFromInput: function (e) {
+            e.preventDefault();
+            let color = e.target.value
+            let colorId = color.replace("#", "")
+            let newArray = [];
+            
+            if (this.returnNewColors.length > 0) {
+                let flag = 0; //flag
+
+                // if color id in user input color array is equal to any of the color id's that has been selected, flag as already existing
+                for (let x of this.returnNewColors) {
+                    if (colorId == x.id) {
+                        flag = 1;
+                        break
+                    }
+                }
+
+                if(flag == 0) {
+                    this.newColorArray.push({
+                        color: color,
+                        id: colorId
+                    })
+                }
+                
+            } else {
+                this.newColorArray.push({
+                    color: color,
+                    id: colorId
+                })
+            }
+
+        },
+        removeNewColor: function(id, e) {
+            e.preventDefault();
+
+            let newArray = [];
+            // remove color code from user input color array
+            for (let x of this.returnNewColors) {
+                if (id != x.id) {
+                    newArray.push(x)
+                }
+            }
+
+            this.newColorArray = newArray
+        },
+        createNewColors: async function () {
+            let newColors = this.returnNewColors;
+
+            if (newColors.length == 0) {
+                this.$showToast("Choose a color for your product", 'error', 6000)
+                this.$addRedBorder('colorPicker')
+                return
+            } else {
+                this.$removeRedBorder('colorPicker')
+            }
+
+            let target = document.getElementById('createNewColors');
+
+            // merge colors from db and user added colors
+            let mergedColors = [...this.colors, ...newColors]
+
+            let formattedColors = [];
+
+            // get color codes only from merged array of colors
+            for (let x of mergedColors) {
+                formattedColors.push(x.color)
+            }
+
+            let newArray = new Set(formattedColors)
+            
+            let finalArray = [];
+            // remove entries in "new Set function"
+            for (const [index, x] of newArray.entries()) {
+                finalArray.push(x)
+            }
+
+            let variables = {
+                colors: finalArray,
+                businessId: this.businessId,
+                productId: this.productId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+
+            let request = await this.$performGraphQlMutation(this.$apollo, CREATE_PRODUCT_COLOR, variables, context);
+
+            target.disabled = false;
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.CreateProductColors;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Colors added", result.message)
+            this.colors = []
+
+            // push to the main color array
+            for (let color of result.colors) {
+                this.colors.push({
+                    color: color.color,
+                    colorId: color.colorId
+                })
+            }
+
+            // empty user input colorArray
+            this.newColorArray = []
+        },
+        removeOldColor: async function (colorId, e) {
+
+            // e.preventDefault();
+            let target = document.getElementById("color"+colorId)
+            target.style.display = "none";
+
+            let variables = {
+                businessId: this.businessId,
+                productId: this.productId,
+                colorId: colorId
+            }
+            
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, REMOVE_PRODUCT_COLOR, variables, context);
+
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                target.style.display = "flex";
+                return
+            }
+
+            let result = request.result.data.RemoveProductColor;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                target.style.display = "flex";
+                return
+            }
+
+            this.$initiateNotification("success", "Size removed", result.message);
+
+            let newColorArray = [];
+
+            for (let y of this.colors) {
+                if (colorId != y.colorId) {
+                    newColorArray.push(y)
+                }
+            }
+
+            this.colors = newColorArray
+
+
         }
     },
     created () {

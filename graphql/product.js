@@ -139,6 +139,56 @@ mutation create ($sizes: [String]!, $productId: String!, $businessId: String!){
     productId: $productId,
     businessId: $businessId
   }) {
+    sizes {
+      sizeId
+      sizeNumber
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const REMOVE_PRODUCT_SIZE = gql`
+mutation remove($sizeId: String!, $productId: String!, $businessId: String!){
+  RemoveProductSize(input: {
+    sizeId: $sizeId,
+    productId: $productId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const CREATE_PRODUCT_COLOR = gql`
+mutation create ($colors: [String]!, $productId: String!, $businessId: String!) {
+	CreateProductColors(input:{
+    colors: $colors,
+    productId: $productId,
+    businessId: $businessId
+  }) {
+    colors {
+      colorId
+      color
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const REMOVE_PRODUCT_COLOR = gql`
+mutation remove($colorId: String!, $productId: String!, $businessId: String!){
+	RemoveProductColor(input:{
+    colorId: $colorId,
+    productId: $productId,
+    businessId: $businessId
+  }) {
     code
     success
     message
