@@ -128,16 +128,16 @@
                                                         <label for="businessType" class="form-label"><span>Tap image to remove image or set as primary</span></label>
 
                                                         <div class="selected-img-preview mg-bottom-24">
-                                                            <div id="moreImages">
+                                                            <div id="moreImages" class="preview-image">
                                                                 
                                                             </div>
 
-                                                            <div class="" v-for="image in returnImages" :key="image">
+                                                            <div class="preview-image" v-for="image in returnImages" :key="image">
                                                                 <img :data-src="formatProductImage(image)" v-lazy-load>
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="4" height="16" viewBox="0 0 4 16">
                                                                     <use xlink:href="~/assets/business/image/all-svg.svg#verticalElipsis"></use>
                                                                 </svg>
-                                                                <input type="checkbox" class="dropdownCheckBox">
+                                                                <input type="checkbox" class="dropdownCheckBox" :id="`checkBox${image.split('.')[0]}`">
                                                                 <div class="dropdown-container showEffect">
                                                                     <button class="btn btn-primary btn-small" id="setImageAsPrimary" @click="setImageAsPrimary(image)">
                                                                         Set as primary
@@ -155,7 +155,7 @@
 
                                                         <div class="drag-drop-upload-panel" v-bind:class="{'is-loading': isUploading}">
                                                             <input type="file" id="selectimage" @change="uploadProductImage($event, 'moreImages')">
-                                                            Tap/click to select image
+                                                            Tap/click here to select image
                                                             <div class="loader-action"><span class="loader"></span></div>
                                                         </div>
                                         
@@ -426,7 +426,9 @@ export default {
             allCategories: "",
 
             // for picture upload
-            isUploading: 0
+            isUploading: 0,
+
+            
 
         }
     },
@@ -634,7 +636,7 @@ export default {
                     }
                 }
 
-                this.sizes = newSizesArray
+                this.sizes = newSizesArray;
 
             }
             
@@ -1087,7 +1089,7 @@ export default {
             }
             this.productImages = [];
             this.productImages = newArray
-
+            document.getElementById('checkBox'+imagePath.split('.')[0]).checked = false
         },
         setImageAsPrimary: async function(imagePath) {
 
@@ -1139,6 +1141,9 @@ export default {
             }
             this.productImages = [];
             this.productImages = newArray
+
+            // uncheck checkbox
+            document.getElementById('checkBox'+imagePath.split('.')[0]).checked = false
 
         },
     },
@@ -1227,8 +1232,8 @@ export default {
     display: block;
 }
 .color-picker-container div {
-    width: 38px;
-    height: 28px;
+    width: 48px;
+    height: 38px;
     border-radius: 4px;
     box-shadow: 0px 1px 3px rgba(0,0,0,.2);
     cursor: pointer;
@@ -1239,7 +1244,8 @@ export default {
     align-items: center;
 }
 .size-card {
-    font-size: 12px;   
+    font-size: 14px;  
+    font-weight: 500; 
     background-color: white;
 }
 .size-card svg {

@@ -2059,9 +2059,9 @@
     flex-wrap: wrap;
 }
 
-.selected-img-preview div {
-    width: 56px;
-    height: 47px;
+.selected-img-preview .preview-image {
+    width: 66px;
+    height: 57px;
     padding: 4px;
     border-radius: 4px;
     background-color: $white-color;
@@ -2104,7 +2104,7 @@
     display: none;
 }
 
-.selected-img-preview div:last-child {
+.selected-img-preview .preview-image:last-child {
     margin-right: 0;
 }
 
