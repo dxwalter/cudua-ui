@@ -5,7 +5,7 @@
             <div class="content-container">
                 <SIDENAV></SIDENAV>
                     <div class="content-area grey-bg-color">
-                        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+                        <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
                         <div class="main-content">
                             <div class="page-header">

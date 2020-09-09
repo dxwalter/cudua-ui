@@ -6,7 +6,7 @@
                 <SIDENAV></SIDENAV>
                     <div class="content-area grey-bg-color">
                     <!-- pageLoader -->
-                        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+                        <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
                     <div v-show="!subcategoryId">
                         <div class="alert alert-danger notification-alert">
@@ -43,7 +43,7 @@
                                 </div>
 
                                 <!-- show this button when the total number of results returned is 12 -->
-								<div class="load-more-action move-center mg-top-16" v-if="lazyLoad">
+								<div class="load-more-action move-center mg-top-16" v-show="lazyLoad">
 									<button class="btn btn-white" id="loadMoreProducts" @click="loadMoreProducts()">
 										Load more products
 										<div class="loader-action"><span class="loader"></span></div>

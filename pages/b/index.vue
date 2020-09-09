@@ -9,7 +9,7 @@
                 <div class="content-area">
 
                     <!-- pageLoader -->
-                    <PAGELOADER v-if="pageLoader"></PAGELOADER>
+                    <PAGELOADER v-show="pageLoader"></PAGELOADER>
                     
                     <div class="alert alert-secondary notification-alert" v-show="page && allProducts.length > 1">
                         <div>Invite three businesses to register and get one month basic plan for free</div>
@@ -118,7 +118,7 @@
                         </div>
 
                         <!-- show this button when the total number of results returned is 12 -->
-                        <div class="load-more-action move-center mg-top-16" v-if="productListingCount == 12">
+                        <div class="load-more-action move-center mg-top-16" v-show="productListingCount == 12">
                             <button class="btn btn-white" id="loadMoreProducts" @click="loadMoreProducts()">
                                 Load more products
                                 <div class="loader-action"><span class="loader"></span></div>

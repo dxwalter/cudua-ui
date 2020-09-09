@@ -8,7 +8,7 @@
                 <nuxt />
                     <div class="content-area white-bg-color">
                         <!-- pageLoader -->
-                        <PAGELOADER v-if="pageLoader" />
+                        <PAGELOADER v-show="pageLoader" />
                         <nuxt />
                         
                         <div class="main-content">

@@ -10,7 +10,7 @@
         </div>
         
         <!-- pageLoader -->
-        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+        <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
         <div class="content-container">
             <!-- bookmark area -->

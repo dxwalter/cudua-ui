@@ -10,7 +10,7 @@
         </div>
 
         <!-- pageLoader -->
-        <PAGELOADER v-if="pageLoader"></PAGELOADER>
+        <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
         <div class="content-container">
           <!-- bookmark area -->
@@ -356,7 +356,7 @@
         <!-- end of content container -->
 
         <!-- mobile action area -->
-        <div class="product-bottom-action-area" v-if="!pageLoader">
+        <div class="product-bottom-action-area" v-show="!pageLoader">
             <a href="tel:08104686729" class="btn btn-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
@@ -372,7 +372,6 @@
                 </span>
             </button>
         </div>
-        <div v-else></div>
 
       <!-- footer area -->
 

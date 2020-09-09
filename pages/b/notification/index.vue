@@ -8,7 +8,7 @@
 				<nuxt />
 					<div class="content-area grey-bg-color">
 						<!-- pageLoader -->
-						<PAGELOADER v-if="pageLoader" />
+						<PAGELOADER v-show="pageLoader" />
 						<nuxt />
 
 						<div class="main-content">
@@ -40,7 +40,7 @@
 									</div>
 
 								</div>
-								<div class="load-more-action move-center mg-top-16" v-if="allNotification">
+								<div class="load-more-action move-center mg-top-16" v-show="allNotification">
 									<button class="btn btn-white" @click="loadMoreNotification()" id="notificationLoader">
 										Load more
 										<div class="loader-action"><span class="loader"></span></div>

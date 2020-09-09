@@ -8,7 +8,7 @@
                 <nuxt />
                 <div class="content-area grey-bg-color">
                     <!-- pageLoader -->
-                    <PAGELOADER v-if="pageLoader"></PAGELOADER>
+                    <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
                     <div>
                         <div class="alert alert-secondary notification-alert">

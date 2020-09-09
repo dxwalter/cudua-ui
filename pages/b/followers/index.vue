@@ -6,7 +6,7 @@
 				<SIDENAV></SIDENAV>
 				<div class="content-area grey-bg-color">
 					<!-- pageLoader -->
-					<PAGELOADER v-if="pageLoader"></PAGELOADER>
+					<PAGELOADER v-show="pageLoader"></PAGELOADER>
 
 					<div class="main-content">
 
@@ -40,7 +40,7 @@
 
 							</div>
 
-							<div class="load-more-action move-center mg-top-16" v-if="followersCount >= 12">
+							<div class="load-more-action move-center mg-top-16" v-show="followersCount >= 12">
 								<button class="btn btn-white" @click="loadMoreFollowers()" id="loadMoreFollowers">
 									Load more followers
 									<div class="loader-action"><span class="loader"></span></div>

@@ -34,7 +34,7 @@
           </svg>
         </n-link>
 
-        <n-link to="/c/notification" class="desktop-menu-item" v-if="isLoggedIn">
+        <n-link to="/c/notification" class="desktop-menu-item" v-show="isLoggedIn">
           <div class="notif-point">10</div>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
             <use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
@@ -43,7 +43,7 @@
 
         <div class="dropdown-container">
 
-          <button class="desktop-menu-item search-filter-action" v-if="isLoggedIn">
+          <button class="desktop-menu-item search-filter-action" v-show="isLoggedIn">
             <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="navigationDropdown">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
               <use xlink:href="~/assets/customer/image/all-svg.svg#caretDown"></use>
@@ -53,7 +53,7 @@
             </svg>
           </button>
 
-          <button class="desktop-menu-item search-filter-action" v-if="!isLoggedIn">
+          <button class="desktop-menu-item search-filter-action" v-show="!isLoggedIn">
             <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="anonymousNavigationDropdown">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
               <use xlink:href="~/assets/customer/image/all-svg.svg#person"></use>
@@ -64,7 +64,7 @@
           </button>
 
             <!-- logged in user  -->
-          <div class="navigation-dropdown" id="navigationDropdown" v-if="isLoggedIn">
+          <div class="navigation-dropdown" id="navigationDropdown" v-show="isLoggedIn">
             <n-link to="/c/orders" class="mobile-side-nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
@@ -104,14 +104,14 @@
           </div>
 
           <!-- logged out in user -->
-          <div class="navigation-dropdown" id="anonymousNavigationDropdown" v-if="!isLoggedIn">
+          <div class="navigation-dropdown" id="anonymousNavigationDropdown" v-show="!isLoggedIn">
             <n-link to="/auth/" class="mobile-side-nav-link btn btn-white btn-svg">Sign In</n-link>
             <n-link to="/auth/sign-up" class="mobile-side-nav-link btn btn-white btn-svg">Sign Up</n-link>
           </div>
         </div>
 
-        <n-link to="/auth/create-store" class="btn create-shop-btn" v-if="!isLoggedIn || !isBusinessOwner">Create shop</n-link>
-        <n-link to="/b" class="btn create-shop-btn"  v-if="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
+        <n-link to="/auth/create-store" class="btn create-shop-btn" v-show="!isLoggedIn || !isBusinessOwner">Create shop</n-link>
+        <n-link to="/b" class="btn create-shop-btn"  v-show="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
 
       </div>
 

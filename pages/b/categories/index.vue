@@ -8,7 +8,7 @@
                 <nuxt />
                     <div class="content-area">
                         <!-- pageLoader -->
-                        <PAGELOADER v-if="pageLoader" />
+                        <PAGELOADER v-show="pageLoader" />
                         <nuxt />
 
                         <div class="main-content">
@@ -106,11 +106,11 @@
 
                                                             <h3>{{subcategory.subcategoryName}}</h3>
 
-                                                            <div class="subcat-details" v-if="!subcategory.subcategoryProductCount">No product in this subcategory</div>
+                                                            <div class="subcat-details" v-show="!subcategory.subcategoryProductCount">No product in this subcategory</div>
 
-                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount == 1">1 product in this subcategory</div>
+                                                            <div class="subcat-details" v-show="subcategory.subcategoryProductCount == 1">1 product in this subcategory</div>
 
-                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount > 1">{{subcategory.subcategoryProductCount}} products in this subcategory</div>
+                                                            <div class="subcat-details" v-show="subcategory.subcategoryProductCount > 1">{{subcategory.subcategoryProductCount}} products in this subcategory</div>
 
                                                         </n-link>
 
@@ -215,11 +215,11 @@
 
                                                             <h3>{{subcategory.subcategoryName}}</h3>
 
-                                                            <div class="subcat-details" v-if="!subcategory.subcategoryProductCount">No product in this subcategory</div>
+                                                            <div class="subcat-details" v-show="!subcategory.subcategoryProductCount">No product in this subcategory</div>
 
-                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount == 1">1 product in this subcategory</div>
+                                                            <div class="subcat-details" v-show="subcategory.subcategoryProductCount == 1">1 product in this subcategory</div>
 
-                                                            <div class="subcat-details" v-if="subcategory.subcategoryProductCount > 1">{{subcategory.subcategoryProductCount}} products in this subcategory</div>
+                                                            <div class="subcat-details" v-show="subcategory.subcategoryProductCount > 1">{{subcategory.subcategoryProductCount}} products in this subcategory</div>
 
                                                         </n-link>
 
@@ -264,7 +264,7 @@
 
 
 
-                            <div v-if="!categoryListCount && !isLoading">
+                            <div v-show="!categoryListCount && !isLoading">
                                 <div class="no-account-category width-100">
                                     <!-- when no category has been added to the account -->
                                     <h2>No category has been added to your store</h2>
@@ -280,7 +280,7 @@
                         <nuxt/>
                     </div>
             </div>
-            <div class="filter-btn-container"  v-if="categoryListCount > 0">
+            <div class="filter-btn-container"  v-show="categoryListCount > 0">
                 <nuxt-link to="/b/categories/add-categories" class="close-modal-btn btn-icon btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                     <use xlink:href="~/assets/business/image/all-svg.svg#plusSign"></use>
