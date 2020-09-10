@@ -164,7 +164,14 @@
                                         <div class="product-details-action">
                                             <nuxt-link :to="`/p/${productId}`" class="btn btn-light-grey">View</nuxt-link>
                                             <nuxt-link :to="`/b/product/edit/${productId}`" class="btn btn-light-grey">Edit</nuxt-link>
-                                            <button class="btn btn-light-grey">Hide</button>
+                                            <button class="btn btn-light-grey" v-show="hide == 0" @click="hideProduct()" id="hideProduct">
+                                                Hide
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
+                                            <button class="btn btn-light-grey" v-show="hide == 1" @click="showProduct()" id="showProductTWO">
+                                                Show
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
                                             <button class="btn btn-light-grey">Delete</button>
                                         </div>
                                     </div>
@@ -194,7 +201,11 @@ import PAGELOADER from '~/components/loader/loader.vue';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
-import { GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID } from '~/graphql/product';
+import { 
+    GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
+    SHOW_PRODUCT,
+    HIDE_PRODUCT 
+} from '~/graphql/product';
 
 import STARRATING from 'vue-star-rating'
 
@@ -333,6 +344,7 @@ export default {
         showProduct: async function () {
 
             let target = document.getElementById("showProduct");
+            let targetTwo = document.getElementById("showProductTWO");
 
             let variables = {
                 businessId: this.businessId,
@@ -346,10 +358,12 @@ export default {
             }
 
             target.disabled = true
+            targetTwo.disabled = true
 
             let request = await this.$performGraphQlMutation(this.$apollo, SHOW_PRODUCT, variables, context);
 
             target.disabled = false;
+            targetTwo.disabled = false;
             
 
             if (request.error) {
@@ -367,6 +381,45 @@ export default {
             this.$initiateNotification("success", "Update successful", result.message);
 
             this.hide = 0;
+            
+        },
+        hideProduct: async function () {
+
+            let target = document.getElementById("hideProduct");
+
+            let variables = {
+                businessId: this.businessId,
+                productId: this.productId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, HIDE_PRODUCT, variables, context);
+
+            target.disabled = false;
+        
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.HideProduct;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Update successful", result.message);
+
+            this.hide = 1;
             
         },
         iconSizeImage: function (image) {
