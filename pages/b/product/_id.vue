@@ -10,7 +10,13 @@
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader" />
                         <nuxt />
-                        
+                        <div class="alert alert-danger notification-alert" v-show="hide">
+                            <div>This product is hidden. Customers will not be able to find it in your shop and in search result.</div>
+                            <button class="btn btn-small btn-white" @click="showProduct()" id="showProduct">
+                                Show product
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </button>
+                        </div>
                         <div class="main-content">
 
                             <div class="page-header" v-show="!productNotFound && !pageLoader">
@@ -44,45 +50,30 @@
                                     <div class="product-details-img-container">
 
                                         <div class="slide-container" id="productImageSlideShow">
-                                            <div class="product-image-slide is-active">
-                                                <img src="~/assets/business/image/phone.png" alt="">
+                                            
+                                            <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}">
+                                                <img :data-src="formatBigSizeImage(item)" alt="" v-lazy-load>
                                             </div>
-                                            <div class="product-image-slide">
-                                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                                            </div>
-                                            <div class="product-image-slide">
-                                                <img src="~/assets/business/image/banner-image.jpg" alt="">
-                                            </div>
-                                            <div class="product-image-slide">
-                                                <img src="~/assets/business/image/card-bg.png" alt="">
-                                            </div>
+
                                         </div>
 
-                                        <button class="close-modal-btn btn-light-grey" @click="previousImage">
+                                        <button class="close-modal-btn btn-light-grey" @click="previousImage"  v-show="returnImages.length > 1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12">
                                                 <use xlink:href="~/assets/business/image/all-svg.svg#leftArrow"></use>
                                             </svg>
                                         </button>
-                                        <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage">
+                                        <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage"  v-show="returnImages.length > 1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562">
                                                 <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
                                             </svg>
                                         </button>
                                     
                                     </div>
-                                    <div class="selected-img-preview mg-bottom-32">
-                                        <div class="product-img-thumbnail" data-slide="1" @click="thumbSlide($event)">
-                                            <img src="~/assets/business/image/phone.png" alt="" data-slide="1" @click="thumbSlide($event)">
+                                    <div class="selected-img-preview mg-bottom-32" v-show="returnImages.length > 1">
+                                        <div class="product-img-thumbnail" :data-slide="index + 1" @click="thumbSlide($event)" v-for="(item, index) in returnImages" :key="index"> 
+                                            <img :data-src="iconSizeImage(item)" alt="" :data-slide="index + 1" @click="thumbSlide($event)" v-lazy-load>
                                         </div>
-                                        <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="2">
-                                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" data-slide="2" @click="thumbSlide($event)">
-                                        </div>
-                                        <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="3">
-                                            <img src="~/assets/business/image/banner-image.jpg" alt="" data-slide="3" @click="thumbSlide($event)">
-                                        </div>
-                                        <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="4">
-                                            <img src="~/assets/business/image/card-bg.png" alt="" data-slide="4" @click="thumbSlide($event)">
-                                        </div>
+                                        
                                     </div>
                                 </div>
 
@@ -90,7 +81,7 @@
                                 <div class="product-details-content-info">
                                     <div class="product-details-name"><h2>{{productName}}</h2></div>
                                     <div class="product-price-container">
-                                        <div class="product-details-price"><h3>₦ {{productPrice}}</h3></div>
+                                        <div class="product-details-price"><h3>₦ {{formatProductPrice(productPrice)}}</h3></div>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
                                             <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                                         </a>
@@ -105,8 +96,7 @@
                                             {{productDescription}}
                                         </div>
                                         <div class="no-data-available" v-show="productDescription.length == 0">
-                                            <div class="text-area">The description for this product has not been added</div>
-                                            <nuxt-link :to="`/b/product/edit/${productId}`" class="btn btn-white btn-small">Add description</nuxt-link>
+                                            <div class="text-area">No description available</div>
                                         </div>
                                     </div>
 
@@ -119,8 +109,7 @@
                                             <div class="size-card" v-for="size in returnSizes" :key="size.sizeId">{{size.sizeNumber}}</div>
                                         </div>
                                         <div class="no-data-available" v-show="productSizes.length == 0">
-                                            <div class="text-area">The sizes for this product has not been added</div>
-                                            <nuxt-link :to="`/b/product/edit/${productId}`" class="btn btn-white btn-small">Add sizes</nuxt-link>
+                                            <div class="text-area">No size available</div>
                                         </div>
                                     </div>
 
@@ -133,8 +122,7 @@
                                             <div v-for="color in returnColors" :key="color.colorId"  v-bind:style="{'background-color': color.color}"></div>
                                         </div>
                                         <div class="no-data-available" v-show="productColors.length == 0">
-                                            <div class="text-area">The colors for this product has not been added</div>
-                                            <nuxt-link :to="`/b/product/edit/${productId}`" class="btn btn-white btn-small">Add colors</nuxt-link>
+                                            <div class="text-area">No color available</div>
                                         </div>
                                     </div>
 
@@ -151,15 +139,14 @@
                                                     <use xlink:href="~/assets/business/image/all-svg.svg#copyIcon"></use>
                                                 </svg>
                                             </button>
-
+                                            <a :href="`whatsapp://send?text=${productName} https://cudua.com/p/${productId}`" target="_blank" class="close-modal-btn" data-action="share/whatsapp/share">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#whatsappIcon"></use>
+                                                </svg>
+                                            </a>
                                             <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://www.cudua.com/p/${productId}`" target="_blank" class="close-modal-btn">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                                                     <use xlink:href="~/assets/business/image/all-svg.svg#facebookIcon"></use>
-                                                </svg>
-                                            </a>
-                                            <a :href="`whatsapp://send?text=${productName}`" target="_blank" class="close-modal-btn" data-action="share/whatsapp/share">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                                    <use xlink:href="~/assets/business/image/all-svg.svg#whatsappIcon"></use>
                                                 </svg>
                                             </a>
 
@@ -254,6 +241,9 @@ export default {
         },
         returnSizes () {
             return this.productSizes
+        },
+        returnImages () {
+            return this.productImages
         }
     },
     methods : {
@@ -335,6 +325,56 @@ export default {
             this.subcategoryId = product.subcategory.subcategoryId;
             this.tags = product.tags == null ? []: product.tags
         },
+        formatProductPrice: function (price) {
+            if (process.client) {
+                return this.$numberNotation(price)
+            }
+        },
+        showProduct: async function () {
+
+            let target = document.getElementById("showProduct");
+
+            let variables = {
+                businessId: this.businessId,
+                productId: this.productId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, SHOW_PRODUCT, variables, context);
+
+            target.disabled = false;
+            
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.ShowProduct;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Update successful", result.message);
+
+            this.hide = 0;
+            
+        },
+        iconSizeImage: function (image) {
+            return this.$formatProductImageUrl(this.businessId, image, "iconSize")
+        },
+        formatBigSizeImage: function (image) {
+            return this.$formatProductImageUrl(this.businessId, image, "bigSize")
+        }
     },
     created () {
         if (process.client) {
@@ -368,5 +408,16 @@ export default {
 }
 .no-data-available .btn {
     flex-shrink: 0;
+}
+.product-img-thumbnail {
+    width: 66px;
+    height: 57px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 8px;
+    position: relative;
+    margin-bottom: 8px;
+    cursor: pointer;
 }
 </style>

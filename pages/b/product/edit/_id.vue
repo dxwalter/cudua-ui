@@ -905,7 +905,7 @@ export default {
             this.colors = newColorArray
         },
         saveProductDescription: async function() {
-            console.log(this.description)
+            
             if (this.description.length < 1) {
                 this.$addRedBorder('productDescription')
                 this.$showToast('Enter the description for this product', "error", 6000);
@@ -996,7 +996,7 @@ export default {
                 return
             }
 
-            this.$initiateNotification("success", "Sizes added", result.message)
+            this.$initiateNotification("success", "Image uploaded", result.message)
 
             let imagePreview = document.getElementById('moreImages');
             imagePreview.innerHTML = "";
