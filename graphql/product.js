@@ -102,6 +102,7 @@ query getproduct($productId: String!) {
       name
       price
       description
+      primaryImage
       tags {
         tagId
         tagName
@@ -122,6 +123,58 @@ query getproduct($productId: String!) {
       subcategory{
         subcategoryId
         subcategoryName
+      }
+      images
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID = gql`
+query getproduct($productId: String!) {
+  GetProductById(input:{
+    productId: $productId,
+  })
+  {
+    product{
+      id
+      name
+      price
+      description
+      primaryImage
+      reviewScore
+      tags {
+        tagId
+        tagName
+      }
+      colors {
+        colorId
+        color
+      }
+      sizes {
+        sizeId
+        sizeNumber
+      }
+      hide
+      category{
+        categoryId
+        categoryName
+      }
+      subcategory{
+        subcategoryId
+        subcategoryName
+      }
+      reviews {
+        author {
+          authorId
+          fullname
+          displaPicture
+        }
+        rating
+        description
       }
       images
     }
@@ -262,6 +315,31 @@ mutation editBasicDetails ($productId: String!, $productName: String!, $productP
     productPrice: $productPrice,
     category: $category,
     subcategory: $subcategory,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+export const SHOW_PRODUCT = gql`
+mutation showProduct($productId: String!, $businessId: String!){
+  ShowProduct(input : {
+		productId: $productId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const HIDE_PRODUCT = gql`
+mutation HideProduct($productId: String!, $businessId: String!){
+  HideProduct(input : {
+		productId: $productId,
     businessId: $businessId
   }) {
     code

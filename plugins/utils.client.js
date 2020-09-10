@@ -12,6 +12,7 @@ export default ({app}, inject) => {
 				try {
 						// Now that we've selected the anchor text, execute the copy command
 						let successful = document.execCommand('copy');
+						console.log(target)
 						app.$showToast('Link copied', "success");
 
 						// app.$initiateNotification('success', 'Successful', "Link copied successfully")

@@ -96,7 +96,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#person"></use>
                                 </svg>
-                                <span>Profile</span>
+                                <span>Business Profile</span>
                             </div>
                         </n-link>
 

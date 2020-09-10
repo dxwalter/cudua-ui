@@ -8,8 +8,9 @@
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
                         <div class="main-content">
-                            <div class="page-header">
+                            <div class="page-header with-action">
                                 <h4>Edit business profile</h4>
+                                <n-link class="btn btn-light-grey btn-small" :to="`/b/profile`">Back to profile</n-link>
                             </div>
 
                             <div><!-- main content goes in here -->
@@ -1041,4 +1042,11 @@ export default {
       margin-left: 10px;
       font-weight: 500;
   }
+    .page-header.with-action h4 {
+        margin-bottom: unset;
+        align-self: center;
+    }
+    .page-header {
+        margin-bottom: 32px !important;
+    }
 </style>

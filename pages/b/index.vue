@@ -105,6 +105,7 @@
                                 <div class="product-card">
                                     <div class="product-card-image">
                                         <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
+                                        <div class="chip small-chip" v-show="product.hide">Hidden</div>
                                     </div>
                                     <div class="product-card-details">
                                         <div class="product-name">
@@ -420,5 +421,23 @@ export default {
     .hide-for-mobile {
         display: flex;
     }
+}
+.page-header.with-action h4 {
+    margin-bottom: unset;
+    align-self: center;
+}
+.page-header {
+    margin-bottom: 32px !important;
+}
+.small-chip {
+    padding: 7px 14px;
+    font-size: 12px;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 8px;
+}
+.product-card-image {
+    position: relative;
 }
 </style>

@@ -853,4 +853,11 @@ export default {
         font-weight: 500;
         text-transform: uppercase;
     }
+    .page-header.with-action h4 {
+        margin-bottom: unset;
+        align-self: center;
+    }
+    .page-header {
+        margin-bottom: 32px !important;
+    }
 </style>

@@ -10,11 +10,18 @@
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
                         <nuxt />
-
+                        <div class="alert alert-danger notification-alert" v-show="hide">
+                            <div>This product is hidden. Customers will not be able to find it in your shop and in search result.</div>
+                            <button class="btn btn-small btn-white" @click="showProduct()" id="showProduct">
+                                Show product
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </button>
+                        </div>
                         <div class="main-content">
 
-                            <div class="page-header">
+                            <div class="page-header with-action">
                                 <h4>Edit product</h4>
+                                <n-link class="btn btn-light-grey btn-small" :to="`/b/product/${productId}`">Back to product</n-link>
                             </div>
 
                             <div class="product-upload-container">
@@ -381,7 +388,8 @@ import {
     ADD_MORE_PRODUCT_PHOTO,
     SET_IMAGE_PRIMARY,
     DELETE_PRODUCT_IMAGE,
-    EDIT_PRODUCT_BASIC_DETAILS
+    EDIT_PRODUCT_BASIC_DETAILS,
+    SHOW_PRODUCT
 } from '~/graphql/product';
 
 
@@ -1189,6 +1197,45 @@ export default {
 
             this.$initiateNotification("success", "Update successful", result.message)
 
+        },
+        showProduct: async function () {
+
+            let target = document.getElementById("showProduct");
+
+            let variables = {
+                businessId: this.businessId,
+                productId: this.productId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, SHOW_PRODUCT, variables, context);
+
+            target.disabled = false;
+            
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.ShowProduct;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Update successful", result.message);
+
+            this.hide = 0;
+            
         }
     },
     created () {
@@ -1276,7 +1323,7 @@ export default {
     display: block;
 }
 .color-picker-container div {
-    width: 48px;
+    min-width: 48px;
     height: 38px;
     border-radius: 4px;
     box-shadow: 0px 1px 3px rgba(0,0,0,.2);
@@ -1303,5 +1350,12 @@ export default {
 }
 .is-loading .loader-action {
     display: flex;
+}
+.page-header.with-action h4 {
+    margin-bottom: unset;
+    align-self: center;
+}
+.page-header {
+    margin-bottom: 32px !important;
 }
 </style>
