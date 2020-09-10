@@ -172,7 +172,10 @@
                                                 Show
                                                 <div class="loader-action"><span class="loader"></span></div>
                                             </button>
-                                            <button class="btn btn-light-grey">Delete</button>
+                                            <button class="btn btn-light-grey" id="" @click="productToDelete = 1">
+                                                Delete
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
                                         </div>
                                     </div>
 
@@ -188,6 +191,32 @@
             <PRODUCTREVIEW />
             <nuxt />
         </div>
+        <!-- delete product modal -->
+        <div class="modal-container-2" id="confirmedOrderModal" v-show="productToDelete">
+            <div class="modal-dialog-box success-order-modal-container">
+
+
+                <div class="modal-content">
+                    <div class="thumbs-up-container">
+                        <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <use xlink:href="~/assets/business/image/all-svg.svg#bigDelete"></use>
+                        </svg>
+                    </div>
+                    <div class="success-order-text">
+                        <p>Delete <span class="indicator-area">{{productName}}</span> product</p>
+                        <div class="price-info">When you delete this product, you won't be able to recover it.</div>
+                    </div>
+                    <div class="mg-bottom-32">
+                        <button class="btn btn-primary btn-block mg-bottom-8" @click="`${productToDelete = 0}`">Cancel action</button>
+                        <button class="btn btn-white btn-block" id="deleteProduct" @click="deleteProduct($event)">Delete product
+                            <div class="loader-action"><span class="loader"></span></div> 
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--  delete category modal -->
     </div>
 </template>
 
@@ -204,7 +233,8 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { 
     GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
     SHOW_PRODUCT,
-    HIDE_PRODUCT 
+    HIDE_PRODUCT,
+    DELETE_PRODUCT
 } from '~/graphql/product';
 
 import STARRATING from 'vue-star-rating'
@@ -222,6 +252,7 @@ export default {
             productId: "",
             businessId: "",
             accessToken: "",
+            productToDelete: "",
 
             productImages: [],
             hide: "",
@@ -427,7 +458,47 @@ export default {
         },
         formatBigSizeImage: function (image) {
             return this.$formatProductImageUrl(this.businessId, image, "bigSize")
-        }
+        },
+        deleteProduct: async function () {
+
+            let target = document.getElementById("deleteProduct");
+
+            let variables = {
+                businessId: this.businessId,
+                productId: this.productId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, DELETE_PRODUCT, variables, context);
+
+            target.disabled = false;
+        
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.DeleteProduct;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Product deleted", result.message);
+
+            this.productNotFound = 1
+            this.productToDelete = 0
+            
+        },
     },
     created () {
         if (process.client) {
@@ -472,5 +543,10 @@ export default {
     position: relative;
     margin-bottom: 8px;
     cursor: pointer;
+}
+.indicator-area {
+    color: rgba(238, 100, 37, 1);
+    font-weight: 500;
+    text-transform: uppercase;
 }
 </style>

@@ -348,3 +348,16 @@ mutation HideProduct($productId: String!, $businessId: String!){
   }
 }
 `
+
+export const DELETE_PRODUCT = gql`
+mutation deleteProduct($businessId: String!, $productId: String!) {
+  DeleteProduct(input : {
+		productId: $productId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
