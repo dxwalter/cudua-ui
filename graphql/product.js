@@ -253,3 +253,20 @@ mutation removeImage($imageName: String!, $productId: String!, $businessId: Stri
   }
 } 
 `
+
+export const EDIT_PRODUCT_BASIC_DETAILS = gql`
+mutation editBasicDetails ($productId: String!, $productName: String!, $productPrice: Int!, $category: String, $subcategory: String!, $businessId: String!) {
+  EditBasicDetails(input: {
+    productId: $productId,
+    productName: $productName,
+    productPrice: $productPrice,
+    category: $category,
+    subcategory: $subcategory,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`

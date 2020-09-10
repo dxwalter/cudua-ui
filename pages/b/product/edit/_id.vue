@@ -43,7 +43,7 @@
 
                                             <div class="form-control">
                                                 <!-- <label for="businessType" class="form-label">Product price</label> -->
-                                                <input type="text" name="" id="productPrice" class="input-form white-bg-color" placeholder="Product price" v-model="productPrice">
+                                                <input type="number" name="" id="productPrice" class="input-form white-bg-color" placeholder="Product price" v-model="productPrice">
                                             </div>
 
                                             <div class="form-control" id="singleTabContainer">
@@ -72,7 +72,7 @@
                                                     </div>
                                                     <!-- After the user has selected a category, show the list of subcategories to be selected -->
                                                     <!-- show this when selected category ID has been set -->
-                                                    <div class="change-upload-cat" v-show="!setCategoryAndSubcategory">
+                                                    <div class="change-upload-cat" v-show="!setCategoryAndSubcategory" id="subcategoryArea">
                                                         <!-- show when selected catgory has been set and when subcategory ID has not been set -->
                                                         <!-- when selected subcategory ID is set, hide -->
                                                         <div class="">
@@ -107,7 +107,10 @@
                                             </div>
                                     
                                             <div class="form-control">
-                                                <button class="btn btn-primary btn-block">Save update</button>
+                                                <button class="btn btn-primary btn-block" id="saveBasicDetails" @click="saveBasicDetails()">
+                                                    Save update
+                                                    <div class="loader-action"><span class="loader"></span></div>
+                                                </button>
                                             </div>
                                         
                                         </div> 
@@ -377,7 +380,8 @@ import {
     CREATE_PRODUCT_DESCRIPTION,
     ADD_MORE_PRODUCT_PHOTO,
     SET_IMAGE_PRIMARY,
-    DELETE_PRODUCT_IMAGE
+    DELETE_PRODUCT_IMAGE,
+    EDIT_PRODUCT_BASIC_DETAILS
 } from '~/graphql/product';
 
 
@@ -547,98 +551,50 @@ export default {
         },
         removeSizeFromSizes: async function (size, sizeId) {
             
-            if(sizeId.search("user-size") == 0) {
+            let target = document.getElementById("size-"+sizeId);
+            target.style.display = "none";
 
-                let target = document.getElementById("size-"+sizeId);
-                target.style.display = "none";
-                
-                // format current input string
-                let currentInputString = this.formatStringToArray(this.newSizes);
+            let variables = {
+                sizeId: sizeId,
+                businessId: this.businessId,
+                productId: this.productId
+            }
 
-                this.newSizes = "";
-
-                // remove size from currentInputString
-                let newInputString = [];
-
-                currentInputString.forEach(element => {
-                    if (element != size) {
-                        newInputString.push(element)
-                    }
-                });
-                // this is the string that will be set to this.newSizes
-                let y = "";
-
-                newInputString.forEach(element => {
-                    y = y+` ${element},`
-                });
-
-                // remove trailing ','
-                if (y.slice(-1) == ',') {
-                    y = y.slice(0, -1)
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
                 }
+            }
 
-                let sizesArray = this.returnProductSizes
-                let newSizesArray = [];
+            let request = await this.$performGraphQlMutation(this.$apollo, REMOVE_PRODUCT_SIZE, variables, context);
 
-                for (let c of sizesArray) {
-                    if (size != c.sizeNumber) {
-                        newSizesArray.push(c)
-                    }
-                }
-
-                this.sizes = newSizesArray
-                this.newSizes = y;
-
-                this.createNewSizes()
-                
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
                 return
             }
 
-            if(sizeId.search("user-size") == -1) {
-                let target = document.getElementById("size-"+sizeId);
-                target.style.display = "none";
+            let result = request.result.data.RemoveProductSize;
 
-                let variables = {
-                    sizeId: sizeId,
-                    businessId: this.businessId,
-                    productId: this.productId
-                }
-
-                let context = {
-                    headers: {
-                        'accessToken': this.accessToken
-                    }
-                }
-
-                let request = await this.$performGraphQlMutation(this.$apollo, REMOVE_PRODUCT_SIZE, variables, context);
-
-                if (request.error) {
-                    this.$initiateNotification("error", "Failed request", request.message)
-                    return
-                }
-
-                let result = request.result.data.RemoveProductSize;
-
-                if (!result.success) {
-                    this.$initiateNotification("error", "Failed request", result.message)
-                    return
-                }
-
-                this.$initiateNotification("success", "Size removed", result.message)
-
-                let newSizesArray = [];
-                let sizesArray = this.returnProductSizes
-
-                
-                for (let m of sizesArray) {
-                    if (size != m.sizeNumber) {
-                        newSizesArray.push(m)
-                    }
-                }
-
-                this.sizes = newSizesArray;
-
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
             }
+
+            this.$initiateNotification("success", "Size removed", result.message)
+
+            let newSizesArray = [];
+            let sizesArray = this.returnProductSizes
+
+            
+            for (let m of sizesArray) {
+                if (size != m.sizeNumber) {
+                    newSizesArray.push(m)
+                }
+            }
+
+            this.sizes = newSizesArray;
+
+            
             
         },
         previewImage: function (e, preview) {
@@ -768,6 +724,8 @@ export default {
         resetCategory: function () {
             this.categoryName = "";
             this.subcategoryName = ""
+            this.categoryId = ""
+            this.subcategoryId = ""
             this.setCategoryAndSubcategory = 0
         },
         getColorFromInput: function (e) {
@@ -1066,6 +1024,9 @@ export default {
 
             target.disabled = false
 
+            // uncheck checkbox
+            document.getElementById('checkBox'+imagePath.split('.')[0]).checked = false
+
             if (request.error) {
                 this.$initiateNotification("error", "Failed request", request.message)
                 return
@@ -1089,7 +1050,6 @@ export default {
             }
             this.productImages = [];
             this.productImages = newArray
-            document.getElementById('checkBox'+imagePath.split('.')[0]).checked = false
         },
         setImageAsPrimary: async function(imagePath) {
 
@@ -1116,7 +1076,10 @@ export default {
 
             let request = await this.$performGraphQlMutation(this.$apollo, SET_IMAGE_PRIMARY, variables, context);
 
-            target.disabled = false
+            target.disabled = false;
+            
+            // uncheck checkbox
+            document.getElementById('checkBox'+imagePath.split('.')[0]).checked = false
 
             if (request.error) {
                 this.$initiateNotification("error", "Failed request", request.message)
@@ -1142,10 +1105,91 @@ export default {
             this.productImages = [];
             this.productImages = newArray
 
-            // uncheck checkbox
-            document.getElementById('checkBox'+imagePath.split('.')[0]).checked = false
 
         },
+        saveBasicDetails: async function () {
+
+            if (this.productName.length < 2) {
+                this.$showToast("What is the name of the product?", "error", 6000)
+                this.$addRedBorder("productName")
+                return
+            } else {
+                this.$removeRedBorder("productName");
+                this.productName = this.$firstLetterUpperCase(this.productName)
+            }
+
+
+            // check product price
+            if (!this.productPrice) {
+                this.$addRedBorder("productPrice");
+                this.$showToast("How much is this product?", "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("productPrice")
+            }
+
+
+            // check product category
+            if (!this.categoryId) {
+                this.resetCategory()
+                this.subcategoryId = ""
+                this.categoryId = ""
+                this.$addRedBorder("productCategory");
+                this.$showToast("Choose a product category", "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("productCategory");
+            }
+
+            // check subcategory
+            if (!this.subcategoryId) {
+                this.$addRedBorder("subcategoryArea");
+                this.$showToast(`Select a subcategory under ${this.categoryName} category`, "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("subcategoryArea");
+            }
+
+
+            let target = document.getElementById("saveBasicDetails");
+
+            let variables = {
+                productId: this.productId,
+                businessId: this.businessId,
+                productName: this.productName,
+                productPrice: Number(this.productPrice),
+                category: this.categoryId,
+                subcategory: this.subcategoryId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_PRODUCT_BASIC_DETAILS, variables, context);
+
+            target.disabled = false;
+            
+
+            if (request.error) {
+                this.$initiateNotification("error", "Failed request", request.message)
+                return
+            }
+
+            let result = request.result.data.EditBasicDetails;
+
+            if (!result.success) {
+                this.$initiateNotification("error", "Failed request", result.message)
+                return
+            }
+
+            this.$initiateNotification("success", "Update successful", result.message)
+
+        }
     },
     created () {
         if (process.client) {
