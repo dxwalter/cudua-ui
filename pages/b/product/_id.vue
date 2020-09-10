@@ -241,10 +241,14 @@ export default {
             reviewScore: 0,
 
             // page settings
-            productNotFound: ""
+            productNotFound: "",
+            screenWidth: "",
         }
     },
     computed: {
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        },
         returnColors () {
             return this.productColors
         },
@@ -335,6 +339,7 @@ export default {
     created () {
         if (process.client) {
             this.productId = this.$route.params.id;
+            window.addEventListener('resize', this.handleResize);
             this.GetBusinessDataFromStore()
         }
     },
