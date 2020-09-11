@@ -5,26 +5,12 @@
             <div class="modal-header">
                 <div>
                     <h4 class="mg-bottom-4">Product review</h4>
-                    <div class="review-text nav-rating-result">
+                    <div class="review-text nav-rating-result" v-show="reviewScore">
                         <a href="javasscript:;" class="navbar-review-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                            </svg>
+                            <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                         </a>
                         <div class="rating-score">
-                            4.5/5
+                            {{reviewScore}}/5
                         </div>
                     </div>
                 </div>
@@ -36,199 +22,36 @@
                 </button>
             </div>
 
-            <div class="modal-content modal-fixed-height">
+            <div class="modal-content modal-fixed-height" v-bind:class="{'no-height': allReviews.length <  1}">
+
+                <div class="alert alert-info notification-alert" v-show="allReviews.length <  1">
+                    <div id="infoArea">No review has been written for this product.</div>
+                </div>
 
                <div class="business-review-container">
-                   
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-image">
-                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="review-details">
-                            <div class="reviewer-name">Daniel Walter</div>
-                            <div class="display-flex">
-                            <div class="review-star-icon">
-                                <div class="modal-review-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                        <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                        <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                        <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                        <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                        <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                    </svg>
-                                </div>
+                    <div class="review-item" v-for="(review, index) in returnReviews" :key="index">
+                        <div class="review-header">
+                            <div class="review-image" v-show="!review.author.displayPicture">
+                                <div class="no-logo-review">{{CustomerNameAsDP(review.author.fullname)}}</div>
                             </div>
-                            <div class="review-date">- 15/12/19</div>
+                            <div class="review-image" v-show="review.author.displayPicture">
+                                <img :data-src="`${getImageInLogoSize(review.author.authorId, review.author.displayPicture)}`" :alt="`${review.fullname}'s picture`" v-lazy-load>
                             </div>
-                        </div>
-                    </div>
-                    <p class="review-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fringilla mauris sit amet nibh. Aenean massa. Donec vitae sapien ut libero venenatis faucibus. Pellentesque habitant</p>
-                </div>
 
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-image">
-                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="review-details">
-                            <div class="reviewer-name">Daniel Walter</div>
-                            <div class="display-flex">
+                            <div class="review-details">
+                                <div class="reviewer-name">{{review.author.fullname}}</div>
+                                <div class="display-flex">
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
+                                        <STARRATING :rating=review.rating :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
                                     </div>
                                 </div>
-                             <div class="review-date">- 15/12/19</div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fringilla mauris sit amet nibh. Aenean massa. Donec vitae sapien ut libero venenatis faucibus. Pellentesque habitant</p>
-                </div>
-
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-image">
-                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="review-details">
-                            <div class="reviewer-name">Daniel Walter</div>
-                            <div class="display-flex">
-                                <div class="review-star-icon">
-                                    <div class="modal-review-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                    </div>
+                                <div class="review-date">- {{formatNotificationTimer(review.timeStamp)}}</div>
                                 </div>
-                             <div class="review-date">- 15/12/19</div>
                             </div>
                         </div>
+                        <p class="review-text">{{review.description}}</p>
                     </div>
-                    <p class="review-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fringilla mauris sit amet nibh. Aenean massa. Donec vitae sapien ut libero venenatis faucibus. Pellentesque habitant</p>
-                </div>
-
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-image">
-                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="review-details">
-                            <div class="reviewer-name">Daniel Walter</div>
-                            <div class="display-flex">
-                                <div class="review-star-icon">
-                                    <div class="modal-review-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                    </div>
-                                </div>
-                             <div class="review-date">- 15/12/19</div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fringilla mauris sit amet nibh. Aenean massa. Donec vitae sapien ut libero venenatis faucibus. Pellentesque habitant</p>
-                </div>
-
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-image">
-                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="review-details">
-                            <div class="reviewer-name">Daniel Walter</div>
-                            <div class="display-flex">
-                                <div class="review-star-icon">
-                                    <div class="modal-review-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                    </div>
-                                </div>
-                             <div class="review-date">- 15/12/19</div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fringilla mauris sit amet nibh. Aenean massa. Donec vitae sapien ut libero venenatis faucibus. Pellentesque habitant</p>
-                </div>
-                
-                <div class="review-item">
-                    <div class="review-header">
-                        <div class="review-image">
-                            <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="review-details">
-                            <div class="reviewer-name">Daniel Walter</div>
-                            <div class="display-flex">
-                                <div class="review-star-icon">
-                                    <div class="modal-review-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#star"></use>
-                                        </svg>
-                                    </div>
-                                </div>
-                             <div class="review-date">- 15/12/19</div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="review-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fringilla mauris sit amet nibh. Aenean massa. Donec vitae sapien ut libero venenatis faucibus. Pellentesque habitant</p>
-                </div>
-
                </div>
 
             </div>
@@ -242,11 +65,49 @@
 </template>
 
 <script>
+import STARRATING from 'vue-star-rating'
 export default {
-
+    name: "PRODUCTREVIEW",
+    components: {
+        STARRATING
+    },
+    data() {
+        return {
+            reviewScore: 0,
+            allReviews: ""
+        }
+    },
+    computed: {
+        returnReviews() {
+            return this.allReviews
+        }
+    },
+    methods: {
+        CustomerNameAsDP: function (name) {
+            return this.$convertNameToLogo(name)
+        },
+		formatNotificationTimer: function (timeStamp) {
+			return this.$timeStampModifier(timeStamp)
+        },
+        getImageInLogoSize: function (customerId, imagePath) {
+            return this.$getCustomerProfilePictureUrl(customerId, imagePath)
+        }
+    },
+    created() {
+        if (process.browser) {
+            this.$nuxt.$on('ProductReviews', (data) => {
+                this.allReviews = data.reviews;
+                this.reviewScore = data.reviewScore
+            })
+        }
+    }
 }
 </script>
-
-<style src="~/assets/business/css/app.css" scoped>
-
+<style scoped>
+    .no-height {
+        height: auto !important;
+    }
+    .notification-alert {
+        border-radius: 4px !important;
+    }
 </style>

@@ -171,10 +171,11 @@ query getproduct($productId: String!) {
         author {
           authorId
           fullname
-          displaPicture
+          displayPicture
         }
         rating
         description
+        timeStamp
       }
       images
     }

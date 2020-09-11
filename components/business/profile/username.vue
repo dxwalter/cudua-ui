@@ -22,19 +22,19 @@
                     <label for="businessType" class="form-label">Share your business link</label>                    
                     <div class="share-action-container d-flex justify-content-between">
                 
-                        <a href="#" class="close-modal-btn" data-brand="whatsapp">
+                        <a :href="`whatsapp://send?text=Visit my online store to find quality products https://cudua.com/${username}`" target="_blank" class="close-modal-btn hide-whatsapp" data-action="share/whatsapp/share" data-brand="whatsapp">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#whatsappIcon2"></use>
                             </svg>
                         </a>
 
-                        <a href="#" class="close-modal-btn btn-white" data-brand="facebook">
+                        <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://www.cudua.com/${username}`" class="close-modal-btn btn-white" data-brand="facebook">
                             <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#facebookRoundIcon"></use>
                             </svg>
                         </a>
 
-                        <a href="#" class="close-modal-btn" data-brand="twitter">
+                        <a :href="`https://twitter.com/home?status=https://www.cudua.com/${username}`" class="close-modal-btn" data-brand="twitter">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#twitterIcon2"></use>
                             </svg>
@@ -102,5 +102,10 @@ export default {
 <style scoped>
     .white-fill {
         fill: white !important;
+    }
+    @media(min-width: 1024) {
+        .hide-whatsapp {
+            display: none;
+        }
     }
 </style>

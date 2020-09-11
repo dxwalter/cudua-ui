@@ -139,7 +139,8 @@
                                                     <use xlink:href="~/assets/business/image/all-svg.svg#copyIcon"></use>
                                                 </svg>
                                             </button>
-                                            <a :href="`whatsapp://send?text=${productName} https://cudua.com/p/${productId}`" target="_blank" class="close-modal-btn" data-action="share/whatsapp/share">
+
+                                            <a :href="`whatsapp://send?text=Checkout ${productName} https://cudua.com/p/${productId}`" target="_blank" class="close-modal-btn" data-action="share/whatsapp/share" v-show="screenWidth < 1024">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                                     <use xlink:href="~/assets/business/image/all-svg.svg#whatsappIcon"></use>
                                                 </svg>
@@ -366,6 +367,15 @@ export default {
             this.subcategoryName = product.subcategory.subcategoryName;
             this.subcategoryId = product.subcategory.subcategoryId;
             this.tags = product.tags == null ? []: product.tags
+            this.reviewScore = product.reviewScore
+
+            // emit to add category component
+            $nuxt.$emit('ProductReviews', {
+                reviews: product.reviews == null ? [] : product.reviews,
+                reviewScore: product.reviewScore
+            })
+
+
         },
         formatProductPrice: function (price) {
             if (process.client) {
@@ -497,7 +507,7 @@ export default {
 
             this.productNotFound = 1
             this.productToDelete = 0
-            
+            this.hide = 0
         },
     },
     created () {

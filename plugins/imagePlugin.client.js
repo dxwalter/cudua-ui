@@ -42,7 +42,7 @@ export default ({app}, inject) => {
         }
 
         if (type == 'bigSize') {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_700,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_1000,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
         }
     }
 
