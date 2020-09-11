@@ -27,7 +27,13 @@ export const state = () => ({
 	businessCategories: [],
 	reviewsArray: [],
 	newNotificationCount: 0,
-	newOrderCount: 0
+	newOrderCount: 0,
+	subscription: {
+		id: "",
+		start: "",
+		end: "",
+		type: ""
+	}
 });
 
 const getDefaultState = () => {
@@ -60,7 +66,12 @@ const getDefaultState = () => {
 		reviewsArray: [],
 		newNotificationCount: 0,
 		newOrderCount: 0,
-		bookmarks: []
+		subscription: {
+			id: "",
+			start: "",
+			end: "",
+			type: ""
+		}
 	}
 }
 
@@ -73,7 +84,9 @@ export const actions = {
 	setBusinessCategories (context, payload) { context.commit("setBusinessCategories", payload) },
 	setNotificationData (context, payload) { context.commit("setNotificationCount", payload )},
 
-	setBusinessReviews (context, payload) {context.commit("setBusinessReviews", payload)}
+	setBusinessReviews (context, payload) {context.commit("setBusinessReviews", payload)},
+
+	setSubscription(context, payload) {context.commit('setSubscription', payload)}
 }
 
 export const getters = {
@@ -151,6 +164,13 @@ export const mutations = {
 		if (dataObject.totalReviewScore != undefined) state.reviewScore = dataObject.totalReviewScore;
 
 		if (dataObject.review != undefined) state.reviewsArray = dataObject.review
+	},
+
+	setSubscription: (state, payload) => {
+		state.subscription.id = payload.id
+		state.subscription.start = payload.start
+		state.subscription.end = payload.end
+		state.subscription.type = payload.type
 	},
 
 	resetBusinessState: (state) => Object.assign(state, getDefaultState())

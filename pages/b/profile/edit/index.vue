@@ -6,11 +6,12 @@
                 <SIDENAV></SIDENAV>
                     <div class="content-area grey-bg-color">
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                        <SUBSCRIPTION></SUBSCRIPTION>
 
                         <div class="main-content">
                             <div class="page-header with-action">
                                 <h4>Edit business profile</h4>
-                                <n-link class="btn btn-light-grey btn-small" :to="`/b/profile`">Back to profile</n-link>
+                                <n-link class="btn btn-light-grey btn-small" :to="`/b/profile`">Profile</n-link>
                             </div>
 
                             <div><!-- main content goes in here -->
@@ -281,12 +282,14 @@
                                     <div class="tab-content-area" id="serviceSubcription">
 
                                         <div class="plan-option">
-                                            <div class="subcription-area-header">Current plan</div>
-                                            <div class="subscription-list">
+                                            <div class="subcription-area-header">Your current plan</div>
+                                            <div class="subscription-list running">
                                                 <div class="flex-control">
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Plan</div>
-                                                        <div class="subcription-data">Free tier</div>
+                                                        <div class="subcription-data">Free tier
+                                                            <span class="expired plan-status">(Expired)</span>
+                                                        </div>
                                                     </div>
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Price</div>
@@ -295,39 +298,21 @@
                                                 </div>
                                                 <div class="flex-control">
                                                     <div class="subcription-info">
-                                                        <div class="subcription-header">Renewal date</div>
+                                                        <div class="subcription-header">Subscription date</div>
                                                         <div class="subcription-data">15th December 2020</div>
                                                     </div>
-                                                    <button class="btn btn-default btn-small">Details</button>
+                                                    <div class="subcription-info">
+                                                        <div class="subcription-header">Expiry date</div>
+                                                        <div class="subcription-data">15th December 2020</div>
+                                                    </div>
+                                                    <!-- <button class="btn btn-default btn-small">Details</button> -->
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="">
                                             <div class="subcription-area-header">All plans</div>
-                                            <div class="subscription-list mg-bottom-16">
-                                                <div class="flex-control">
-                                                    <div class="subcription-info">
-                                                        <div class="subcription-header">Plan</div>
-                                                        <div class="subcription-data">Free tier</div>
-                                                    </div>
-                                                    <div class="subcription-info">
-                                                        <div class="subcription-header">Price</div>
-                                                        <div class="subcription-data">₦0</div>
-                                                    </div>
-                                                </div>
-                                                <div class="flex-control">
-                                                    <div class="subcription-info">
-                                                        <div class="subcription-header">Duration</div>
-                                                        <div class="subcription-data">Life long</div>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-default btn-small">Details</button>
-                                                        <button class="btn btn-primary btn-small">Activate</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                            
                                             <div class="subscription-list mg-bottom-16">
                                                 <div class="flex-control">
                                                     <div class="subcription-info">
@@ -377,10 +362,11 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import ADDLOCATION from '~/components/location/add.location.vue'
 import PAGELOADER from '~/components/loader/loader.vue'
 import PROGRESS from '~/components/progress/progress.vue'
+import SUBSCRIPTION from '~/components/business/subscription/subscription.vue'
 
 import { 
     EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS, EDIT_BUSINESS_ADDRESS,
-    EDIT_BUSINESS_EMAIL, EDIT_BUSINESS_LOGO, EDIT_BUSINESS_COVERPHOTO, EDIT_BUSINESS_WHATSAPP_CONTACT,
+    EDIT_BUSINESS_EMAIL, EDIT_BUSINESS_LOGO, EDIT_BUSINESS_COVERPHOTO, EDIT_BUSINESS_WHATSAPP_CONTACT
 } from '~/graphql/business';
 
 import { SEARCH_FOR_STREET } from '~/graphql/location'
@@ -390,7 +376,7 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: "EDITBUSINESSPROFILE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS, SUBSCRIPTION
     },
     data: function() {
         return {
@@ -1016,12 +1002,35 @@ export default {
 				let name =  this.$convertNameToLogo(businessName)
 				return name
 			}
-		}
+        },
+        showBillingTab: function () {
+            let route = this.$route.query
+
+            if (route.billing != undefined) {
+                
+                let allTabs = document.querySelectorAll("#tabList > #tabLink");
+                for (let i = 0; i < allTabs.length; i++) {
+                    allTabs[i].classList.remove("is-active");
+                    let attr = allTabs[i].getAttribute('data-tab');
+
+                    if (attr == 'serviceSubcription') {
+                        allTabs[i].classList.add("is-active");
+                    }
+                }
+
+               document.getElementById("editBasic").classList.remove("is-active")
+               document.getElementById("serviceSubcription").classList.add("is-active")
+
+            }
+        }
     },
     created: function () {
-        if (process.browser) this.assignBusinessData()
+        if (process.browser) {
+            this.assignBusinessData();
+        }
     },
     mounted () {
+        this.showBillingTab()
         this.pageLoader = false;
     },
     beforeDestroy () {
@@ -1042,11 +1051,27 @@ export default {
       margin-left: 10px;
       font-weight: 500;
   }
-    .page-header.with-action h4 {
-        margin-bottom: unset;
-        align-self: center;
-    }
-    .page-header {
-        margin-bottom: 32px !important;
-    }
+.page-header.with-action h4 {
+    margin-bottom: unset;
+    align-self: center;
+}
+.page-header {
+    margin-bottom: 32px !important;
+}
+.running {
+    border-left-color: rgba(69, 175, 69, 1) !important;
+}
+.expired {
+    border-left: rgba(223, 84, 56, 1) !important;
+}
+/* expired  */
+.plan-status {
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 18px;
+}
+
+.plan-status.expired {
+    color: rgba(223, 84, 56, 1) !important
+}
 </style>

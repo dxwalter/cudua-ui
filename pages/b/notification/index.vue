@@ -224,3 +224,11 @@ export default {
 
 }
 </script>
+<style scoped>
+ .last-chat-preview {
+	 overflow: unset;
+	 -webkit-line-clamp: unset;
+	 display: unset;
+	 line-height: 21px;
+ }
+</style>

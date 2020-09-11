@@ -10,6 +10,8 @@
 
                     <!-- pageLoader -->
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                    <!-- subscription -->
+                    <SUBSCRIPTION></SUBSCRIPTION>
                     
                     <div class="alert alert-secondary notification-alert" v-show="page && allProducts.length > 1">
                         <div>Invite three businesses to register and get one month basic plan for free</div>
@@ -150,6 +152,7 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
+import SUBSCRIPTION from '~/components/business/subscription/subscription.vue'
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { 
@@ -159,7 +162,7 @@ import {
 export default {
     name: "BUSINESSPRODUCTLISTING",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER
+        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER, SUBSCRIPTION
     },
     data: function() {
         return {

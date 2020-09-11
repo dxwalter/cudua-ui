@@ -198,6 +198,16 @@ export default {
                     });
                 }
 
+                if (result.businessDetails.subscription != null) {
+                    let sub = result.businessDetails.subscription;
+                    this.$store.dispatch('business/setSubscription', {
+                        id: sub.subscriptionId,
+                        start: sub.subscriptionDate,
+                        end: sub.expiryDate,
+                        type: sub.subscriptionType
+                    })
+                }
+
                 if (result.businessDetails.businessCategories != null) {
                     // set business categories and subcategories
                     this.$store.dispatch('business/setBusinessCategories', result.businessDetails.businessCategories);

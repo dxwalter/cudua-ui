@@ -21,6 +21,12 @@ mutation CreateBusinessAccount($name: String!, $username: String!) {
             contact {
                 email
             }
+            subscription {
+              subscriptionDate
+              expiryDate
+              subscriptionId
+              subscriptionType
+            }
         }
         code
         success

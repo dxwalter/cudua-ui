@@ -270,6 +270,7 @@ export default {
 
 
         },
+        
         createBusinessForSignedUser: async function () {
 
             try {
@@ -305,6 +306,18 @@ export default {
                         });
                     }
 
+
+                    // set business subscription
+                    if (result.businessDetails.subscription != null) {
+                        let sub = result.businessDetails.subscription;
+                        this.$store.dispatch('business/setSubscription', {
+                            id: sub.subscriptionId,
+                            start: sub.subscriptionDate,
+                            end: sub.expiryDate,
+                            type: sub.subscriptionType
+                        })
+                    }
+
                     this.$initiateNotification('success', 'Sign in successful', result.message);
                     setTimeout(() => {
 
@@ -318,6 +331,7 @@ export default {
             }
 
         },
+        
         createBusinessForUnsignedUser: async function () {
                 
              try {
@@ -361,6 +375,16 @@ export default {
                     businessName: result.businessDetails.businessname,
                     username: result.businessDetails.username
                 });
+
+                if (result.businessDetails.subscription != null) {
+                    let sub = result.businessDetails.subscription;
+                    this.$store.dispatch('business/setSubscription', {
+                        id: sub.subscriptionId,
+                        start: sub.subscriptionDate,
+                        end: sub.expiryDate,
+                        type: sub.subscriptionType
+                    })
+                }
 
                 // delete anonymous id
                 localStorage.removeItem('CUDUA_ANONYMOUS_ID');
@@ -501,6 +525,17 @@ export default {
             if (result.businessDetails.businessCategories != null) {
                 // set business categories and subcategories
                 this.$store.dispatch('business/setBusinessCategories', result.businessDetails.businessCategories);
+            }
+
+            // set business subscription
+            if (result.businessDetails.subscription != null) {
+                let sub = result.businessDetails.subscription;
+                this.$store.dispatch('business/setSubscription', {
+                    id: sub.subscriptionId,
+                    start: sub.subscriptionDate,
+                    end: sub.expiryDate,
+                    type: sub.subscriptionType
+                })
             }
         },
         setCustomerData: function (result) {

@@ -64,6 +64,12 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                         number
                     }
                 }
+                subscription {
+                    subscriptionDate
+                    expiryDate
+                    subscriptionId
+                    subscriptionType
+                }
                 businessCategories{
                     itemId
                     categoryId
@@ -111,6 +117,12 @@ export const CREATE_USER_AND_BUSINESS_MUTATION = gql`
                 businessname
                 username
                 review
+                subscription {
+                    subscriptionDate
+                    expiryDate
+                    subscriptionId
+                    subscriptionType
+                }
             }
             code
             success

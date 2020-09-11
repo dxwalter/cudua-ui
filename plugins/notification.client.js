@@ -68,6 +68,10 @@ export default ({app}, inject) => {
             case "businessreview":
                 header = "Business review";
                 break;
+
+            case "subscription":
+                header = "Business subscription";
+                break;
         
             default:
                 header = "Notification"
@@ -97,6 +101,10 @@ export default ({app}, inject) => {
                     
                 case "businessreview":
                     url = "/b/profile/?newReview";
+                    break;
+
+                case "subscription":
+                    url = "/b/profile/edit";
                     break;
 			
 				default:
