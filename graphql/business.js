@@ -338,3 +338,15 @@ mutation DeleteCategory($categoryId: String!, $businessId: String!){
   }
 }
 `
+
+export const DEACTIVATE_SUBSCRIPTION = gql`
+mutation deactivate($businessId: String!){
+  disableSubscription(input: {
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`

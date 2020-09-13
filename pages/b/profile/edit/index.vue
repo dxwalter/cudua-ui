@@ -121,8 +121,8 @@
                                             </div>
 
                                             <!-- business email address -->
-                                            <div class="edit-profile-section">
-                                                <a href="#" class="header-area">
+                                            <!-- <div class="edit-profile-section"> -->
+                                                <!-- <a href="#" class="header-area">
                                                     <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editEmailDetails">
                                                     <div class="edit-action-description accord-chip-name">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -134,10 +134,10 @@
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                         <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
                                                     </svg>
-                                                </a>
-                                                <div class="edit-profile-content" id="editEmailDetails">
+                                                </a> -->
+                                                <!-- <div class="edit-profile-content" id="editEmailDetails"> -->
                                                     <!-- content here -->
-                                                    <div class="form-control">
+                                                    <!-- <div class="form-control">
                                                         <input type="text" name="" id="editbusinessEmailAddress" class="input-form" placeholder="Type in your business email address" v-model="businessEmail">
                                                     </div>
                                                     <div class="form-control">
@@ -148,7 +148,7 @@
                                                     </div>
 
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <!-- business address -->
                                             <div class="edit-profile-section">
@@ -283,27 +283,27 @@
 
                                         <div class="plan-option">
                                             <div class="subcription-area-header">Your current plan</div>
-                                            <div class="subscription-list running">
+                                            <div class="subscription-list" v-bind:class="{ expired: subscriptionStatus, 'running': !subscriptionStatus }">
                                                 <div class="flex-control">
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Plan</div>
-                                                        <div class="subcription-data">Free tier
-                                                            <span class="expired plan-status">(Expired)</span>
+                                                        <div class="subcription-data">Basic plan
+                                                            <span class="expired plan-status" v-show="subscriptionStatus">(Expired)</span>
                                                         </div>
                                                     </div>
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Price</div>
-                                                        <div class="subcription-data">₦3,000</div>
+                                                        <div class="subcription-data">₦2,000</div>
                                                     </div>
                                                 </div>
                                                 <div class="flex-control">
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Subscription date</div>
-                                                        <div class="subcription-data">15th December 2020</div>
+                                                        <div class="subcription-data">{{subscriptionStartDate}}</div>
                                                     </div>
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Expiry date</div>
-                                                        <div class="subcription-data">15th December 2020</div>
+                                                        <div class="subcription-data">{{subscriptionEndDate}}</div>
                                                     </div>
                                                     <!-- <button class="btn btn-default btn-small">Details</button> -->
                                                 </div>
@@ -331,7 +331,7 @@
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-default btn-small">Details</button>
-                                                        <button class="btn btn-primary btn-small">Activate</button>
+                                                        <button class="btn btn-primary btn-small" v-show="subscriptionStatus" @click="payWithPaystack()">Subscribe</button>
                                                     </div>
                                                 </div>
                                                 <div class="subscription-details">
@@ -381,6 +381,9 @@ export default {
     data: function() {
         return {
             pageLoader: true,
+
+            businessOwnerName: "",
+
             businessId: "",
             businessLogo: "",
             businessCoverPhoto: "",
@@ -405,13 +408,19 @@ export default {
             busStop: "",
             streetSuggestion: "",
 
-            apiLink: 'http://localhost:4000/v1/',
-
             // upload progress
             LogoProgressProps: 0,
             coverPhotoProgressProps: 0,
 
-            setTimeoutForStreet: null
+            setTimeoutForStreet: null,
+
+            // subscription
+            start: "",
+            end: "",
+            subscriptionStatus: "",
+            subscriptionType: "",
+            subscriptionStartDate: "",
+            subscriptionEndDate: ""
         }
 	},
 	computed: {
@@ -638,7 +647,6 @@ export default {
 
 			this.username = data.username
 			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)
-			this.businessEmail = data.contact.email,
 			this.businessPhone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
 			this.businessAddress = this.formatAddress(data.address);
             this.reviewScore = data.reviewScore;
@@ -651,8 +659,16 @@ export default {
             this.assignBusinessAddress()
 
             let customerData = this.GetUserData();
+            this.businessEmail = customerData.email
+            this.businessOwnerName = customerData.fullname
             this.accessToken = customerData.userToken
             this.emailNotification = customerData.emailNotification
+
+            // subscription
+            this.start = data.subscription.start
+            this.end = data.subscription.end
+            this.subscriptionId = data.subscription.id
+            this.subscriptionType = data.subscription.type
         },
         updateBasicData: async function (e) {
             e.preventDefault();
@@ -1017,11 +1033,109 @@ export default {
                         allTabs[i].classList.add("is-active");
                     }
                 }
-
-               document.getElementById("editBasic").classList.remove("is-active")
-               document.getElementById("serviceSubcription").classList.add("is-active")
+                console.log("goof") 
+                document.getElementById("editBasic").classList.remove("is-active")
+                document.getElementById("serviceSubcription").classList.add("is-active")
 
             }
+        },
+        formatAndShowSubscription () {
+            let month = [
+                'January',
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
+
+            let startDay = new Date(this.start).getDate().toString();
+            let formatStart = "";
+
+            if (startDay.length > 1) {
+                if (startDay == "21") {
+                    formatStart = startDay+"st"
+                } else {
+                    formatStart = startDay[1] == '3' ? startDay+"rd" : startDay+"th";  
+                }
+            } else {
+                if (startDay == '1') {
+                    formatStart = startDay+"st";
+                } else {
+                    formatStart = startDay == "3" ? startDay+"rd" : startDay+"th";
+                }
+            }
+            
+            let startMonth = month[new Date(this.start).getMonth()]
+            let startYear = new Date(this.start).getFullYear()
+
+            this.subscriptionStartDate = `${formatStart} ${startMonth}, ${startYear}`;
+
+
+            let endDay = new Date(this.end).getDate().toString();
+            
+            let formatEnd = "";
+
+            if (endDay.length > 1) {
+                if (endDay == "21") {
+                    formatEnd = endDay+"st"
+                } else {
+                    formatEnd = endDay[1] == '3' ? endDay+"rd" : endDay+"th";   
+                }
+                
+            } else {
+                if (endDay == '1') {
+                    formatEnd = endDay+"st";
+                } else {
+                    formatEnd = endDay == "3" ? endDay+"rd" : endDay+"th";
+                }
+            }
+
+            let endMonth = month[new Date(this.end).getMonth()];
+            let endYear = new Date(this.end).getFullYear();
+
+            this.subscriptionEndDate = `${formatEnd} ${endMonth}, ${endYear}`;
+
+            // check if subscription has expired
+            let endTime = Date.parse(this.end);
+
+            let now = Date.now();
+
+            if (now > endTime) {
+                this.subscriptionStatus = 1
+            } else {
+                this.subscriptionStatus = 0
+            }
+
+        },
+        payWithPaystack: async function () {
+            
+            var handler = PaystackPop.setup({
+                key: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4', // Replace with your public key
+                email: this.businessEmail,
+                amount: 2000 * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
+                currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
+                firstname: this.businessOwnerName,
+                lastname: "",
+                reference: 'YOUR_REFERENCE', // Replace with a reference you generated
+                callback: function(response) {
+                //this happens after the payment is completed successfully
+                var reference = response.reference;
+                alert('Payment complete! Reference: ' + reference);
+                // Make an AJAX call to your server with the reference to verify the transaction
+                },
+                onClose: function() {
+                    this.$initiateNotification("info", "Transaction has been cancelled")
+                },
+            });
+            
+            handler.openIframe();
         }
     },
     created: function () {
@@ -1030,6 +1144,7 @@ export default {
         }
     },
     mounted () {
+        this.formatAndShowSubscription()
         this.showBillingTab()
         this.pageLoader = false;
     },
@@ -1038,6 +1153,16 @@ export default {
     },
     destroyed () {
         clearTimeout(this.setTimeoutForStreet);
+    },
+    head() {
+      return {
+        script: [
+          {
+            src:
+              'https://js.paystack.co/v1/inline.js'
+          }
+        ]
+      }
     }
 }
 </script>
@@ -1062,7 +1187,7 @@ export default {
     border-left-color: rgba(69, 175, 69, 1) !important;
 }
 .expired {
-    border-left: rgba(223, 84, 56, 1) !important;
+    border-left-color: rgba(223, 84, 56, 1) !important;
 }
 /* expired  */
 .plan-status {

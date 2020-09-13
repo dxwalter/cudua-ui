@@ -104,7 +104,7 @@ export default ({app}, inject) => {
                     break;
 
                 case "subscription":
-                    url = "/b/profile/edit";
+                    url = "/b/profile/edit?billing=true";
                     break;
 			
 				default:
