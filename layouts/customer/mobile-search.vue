@@ -1,5 +1,5 @@
 <template>
-          <!-- beginning of mobile top nav with search box -->
+        <!-- beginning of mobile top nav with search box -->
         <div class="mobile-nav-container card">
           <div class="mobile-nav-links">
             <div class="mobile-toggle-area">
@@ -56,37 +56,37 @@ export default {
     },
 
     computed: {
-		...mapGetters({
-			'GetAnonymousId': 'customer/GetAnonymousId',
-			'GetLoginStatus': 'customer/GetLoginStatus',
-			'GetBusinessStatus': 'business/GetBusinessStatus'
-		}),
-        handleResize() {
-            this.screenWidth = window.innerWidth;
-		},
-		statusChecker () {
-			this.isLoggedIn = this.GetLoginStatus
-			this.isBusinessOwner = this.GetBusinessStatus.length > 0 ? true :  false
-		}
+      handleResize() {
+              this.screenWidth = window.innerWidth;
+      }
     },
     methods: {
-        toggleCustomerNavBar: function (e) {
-            e.preventDefault();
-            let navToggle = document.getElementById('navToggleButton');
-            navToggle.classList.toggle('is-active');
+      ...mapGetters({
+        'GetAnonymousId': 'customer/GetAnonymousId',
+        'GetLoginStatus': 'customer/GetLoginStatus',
+        'GetBusinessStatus': 'business/GetBusinessStatus'
+      }),
+      toggleCustomerNavBar: function (e) {
+          e.preventDefault();
+          let navToggle = document.getElementById('navToggleButton');
+          navToggle.classList.toggle('is-active');
 
-            let sideNav = document.getElementById('mobileSideNav');
-            let sideNavContent = document.getElementById("mobileSideNavContent");
+          let sideNav = document.getElementById('mobileSideNav');
+          let sideNavContent = document.getElementById("mobileSideNavContent");
 
-            let toggleStatus = navToggle.getAttribute('data-toggle-status');
+          let toggleStatus = navToggle.getAttribute('data-toggle-status');
 
-            this.screenWidth <= 1023 ? this.$showCustomerMobileNav(sideNav, sideNavContent, toggleStatus) : sideNav.classList.toggle('js-fold-nav');
-            
-            navToggle.getAttribute('data-toggle-status') == "1" ? navToggle.setAttribute('data-toggle-status', '0') : navToggle.setAttribute('data-toggle-status', '1');
-		}
+          this.screenWidth <= 1023 ? this.$showCustomerMobileNav(sideNav, sideNavContent, toggleStatus) : sideNav.classList.toggle('js-fold-nav');
+          
+          navToggle.getAttribute('data-toggle-status') == "1" ? navToggle.setAttribute('data-toggle-status', '0') : navToggle.setAttribute('data-toggle-status', '1');
+      },
+      statusChecker () {
+        this.isLoggedIn = this.GetLoginStatus()
+        this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+      }
     },
     mounted () {
-		this.statusChecker
+      this.statusChecker()
     }
 }
 </script>

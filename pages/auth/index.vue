@@ -29,20 +29,21 @@
                                     <div class="intent-bg-text">Sign into your account</div>
                                     
                                     <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div>
-                                    
-                                    <div class="form-control">
-                                        <input type="email" name="email" class="input-form" v-model="email" placeholder="Email address">
-                                    </div>
-                                    <div class="form-control">
-                                        <input type="password" name="password" class="input-form" v-model="password" placeholder="Password">
-                                    </div>
-                                    <div class="form-control ">
-                                        <button class="btn btn-primary btn-block" type="button" @click="validateUser" :disabled="isDisabled">
-                                            Sign in
-                                            <div class="loader-action"><span class="loader"></span></div>
-                                        </button>
-                                        <div class="fg-password"><n-link to="/auth/forgot-password">Forgot Password?</n-link></div>
-                                    </div>
+                                    <form>
+                                        <div class="form-control">
+                                            <input type="email" name="email" class="input-form" v-model="email" placeholder="Email address">
+                                        </div>
+                                        <div class="form-control">
+                                            <input type="password" name="password" class="input-form" v-model="password" placeholder="Password" autocomplete="password">
+                                        </div>
+                                        <div class="form-control ">
+                                            <button class="btn btn-primary btn-block" type="button" @click="validateUser" :disabled="isDisabled">
+                                                Sign in
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
+                                            <div class="fg-password"><n-link to="/auth/forgot-password">Forgot Password?</n-link></div>
+                                        </div>
+                                    </form>
                                     <div class="form-control ">
                                         <n-link to="/auth/sign-up" class="btn btn-white btn-block" type="button" data-trigger="modal" data-target="createAccountModal">Create your account</n-link>
                                     </div>
@@ -79,6 +80,7 @@ export default {
             email: "",
             password: "",
             isDisabled: false,
+            failedLoginCount: 0
 		}
     },
     computed: {
@@ -118,7 +120,12 @@ export default {
 
                 if (result.success == false) {
                     this.isDisabled = false
+                    this.failedLoginCount += 1
                     this.$initiateNotification('error', 'Failed login', result.message);
+                    
+                    if (this.failedLoginCount == 3) {
+                        return this.$router.push('/auth/forgot-password')
+                    }
                     return
                 }
 

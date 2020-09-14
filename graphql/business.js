@@ -350,3 +350,29 @@ mutation deactivate($businessId: String!){
   }
 }
 `
+export const ACTIVATE_SUBSCRIPTION = gql`
+mutation activate ($businessId: String!, $referenceId: String!, $subType: String!) {
+  createSubscription(input: {
+    businessId: $businessId,
+    referenceId: $referenceId,
+    subType: $subType
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_BUSINESS_VIRAL_ID = gql`
+query getId ($businessId: String!) {
+  GetViralId(input:{
+    businessId: $businessId
+  }) {
+    viralId
+    code
+    success
+    message
+  }
+}
+`

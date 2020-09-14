@@ -33,7 +33,8 @@ export const state = () => ({
 		start: "",
 		end: "",
 		type: ""
-	}
+	},
+	inviteId: ""
 });
 
 const getDefaultState = () => {
@@ -71,7 +72,8 @@ const getDefaultState = () => {
 			start: "",
 			end: "",
 			type: ""
-		}
+		},
+		inviteId: ""
 	}
 }
 
@@ -86,7 +88,9 @@ export const actions = {
 
 	setBusinessReviews (context, payload) {context.commit("setBusinessReviews", payload)},
 
-	setSubscription(context, payload) {context.commit('setSubscription', payload)}
+	setSubscription(context, payload) {context.commit('setSubscription', payload)},
+
+	setInviteBusinessId(context, payload) {context.commit('setInviteBusinessId', payload)}
 }
 
 export const getters = {
@@ -171,6 +175,10 @@ export const mutations = {
 		state.subscription.start = payload.start
 		state.subscription.end = payload.end
 		state.subscription.type = payload.type
+	},
+
+	setInviteBusinessId: (state, payload) => {
+		state.inviteId = payload
 	},
 
 	resetBusinessState: (state) => Object.assign(state, getDefaultState())

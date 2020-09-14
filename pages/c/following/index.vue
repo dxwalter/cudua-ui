@@ -434,23 +434,23 @@ export default {
         }
     },
     computed: {
-		...mapGetters({
-			'GetLoginStatus': 'customer/GetLoginStatus'
-        }),
-		LoginStatus () {
-			return this.GetLoginStatus
-		}
+
     },
     created: async function () {
 		if (process.browser) {
-            let status = this.LoginStatus
+            let status = this.LoginStatus()
             if (status == false) 
                 return this.$router.push('/')
 		}
 
     },
     methods: {
-
+		...mapGetters({
+			'GetLoginStatus': 'customer/GetLoginStatus'
+        }),
+		LoginStatus () {
+			return this.GetLoginStatus()
+		}
     },
     mounted () {
         setTimeout(() => {

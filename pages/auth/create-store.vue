@@ -41,20 +41,20 @@
                                         <div class="validation-error-design" id="fullnameValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control">
-                                        <input type="text" name="businessname" id="signUpBusinessName" class="input-form" placeholder="Business name" v-model="businessName" >
+                                        <input type="text" name="businessname" id="signUpBusinessName" class="input-form" placeholder="Business name" v-model="businessName" autocomplete="off">
                                         <div class="validation-error-design" id="businessNameValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control">
-                                        <input type="text" name="username" id="signUpUsername" class="input-form" placeholder="Username" v-model="username" @focus="showUsernameUrlMethod(true)" autocomplete="false">
+                                        <input type="text" name="username" id="signUpUsername" class="input-form" placeholder="Username" v-model="username" @focus="showUsernameUrlMethod(true)" autocomplete="off">
                                         <div class="username-url-sample" v-if="username">https://www.cudua.com/<span>{{username}}</span></div>
                                         <div class="validation-error-design" id="usernameValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control" v-if="!isLoggedIn">
-                                        <input type="email" name="email" id="signUpEmail" class="input-form" v-model="email" placeholder="Email address">
+                                        <input type="email" name="email" id="signUpEmail" class="input-form" v-model="email" placeholder="Email address" autocomplete="email">
                                         <div class="validation-error-design" id="emailValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control" v-if="!isLoggedIn">
-                                        <input type="password" name="password" id="signUpPassword" class="input-form" v-model="password" placeholder="Password">
+                                        <input type="password" name="password" id="signUpPassword" class="input-form" v-model="password" placeholder="Password" autocomplete="password">
                                         <div class="validation-error-design" id="passwordValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control">
@@ -140,18 +140,31 @@ export default {
             password: "",
             businessName: "",
             username: "",
+
+            inviteId: "",
+
             // customer details
             customerFullname: "",
             anonymousId: "",
             accessToken: "",
+
             // UI variables
             error: 0,
-            isDisabled: false
+            isDisabled: false,
+            failedLoginCount: 0
 
 		}
 	},
     created() {
         if (process.client) {
+
+            let urlQuery = this.$route.query;
+            if (urlQuery.ref != undefined) {
+                if (urlQuery.ref.length > 0) {
+                    this.inviteId = urlQuery.ref
+                }
+            }
+
             window.addEventListener('resize', this.handleResize);
         }
     },
@@ -343,7 +356,8 @@ export default {
                         password: this.password,
                         anonymousId: this.anonymousId,
                         name: this.businessName,
-                        username: this.username
+                        username: this.username,
+                        inviteId: this.inviteId
                     },
                     context: {
                         headers: {
@@ -441,6 +455,9 @@ export default {
                 if (result.success == false) {
                     this.loginIsDisabled = false
                     this.$initiateNotification('error', 'Failed login', result.message);
+                    if (this.failedLoginCount == 3) {
+                        return this.$router.push('/auth/forgot-password')
+                    }
                     return
                 }
 

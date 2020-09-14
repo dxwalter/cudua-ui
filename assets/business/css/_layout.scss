@@ -1169,7 +1169,7 @@
 		font-weight: 900;
     }
     img {
-        object-fit: contain;
+        object-fit: contain !important;
     }
 }
 
@@ -3589,7 +3589,6 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
     padding: 16px;
     background-color: $white-color;
     font-size: 16px;
-    text-transform: uppercase;
     color: $dark-color;
     margin-bottom: 16px;
     border-radius: 4px;

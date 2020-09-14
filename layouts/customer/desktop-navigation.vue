@@ -131,18 +131,21 @@ export default {
 		}
 	},
   computed: {
+
+  },
+  methods: {
     ...mapGetters({
       'GetLoginStatus': 'customer/GetLoginStatus',
       'GetAnonymousId': 'customer/GetAnonymousId',
 			'GetBusinessStatus': 'business/GetBusinessStatus'
 		}),
 		statusChecker () {
-			this.isLoggedIn = this.GetLoginStatus
+			this.isLoggedIn = this.GetLoginStatus()
 			this.isBusinessOwner = this.GetBusinessStatus.length > 0 ? true :  false
 		}
   },
   mounted () {
-    this.statusChecker
+    this.statusChecker()
   }
 }
 </script>

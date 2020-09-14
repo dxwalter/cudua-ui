@@ -6,13 +6,13 @@
                         <div class="nav-container">
                             <MOBILESEARCH></MOBILESEARCH>
                             <nuxt />
-                            <!-- <BUSINESSNAV></BUSINESSNAV> -->
+                            <BUSINESSNAV></BUSINESSNAV>
                             <MOBILENAVIGATION></MOBILENAVIGATION>
                             <nuxt />
                         </div>
 
                         <!-- pageLoader -->
-                        <!-- <PAGELOADER v-if="pageLoader"></PAGELOADER> -->
+                        <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
                         <!-- begining of content container -->
                         <div class="content-container-second business-page-container">
@@ -320,8 +320,8 @@
 
                         <!-- footer area -->
                         <div class="mobile-hide-nav-bottom-add">
-                            <!-- <BOTTOMADS></BOTTOMADS> -->
-                            <!-- <CUSTOMERFOOTER></CUSTOMERFOOTER> -->
+                            <BOTTOMADS></BOTTOMADS>
+                            <CUSTOMERFOOTER></CUSTOMERFOOTER>
                         </div>
 
                 <!-- modals -->
@@ -338,10 +338,10 @@
 
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
-// import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
-// import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
-// import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
-// import PAGELOADER from '~/components/loader/loader.vue';
+import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
+import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
+import PAGELOADER from '~/components/loader/loader.vue';
 
 // business modal
 // import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
@@ -358,10 +358,10 @@ export default {
     components: {
         MOBILENAVIGATION, 
         MOBILESEARCH, 
-        // BOTTOMADS, 
-        // CUSTOMERFOOTER, 
-        // BUSINESSNAV, 
-        // PAGELOADER,
+        BOTTOMADS, 
+        CUSTOMERFOOTER, 
+        BUSINESSNAV, 
+        PAGELOADER,
         // ABOUTBUSINESSMODAL,
         // BUSINESSREVIEW,
         // BUSINESSSEARCH,
@@ -371,7 +371,7 @@ export default {
     data: function() {
       return {
         anonymousId: "",
-        pageLoader: ""
+        pageLoader: 1
       }
     },
     computed: {
@@ -407,6 +407,7 @@ export default {
     },
     mounted () {
         this.anonymousId = this.GetAnonymousId
+        this.pageLoader = 0
     }
 }
 </script>

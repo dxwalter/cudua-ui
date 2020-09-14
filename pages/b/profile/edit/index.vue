@@ -331,7 +331,7 @@
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-default btn-small">Details</button>
-                                                        <button class="btn btn-primary btn-small" v-show="subscriptionStatus" @click="payWithPaystack()">Subscribe</button>
+                                                        <button class="btn btn-primary btn-small" v-show="subscriptionStatus" @click="payWithPaystack($event)" id="payWithPaystack">Subscribe</button>
                                                     </div>
                                                 </div>
                                                 <div class="subscription-details">
@@ -365,8 +365,14 @@ import PROGRESS from '~/components/progress/progress.vue'
 import SUBSCRIPTION from '~/components/business/subscription/subscription.vue'
 
 import { 
-    EDIT_BASIC_BUSINESS_DETAILS, EDIT_BUSINESS_PHONE_NUMBERS, EDIT_BUSINESS_ADDRESS,
-    EDIT_BUSINESS_EMAIL, EDIT_BUSINESS_LOGO, EDIT_BUSINESS_COVERPHOTO, EDIT_BUSINESS_WHATSAPP_CONTACT
+    EDIT_BASIC_BUSINESS_DETAILS, 
+    EDIT_BUSINESS_PHONE_NUMBERS, 
+    EDIT_BUSINESS_ADDRESS,
+    EDIT_BUSINESS_EMAIL, 
+    EDIT_BUSINESS_LOGO, 
+    EDIT_BUSINESS_COVERPHOTO, 
+    EDIT_BUSINESS_WHATSAPP_CONTACT,
+    ACTIVATE_SUBSCRIPTION
 } from '~/graphql/business';
 
 import { SEARCH_FOR_STREET } from '~/graphql/location'
@@ -420,7 +426,8 @@ export default {
             subscriptionStatus: "",
             subscriptionType: "",
             subscriptionStartDate: "",
-            subscriptionEndDate: ""
+            subscriptionEndDate: "",
+            referenceId: ""
         }
 	},
 	computed: {
@@ -1114,9 +1121,27 @@ export default {
             }
 
         },
-        payWithPaystack: async function () {
+        cancelTransaction: function () {
+            alert("here")
+        },
+        successfulPayment: async function (reference) {
+
+            alert(reference)
+
             
-            var handler = PaystackPop.setup({
+
+        },
+        coola: function () {
+            alert("gooofs")
+        },
+        payWithPaystack: async function (e) {
+            
+            e.preventDefault()
+
+            let target = document.getElementById('payWithPaystack');
+            target.disabled = true
+
+            let handler = PaystackPop.setup({
                 key: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4', // Replace with your public key
                 email: this.businessEmail,
                 amount: 2000 * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
@@ -1124,18 +1149,38 @@ export default {
                 firstname: this.businessOwnerName,
                 lastname: "",
                 reference: 'YOUR_REFERENCE', // Replace with a reference you generated
-                callback: function(response) {
-                //this happens after the payment is completed successfully
-                var reference = response.reference;
-                alert('Payment complete! Reference: ' + reference);
-                // Make an AJAX call to your server with the reference to verify the transaction
+                callback: async function(response) {
+                    //this happens after the payment is completed successfully
+                    let referenceId = response.reference;
+
+                    let variables = { 
+                        businessId: this.businessId,
+                        referenceId: referenceId,
+                        subType: "Basic"
+                    }
+
+                    let context = {
+                        hasUpload: true,
+                        headers: {
+                            'accessToken': this.accessToken
+                        }
+                    }
+
+                    let xhr = new XMLHttpRequest();
+                    xhr.responseType = 'json';
+                    xhr.open("POST", "http://localhost:4000/v1/");
+
+                    
                 },
                 onClose: function() {
-                    this.$initiateNotification("info", "Transaction has been cancelled")
+                    alert("Transaction cancelled")
                 },
             });
+        
+
+            await handler.openIframe();
             
-            handler.openIframe();
+            target.disabled = false
         }
     },
     created: function () {

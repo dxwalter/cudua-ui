@@ -527,6 +527,9 @@ export default {
 		removeNagitaionBar: function () {
 			document.querySelector("body").classList.remove("overflow-hidden");
 			this.$router.go(-1)
+		},
+		makeSearchFormFocus: function() {
+			document.getElementById('mobileSearchInput').focus()
 		}
 	},
     created () {
@@ -541,10 +544,11 @@ export default {
 			document.querySelector("body").classList.remove("overflow-hidden");
           }
 
-
-
       }
-    }
+	},
+	mounted() {
+		this.makeSearchFormFocus()
+	}
 }
 </script>
 

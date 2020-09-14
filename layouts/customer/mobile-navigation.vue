@@ -96,14 +96,14 @@ export default {
         handleResize() {
             this.screenWidth = window.innerWidth;
 		},
+    },
+	methods: {
 		...mapGetters({
 			'GetLoginStatus': 'customer/GetLoginStatus',
 		}),
 		LoginStatus () {
-			this.isLoggedIn = this.GetLoginStatus
-		}
-    },
-	methods: {
+			this.isLoggedIn = this.GetLoginStatus()
+		},
 		clearFormInput: function() {
 			let formInput = document.querySelectorAll('[data-clear-form]');
 			if (formInput.length) this.$clearFormInput(formInput)
@@ -218,7 +218,7 @@ export default {
 		},
 	},
 	mounted () {
-		this.LoginStatus
+		this.LoginStatus()
 
 		document.querySelector("body").classList.remove("overflow-hidden");
 

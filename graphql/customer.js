@@ -103,8 +103,8 @@ export const GET_ANONYMOUS_ID = gql`
 `;
 
 export const CREATE_USER_AND_BUSINESS_MUTATION = gql`
-    mutation createUserAndBusiness( $fullname: String!, $email: String!, $password: String!, $anonymousId: String, $name: String!, $username: String!)   {
-        createUserAndBusiness(input: {fullname: $fullname, email: $email, password: $password, anonymousId: $anonymousId, name: $name, username: $username}) {
+    mutation createUserAndBusiness( $fullname: String!, $email: String!, $password: String!, $anonymousId: String, $name: String!, $username: String!, $inviteId: String)   {
+        createUserAndBusiness(input: {fullname: $fullname, email: $email, password: $password, anonymousId: $anonymousId, name: $name, username: $username, inviteId: $inviteId}) {
             userData {
                 fullname
                 email
