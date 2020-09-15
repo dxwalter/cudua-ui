@@ -376,3 +376,21 @@ query getId ($businessId: String!) {
   }
 }
 `
+export const GET_VIRAL_DOWNLINERS = gql`
+query GetDownliners ($businessId: String!){
+  GetDownLiners(input:{
+    businessId: $businessId
+  }) {
+    businessData {
+      businessname
+      logo
+      id
+    	username
+    }
+    redeemPrice
+    code
+    success
+    message
+  }
+}
+`

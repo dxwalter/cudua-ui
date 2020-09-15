@@ -2386,16 +2386,16 @@
 .last-chat-preview {
     font-size: 14px;
     overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 1;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
+    // text-overflow: ellipsis;
+    // -webkit-line-clamp: 1;
+    display: block;
+    // -webkit-box-orient: vertical;
     color: $black-color-06;
 }
 
 @media($mq-mb) {
     .last-chat-preview {
-        -webkit-line-clamp: 2;
+        // -webkit-line-clamp: 2;
     }
 
     .chat-listing {
@@ -3586,13 +3586,13 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 }
 
 .subcription-area-header {
-    padding: 16px;
-    background-color: $white-color;
+    // padding: 16px;
+    // background-color: $white-color;
     font-size: 16px;
     color: $dark-color;
     margin-bottom: 16px;
     border-radius: 4px;
-    border-left: 5px solid $brand-color;
+    // border-left: 5px solid $brand-color;
     
 }
 
@@ -3698,10 +3698,11 @@ input[type="checkbox"]:checked.dropdownCheckBox + .dropdown-container{
 }
 
 .invite-link {
-    font-size: 18px;
+    font-size: 16px;
     color: $dark-color;
     font-weight: 500;
     margin-bottom: 8px;
+    word-break: break-all;
 }
 
 .subscription-list.invite {

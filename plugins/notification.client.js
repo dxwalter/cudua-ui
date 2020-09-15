@@ -72,6 +72,10 @@ export default ({app}, inject) => {
             case "subscription":
                 header = "Business subscription";
                 break;
+
+            case "invite":
+                header = "New Invite";
+                break;
         
             default:
                 header = "Notification"
@@ -106,6 +110,10 @@ export default ({app}, inject) => {
                 case "subscription":
                     url = "/b/profile/edit?billing=true";
                     break;
+
+                case "invite":
+                    url = "/b/invite"
+                    break
 			
 				default:
 					url = "#"
