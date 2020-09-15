@@ -130,10 +130,34 @@
 
 <script>
 export default {
-	name: "ABOUTMODAL"
+	name: "ABOUTBUSINESSMODAL",
+	data() {
+		return {
+			aboutBusiness: "",
+			businessId: "",
+			address: "",
+			businessCategories: "",
+			logo: "",
+			coverPhoto: "",
+			businessName: "",
+			reviewScore: 0
+		}
+	},
+	created() {
+        if (process.browser) {
+            this.$nuxt.$on('BusinessDetails', (data) => {
+				this.businessId = data.businessId
+				this.address = data.address
+				this.businessCategories = data.categories
+				this.logo = data.logo,
+				this.coverPhoto = data.coverPhoto
+				this.businessName = data.name
+				this.reviewScore = data.reviewScore
+            })
+        }
+	}
 }
 </script>
-
 <style>
 
 </style>

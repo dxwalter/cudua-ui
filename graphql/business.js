@@ -394,3 +394,61 @@ query GetDownliners ($businessId: String!){
   }
 }
 `
+
+export const GET_BUSINESS_DETAILS_BY_USERNAME = gql`
+query getdata($username: String!){
+  GetSingleBusinessDetailsByUsername(input:{
+    username: $username
+  }) {
+    businessData {
+      id
+      businessname
+      address {
+        number
+        street
+        community
+        lga
+        state
+        country
+        busStop
+      }
+      contact {
+        email
+        phone
+        whatsapp {
+          status
+          number
+        }
+      }
+      businessCategories {
+        itemId
+        categoryId
+        categoryName
+        hide
+        subcategories {
+          itemId
+          subcategoryId
+          subcategoryName
+          hide
+        }
+      }
+      logo
+      coverPhoto
+      review
+      reviews {
+        author {
+          fullname
+          displayPicture
+          userId
+        }
+        description
+        rating
+        timeStamp
+      }
+    }
+    code
+    success
+    message
+  }
+}
+`

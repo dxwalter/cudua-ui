@@ -2737,13 +2737,17 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     .subcat-listing {
         padding: 16px;
         display: none;
-        a.chip {
+        a.chip,
+        div.chip {
             display: block;
             text-align: center;
             padding: 16px;
             margin-right: 0;
+            cursor: pointer;
         }
-        a:hover {
+
+        a:hover,
+        div:hover {
             color: $white-color;
         }
     }
@@ -4414,6 +4418,66 @@ h4.order-details-business-name {
     .sign-in-cover-modal .sign-up-logo-container {
         .sign-up-logo {
             margin-left: -49px;
+        }
+    }
+}
+
+.link-error-area {
+    padding: 0px 16px;
+
+    img {
+        height: 250px;
+    }
+
+    .error-cause {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 900;
+        color: $dark-color;
+        line-height: 27px;
+        margin-bottom: 16px;
+        .indicator {
+            color: $brand-color
+        }
+    }
+    .action-area {
+        display: flex;
+        justify-content: center;
+
+        .btn:first-child {
+            margin-right: 8px;
+        }
+    }
+}
+
+@media($mq-mb) {
+    .link-error-area {
+        img {
+            height: 300px;
+        }
+    }
+}
+
+@media($mq-md) {
+    .link-error-area {
+        .error-cause {
+            margin-bottom: 32px;
+        }
+        img {
+            height: 400px
+        }
+    }
+}
+
+@media(min-width: 1024px) {
+    .link-error-area {
+        .action-area {
+            .btn:last-child {
+                display: none;
+            }
+            .btn:first-child {
+                margin-right: 0px;
+            }
         }
     }
 }

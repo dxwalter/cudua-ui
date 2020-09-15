@@ -6,7 +6,11 @@
                         <div class="nav-container">
                             <MOBILESEARCH></MOBILESEARCH>
                             <nuxt />
-                            <BUSINESSNAV></BUSINESSNAV>
+
+                            <!-- show business navigation fi -->
+                            <BUSINESSNAV v-show="!pageLoader && !pageError"></BUSINESSNAV>
+
+                            <DESKTOPNAVGATION v-show="pageLoader || pageError"></DESKTOPNAVGATION>
                             <MOBILENAVIGATION></MOBILENAVIGATION>
                             <nuxt />
                         </div>
@@ -15,10 +19,10 @@
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
                         <!-- begining of content container -->
-                        <div class="content-container-second business-page-container">
+                        <div class="content-container-second business-page-container" v-show="!pageLoader">
 
                             <!-- mobile category navigation -->
-                            <div class="mobile-shop-cat-listing">
+                            <div class="mobile-shop-cat-listing" v-show="!pageError">
                                 <button class="bis-nav-btn" id="showBusinessCategory" @click="showMobileCategory">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#categories"></use>
@@ -35,7 +39,7 @@
                             <!-- end of mobile category navigation -->
 
                             <!-- mobile category listing -->
-                            <div class="mobile-category-container" id="businessCategoryContainer">
+                            <div class="mobile-category-container" id="businessCategoryContainer" v-show="!pageError">
                                 <div class="shop-cat-dialog-box" id="businessCategoryContent">
                                     <div class="shop-cat-listing">
                                         <div class="section-header">
@@ -48,7 +52,7 @@
                                         </div>
                                         
                                         <div class="shop-cat-item">
-                                            <a href="javascript:void()">
+                                            <a href="#">
                                                 <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="fashionCategory">
                                                 <span class="accord-chip-name">Fashion</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
@@ -56,16 +60,16 @@
                                                 </svg>
                                             </a>
                                             <div class="subcat-listing" id="fashionCategory">
-                                                <a href="javascript:void()" class="chip ">Wedding wears</a>
-                                                <a href="javascript:void()" class="chip ">Dress</a>
-                                                <a href="javascript:void()" class="chip ">Shoes</a>
-                                                <a href="javascript:void()" class="chip ">Bags</a>
-                                                <a href="javascript:void()" class="chip ">Night clothes</a>
+                                                <a href="#" class="chip">Wedding wears</a>
+                                                <a href="#" class="chip ">Dress</a>
+                                                <a href="#" class="chip ">Shoes</a>
+                                                <a href="#" class="chip ">Bags</a>
+                                                <a href="#" class="chip ">Night clothes</a>
                                             </div>
                                         </div>
 
                                         <div class="shop-cat-item">
-                                            <a href="javascript:void()">
+                                            <a href="#">
                                                 <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="ElectronicsCategory">
                                                 <span class="accord-chip-name">Electronics</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
@@ -73,11 +77,11 @@
                                                 </svg>
                                             </a>
                                             <div class="subcat-listing" id="ElectronicsCategory">
-                                                <a href="javascript:void()" class="chip ">Television &amp; video</a>
-                                                <a href="javascript:void()" class="chip ">Generators &amp; portable power</a>
-                                                <a href="javascript:void()" class="chip ">Cameras</a>
-                                                <a href="javascript:void()" class="chip ">Audios</a>
-                                                <a href="javascript:void()" class="chip ">Musical Instrument</a>
+                                                <a href="#" class="chip ">Television &amp; video</a>
+                                                <a href="#" class="chip ">Generators &amp; portable power</a>
+                                                <a href="#" class="chip ">Cameras</a>
+                                                <a href="#" class="chip ">Audios</a>
+                                                <a href="#" class="chip ">Musical Instrument</a>
                                             </div>
                                         </div>
                                     </div>
@@ -85,7 +89,7 @@
                             </div>
                             <!-- end of mobile category listing -->
                             
-                            <div class="product-area">
+                            <div class="product-area"  v-show="!pageError">
                                 <div class="business-product-container">
                                     <!-- desktop category listing -->
                                     <div class="desktop-category-area card">
@@ -283,11 +287,22 @@
 
                                 </div>
                             </div>
+
+                            <!-- when an error occurs, show this -->
+                            <div class="link-error-area" v-show="pageError">
+                                <img src="~/static/images/404.svg" alt="">
+                                <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
+                                <div class="action-area">
+                                    <n-link to="/" class="btn btn-primary">Home page</n-link>
+                                    <button class="btn btn-white" @click="triggerSearch()">Search again</button>
+                                </div>
+                            </div>
+                            <!-- end of error area -->
                             
                         </div>
                         <!-- end of content container -->
 
-                        <div class="bottom-nav">
+                        <div class="bottom-nav" v-show="!pageLoader && !pageError">
                             <!-- footer -->
                             <a href="#" class="bottom-nav-item" data-target="businessDetailsModal" data-trigger="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -325,11 +340,11 @@
                         </div>
 
                 <!-- modals -->
-                <!-- <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL> -->
-                <!-- <BUSINESSREVIEW></BUSINESSREVIEW> -->
-                <!-- <BUSINESSSEARCH></BUSINESSSEARCH> -->
-                <!-- <BUSINESSCONTACT></BUSINESSCONTACT> -->
-                <!-- <REPORTBUSINESS></REPORTBUSINESS> -->
+                <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL>
+                <BUSINESSREVIEW></BUSINESSREVIEW>
+                <BUSINESSSEARCH></BUSINESSSEARCH>
+                <BUSINESSCONTACT></BUSINESSCONTACT>
+                <REPORTBUSINESS></REPORTBUSINESS>
             </div>
     </div>
 </template>
@@ -338,19 +353,22 @@
 
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
+import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
 // business modal
-// import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
-// import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
-// import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
-// import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
-// import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
+import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
+import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vue';
+import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
+import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
+import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
 
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex';
+
+import { GET_BUSINESS_DETAILS_BY_USERNAME } from '~/graphql/business'
 
 
 export default {
@@ -362,16 +380,23 @@ export default {
         CUSTOMERFOOTER, 
         BUSINESSNAV, 
         PAGELOADER,
-        // ABOUTBUSINESSMODAL,
-        // BUSINESSREVIEW,
-        // BUSINESSSEARCH,
-        // BUSINESSCONTACT,
-        // REPORTBUSINESS
+        ABOUTBUSINESSMODAL,
+        BUSINESSREVIEW,
+        BUSINESSSEARCH,
+        BUSINESSCONTACT,
+        REPORTBUSINESS,
+        DESKTOPNAVGATION 
     },
     data: function() {
       return {
         anonymousId: "",
-        pageLoader: 1
+        pageLoader: 1,
+        pageError: 0,
+        reasonForError: "",
+        username: "",
+        businessId: "",
+        businessCategory: [],
+        businessContact: ""
       }
     },
     computed: {
@@ -400,10 +425,83 @@ export default {
                     })
                 }
             }
+        },
+        getBusinessDetails: async function() {
+            
+            let variables = {
+                username: this.username
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_BUSINESS_DETAILS_BY_USERNAME, variables, {});
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Failed request', 'A network error occurred');
+                this.reasonForError = "A network error occurred. Make sure you are connected to the internet"
+                this.pageError = 1
+                return
+            }
+
+            let result = request.result.data.GetSingleBusinessDetailsByUsername;
+
+            if (result.success == false) {
+                this.reasonForError = result.message
+                this.pageError = 1
+                return
+            }
+
+            if (result.businessData == null) {
+                this.reasonForError = `No result was found for <span class="indicator">${this.username}</span>. This shop has either been moved or deleted`
+                this.pageError = 1
+                return
+            }
+
+            let data = result.businessData;
+
+            this.businessId = data.id;
+            this.businessContact = data.contact
+            this.businessCategory = data.businessCategories
+
+            let aboutBusiness = {
+                name: data.businessname,
+                businessId: data.id,
+                address: data.address,
+                contact: data.contact,
+                logo: data.logo,
+                coverPhoto: data.coverPhoto,
+                reviewScore: data.review,
+                categories: data.businessCategories
+            }
+
+            let businessReview = {
+                businessId: data.id,
+                reviewScore: data.review,
+                reviews: data.reviews
+            }
+
+            // emit to about business modal
+            $nuxt.$emit('BusinessDetails', aboutBusiness)
+            // emit business review to business review modal
+            $nuxt.$emit('BusinessReview', businessReview)
+
+            
+        },
+        triggerSearch: function () {
+            document.getElementById("mobilePrimarySearchInput").focus()
         }
     },
-    created: function () {
-
+    created: async function () {
+        if(process.browser) {
+            // await this.getBusinessDetails()
+            let username = this.$route.params.id
+            if (username == null || username.length == 0) {
+                this.reasonForError = "No business username was found in your request"
+                this.pageError = 1
+            } else {
+                this.pageError = 0
+                this.username = username
+                await this.getBusinessDetails();
+            }
+        }
     },
     mounted () {
         this.anonymousId = this.GetAnonymousId

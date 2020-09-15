@@ -109,6 +109,15 @@
                             </div>
                         </n-link>
 
+                        <n-link to="/b/invite" :class="[currentPage.includes('invite') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#inviteBusiness"></use>
+                                </svg>
+                                <span>Invite</span> <span class="small-invite-tip"> - (Win a gift)</span>
+                            </div>
+                        </n-link>
+
                         <n-link to="/c/logout" class="nav-link-items">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
@@ -278,3 +287,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.small-invite-tip {
+    font-size: 12px;
+    margin-left: 8px;
+}
+</style>

@@ -15,7 +15,6 @@
                 
                     <div class="main-content">
 
-
                         <div class="page-header with-action">
                             <h4>Product listing</h4>
                             <div class="business-product-search-action" id="" @click="showSearchBar()" v-show="productListingCount > 4">

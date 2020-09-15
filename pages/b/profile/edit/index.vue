@@ -1040,7 +1040,7 @@ export default {
                         allTabs[i].classList.add("is-active");
                     }
                 }
-                console.log("goof") 
+                console.log("") 
                 document.getElementById("editBasic").classList.remove("is-active")
                 document.getElementById("serviceSubcription").classList.add("is-active")
 
