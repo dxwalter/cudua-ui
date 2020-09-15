@@ -10,7 +10,7 @@
 			</svg>
 			</button>
 			<div class="about-biz-header">
-			<h4>About Oremit power solution limited</h4>
+			<h4>About {{businessName}}</h4>
 			</div>
 			<!-- end of search input area -->
 		</div>
@@ -30,8 +30,8 @@
 
 			<div class="profile-content-container">
 				<div class="business-name">
-					<h2>Oremit Power Solution Limited</h2>
-					<div class="profile-username">@appleComputer</div>
+					<h2>{{businessName}}</h2>
+					<div class="profile-username">@{{username}}</div>
 				</div>
 
 				<div class="business-address">
@@ -43,21 +43,7 @@
 
 				<div class="business-review">
 					<a href="javasscript:;" class="navbar-review-icon">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-						</svg>
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-						</svg>
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-						</svg>
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-						</svg>
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-						</svg>
+						<STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
 					</a>
 					<a href="#" class="review-action" data-trigger="modal" data-target="reviewModal">read all revirews</a>
 				</div>
@@ -129,8 +115,13 @@
 </template>
 
 <script>
+import STARRATING from 'vue-star-rating'
+
 export default {
 	name: "ABOUTBUSINESSMODAL",
+	components: {
+		STARRATING	
+	},
 	data() {
 		return {
 			aboutBusiness: "",
@@ -140,7 +131,9 @@ export default {
 			logo: "",
 			coverPhoto: "",
 			businessName: "",
-			reviewScore: 0
+			reviewScore: 0,
+			username: "",
+			description: ""
 		}
 	},
 	created() {
@@ -153,6 +146,8 @@ export default {
 				this.coverPhoto = data.coverPhoto
 				this.businessName = data.name
 				this.reviewScore = data.reviewScore
+				this.username = data.username,
+				this.description = data.description
             })
         }
 	}

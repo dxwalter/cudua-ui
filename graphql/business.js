@@ -403,6 +403,8 @@ query getdata($username: String!){
     businessData {
       id
       businessname
+      username
+      description
       address {
         number
         street

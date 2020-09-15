@@ -460,6 +460,7 @@ export default {
             this.businessId = data.id;
             this.businessContact = data.contact
             this.businessCategory = data.businessCategories
+            this.username = data.username
 
             let aboutBusiness = {
                 name: data.businessname,
@@ -469,7 +470,9 @@ export default {
                 logo: data.logo,
                 coverPhoto: data.coverPhoto,
                 reviewScore: data.review,
-                categories: data.businessCategories
+                categories: data.businessCategories,
+                username: data.username,
+                description: data.description
             }
 
             let businessReview = {
