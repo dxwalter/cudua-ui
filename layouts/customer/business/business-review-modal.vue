@@ -103,7 +103,7 @@ export default {
             this.$nuxt.$on('BusinessReview', (data) => {
 				this.businessId = data.businessId
 				this.reviewScore = data.reviewScore
-				this.reviews = data.reviews
+				this.reviews = data.reviews == null ? [] : data.reviews
             })
         }
 	},

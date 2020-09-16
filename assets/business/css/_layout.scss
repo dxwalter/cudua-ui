@@ -1169,7 +1169,7 @@
 		font-weight: 900;
     }
     img {
-        object-fit: contain !important;
+        object-fit: cover !important;
     }
 }
 
@@ -2252,6 +2252,16 @@
 
 .product-details-img-container .slide-container .product-image-slide {
     display: none;
+}
+
+.product-image-slide {
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.product-image-slide img {
+    object-fit: cover !important;
+    -o-object-fit: cover !important;
 }
 
 .product-image-slide.is-active {

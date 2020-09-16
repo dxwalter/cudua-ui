@@ -20,10 +20,16 @@
 
 			<div class="business-image-area">
 				<div class="business-cover-photo">
-					<img src="~/assets/customer/image/background.jpg" alt="">
+					<img :data-src="coverPhoto" :alt="businessName" v-if="coverPhoto.length > 0" v-lazy-load>
+					<div class="no-cover-photo" v-else>
+						No cover photo has been added to your business profile
+					</div>
 				</div>
 				<div class="business-logo-cover">
-					<img src="~/assets/customer/image/mainOremitLogo.png" alt="">
+					<div class="temporal-logo" v-show="!logo">
+						{{getNameLogo(businessName)}}
+					</div>
+					<img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
 				</div>
 				<button class="btn btn-primary btn-md">Follow business</button>
 			</div>
@@ -190,8 +196,8 @@ export default {
 				this.businessId = data.businessId
 				this.address = data.address
 				this.businessCategories = data.categories
-				this.logo = data.logo,
-				this.coverPhoto = data.coverPhoto
+				this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : ""
+				this.coverPhoto = data.coverPhoto.length > 0 ? this.$getBusinessCoverPhotoUrl(this.businessId, data.coverPhoto): ""
 				this.businessName = data.name
 				this.reviewScore = data.reviewScore
 				this.username = data.username,
@@ -199,6 +205,14 @@ export default {
 				this.contact = data.contact
             })
         }
+	},
+	methods: {
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+		}
 	}
 }
 </script>
