@@ -43,7 +43,7 @@
 
 				<div class="business-review">
 					<a href="javasscript:;" class="navbar-review-icon">
-						<STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+						<star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
 					</a>
 					<a href="#" class="review-action" data-trigger="modal" data-target="reviewModal">read all revirews</a>
 				</div>
@@ -105,16 +105,16 @@
 		<!-- end of mobile search container -->
 
 	</div>
-</div>
+	</div>
 </template>
 
 <script>
-import STARRATING from 'vue-star-rating'
+import StarRating from 'vue-star-rating'
 
 export default {
 	name: "ABOUTBUSINESSMODAL",
 	components: {
-		STARRATING	
+		StarRating	
 	},
 	data() {
 		return {

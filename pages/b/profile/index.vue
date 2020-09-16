@@ -53,7 +53,7 @@
 
 												<div class="business-review">
 													<a href="javasscript:;" class="navbar-review-icon d-flex-between"  data-trigger="modal" data-target="reviewModal">
-														<STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+														<star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
 														<div class="review-action">read all reviews</div>
 													</a>
 												</div>
@@ -126,13 +126,13 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
-import STARRATING from 'vue-star-rating'
+import StarRating from 'vue-star-rating'
 
 export default {
 	name: "BUSINESSPROFILE",
     components: {
 		TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER,
-		STARRATING
+		StarRating
     },
     data: function() {
         return {

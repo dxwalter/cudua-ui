@@ -7,7 +7,7 @@
 
                         <div class="side-nav-logo-area" >
                             
-                            <n-link to="/b/profile/" class="side-nav-logo">
+                            <n-link  :prefetch="true"  to="/b/profile/" class="side-nav-logo">
                                 <div class="temporal-logo" v-show="!businessLogo">
                                     {{getNameLogo(businessName)}}
                                 </div>
@@ -15,7 +15,7 @@
                             </n-link>
 
                             <div class="nav-name">
-                                <h4 class="side-nav-biz-name"><n-link to="/b/profile">{{businessName}}</n-link></h4>
+                                <h4 class="side-nav-biz-name"><n-link  :prefetch="true"  to="/b/profile">{{businessName}}</n-link></h4>
                                     <div>
                                         <a href="javasscript:;" class="nav-username display-flex" data-trigger="modal" data-target="changeUsername">
                                             <span>@{{username}}</span>
@@ -26,13 +26,13 @@
                                             </span>
                                         </a>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
-                                            <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+                                            <star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
                                         </a>
                                     </div>
                             </div>
                         </div>
                         
-                        <n-link to="/b" :class="[currentPage === '/b' || currentPage.includes('product') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b" :class="[currentPage === '/b' || currentPage.includes('product') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#productIcon"></use>
@@ -41,7 +41,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/b/orders" :class="[currentPage.includes('orders') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/orders" :class="[currentPage.includes('orders') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#order"></use>
@@ -52,7 +52,7 @@
                             <div class="notif-point" v-show="getNewOrderCount > 0">{{getNewOrderCount}}</div>
                         </n-link>
 
-                        <n-link to="/b/categories" :class="[currentPage.includes('categories') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/categories" :class="[currentPage.includes('categories') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#categories"></use>
@@ -62,7 +62,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
@@ -71,7 +71,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/b/notification" :class="[currentPage.includes('notification') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/notification" :class="[currentPage.includes('notification') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
@@ -82,7 +82,7 @@
                         </n-link>
 
 
-                        <n-link to="/b/dashboard" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/dashboard" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#dashboard"></use>
@@ -91,7 +91,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/b/profile" :class="[currentPage.includes('profile') && !currentPage.includes('profile/edit') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/profile" :class="[currentPage.includes('profile') && !currentPage.includes('profile/edit') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#person"></use>
@@ -100,7 +100,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/b/profile/edit" :class="[currentPage.includes('edit') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/profile/edit" :class="[currentPage.includes('edit') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
@@ -109,7 +109,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/b/invite" :class="[currentPage.includes('invite') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/invite" :class="[currentPage.includes('invite') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#inviteBusiness"></use>
@@ -118,7 +118,7 @@
                             </div>
                         </n-link>
 
-                        <n-link to="/c/logout" class="nav-link-items">
+                        <n-link  :prefetch="true"  to="/c/logout" class="nav-link-items">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#logout"></use>
@@ -141,12 +141,12 @@ import { mapActions, mapGetters } from 'vuex';
 import BUSINESSREVIEWSIDEBAR from '~/components/business/businessreview/business.review.vue';
 import USERNAMEMODALSIDEBAR from '~/components/business/profile/username.vue'; 
 
-import STARRATING from 'vue-star-rating'
+import StarRating from 'vue-star-rating'
 
 export default {
     name: "SIDEBAR",
     components: {
-        STARRATING,
+        StarRating,
         USERNAMEMODALSIDEBAR,
         BUSINESSREVIEWSIDEBAR
     },

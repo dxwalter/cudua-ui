@@ -7,7 +7,7 @@
 				<h4>Business review</h4>
 				<div class="review-text nav-rating-result" v-show="!isLoading">
 					<a href="javasscript:;" class="navbar-review-icon">
-						<STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+						<star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
 					</a>
 					<div class="rating-score">
 						{{reviewScore}}/5
@@ -44,7 +44,7 @@
                                 <div class="display-flex">
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
-                                        <STARRATING :rating=review.rating :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+                                        <star-rating :rating=review.rating :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
                                     </div>
                                 </div>
                                 <div class="review-date">- {{formatNotificationTimer(review.timeStamp)}}</div>
@@ -67,11 +67,12 @@
 </template>
 
 <script>
-import STARRATING from 'vue-star-rating'
+
+import StarRating from 'vue-star-rating'
 export default {
 	name: "BUSINESSSHOPREVIEW",
 	components: {
-		STARRATING
+		StarRating
 	},
 	data () {
 		return {
@@ -91,7 +92,6 @@ export default {
             return this.$convertNameToLogo(name)
         },
 		formatNotificationTimer: function (timeStamp) {
-			console.log(timeStamp)
 			return this.$timeStampModifier(timeStamp)
         },
         getImageInLogoSize: function (customerId, imagePath) {
