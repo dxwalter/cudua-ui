@@ -121,8 +121,8 @@
                                             </div>
 
                                             <!-- business email address -->
-                                            <!-- <div class="edit-profile-section"> -->
-                                                <!-- <a href="#" class="header-area">
+                                            <div class="edit-profile-section">
+                                                <a href="#" class="header-area">
                                                     <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editEmailDetails">
                                                     <div class="edit-action-description accord-chip-name">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -134,10 +134,10 @@
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                         <use xlink:href="~/assets/business/image/all-svg.svg#arrowDown"></use>
                                                     </svg>
-                                                </a> -->
-                                                <!-- <div class="edit-profile-content" id="editEmailDetails"> -->
+                                                </a>
+                                                <div class="edit-profile-content" id="editEmailDetails">
                                                     <!-- content here -->
-                                                    <!-- <div class="form-control">
+                                                    <div class="form-control">
                                                         <input type="text" name="" id="editbusinessEmailAddress" class="input-form" placeholder="Type in your business email address" v-model="businessEmail">
                                                     </div>
                                                     <div class="form-control">
@@ -148,7 +148,7 @@
                                                     </div>
 
                                                 </div>
-                                            </div> -->
+                                            </div>
 
                                             <!-- business address -->
                                             <div class="edit-profile-section">

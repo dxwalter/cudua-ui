@@ -38,7 +38,7 @@
 					<svg xmlns="http://www.w3.org/2000/svg">
 						<use xlink:href="~/assets/customer/image/all-svg.svg#mapPlace"></use>
 					</svg>
-					<p>39 Ada-George road, opposite Eagle palace hotel, Port Harcourt, Rivers state.</p>
+					<p>{{getBusinessAddress}}.</p>
 				</div>
 
 				<div class="business-review">
@@ -57,25 +57,19 @@
 					<div id="tabContent">
 						<div class="tab-content-area is-active" id="contactDetails">
 							<div class="business-contact">
-								<div class="contact-details d-flex-between">
-									<span>08104685729</span>
-									<a href="#" class="close-modal-btn">
+								
+								<div class="contact-details d-flex-between" v-for="(x, index) in getPhoneNumber" :key="index">
+									<span>{{x}}</span>
+									<a :href="`tel: ${x}`" class="close-modal-btn">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" class="margin-unset">
 											<use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
 										</svg>
 									</a>
 								</div>
+
 								<div class="contact-details d-flex-between">
-									<span>08104685729</span>
-									<a href="#" class="close-modal-btn">
-										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" class="margin-unset">
-											<use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
-										</svg>
-									</a>
-								</div>
-								<div class="contact-details d-flex-between">
-									<span>theceoforlife@gmail.com</span>
-									<a href="#" class="close-modal-btn">
+									<span>{{getEmail}}</span>
+									<a :href="`mailto: ${getEmail}`" class="close-modal-btn">
 										<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" class="margin-unset">
 											<use xlink:href="~/assets/customer/image/all-svg.svg#email"></use>
 										</svg>
@@ -86,21 +80,21 @@
 
 						<!-- FOR CATEGORIES -->
 						<div class="tab-content-area" id="categoryDetails">
-							<div class="business-contact">
-								<div class="contact-details">
-									Shoes
+							<div class="business-contact" v-show="getCategories.length > 0">
+								<div class="contact-details" v-for="x in getCategories" :key="x">
+									{{x}}
 								</div>
-								<div class="contact-details">
-									Jewelries
-								</div>
-								<div class="contact-details">
-									Trousers
-								</div>
+								
 
+							</div>
+							<div v-show="getCategories.length == 0" class="mg-top-8">
+								<div class="alert alert-info">No category has been added to this business</div>
 							</div>
 						</div>
 					
-						<button class="btn btn-primary btn-block" data-trigger="modal" data-target="reportModal">Report this business</button>
+						<button class="btn btn-white btn-block" data-trigger="modal" data-target="reportModal">Report this business</button>
+
+						<button class="btn btn-primary btn-block mg-top-8" data-target="businessDetailsModal" data-dismiss="modal">Close </button>
 					</div>
 
 				</div>
@@ -133,7 +127,61 @@ export default {
 			businessName: "",
 			reviewScore: 0,
 			username: "",
-			description: ""
+			description: "",
+			contact: ""
+		}
+	},
+	computed: {
+		getBusinessAddress: function() {
+			if (this.address == null) return "Not available";
+
+			return `${this.address.number} ${this.address.street}, ${this.address.community}, ${this.address.state} ${this.address.country}`
+		},
+		getCategories: function() {
+			if (this.businessCategories.length == 0) {
+				return []
+			}
+
+			let newDataArray = [];
+
+			for (let x of this.businessCategories) {
+				if (x.hide == 0) {
+					newDataArray.push(x.categoryName)
+				}
+				
+			}
+
+			return newDataArray
+		},
+		getEmail: function() {
+			return this.contact.email
+		},
+		getPhoneNumber: function() {
+			if (this.contact.phone == undefined || this.contact.phone.length == 0){
+				 return []
+			}
+			let newPhoneArray = []
+			
+			if (this.contact.whatsapp.status == 1) {
+				if (this.contact.whatsapp.number != null) newPhoneArray.push(this.contact.whatsapp.number)
+			}
+
+			for (let x of this.contact.phone) {
+				newPhoneArray.push(x)
+			}
+
+			let newArray = new Set(newPhoneArray);
+			
+			console.log(newArray)
+
+            let finalArray = [];
+
+            for (const [index, x] of newArray.entries()) {
+                finalArray.push(x)
+            }
+
+			return finalArray
+
 		}
 	},
 	created() {
@@ -148,11 +196,14 @@ export default {
 				this.reviewScore = data.reviewScore
 				this.username = data.username,
 				this.description = data.description
+				this.contact = data.contact
             })
         }
 	}
 }
 </script>
-<style>
-
+<style scoped>
+.mg-top-8{
+	margin-top: 8px;
+}
 </style>

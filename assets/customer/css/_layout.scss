@@ -432,6 +432,10 @@
     height: 144px;
     border-bottom: $border;
     display: block;
+    img {
+        object-fit: cover;
+        -o-object-fit: cover;
+    }
 }
 
 @media($mq-lg) {
