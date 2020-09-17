@@ -215,7 +215,7 @@
                                 <span>Report</span>
                             </a>
 
-                            <a :href="`${getWhatsappContact.number}`" class="bottom-nav-item" v-show="getWhatsappContact.status == 1 && getWhatsappContact.number != null">
+                            <a :href="`https://wa.me/${getWhatsappContact.number}?text=Hello ${businessName}`" class="bottom-nav-item" v-show="getWhatsappContact.status == 1 && getWhatsappContact.number != null">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
                                 </svg>
