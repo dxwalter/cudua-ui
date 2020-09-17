@@ -6,7 +6,6 @@
                 <SIDENAV></SIDENAV>
                     <div class="content-area grey-bg-color">
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
-                        <SUBSCRIPTION></SUBSCRIPTION>
 
                         <div class="main-content">
                             <div class="page-header with-action">
@@ -327,11 +326,18 @@
                                                 <div class="flex-control">
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Duration</div>
-                                                        <div class="subcription-data">1 month</div>
+                                                        <div class="subcription-data">1 month</div> 
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-default btn-small">Details</button>
-                                                        <button class="btn btn-primary btn-small" v-show="subscriptionStatus" @click="payWithPaystack($event)" id="payWithPaystack">Subscribe</button>
+                                                        <paystack class="btn btn-primary btn-small" v-show="subscriptionStatus" id="payWithPaystack"
+                                                            :amount="amount * 100"
+                                                            :email="businessEmail"
+                                                            :paystackkey="PUBLIC_KEY"
+                                                            :callback="successfulPayment"
+                                                            :close="cancelTransaction"
+                                                            :embed="false"
+                                                        >Subscribe</paystack>
                                                     </div>
                                                 </div>
                                                 <div class="subscription-details">
@@ -379,10 +385,12 @@ import { SEARCH_FOR_STREET } from '~/graphql/location'
 
 import { mapActions, mapGetters } from 'vuex';
 
+import paystack from '~/plugins/vue-paystack.client.vue'
+
 export default {
     name: "EDITBUSINESSPROFILE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS, SUBSCRIPTION
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS, SUBSCRIPTION, paystack
     },
     data: function() {
         return {
@@ -403,6 +411,7 @@ export default {
             businessDescription: "",
             accessToken: "",
             emailNotification: 0,
+            inviteId: "",
 
             whatsappNumber: "",
             whatsappStatus: 0,
@@ -427,7 +436,10 @@ export default {
             subscriptionType: "",
             subscriptionStartDate: "",
             subscriptionEndDate: "",
-            referenceId: ""
+            referenceId: "",
+
+            amount: 2000,
+            PUBLIC_KEY: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4',
         }
 	},
 	computed: {
@@ -642,6 +654,9 @@ export default {
             let data = this.GetBusinessData()
             this.businessId = data.businessId;
             this.businessName = data.businessName;
+
+            this.inviteId = data.inviteId
+
             // logo
             if (data.logo) {
                 this.businessLogo = this.$getBusinessLogoUrl(this.businessId, data.logo)
@@ -1125,47 +1140,59 @@ export default {
 
         },
         cancelTransaction: function () {
-            alert("here")
+            this.$initiateNotification('info', "", "Your transaction was cancelled")
         },
-        successfulPayment: async function (reference) {
+        successfulPayment: async function (transaction) {
 
-            alert(reference)
+            if (transaction.status == 'success' && transaction.message == 'Approved') {
 
-            
+                let transactionId = transaction.reference;
 
-        },
-        coola: function () {
-            alert("gooofs")
-        },
-        payWithPaystack: async function (e) {
-            
-            e.preventDefault()
+                let variables = {
+                    referenceId: transactionId,
+                    businessId: this.businessId,
+                    subType: "Basic"
+                }
 
-            let target = document.getElementById('payWithPaystack');
-            target.disabled = true
+                let context = {
+                    hasUpload: true,
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
 
-            let handler = PaystackPop.setup({
-                key: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4', // Replace with your public key
-                email: this.businessEmail,
-                amount: 2000 * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
-                currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
-                firstname: this.businessOwnerName,
-                lastname: "",
-                reference: 'YOUR_REFERENCE', // Replace with a reference you generated
-                callback: (response) => {
-                    //this happens after the payment is completed successfully
-                    let referenceId = response.reference;
-                    this.successfulPayment(referenceId)
-                },
-                onClose: () => {
-                    this.$initiateNotification("info", "Transaction cancelled")
-                },
-            });
-        
+                let request = await this.$performGraphQlMutation(this.$apollo, ACTIVATE_SUBSCRIPTION, variables, context);
 
-            await handler.openIframe();
-            
-            target.disabled = false
+                if (request.error) {
+                    this.$initiateNotification('error', "Network Error", request.message)
+                    return
+                }
+
+                let result = request.result.data.createSubscription;
+
+                if (result.error) {
+                    this.$initiateNotification('error', "Update error", result.message)
+                    return
+                }
+
+                let data = result.subscriptionData;
+
+                this.$store.dispatch('business/setSubscription', {
+                    start: data.start,
+                    end: data.end,
+                    type: 'Basic'
+                })
+
+                this.start = data.start
+                this.end = data.end
+                this.formatAndShowSubscription()
+                
+                this.$initiateNotification('success', "Subscription successful", result.message)
+
+
+            } else {
+                this.$initiateNotification('error', "Payment error", "An error occurred paying for your subscription")
+            }
         }
     },
     created: function () {
@@ -1183,16 +1210,6 @@ export default {
     },
     destroyed () {
         clearTimeout(this.setTimeoutForStreet);
-    },
-    head() {
-      return {
-        script: [
-          {
-            src:
-              'https://js.paystack.co/v1/inline.js'
-          }
-        ]
-      }
     }
 }
 </script>

@@ -357,6 +357,10 @@ mutation activate ($businessId: String!, $referenceId: String!, $subType: String
     referenceId: $referenceId,
     subType: $subType
   }) {
+    subscriptionData {
+      start
+      end
+    }
     code
     success
     message

@@ -155,7 +155,7 @@ export default {
                 localStorage.removeItem('CUDUA_ANONYMOUS_ID');
                 this.$store.dispatch('customer/setAnonymousId', '');
 
-                this.$initiateNotification('success', 'Sign in successful', result.message);
+                this.$initiateNotification('success', 'Sign in successful', `${result.message}`);
                 setTimeout(() => {
                     // window.location.assign('/')
                     this.$router.push('/')

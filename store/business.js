@@ -171,10 +171,10 @@ export const mutations = {
 	},
 
 	setSubscription: (state, payload) => {
-		state.subscription.id = payload.id
-		state.subscription.start = payload.start
-		state.subscription.end = payload.end
-		state.subscription.type = payload.type
+		if (payload.id != undefined) state.subscription.id = payload.id
+		if (payload.start != undefined) state.subscription.start = payload.start
+		if (payload.end != undefined) state.subscription.end = payload.end
+		if (payload.type != undefined) state.subscription.type = payload.type
 	},
 
 	setInviteBusinessId: (state, payload) => {

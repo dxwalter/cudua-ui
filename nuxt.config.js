@@ -29,6 +29,7 @@ export default {
 		{ src: '~/plugins/localStorage.js', ssr: false },
 		{ src: '~/plugins/globalUI.client.js', ssr: false },
 		{ src: '~/plugins/imagePlugin.client.js', ssr: false },
+		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 	],
 	modules: [
 		'@nuxtjs/toast',

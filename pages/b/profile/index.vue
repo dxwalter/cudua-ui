@@ -8,6 +8,7 @@
 							<div class="content-area grey-bg-color">
 								<!-- pageLoader -->
 								<PAGELOADER v-show="pageLoader"></PAGELOADER>
+								<SUBSCRIPTION></SUBSCRIPTION>
 								<!-- content goes in here -->
 								<div class="main-content">
 
@@ -126,13 +127,15 @@ import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue'
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
+import SUBSCRIPTION from '~/components/business/subscription/subscription.vue';
+
 import StarRating from 'vue-star-rating'
 
 export default {
 	name: "BUSINESSPROFILE",
     components: {
 		TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER,
-		StarRating
+		StarRating, SUBSCRIPTION
     },
     data: function() {
         return {

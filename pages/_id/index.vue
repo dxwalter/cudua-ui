@@ -57,7 +57,7 @@
 
                                         <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="index">
                                             <a href="#">
-                                                <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList($event, category.categoryName)" v-bind:checked="!index">
+                                                <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`check${category.categoryId}`, category.categoryName)" v-bind:checked="!index" :id="`check${category.categoryId}`">
                                                 <span class="accord-chip-name">{{category.categoryName}}</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                     <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
@@ -88,7 +88,7 @@
                                         <div class="desktop-shop-cat-listing">
                                             <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="`${index}dk`">
                                                 <a href="#">
-                                                    <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList($event, category.categoryName+'dk')" v-bind:checked="!index">
+                                                    <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`dkcheck${category.categoryId}`, category.categoryName+'dk')" v-bind:checked="!index" :id="`dkcheck${category.categoryId}`">
                                                     <span class="accord-chip-name">{{category.categoryName}}</span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                         <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
@@ -342,8 +342,23 @@ export default {
                 }
             }
         },
-		showSubcatList: function (e, category) {
+		showSubcatList: function (id, category) {
             if (process.browser) {
+                
+                let openedCat = document.querySelectorAll(".subcat-listing.showEffect");
+                for (let i = 0; i < openedCat.length; i++) {
+                    openedCat[i].classList.remove('showEffect')
+                }
+
+                let checkInput = document.getElementsByTagName('input');
+                for(let z = 0; z < checkInput.length; z++) {
+                    if (checkInput[z].type == 'checkbox') {
+                        checkInput[z].checked = false
+                    }
+                }
+
+                document.getElementById(id).checked = true
+
                 let singleTabContainer = document.getElementById(category+'Category');
                 singleTabContainer.classList.toggle(`showEffect`);
             }

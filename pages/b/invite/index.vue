@@ -75,7 +75,7 @@
                                     </div>
 
                                     
-                                    <div class="alert alert-info notification-alert add-radius" v-show="returnDownliners.length == 0">
+                                    <div class="alert alert-light notification-alert add-radius" v-show="returnDownliners.length == 0">
                                         <div>No business has registered using your link. Copy link, share the link on any social media platform to invite business owners to register.</div>
                                         <button class="btn btn-white btn-small" @click="copyLink('referalLink')">Copy link</button>
                                     </div>
@@ -178,7 +178,7 @@ export default {
             let result = request.result.data.GetDownLiners;
 
             if (result.success == false) {
-                this.$initiateNotification('error', 'Failed request', result.message);
+                this.$initiateNotification('info', '', result.message);
                 return
             }
 
