@@ -12,7 +12,7 @@
 		<div class="modal-search-input-area">
 			<div class="position-relative">
 			<div class="input-container">
-				<input type="text" name="" id="BusinessMobileSearchInput" class="search-form grey-bg-color" placeholder="Search for products in oremit power...">
+				<input type="text" name="" id="BusinessMobileSearchInput" class="search-form grey-bg-color" :placeholder="`Search for products in ${businessName}`">
 				<button class="clear-form-btn">
 				<input type="checkbox" class="dropdownCheckBox" data-clear-form="clear" data-target="BusinessMobileSearchInput">
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -177,7 +177,23 @@
 
 <script>
 export default {
-	name: "BUSINESSSEARCHMODAL"
+	name: "BUSINESSSEARCHMODAL",
+	data() {
+		return {
+			businessId: "",
+			businessName: "",
+			logo: ""
+		}
+	},
+	created() {
+		if (process.browser) {
+			this.$nuxt.$on('searchData', (data) => {
+				this.businessName = data.name
+				this.businessId = data.id
+				this.logo = data.logo
+			})
+		}
+	}
 }
 </script>
 

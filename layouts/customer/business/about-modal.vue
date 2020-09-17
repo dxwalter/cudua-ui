@@ -22,7 +22,7 @@
 				<div class="business-cover-photo">
 					<img :data-src="coverPhoto" :alt="businessName" v-if="coverPhoto.length > 0" v-lazy-load>
 					<div class="no-cover-photo" v-else>
-						No cover photo has been added to your business profile
+						No cover photo has been added by this business
 					</div>
 				</div>
 				<div class="business-logo-cover">
@@ -97,10 +97,8 @@
 								<div class="alert alert-info">No category has been added to this business</div>
 							</div>
 						</div>
-					
-						<button class="btn btn-white btn-block" data-trigger="modal" data-target="reportModal">Report this business</button>
 
-						<button class="btn btn-primary btn-block mg-top-8" data-target="businessDetailsModal" data-dismiss="modal">Close </button>
+						<button class="btn btn-primary btn-block mg-top-8" data-target="businessDetailsModal" data-dismiss="modal">Back to shop</button>
 					</div>
 
 				</div>
@@ -177,8 +175,6 @@ export default {
 			}
 
 			let newArray = new Set(newPhoneArray);
-			
-			console.log(newArray)
 
             let finalArray = [];
 

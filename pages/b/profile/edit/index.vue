@@ -229,7 +229,7 @@
 
                                                     <div class="form-control">
                                                         <label for="businessType" class="form-label">Let customers chat with you</label>
-                                                        <input type="number" name="" id="businessType" class="input-form" placeholder="Type your whatsapp number" v-model="whatsappNumber">
+                                                        <input type="number" name="" id="whatsappPhoneForm" class="input-form" placeholder="Type your whatsapp number" v-model="whatsappNumber">
                                                     </div>
                                                     <div class="form-control">
                                                         <button class="btn btn-primary btn-block" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
@@ -774,8 +774,11 @@ export default {
             e.preventDefault();
 
             if (this.whatsappNumber.length < 4) {
+                this.$addRedBorder('whatsappPhoneForm')
                 this.$showToast("Enter a valid phone number", 'error');
                 return
+            } else {
+                this.$removeRedBorder('whatsappPhoneForm')
             }
 
             let target = document.getElementById('updateBusinessWhatsapp');
@@ -1149,31 +1152,13 @@ export default {
                 firstname: this.businessOwnerName,
                 lastname: "",
                 reference: 'YOUR_REFERENCE', // Replace with a reference you generated
-                callback: async function(response) {
+                callback: (response) => {
                     //this happens after the payment is completed successfully
                     let referenceId = response.reference;
-
-                    let variables = { 
-                        businessId: this.businessId,
-                        referenceId: referenceId,
-                        subType: "Basic"
-                    }
-
-                    let context = {
-                        hasUpload: true,
-                        headers: {
-                            'accessToken': this.accessToken
-                        }
-                    }
-
-                    let xhr = new XMLHttpRequest();
-                    xhr.responseType = 'json';
-                    xhr.open("POST", "http://localhost:4000/v1/");
-
-                    
+                    this.successfulPayment(referenceId)
                 },
-                onClose: function() {
-                    alert("Transaction cancelled")
+                onClose: () => {
+                    this.$initiateNotification("info", "Transaction cancelled")
                 },
             });
         

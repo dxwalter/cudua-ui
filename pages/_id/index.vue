@@ -51,39 +51,25 @@
                                             </button>
                                         </div>
                                         
-                                        <div class="shop-cat-item">
+                                        <div class="alert alert-info no-radius" v-show="returnCategories.length == 0">
+                                            <div>No category has been added by this business</div>
+                                        </div>
+
+                                        <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="index">
                                             <a href="#">
-                                                <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="fashionCategory">
-                                                <span class="accord-chip-name">Fashion</span>
+                                                <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList($event, category.categoryName)" v-bind:checked="!index">
+                                                <span class="accord-chip-name">{{category.categoryName}}</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                     <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                                 </svg>
                                             </a>
-                                            <div class="subcat-listing" id="fashionCategory">
-                                                <a href="#" class="chip">Wedding wears</a>
-                                                <a href="#" class="chip ">Dress</a>
-                                                <a href="#" class="chip ">Shoes</a>
-                                                <a href="#" class="chip ">Bags</a>
-                                                <a href="#" class="chip ">Night clothes</a>
+                                            <div class="subcat-listing" :id="`${category.categoryName}Category`"
+                                            v-bind:class="{'showEffect': index == 0}"
+                                            >
+                                                <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="subcategory.subcategoryId">{{subcategory.subcategoryName}}</a>
                                             </div>
                                         </div>
 
-                                        <div class="shop-cat-item">
-                                            <a href="#">
-                                                <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="ElectronicsCategory">
-                                                <span class="accord-chip-name">Electronics</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
-                                                </svg>
-                                            </a>
-                                            <div class="subcat-listing" id="ElectronicsCategory">
-                                                <a href="#" class="chip ">Television &amp; video</a>
-                                                <a href="#" class="chip ">Generators &amp; portable power</a>
-                                                <a href="#" class="chip ">Cameras</a>
-                                                <a href="#" class="chip ">Audios</a>
-                                                <a href="#" class="chip ">Musical Instrument</a>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -96,37 +82,22 @@
                                         <div class="card-title">
                                             Categories
                                         </div>
+                                        <div class="alert alert-info no-radius" v-show="returnCategories.length == 0">
+                                            <div>No category has been added by this business</div>
+                                        </div>
                                         <div class="desktop-shop-cat-listing">
-                                            <div class="shop-cat-item">
-                                                <n-link to="#">
-                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="dkElectronicsCategory">
-                                                    <span class="accord-chip-name">Electronics</span>
+                                            <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="`${index}dk`">
+                                                <a href="#">
+                                                    <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList($event, category.categoryName+'dk')" v-bind:checked="!index">
+                                                    <span class="accord-chip-name">{{category.categoryName}}</span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                         <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                                     </svg>
-                                                </n-link>
-                                                <div class="subcat-listing" id="dkElectronicsCategory">
-                                                    <n-link to="#" class="chip ">Television &amp; video</n-link>
-                                                    <n-link to="#" class="chip ">Generators &amp; portable power</n-link>
-                                                    <n-link to="#" class="chip ">Cameras</n-link>
-                                                    <n-link to="#" class="chip ">Audios</n-link>
-                                                    <n-link to="#" class="chip ">Musical Instrument</n-link>
-                                                </div>
-                                            </div>
-                                            <div class="shop-cat-item">
-                                                <n-link to="#">
-                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="dkfashionCategory">
-                                                    <span class="accord-chip-name">Fashion</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
-                                                    </svg>
-                                                </n-link>
-                                                <div class="subcat-listing" id="dkfashionCategory">
-                                                    <n-link to="#" class="chip ">Wedding wears</n-link>
-                                                    <n-link to="#" class="chip ">Dress</n-link>
-                                                    <n-link to="#" class="chip ">Shoes</n-link>
-                                                    <n-link to="#" class="chip ">Bags</n-link>
-                                                    <n-link to="#" class="chip ">Night clothes</n-link>
+                                                </a>
+                                                <div class="subcat-listing" :id="`${category.categoryName}dkCategory`"
+                                                v-bind:class="{'showEffect': !index}"
+                                                >
+                                                    <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="`${subcategory.subcategoryId}dk`">{{subcategory.subcategoryName}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,90 +141,6 @@
                                                     </div>
                                                 </div>
                                             </n-link>
-                                                        
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone 15xd modellite spax
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
-                                
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
-                                                        
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone 15xd modellite spax
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
-                                
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
-                                                        
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone 15xd modellite spax
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
-                                
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
                                 
                                         </div>
                                         <!-- end of business product listing -->
@@ -266,12 +153,15 @@
                                         <div class="desktop-business-bottom-details card">
                                             <div class="d-flex">
                                                 <div class="business-bottom-logo">
-                                                    <img src="~/assets/customer/image/apple-logo.png" alt="">
+                                                    <div class="temporal-logo" v-show="!logo">
+                                                        {{getNameLogo(businessName)}}
+                                                    </div>
+                                                    <img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
                                                 </div>
                                                 <div class="bottom-business-details">
-                                                    <div class="business-name">Oremit Power Solution Limited</div>
+                                                    <div class="business-name">{{businessName}}</div>
                                                     <div class="more-business-details mg-bottom-32">
-                                                        <div class="business-address">39 Ada-George road, opposite Eagle palace hotel, Port Harcourt, Rivers state.</div>
+                                                        <div class="business-address">{{getBusinessAddress}}.</div>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" data-target="businessDetailsModal" data-trigger="modal">View profile</button>
@@ -325,9 +215,16 @@
                                 <span>Report</span>
                             </a>
 
-                            <a href="#" class="bottom-nav-item">
+                            <a :href="`${getWhatsappContact.number}`" class="bottom-nav-item" v-show="getWhatsappContact.status == 1 && getWhatsappContact.number != null">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
+                                </svg>
+                                <span>Support</span>
+                            </a>
+
+                            <a :href="`mailto:${getEmail}`" class="bottom-nav-item" v-show="getWhatsappContact.status == 0 || getWhatsappContact.number == null">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <use xlink:href="~/assets/customer/image/all-svg.svg#inviteBusiness"></use>
                                 </svg>
                                 <span>Support</span>
                             </a>
@@ -396,11 +293,30 @@ export default {
         username: "",
         businessId: "",
         businessCategory: [],
-        businessContact: ""
+        businessContact: "",
+        businessName: "",
+        address: "",
+        contact: "",
+        logo: "",
+        whatsappContact: ""
       }
     },
     computed: {
-	  ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'}),
+      ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'}),
+		getBusinessAddress: function() {
+			if (this.address == null) return "Not available";
+
+			return `${this.address.number} ${this.address.street}, ${this.address.community}, ${this.address.state} ${this.address.country}`
+        },
+        getWhatsappContact: function () {
+            return this.whatsappContact
+        },
+		getEmail: function() {
+			return this.contact.email
+        },
+        returnCategories: function () {
+            return this.businessCategory
+        }
     },
     methods: {
         showMobileCategory: function () {
@@ -426,6 +342,12 @@ export default {
                 }
             }
         },
+		showSubcatList: function (e, category) {
+            if (process.browser) {
+                let singleTabContainer = document.getElementById(category+'Category');
+                singleTabContainer.classList.toggle(`showEffect`);
+            }
+		},
         getBusinessDetails: async function() {
             
             let variables = {
@@ -459,8 +381,12 @@ export default {
 
             this.businessId = data.id;
             this.businessContact = data.contact
-            this.businessCategory = data.businessCategories
             this.username = data.username
+            this.businessName = data.businessname
+            this.address = data.address
+            this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : "",
+            this.contact = data.contact,
+            this.whatsappContact = data.contact.whatsapp
 
             let aboutBusiness = {
                 name: data.businessname,
@@ -475,6 +401,12 @@ export default {
                 description: data.description
             }
 
+            let searchData = {
+                name: data.businessname,
+                businessId: data.id,
+                logo: data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : "",
+            }
+
             let businessReview = {
                 businessId: data.id,
                 reviewScore: data.review,
@@ -485,9 +417,54 @@ export default {
             $nuxt.$emit('BusinessDetails', aboutBusiness)
             // emit business review to business review modal
             $nuxt.$emit('BusinessReview', businessReview)
+            // emit to search component
+            $nuxt.$emit("searchData", searchData)
+
+            let filteredCategories = [];
+            // this.businessCategory = 
+            if (data.businessCategories.length == 0 ) this.businessCategories = [];
+
+            if (data.businessCategories.length > 0) {
+                for (const [index, category] of data.businessCategories.entries()) {
+                    if (category.hide == 0) {
+                        let cat = [];
+
+                        cat.push({
+                            categoryName: category.categoryName,
+                            categoryId: category.categoryId,
+                            subcategories: []
+                        })
+                        
+                        let subcatCount = 0;
+
+                        for (let [subcatIndex, subcategory] of category.subcategories.entries()) {
+                            if (subcategory.hide == 0) {
+                                subcatCount += 1;
+                                cat[0].subcategories.push({
+                                    subcategoryName: subcategory.subcategoryName,
+                                    subcategoryId: subcategory.subcategoryId
+                                })
+                            }
+                        }
+
+                        if (subcatCount == 0) {
+                            cat.pop()
+                        } else {
+                            this.businessCategory.push(cat[0])
+                        }
+                    }
+                }
+
+            }
 
             
         },
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+		},
         triggerSearch: function () {
             document.getElementById("mobilePrimarySearchInput").focus()
         }
@@ -512,3 +489,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .no-radius {
+        border-radius: 0;
+    }
+</style>

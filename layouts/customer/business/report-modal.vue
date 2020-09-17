@@ -41,7 +41,23 @@
 
 <script>
 export default {
-	name: "REPORTBUSINESSMODAL"
+	name: "REPORTBUSINESSMODAL",
+	data() {
+		return {
+			businessId: "",
+			businessName: "",
+			logo: ""
+		}
+	},
+	created() {
+		if (process.browser) {
+			this.$nuxt.$on('searchData', (data) => {
+				this.businessName = data.name
+				this.businessId = data.id
+				this.logo = data.logo
+			})
+		}
+	}
 }
 </script>
 

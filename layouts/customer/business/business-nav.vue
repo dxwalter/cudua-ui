@@ -4,13 +4,16 @@
 			<div class="desktop-nav-container card">
 				<div class="business-intro">
 					<a href="#" class="business-desktop-logo" data-target="businessDetailsModal" data-trigger="modal">
-						<img src="~/assets/customer/image/mainOremitLogo.png" alt="">
+						<div class="temporal-logo" v-show="!logo">
+							{{getNameLogo(businessName)}}
+						</div>
+						<img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
 					</a>
 				</div>
 
 				<div class="desktop-search-container">
 					<div class="position-relative">
-						<input type="text" name="" id="" class="desktop-search" placeholder="Search for products in Oremit power solutions ">
+						<input type="text" name="" id="" class="desktop-search" :placeholder="`Search for products in ${businessName}`">
 						<!-- remove display-none to see search suggestions -->
 						<div class="recent-search-list-container display-none">
 							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
@@ -97,12 +100,12 @@
 								<span>Account setting</span>
 							</n-link>
               
-							<a href="#" class="mobile-side-nav-link">
+							<n-link to="#" class="mobile-side-nav-link">
 								<svg xmlns="http://www.w3.org/2000/svg">
 								  <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
 								</svg>
 								<span>Logout</span>
-							</a>
+							</n-link>
 			
 						</div>
 					  </div>
@@ -117,6 +120,30 @@
 <script>
 export default {
 	name: "BUSINESSNAVIGATION",
+	data() {
+		return {
+			businessId: "",
+			businessName: "",
+			logo: ""
+		}
+	},
+	methods: {
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+		},
+	},
+	created() {
+		if (process.browser) {
+			this.$nuxt.$on('searchData', (data) => {
+				this.businessName = data.name
+				this.businessId = data.id
+				this.logo = data.logo
+			})
+		}
+	}
 }
 </script>
 
