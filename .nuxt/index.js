@@ -25,6 +25,7 @@ import nuxt_plugin_localStorage_830ec59e from 'nuxt_plugin_localStorage_830ec59e
 import nuxt_plugin_globalUIclient_f48116ea from 'nuxt_plugin_globalUIclient_f48116ea' // Source: ..\\plugins\\globalUI.client.js (mode: 'client')
 import nuxt_plugin_imagePluginclient_865321d4 from 'nuxt_plugin_imagePluginclient_865321d4' // Source: ..\\plugins\\imagePlugin.client.js (mode: 'client')
 import nuxt_plugin_vuepaystackclient_1cce0c98 from 'nuxt_plugin_vuepaystackclient_1cce0c98' // Source: ..\\plugins\\vue-paystack.client.vue (mode: 'client')
+import nuxt_plugin_vuestarratingclient_5c510994 from 'nuxt_plugin_vuestarratingclient_5c510994' // Source: ..\\plugins\\vue-star-rating.client.vue (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -250,6 +251,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (process.client && typeof nuxt_plugin_vuepaystackclient_1cce0c98 === 'function') {
     await nuxt_plugin_vuepaystackclient_1cce0c98(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_vuestarratingclient_5c510994 === 'function') {
+    await nuxt_plugin_vuestarratingclient_5c510994(app.context, inject)
   }
 
   // Lock enablePreview in context

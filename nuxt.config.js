@@ -30,6 +30,7 @@ export default {
 		{ src: '~/plugins/globalUI.client.js', ssr: false },
 		{ src: '~/plugins/imagePlugin.client.js', ssr: false },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
+		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
 	],
 	modules: [
 		'@nuxtjs/toast',

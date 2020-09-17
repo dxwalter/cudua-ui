@@ -1,5 +1,4 @@
 <template>
-        <!-- <client-only> -->
             <div class="side-nav-container" id="sideNav" v-on:click="closeNav">
                     <!-- the .js-fold-nav class along-with .side-nav-content folds
                     the navigation bar -->
@@ -26,7 +25,7 @@
                                             </span>
                                         </a>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
-                                            <star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
+                                            <StarRating :score=reviewScore></StarRating>
                                         </a>
                                     </div>
                             </div>
@@ -131,7 +130,7 @@
                     <BUSINESSREVIEWSIDEBAR></BUSINESSREVIEWSIDEBAR>
                     <USERNAMEMODALSIDEBAR></USERNAMEMODALSIDEBAR>
             </div>
-        <!-- </client-only> -->
+
 </template>
 
 <script>
@@ -141,7 +140,7 @@ import { mapActions, mapGetters } from 'vuex';
 import BUSINESSREVIEWSIDEBAR from '~/components/business/businessreview/business.review.vue';
 import USERNAMEMODALSIDEBAR from '~/components/business/profile/username.vue'; 
 
-import StarRating from 'vue-star-rating'
+import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
     name: "SIDEBAR",

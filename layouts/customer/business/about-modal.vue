@@ -49,7 +49,7 @@
 
 				<div class="business-review">
 					<a href="javasscript:;" class="navbar-review-icon">
-						<star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
+						<StarRating :score=reviewScore></StarRating>
 					</a>
 					<a href="#" class="review-action" data-trigger="modal" data-target="reviewModal">read all revirews</a>
 				</div>
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import StarRating from 'vue-star-rating'
+import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
 	name: "ABOUTBUSINESSMODAL",

@@ -83,7 +83,7 @@
                                     <div class="product-price-container">
                                         <div class="product-details-price"><h3>₦ {{formatProductPrice(productPrice)}}</h3></div>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
-                                            <STARRATING :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+                                            <StarRating :score=reviewScore></StarRating>
                                         </a>
                                     </div>
 
@@ -238,12 +238,13 @@ import {
     DELETE_PRODUCT
 } from '~/graphql/product';
 
-import STARRATING from 'vue-star-rating'
+import StarRating from '~/plugins/vue-star-rating.client.vue'
+
 
 export default {
     name: "BUSINESSPRODUCTPAGE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW, PAGELOADER, STARRATING
+        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW, PAGELOADER, StarRating
     },
     data: function () {
         return {

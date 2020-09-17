@@ -8,7 +8,7 @@
                     <h4>Business review</h4>
                     <div class="review-text nav-rating-result" v-show="!isLoading && reviewScore">
                         <a href="javasscript:;" class="navbar-review-icon">
-                            <star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
+                            <StarRating :score=reviewScore></StarRating>
                         </a>
                         <div class="rating-score">
                             {{reviewScore}}/5
@@ -55,7 +55,7 @@
                                 <div class="display-flex">
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
-                                        <star-rating :rating=review.rating :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
+                                        <StarRating :score=review.rating></StarRating>
                                     </div>
                                 </div>
                                 <div class="review-date">- {{formatNotificationTimer(review.timeStamp)}}</div>
@@ -82,7 +82,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 import { GET_BUSINESS_REVIEW } from '~/graphql/business'
 
-import StarRating from 'vue-star-rating'
+import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
     name: "BUSINESSREVIEWMODAL",

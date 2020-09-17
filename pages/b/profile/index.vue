@@ -1,5 +1,4 @@
 <template>
-	<client-only>
 		<div class="business">
 			<div class="body-container">
 					<TOPHEADER></TOPHEADER>
@@ -54,7 +53,7 @@
 
 												<div class="business-review">
 													<a href="javasscript:;" class="navbar-review-icon d-flex-between"  data-trigger="modal" data-target="reviewModal">
-														<star-rating :rating=reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></star-rating>
+														<StarRating :score=reviewScore></StarRating>
 														<div class="review-action">read all reviews</div>
 													</a>
 												</div>
@@ -116,7 +115,6 @@
 					</div>
 			</div>
 		</div>
-	</client-only>
 </template>
 
 <script>
@@ -129,7 +127,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import SUBSCRIPTION from '~/components/business/subscription/subscription.vue';
 
-import StarRating from 'vue-star-rating'
+import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
 	name: "BUSINESSPROFILE",
