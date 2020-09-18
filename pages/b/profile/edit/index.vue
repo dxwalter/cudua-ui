@@ -309,6 +309,15 @@
                                             </div>
                                         </div>
 
+                                        <div v-show="inviteRedemptionStatus" class="mg-bottom-32">
+                                            <div class="alert alert-success notification-alert add-border-radius">
+                                                <div v-show="!subscriptionStatus">You can activate your your 1 month basic subscription plan for inviting 3 businesses when your current subscription plan expires</div>
+                                                <div v-show="subscriptionStatus">Activate your 1 month subscription plan for inviting 3 businesses</div>
+
+                                                <button class="btn btn-white btn-small" v-show="subscriptionStatus">Activate plan</button>
+                                            </div>
+                                        </div>
+
                                         <div class="">
                                             <div class="subcription-area-header">All plans</div>
                                             
@@ -378,7 +387,8 @@ import {
     EDIT_BUSINESS_LOGO, 
     EDIT_BUSINESS_COVERPHOTO, 
     EDIT_BUSINESS_WHATSAPP_CONTACT,
-    ACTIVATE_SUBSCRIPTION
+    ACTIVATE_SUBSCRIPTION,
+    GET_VIRAL_REDEMPTION
 } from '~/graphql/business';
 
 import { SEARCH_FOR_STREET } from '~/graphql/location'
@@ -412,6 +422,7 @@ export default {
             accessToken: "",
             emailNotification: 0,
             inviteId: "",
+            inviteRedemptionStatus: false,
 
             whatsappNumber: "",
             whatsappStatus: 0,
@@ -1193,16 +1204,60 @@ export default {
             } else {
                 this.$initiateNotification('error', "Payment error", "An error occurred paying for your subscription")
             }
+        },
+        getViralIdRedemptionStatus: async function() {
+
+            let variables = {
+                businessId: this.businessId
+            }
+
+            let context = {
+                hasUpload: true,
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            let request = await this.$performGraphQlMutation(this.$apollo, GET_VIRAL_REDEMPTION, variables, context);
+
+            if (request.error) {
+                this.$initiateNotification('error', "Network Error", request.message)
+                return
+            }
+
+            let result = request.result.data.GetViralRedemptionStatus;
+
+            if (result.error) {
+                this.$initiateNotification('error', "Invitation error", result.message)
+                return
+            }
+
+            if (result.status == null) {
+                this.inviteRedemptionStatus = false;
+                this.$initiateNotification('error', "Invitation error", result.message)
+                return
+            }
+
+            if (result.status == false) {
+                this.inviteRedemptionStatus = false
+                return
+            }
+
+            if (result.status == true) this.inviteRedemptionStatus = true
+
+
         }
     },
     created: function () {
         if (process.browser) {
             this.assignBusinessData();
+            this.getViralIdRedemptionStatus()
         }
     },
     mounted () {
         this.formatAndShowSubscription()
         this.showBillingTab()
+        
         this.pageLoader = false;
     },
     beforeDestroy () {
@@ -1215,14 +1270,17 @@ export default {
 </script>
 
 <style scoped>
-  .font-14 {
-    font-size: 14px;
-  }
-  .action-span {
-      color: rgb(238 100 37);
-      margin-left: 10px;
-      font-weight: 500;
-  }
+.font-14 {
+font-size: 14px;
+}
+.action-span {
+    color: rgb(238 100 37);
+    margin-left: 10px;
+    font-weight: 500;
+}
+.add-border-radius {
+    border-radius: 4px !important;
+}
 .page-header.with-action h4 {
     margin-bottom: unset;
     align-self: center;

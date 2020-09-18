@@ -458,3 +458,16 @@ query getdata($username: String!){
   }
 }
 `
+
+export const GET_VIRAL_REDEMPTION = gql`
+query getViralIdRedemption($businessId: String!){
+  GetViralRedemptionStatus(input: {
+    businessId: $businessId
+  }) {
+    status
+    code
+    status
+    message
+  }
+}
+`

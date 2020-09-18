@@ -104,11 +104,13 @@ export default {
         };
     },
     created() {
-        this.scriptLoaded = new Promise(resolve => {
-            this.loadScript(() => {
-                resolve();
+        if (process.client) {
+            this.scriptLoaded = new Promise(resolve => {
+                this.loadScript(() => {
+                    resolve();
+                });
             });
-        });
+        }
     },
     mounted() {
         if (this.embed) {

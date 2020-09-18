@@ -80,14 +80,18 @@
                                         <button class="btn btn-white btn-small" @click="copyLink('referalLink')">Copy link</button>
                                     </div>
 
-                                    <div class="alert alert-light notification-alert add-radius" v-show="returnDownliners.length > 0  && redeemPrice == 0">
+                                    <div class="alert alert-light notification-alert add-radius" v-show="(returnDownliners.length > 0 && returnDownliners.length < 3)  && redeemPrice == 0">
                                         <div>Invite {{3- returnDownliners.length}} more <span v-show="returnDownliners.length == 1">businesses</span> <span v-show="returnDownliners.length == 2">business</span> to register and get one month free basic subscription.</div>
                                         <button class="btn btn-white btn-small" @click="copyLink('referalLink')">Copy link</button>
                                     </div>
 
-                                    <div class="alert alert-success notification-alert add-radius" v-show="returnDownliners.length == 3 && redeemPrice == 1">
+                                    <div class="alert alert-success notification-alert add-radius" v-show="returnDownliners.length == 3 && redeemPrice == 0">
                                         <div>You have successfully registered 3 businesses using your invite link. Visit plans & billing tab in your accounting settings to activate your basic plan</div>
                                         <n-link to="/b/profile/edit?billing=true" class="btn btn-white btn-small">Plans & billing</n-link>
+                                    </div>
+
+                                    <div class="alert alert-success notification-alert add-radius" v-show="returnDownliners.length == 3 && redeemPrice == 1">
+                                        <div>Your have activated the free basic subscription plan that you qualified for.</div>
                                     </div>
 
                                 </div>
