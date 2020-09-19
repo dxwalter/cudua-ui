@@ -7,7 +7,7 @@
                     <div class="content-area grey-bg-color">
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-                        <div class="main-content">
+                        <div class="main-content" v-show="!pageLoader">
                             <div class="page-header with-action">
                                 <h4>Edit business profile</h4>
                                 <n-link class="btn btn-light-grey btn-small" :to="`/b/profile`">Profile</n-link>
@@ -314,7 +314,7 @@
                                                 <div v-show="!subscriptionStatus">You can activate your your 1 month basic subscription plan for inviting 3 businesses when your current subscription plan expires</div>
                                                 <div v-show="subscriptionStatus">Activate your 1 month subscription plan for inviting 3 businesses</div>
 
-                                                <button class="btn btn-white btn-small" v-show="subscriptionStatus">Activate plan</button>
+                                                <button class="btn btn-white btn-small" v-show="subscriptionStatus" @click="activateInvitationPlan()" id="activateInvitationPlan">Activate plan</button>
                                             </div>
                                         </div>
 
@@ -388,7 +388,8 @@ import {
     EDIT_BUSINESS_COVERPHOTO, 
     EDIT_BUSINESS_WHATSAPP_CONTACT,
     ACTIVATE_SUBSCRIPTION,
-    GET_VIRAL_REDEMPTION
+    GET_VIRAL_REDEMPTION,
+    ACTIVATE_VIRAL_INVITATION_GIFT
 } from '~/graphql/business';
 
 import { SEARCH_FOR_STREET } from '~/graphql/location'
@@ -1245,6 +1246,57 @@ export default {
 
             if (result.status == true) this.inviteRedemptionStatus = true
 
+
+        },
+        activateInvitationPlan: async function () {
+
+            let target = document.getElementById('activateInvitationPlan')
+
+            let variables = {
+                businessId: this.businessId,
+                viralId: this.inviteId
+            }
+
+            let context = {
+                hasUpload: true,
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, ACTIVATE_VIRAL_INVITATION_GIFT, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification('error', "Network Error", request.message)
+                return
+            }
+
+            let result = request.result.data.ActivateViralInvitationGift;
+
+            if (result.error) {
+                this.$initiateNotification('error', "Subscription error", result.message)
+                return
+            }
+
+            let data = result.subscriptionData;
+
+            this.$store.dispatch('business/setSubscription', {
+                start: data.start,
+                end: data.end,
+                type: 'Basic'
+            })
+
+            this.start = data.start
+            this.end = data.end
+            this.formatAndShowSubscription()
+            
+            this.$initiateNotification('success', "Subscription successful", result.message)
+
+            this.inviteRedemptionStatus = false
 
         }
     },

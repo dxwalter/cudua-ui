@@ -433,8 +433,8 @@
     border-bottom: $border;
     display: block;
     img {
-        object-fit: cover;
-        -o-object-fit: cover;
+        object-fit: contain;
+        -o-object-fit: contain;
     }
 }
 

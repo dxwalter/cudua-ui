@@ -471,3 +471,20 @@ query getViralIdRedemption($businessId: String!){
   }
 }
 `
+
+export const ACTIVATE_VIRAL_INVITATION_GIFT = gql`
+mutation activateGift($businessId: String!, $viralId: String!){
+  ActivateViralInvitationGift(input:{
+    businessId: $businessId,
+    viralId: $viralId,
+  }) {
+    subscriptionData {
+      start
+      end
+    }
+    code
+    success
+    message
+  }
+}
+`

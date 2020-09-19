@@ -11,13 +11,13 @@
 								<!-- content goes in here -->
 								<div class="main-content">
 
-									<div class="page-header">
+									<div class="page-header"  v-show="businessId">
 										<h4>Business profile</h4>
 									</div>
 
 									<div>
 										<!-- main content goes in here -->
-										<div class="business-profile-container">
+										<div class="business-profile-container" v-show="businessId">
 											<div class="cover-photo-area">
 												<div class="cover-photo-container">
 													<n-link to="/b/profile/edit" class="close-modal-btn profile-edit-btn">
