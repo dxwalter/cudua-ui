@@ -44,6 +44,8 @@ export default ({app}, inject) => {
     // close modal 
     let closeModal = (target) => {
         document.querySelector("body").classList.remove("overflow-hidden");
+        let element = document.getElementById(target)
+        if (element == null) return
         document.getElementById(target).classList.toggle("show-modal");
         document.getElementById(target).classList.remove('display-block')
     }

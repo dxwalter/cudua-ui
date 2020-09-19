@@ -41,7 +41,7 @@ query getProduct($businessId: String!, $page: Int!){
 
 export const GET_PRODUCT_BY_SUBCATEGORY = gql`
 query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
-  BusinessGetProductBysubCategory(input: {
+  GetProductBysubCategory(input: {
     businessId: $businessId,
     subcategoryId: $subcategoryId,
     page: $page
@@ -63,6 +63,36 @@ query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
       primaryImage
     }
     totalProductsInSubcategoryCount
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_PRODUCT_BY_CATEGORY = gql`
+query getProducts ($businessId: String!, $categoryId: String!, $page: Int!) {
+  GetProductByCategory(input:{
+    businessId: $businessId,
+    categoryId: $categoryId,
+    page: $page
+  }) {
+    products {
+      id
+      name
+      price
+      hide
+      reviewScore
+      category {
+        categoryId
+        categoryName
+      }
+      subcategory {
+        subcategoryId
+        subcategoryName
+      }
+      primaryImage
+    }
     code
     success
     message

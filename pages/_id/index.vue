@@ -29,7 +29,7 @@
                                     </svg>
                                     <span>Categories</span>
                                 </button>
-                                <button class="bis-nav-btn">
+                                <button class="bis-nav-btn" @click="getAllProducts(1); isLoading = true;">
                                     <svg xmlns="http://www.w3.org/2000/svg">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#productIcon"></use>
                                     </svg>
@@ -57,7 +57,7 @@
 
                                         <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="index">
                                             <a href="#">
-                                                <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`check${category.categoryId}`, category.categoryName)" v-bind:checked="!index" :id="`check${category.categoryId}`">
+                                                <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`check${category.categoryId}`, category.categoryName, $event)" v-bind:checked="!index" :id="`check${category.categoryId}`">
                                                 <span class="accord-chip-name">{{category.categoryName}}</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                     <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
@@ -66,7 +66,10 @@
                                             <div class="subcat-listing" :id="`${category.categoryName}Category`"
                                             v-bind:class="{'showEffect': index == 0}"
                                             >
-                                                <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="subcategory.subcategoryId">{{subcategory.subcategoryName}}</a>
+                                                <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="subcategory.subcategoryId"
+                                                @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event); isLoading = true;"
+                                                >{{subcategory.subcategoryName}}</a>
+                                                <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event); isLoading = true;">All products in {{category.categoryName}} category</a>
                                             </div>
                                         </div>
 
@@ -87,17 +90,20 @@
                                         </div>
                                         <div class="desktop-shop-cat-listing">
                                             <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="`${index}dk`">
-                                                <a href="#">
-                                                    <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`dkcheck${category.categoryId}`, category.categoryName+'dk')" v-bind:checked="!index" :id="`dkcheck${category.categoryId}`">
+                                                <n-link to="#">
+                                                    <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`dkcheck${category.categoryId}`, category.categoryName+'dk', $event)" v-bind:checked="!index" :id="`dkcheck${category.categoryId}`">
                                                     <span class="accord-chip-name">{{category.categoryName}}</span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
                                                         <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                                     </svg>
-                                                </a>
+                                                </n-link>
                                                 <div class="subcat-listing" :id="`${category.categoryName}dkCategory`"
                                                 v-bind:class="{'showEffect': !index}"
                                                 >
-                                                    <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="`${subcategory.subcategoryId}dk`">{{subcategory.subcategoryName}}</a>
+                                                    <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="`${subcategory.subcategoryId}dk`"
+                                                        @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event); isLoading = true;"
+                                                    >{{subcategory.subcategoryName}}</a>
+                                                    <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event); isLoading = true;">All products in {{category.categoryName}} category</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,37 +113,26 @@
                                     <div class="business-product-listing">
 
                                         <div class="section-header d-flex-between business-page-action">
-                                            <h4>All products</h4>
-                                            <button class="btn btn-white btn-md">All products</button>
+                                            <h4>{{productHeader}}</h4>
+                                            <button class="btn btn-white btn-md" @click="getAllProducts(1); isLoading = true;">All products</button>
                                         </div>
 
                                         <!-- business product listing -->
+                                        <div class="content-loading" v-show="isLoading">
+                                            <div class="loader-action"><span class="loader"></span></div>    
+                                        </div>
                                         <div class="row">
                                                         
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                            <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="x in returnProductList" :key="x.productId"  v-show="!isLoading">
                                                 <div class="product-card">
                                                     <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
+                                                        <img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
                                                     </div>
                                                     <div class="product-card-details">
                                                         <div class="product-name">
-                                                            Asus Zenfone 15xd modellite spax
+                                                            {{x.productName}}
                                                         </div>
-                                                        <div class="product-price">₦ 1,200</div>
-                                                    </div>
-                                                </div>
-                                            </n-link>
-                                
-                                            <n-link to="/p/34232432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            Asus Zenfone
-                                                        </div>
-                                                        <div class="product-price">₦ 1,200</div>
+                                                        <div class="product-price">₦ {{x.price}}</div>
                                                     </div>
                                                 </div>
                                             </n-link>
@@ -145,8 +140,18 @@
                                         </div>
                                         <!-- end of business product listing -->
 
-                                        <div class="load-more-action move-center">
-                                            <button class="btn btn-white">Load more products</button>
+                                        <!-- when no product is found, show this -->
+                                        <div class="link-error-area" v-show="returnProductList.length == 0 && !pageLoader">
+                                            <img src="~/static/images/404.svg" alt="">
+                                            <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
+                                        </div>
+                                        <!-- end of error area -->
+
+                                        <div class="load-more-action move-center" v-show="loadMoreContent">
+                                            <button class="btn btn-white" @click="loadMoreProducts(page = page + 1, $event)" id="loadMoreProducts">
+                                                Load more products
+                                                <div class="loader-action"><span class="loader"></span></div>    
+                                            </button>
                                         </div>
 
                                         <!-- business name and details for desktop -->
@@ -266,6 +271,11 @@ import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 import { GET_BUSINESS_DETAILS_BY_USERNAME } from '~/graphql/business'
+import { 
+    GET_PRODUCT_BY_BUSINESS_ID,
+    GET_PRODUCT_BY_SUBCATEGORY,
+    GET_PRODUCT_BY_CATEGORY
+} from '~/graphql/product'
 
 
 export default {
@@ -298,7 +308,18 @@ export default {
         address: "",
         contact: "",
         logo: "",
-        whatsappContact: ""
+        whatsappContact: "",
+        productsType: "all",
+        productLists: [],
+        productHeader: "All products",
+        page: 1,
+        loadMoreContent: false,
+
+        // product retrieval details
+        subcategoryId: "",
+        subcategoryName: "",
+        categoryId: "",
+        categoryName: ""
       }
     },
     computed: {
@@ -316,6 +337,9 @@ export default {
         },
         returnCategories: function () {
             return this.businessCategory
+        },
+        returnProductList: function () {
+            return this.productLists
         }
     },
     methods: {
@@ -342,9 +366,11 @@ export default {
                 }
             }
         },
-		showSubcatList: function (id, category) {
+		showSubcatList: function (id, category, e) {
             if (process.browser) {
                 
+                e.preventDefault()
+
                 let openedCat = document.querySelectorAll(".subcat-listing.showEffect");
                 for (let i = 0; i < openedCat.length; i++) {
                     openedCat[i].classList.remove('showEffect')
@@ -482,6 +508,206 @@ export default {
 		},
         triggerSearch: function () {
             document.getElementById("mobilePrimarySearchInput").focus()
+        },
+        getProductsByCategory: async function (categoryId, categoryName, e = "", page = 1) {
+            
+            if (typeof e !== 'string') {
+                e.preventDefault()
+            }
+
+            this.hideMobileCategory()
+
+            this.$router.push({path: this.$route.path, query: { cat: categoryId, name: categoryName }})
+
+            this.productsType = 'cat'
+            this.productHeader = `${categoryName} category`
+            this.categoryId = categoryId
+            this.categoryName = categoryName
+
+            this.page = page
+
+            let variables = {
+                businessId: this.businessId,
+                page: page,
+                categoryId: categoryId
+            }
+            
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_CATEGORY, variables, {});
+
+            if (page == 1) this.productLists = []
+
+            if (request.error) {
+                this.reasonForError = request.error
+                this.pageError = 1
+                return
+            }
+
+            let result = request.result.data.GetProductByCategory;
+
+            if (result.success == false) {
+                this.reasonForError = result.message
+                this.pageError = 1
+                return
+            }
+
+            if (result.products.length == 0 && page == 1) {
+                this.productLists = []
+                this.reasonForError = `No product was found in <span class="indicator">${categoryName}</span> category.`
+            }
+
+            if (result.products.length == 12) {
+                this.loadMoreContent = true
+            } else {
+                this.loadMoreContent = false
+            }
+
+          
+
+            for (let x of result.products) {
+                this.productLists.push({
+                    productName: x.name,
+                    productId: x.id,
+                    price: this.$numberNotation(x.price),
+                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    hide: x.hide
+                })
+            }
+
+            this.isLoading = false
+
+        },
+        getProductsBysubCategory: async function (subcategoryId, subcategoryName, e = "", page = 1) {
+            
+            if (typeof e !== 'string') {
+                e.preventDefault()
+            }
+
+
+            this.$router.push({path: this.$route.path, query: { sub: subcategoryId, name: subcategoryName }})
+            this.hideMobileCategory()
+            this.subcategoryId = subcategoryId
+            this.subcategoryName = subcategoryName
+            this.productsType = 'sub';
+            this.productHeader = `${subcategoryName} subcategory`
+
+            this.page = page
+
+            let variables = {
+                businessId: this.businessId,
+                page: page,
+                subcategoryId: this.subcategoryId
+            }
+            
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_SUBCATEGORY, variables, {});
+
+            if (page == 1) this.productLists = []
+
+            if (request.error) {
+                this.reasonForError = request.error
+                this.pageError = 1
+                return
+            }
+
+            let result = request.result.data.GetProductBysubCategory;
+
+            if (result.success == false) {
+                this.reasonForError = result.message
+                this.pageError = 1
+                return
+            }
+
+            if (result.products.length == 0 && page == 1) {
+                this.productLists = []
+                this.reasonForError = `No product was found in <span class="indicator">${subcategoryName}</span> subcategory.`
+            }
+
+            if (result.products.length == 12) {
+                this.loadMoreContent = true
+            } else {
+                this.loadMoreContent = false
+            }
+
+          
+
+            for (let x of result.products) {
+                this.productLists.push({
+                    productName: x.name,
+                    productId: x.id,
+                    price: this.$numberNotation(x.price),
+                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    hide: x.hide
+                })
+            }
+
+            this.isLoading = false
+
+        },
+        getAllProducts: async function (page = 1, e) {
+            this.productsType = 'all'
+            this.page = page
+
+            this.productHeader = 'All products'
+
+            let variables = {
+                businessId: this.businessId,
+                page: page
+            }
+            
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_BUSINESS_ID, variables, {});
+
+            if (page == 1) this.productLists = []
+
+            if (request.error) {
+                this.reasonForError = request.error
+                this.pageError = 1
+                return
+            }
+
+            let result = request.result.data.GetProductsUsingBusinessId;
+
+            if (result.success == false) {
+                this.reasonForError = result.message
+                this.pageError = 1
+                return
+            }
+
+            if (result.products.length == 0 && page == 1) {
+                this.productLists = []
+                this.reasonForError = `No product was found in this <span class="indicator">shop</span>.`
+            }
+
+            if (result.products.length == 12) {
+                this.loadMoreContent = true
+            } else {
+                this.loadMoreContent = false
+            }
+
+          
+
+            for (let x of result.products) {
+                this.productLists.push({
+                    productName: x.name,
+                    productId: x.id,
+                    price: this.$numberNotation(x.price),
+                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    hide: x.hide
+                })
+            }
+
+            this.isLoading = false
+
+        },
+        loadMoreProducts: async function (page, e) {
+
+            this.page = page
+            let target = document.getElementById('loadMoreProducts');
+            target.disabled = true
+
+            if (this.productsType == "all") await this.getAllProducts(page);
+            if (this.productsType == "sub") await this.getProductsBysubCategory(this.subcategoryId, this.subcategoryName, e, page);
+            if (this.productsType == "cat") await this.getProductsByCategory(page);
+
+            target.disabled = false
         }
     },
     created: async function () {
@@ -489,16 +715,31 @@ export default {
             // await this.getBusinessDetails()
             let username = this.$route.params.id
             if (username == null || username.length == 0) {
-                this.reasonForError = "No business username was found in your request"
+                this.reasonForError = "No business username was found in your request."
                 this.pageError = 1
             } else {
                 this.pageError = 0
                 this.username = username
                 await this.getBusinessDetails();
+
+                let queryData = this.$route.query
+                if (queryData.name != undefined) {
+
+                    if (queryData.cat != undefined) {
+                        this.getProductsByCategory(queryData.cat, queryData.name, "", 1)
+                    }
+
+                    if (queryData.sub != undefined) {
+                        this.getProductsBysubCategory(queryData.sub, queryData.name, "", 1)
+                    }
+
+                } else {
+                    await this.getAllProducts(1);
+                }
             }
         }
     },
-    mounted () {
+    async mounted () {
         this.anonymousId = this.GetAnonymousId
         this.pageLoader = 0
     }
@@ -507,5 +748,24 @@ export default {
 <style scoped>
     .no-radius {
         border-radius: 0;
+    }
+    .content-loading {
+        width: 100%;
+        height: 200px;
+        /* background: red; */
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        position: relative;
+    }
+    .content-loading .loader-action {
+        display: flex;
+        background-color: transparent;
+    }
+    .content-loading .loader-action .loader {
+        border: 2px solid rgba(0,0,0,.5);
+        width: 30px;
+        height: 30px;
+        border-top: 2px solid transparent;
     }
 </style>

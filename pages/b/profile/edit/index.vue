@@ -762,7 +762,7 @@ export default {
             target.disabled = true
 
             let phone = this.businessPhone.split(',');
-
+            
             let variables = { 
                 businessId: this.businessId,
                 phoneNumbers: phone
@@ -811,6 +811,15 @@ export default {
             let target = document.getElementById('updateBusinessWhatsapp');
             target.disabled = true
 
+            let formatWhatsappNumber = this.whatsappNumber.split("");
+            if (formatWhatsappNumber[0] == '0') {
+                formatWhatsappNumber[0] = '234';
+                let x = "";
+                formatWhatsappNumber.forEach(element => {
+                    x = x+element
+                });
+                this.whatsappNumber = x
+            }
 
             let variables = { 
                 businessId: this.businessId,

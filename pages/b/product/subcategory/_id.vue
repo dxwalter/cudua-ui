@@ -140,7 +140,7 @@ export default {
                 return
 			}
 
-			let result = query.result.data.BusinessGetProductBysubCategory;
+			let result = query.result.data.GetProductBysubCategory;
 
 			if (result.success == false) {
 				this.$initiateNotification('error', 'Failed request', result.message);

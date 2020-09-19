@@ -2691,7 +2691,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     position: fixed;
     background-color: $white-color;
     overflow-y: scroll;
-    top: 65px;
+    top: 0px;
     border-top: $border;
 
     .section-header {
@@ -2871,6 +2871,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
 .business-product-listing {
     margin-bottom: 32px;
+    width: 100%
 }
 
 .bottom-business-details {
