@@ -30,6 +30,7 @@
                                         <div class="product-card">
                                             <div class="product-card-image">
                                                 <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
+                                                <div class="chip small-chip" v-show="product.hide">Hidden</div>
                                             </div>
                                             <div class="product-card-details">
                                                 <div class="product-name">
@@ -166,7 +167,8 @@ export default {
                         id: x.id,
                         price: this.$numberNotation(x.price),
                         image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
-                        review: x.reviewScore
+                        review: x.reviewScore,
+                        hide: x.hide
                     })
                 }
 
@@ -216,3 +218,13 @@ export default {
     }
 }
 </script>
+<style scoped>
+.small-chip {
+    padding: 7px 14px;
+    font-size: 12px;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 8px;
+}
+</style>
