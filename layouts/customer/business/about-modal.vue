@@ -31,7 +31,14 @@
 					</div>
 					<img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
 				</div>
-				<button class="btn btn-primary btn-md">Follow business</button>
+				<button class="btn btn-primary btn-md" @click="followBusiness()" v-show="accessToken">
+					Follow business
+					<div class="loader-action"><span class="loader"></span></div>	
+				</button>
+				<button class="btn btn-primary btn-md" @click="showLoginBox()" v-show="!accessToken" v-on:updateAccessToken="updateAccessToken($event)">
+					Follow business
+					<div class="loader-action"><span class="loader"></span></div>	
+				</button>
 			</div>
 
 			<div class="profile-content-container">
@@ -105,6 +112,8 @@
 
 			</div>
 
+			<LoginComponent :showModal=showLoginModal></LoginComponent>
+
 		</div>
 		<!-- end of mobile search container -->
 
@@ -113,12 +122,15 @@
 </template>
 
 <script>
-import StarRating from '~/plugins/vue-star-rating.client.vue'
+import StarRating from '~/plugins/vue-star-rating.client.vue';
+import LoginComponent from '~/components/login/login.vue'
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
 	name: "ABOUTBUSINESSMODAL",
 	components: {
-		StarRating	
+		StarRating,
+		LoginComponent
 	},
 	data() {
 		return {
@@ -132,10 +144,16 @@ export default {
 			reviewScore: 0,
 			username: "",
 			description: "",
-			contact: ""
+			contact: "",
+			accessToken: "",
+			showLoginModal: 0
 		}
 	},
 	computed: {
+        ...mapGetters({
+			'GetAnonymousId': 'customer/GetAnonymousId',
+			'GetUserData': 'customer/GetCustomerDetails'
+        }),
 		getBusinessAddress: function() {
 			if (this.address == null) return "Not available";
 
@@ -188,6 +206,7 @@ export default {
 	},
 	created() {
         if (process.browser) {
+			this.getUserDataFromStore()
             this.$nuxt.$on('BusinessDetails', (data) => {
 				this.businessId = data.businessId
 				this.address = data.address
@@ -203,11 +222,27 @@ export default {
         }
 	},
 	methods: {
+		updateAccessToken: function (accessToken) {
+			this.accessToken = accessToken
+			alert(accessToken)
+		},
+		showLoginBox: function () {
+			this.showLoginModal = 0
+			this.showLoginModal = 1
+			console.log(this.showLoginModal)
+		},
+		followBusiness: function () {
+			alert("Signed in user")
+		},
 		getNameLogo: function (businessName) {
 			if (process.browser) {
 				let name =  this.$convertNameToLogo(businessName)
 				return name
 			}
+		},
+		getUserDataFromStore: function () {
+            let customerData = this.GetUserData
+            this.accessToken = customerData.userToken
 		}
 	}
 }

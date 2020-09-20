@@ -29,7 +29,7 @@
                                     </svg>
                                     <span>Categories</span>
                                 </button>
-                                <button class="bis-nav-btn" @click="getAllProducts(1); isLoading = true;">
+                                <button class="bis-nav-btn" @click="getAllProducts(1);">
                                     <svg xmlns="http://www.w3.org/2000/svg">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#productIcon"></use>
                                     </svg>
@@ -67,9 +67,9 @@
                                             v-bind:class="{'showEffect': index == 0}"
                                             >
                                                 <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="subcategory.subcategoryId"
-                                                @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event); isLoading = true;"
+                                                @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event);"
                                                 >{{subcategory.subcategoryName}}</a>
-                                                <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event); isLoading = true;">All products in {{category.categoryName}} category</a>
+                                                <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event);">All products in {{category.categoryName}} category</a>
                                             </div>
                                         </div>
 
@@ -101,9 +101,9 @@
                                                 v-bind:class="{'showEffect': !index}"
                                                 >
                                                     <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="`${subcategory.subcategoryId}dk`"
-                                                        @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event); isLoading = true;"
+                                                        @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event);"
                                                     >{{subcategory.subcategoryName}}</a>
-                                                    <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event); isLoading = true;">All products in {{category.categoryName}} category</a>
+                                                    <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event); ">All products in {{category.categoryName}} category</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -114,45 +114,47 @@
 
                                         <div class="section-header d-flex-between business-page-action">
                                             <h4>{{productHeader}}</h4>
-                                            <button class="btn btn-white btn-md" @click="getAllProducts(1); isLoading = true;">All products</button>
+                                            <button class="btn btn-white btn-md" @click="getAllProducts(1);">All products</button>
                                         </div>
 
                                         <!-- business product listing -->
                                         <div class="content-loading" v-show="isLoading">
                                             <div class="loader-action"><span class="loader"></span></div>    
                                         </div>
-                                        <div class="row">
-                                                        
-                                            <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="x in returnProductList" :key="x.productId"  v-show="!isLoading">
-                                                <div class="product-card">
-                                                    <div class="product-card-image">
-                                                        <img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
-                                                    </div>
-                                                    <div class="product-card-details">
-                                                        <div class="product-name">
-                                                            {{x.productName}}
+
+                                        <div  v-show="!isLoading">
+
+                                            <div class="row">  
+                                                <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="x in returnProductList" :key="x.productId"  v-show="!x.hide">
+                                                    <div class="product-card">
+                                                        <div class="product-card-image">
+                                                            <img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
                                                         </div>
-                                                        <div class="product-price">₦ {{x.price}}</div>
+                                                        <div class="product-card-details">
+                                                            <div class="product-name">
+                                                                {{x.productName}}
+                                                            </div>
+                                                            <div class="product-price">₦ {{x.price}}</div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </n-link>
-                                
+                                                </n-link>
+                                            </div>
+                                            <div class="load-more-action move-center" v-show="loadMoreContent">
+                                                <button class="btn btn-white" @click="loadMoreProducts(page = page + 1, $event)" id="loadMoreProducts">
+                                                    Load more products
+                                                    <div class="loader-action"><span class="loader"></span></div>    
+                                                </button>
+                                            </div>
                                         </div>
                                         <!-- end of business product listing -->
 
                                         <!-- when no product is found, show this -->
-                                        <div class="link-error-area" v-show="returnProductList.length == 0 && !pageLoader">
+                                        <div class="link-error-area" v-show="noProduct == 1">
                                             <img src="~/static/images/404.svg" alt="">
                                             <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
                                         </div>
                                         <!-- end of error area -->
 
-                                        <div class="load-more-action move-center" v-show="loadMoreContent">
-                                            <button class="btn btn-white" @click="loadMoreProducts(page = page + 1, $event)" id="loadMoreProducts">
-                                                Load more products
-                                                <div class="loader-action"><span class="loader"></span></div>    
-                                            </button>
-                                        </div>
 
                                         <!-- business name and details for desktop -->
                                         <div class="desktop-business-bottom-details card">
@@ -319,11 +321,18 @@ export default {
         subcategoryId: "",
         subcategoryName: "",
         categoryId: "",
-        categoryName: ""
+        categoryName: "",
+        isLoading: false,
+
+        accessToken: "",
+        noProduct: 0
       }
     },
     computed: {
-      ...mapGetters({'GetAnonymousId': 'customer/GetAnonymousId'}),
+        ...mapGetters({
+          'GetAnonymousId': 'customer/GetAnonymousId',
+          'GetUserData': 'customer/GetCustomerDetails'
+        }),
 		getBusinessAddress: function() {
 			if (this.address == null) return "Not available";
 
@@ -526,6 +535,8 @@ export default {
 
             this.page = page
 
+            if (this.page == 1) this.isLoading = true
+
             let variables = {
                 businessId: this.businessId,
                 page: page,
@@ -533,11 +544,12 @@ export default {
             }
             
             let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_CATEGORY, variables, {});
+            this.isLoading = false
 
             if (page == 1) this.productLists = []
 
             if (request.error) {
-                this.reasonForError = request.error
+                this.reasonForError = request.message
                 this.pageError = 1
                 return
             }
@@ -552,8 +564,12 @@ export default {
 
             if (result.products.length == 0 && page == 1) {
                 this.productLists = []
+                this.noProduct = 1
                 this.reasonForError = `No product was found in <span class="indicator">${categoryName}</span> category.`
+            } else {
+                this.noProduct = 0
             }
+
 
             if (result.products.length == 12) {
                 this.loadMoreContent = true
@@ -573,7 +589,8 @@ export default {
                 })
             }
 
-            this.isLoading = false
+            
+            
 
         },
         getProductsBysubCategory: async function (subcategoryId, subcategoryName, e = "", page = 1) {
@@ -581,7 +598,6 @@ export default {
             if (typeof e !== 'string') {
                 e.preventDefault()
             }
-
 
             this.$router.push({path: this.$route.path, query: { sub: subcategoryId, name: subcategoryName }})
             this.hideMobileCategory()
@@ -592,6 +608,11 @@ export default {
 
             this.page = page
 
+            if (this.page == 1) this.isLoading = true
+
+            this.$router.push({path: this.$route.path})
+
+
             let variables = {
                 businessId: this.businessId,
                 page: page,
@@ -599,11 +620,12 @@ export default {
             }
             
             let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_SUBCATEGORY, variables, {});
+            this.isLoading = false
 
             if (page == 1) this.productLists = []
 
             if (request.error) {
-                this.reasonForError = request.error
+                this.reasonForError = request.message
                 this.pageError = 1
                 return
             }
@@ -616,9 +638,14 @@ export default {
                 return
             }
 
+
+
             if (result.products.length == 0 && page == 1) {
                 this.productLists = []
+                this.noProduct = 1
                 this.reasonForError = `No product was found in <span class="indicator">${subcategoryName}</span> subcategory.`
+            } else {
+                this.noProduct = 0
             }
 
             if (result.products.length == 12) {
@@ -639,12 +666,12 @@ export default {
                 })
             }
 
-            this.isLoading = false
-
         },
         getAllProducts: async function (page = 1, e) {
             this.productsType = 'all'
             this.page = page
+
+            if (this.page == 1) this.isLoading = true
 
             this.productHeader = 'All products'
 
@@ -654,11 +681,12 @@ export default {
             }
             
             let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_BY_BUSINESS_ID, variables, {});
-
+            this.isLoading = false
+            
             if (page == 1) this.productLists = []
 
             if (request.error) {
-                this.reasonForError = request.error
+                this.reasonForError = request.message
                 this.pageError = 1
                 return
             }
@@ -673,7 +701,10 @@ export default {
 
             if (result.products.length == 0 && page == 1) {
                 this.productLists = []
+                this.noProduct = 1
                 this.reasonForError = `No product was found in this <span class="indicator">shop</span>.`
+            } else {
+                this.noProduct = 0
             }
 
             if (result.products.length == 12) {
@@ -694,8 +725,6 @@ export default {
                 })
             }
 
-            this.isLoading = false
-
         },
         loadMoreProducts: async function (page, e) {
 
@@ -708,11 +737,17 @@ export default {
             if (this.productsType == "cat") await this.getProductsByCategory(page);
 
             target.disabled = false
+        },
+        getCustomerDataFromStore: function () {
+            let customerData = this.GetUserData
+            this.accessToken = customerData.userToken
         }
     },
     created: async function () {
         if(process.browser) {
-            // await this.getBusinessDetails()
+            
+            this.getCustomerDataFromStore()
+
             let username = this.$route.params.id
             if (username == null || username.length == 0) {
                 this.reasonForError = "No business username was found in your request."
@@ -725,6 +760,7 @@ export default {
                 let queryData = this.$route.query
                 if (queryData.name != undefined) {
 
+                    this.isLoading = 1
                     if (queryData.cat != undefined) {
                         this.getProductsByCategory(queryData.cat, queryData.name, "", 1)
                     }
@@ -734,6 +770,7 @@ export default {
                     }
 
                 } else {
+                    this.isLoading = 1
                     await this.getAllProducts(1);
                 }
             }
