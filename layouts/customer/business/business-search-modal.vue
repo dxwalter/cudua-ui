@@ -41,7 +41,7 @@
 			</div>
 
 
-			<div  v-show="resultCount > 0">
+			<div  v-show="resultCount > 0 && searchKeyword.length > 0">
 
 				<div class="row">
 										
