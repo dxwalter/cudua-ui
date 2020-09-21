@@ -227,4 +227,7 @@ export default {
     right: 0;
     top: 8px;
 }
+.product-card-image {
+    position: relative;
+}
 </style>

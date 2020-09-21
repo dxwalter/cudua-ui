@@ -31,13 +31,22 @@
 					</div>
 					<img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
 				</div>
-				<button class="btn btn-primary btn-md" @click="followBusiness()" v-show="accessToken">
+
+				<div v-show="checkFollowStatus > -1">
+					<button class="btn btn-primary btn-md" @click="followBusiness()" v-show="accessToken && checkFollowStatus == 0" id="followBusiness">
+						Follow business
+						<div class="loader-action"><span class="loader"></span></div>	
+					</button>
+
+					<button class="btn btn-light-grey btn-md" @click="unFollowBusiness()" v-show="accessToken && checkFollowStatus == 1" id="unfollowBusiness">
+						unfollow
+						<div class="loader-action"><span class="loader"></span></div>	
+					</button>
+				</div>
+
+
+				<button class="btn btn-primary btn-md" data-target="customerSignInModal" data-trigger="modal" v-show="!accessToken && checkFollowStatus == -1">
 					Follow business
-					<div class="loader-action"><span class="loader"></span></div>	
-				</button>
-				<button class="btn btn-primary btn-md" @click="showLoginBox()" v-show="!accessToken" v-on:updateAccessToken="updateAccessToken($event)">
-					Follow business
-					<div class="loader-action"><span class="loader"></span></div>	
 				</button>
 			</div>
 
@@ -112,8 +121,6 @@
 
 			</div>
 
-			<LoginComponent :showModal=showLoginModal></LoginComponent>
-
 		</div>
 		<!-- end of mobile search container -->
 
@@ -123,14 +130,18 @@
 
 <script>
 import StarRating from '~/plugins/vue-star-rating.client.vue';
-import LoginComponent from '~/components/login/login.vue'
 import { mapActions, mapGetters } from 'vuex';
+
+import {
+	IS_CUSTOMER_FOLLOWING_BUSINESS,
+	FOLLOWBUSINESS,
+	UNFOLLOWBUSINESS	
+} from '~/graphql/customer'
 
 export default {
 	name: "ABOUTBUSINESSMODAL",
 	components: {
 		StarRating,
-		LoginComponent
 	},
 	data() {
 		return {
@@ -146,7 +157,8 @@ export default {
 			description: "",
 			contact: "",
 			accessToken: "",
-			showLoginModal: 0
+			showLoginModal: 0,
+			checkFollowStatus: -1
 		}
 	},
 	computed: {
@@ -158,6 +170,9 @@ export default {
 			if (this.address == null) return "Not available";
 
 			return `${this.address.number} ${this.address.street}, ${this.address.community}, ${this.address.state} ${this.address.country}`
+		},
+		getBusinessId: function () {
+			return this.businessId
 		},
 		getCategories: function() {
 			if (this.businessCategories.length == 0) {
@@ -204,35 +219,114 @@ export default {
 
 		}
 	},
-	created() {
-        if (process.browser) {
-			this.getUserDataFromStore()
-            this.$nuxt.$on('BusinessDetails', (data) => {
-				this.businessId = data.businessId
-				this.address = data.address
-				this.businessCategories = data.categories
-				this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : ""
-				this.coverPhoto = data.coverPhoto.length > 0 ? this.$getBusinessCoverPhotoUrl(this.businessId, data.coverPhoto): ""
-				this.businessName = data.name
-				this.reviewScore = data.reviewScore
-				this.username = data.username,
-				this.description = data.description
-				this.contact = data.contact
-            })
-        }
-	},
 	methods: {
-		updateAccessToken: function (accessToken) {
-			this.accessToken = accessToken
-			alert(accessToken)
+		followBusiness: async function () {
+			
+			let target = document.getElementById('followBusiness');
+
+			let variables = {
+				businessId: this.businessId
+			}
+
+			let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+		
+
+			target.disabled = true;
+
+			let query = await this.$performGraphQlMutation(this.$apollo, FOLLOWBUSINESS, variables, context);
+			
+			target.disabled = false;
+
+            if (query.error) {
+                this.$initiateNotification('error', "Network error", query.message)
+                return
+            }
+
+            let result = query.result.data.FollowBusiness;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', "", result.message)
+                return
+			}
+
+			this.$initiateNotification('success', "", result.message)
+			
+			this.checkFollowStatus = 1
+
 		},
-		showLoginBox: function () {
-			this.showLoginModal = 0
-			this.showLoginModal = 1
-			console.log(this.showLoginModal)
+		unFollowBusiness: async function () {
+			let target = document.getElementById('unfollowBusiness');
+
+			let variables = {
+				businessId: this.businessId
+			}
+
+			let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+		
+
+			target.disabled = true;
+
+			let query = await this.$performGraphQlMutation(this.$apollo, UNFOLLOWBUSINESS, variables, context);
+			
+			target.disabled = false;
+
+            if (query.error) {
+                this.$initiateNotification('error', "Network error", query.message)
+                return
+            }
+
+            let result = query.result.data.UnfollowBusiness;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', "", result.message)
+                return
+			}
+
+			this.$initiateNotification('success', "", result.message)
+			
+			this.checkFollowStatus = 0
 		},
-		followBusiness: function () {
-			alert("Signed in user")
+		isCustomerFollowingBusiness: async function(businessId) {
+
+			if (!this.accessToken) {
+				return
+			}
+
+			let variables = {
+				businessId: businessId
+			}
+
+			let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+        
+
+            let query = await this.$performGraphQlQuery(this.$apollo, IS_CUSTOMER_FOLLOWING_BUSINESS, variables, context);
+
+            if (query.error) {
+                this.$initiateNotification('error', "Network error", query.message)
+                return
+            }
+
+            let result = query.result.data.IsCustomerFollowingBusiness;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', "", result.message)
+                return
+			}
+			
+			if (result.status == true) this.checkFollowStatus = 1
+			if (result.status == false) this.checkFollowStatus = 0
 		},
 		getNameLogo: function (businessName) {
 			if (process.browser) {
@@ -244,6 +338,30 @@ export default {
             let customerData = this.GetUserData
             this.accessToken = customerData.userToken
 		}
+	},
+	created() {
+        if (process.browser) {
+			this.getUserDataFromStore()
+            this.$nuxt.$on('BusinessDetails', async (data) => {
+				this.businessId = data.businessId
+
+				this.isCustomerFollowingBusiness(data.businessId)
+
+				this.address = data.address
+				this.businessCategories = data.categories
+				this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : ""
+				this.coverPhoto = data.coverPhoto.length > 0 ? this.$getBusinessCoverPhotoUrl(this.businessId, data.coverPhoto): ""
+				this.businessName = data.name
+				this.reviewScore = data.reviewScore
+				this.username = data.username,
+				this.description = data.description
+				this.contact = data.contact,
+				this.accessToken = data.accessToken
+			});
+        }
+	},
+	async mounted() {
+		
 	}
 }
 </script>

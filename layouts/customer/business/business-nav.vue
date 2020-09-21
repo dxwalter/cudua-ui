@@ -13,7 +13,7 @@
 
 				<div class="desktop-search-container">
 					<div class="position-relative">
-						<input type="text" name="" id="" class="desktop-search" :placeholder="`Search for products in ${businessName}`">
+						<input type="text" name="" id="businessDesktopSearch" class="desktop-search" :placeholder="`Search for products in ${businessName}`">
 						<!-- remove display-none to see search suggestions -->
 						<div class="recent-search-list-container display-none">
 							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
@@ -41,7 +41,7 @@
 						</svg>
 					</n-link>
 
-					<n-link to="/c/notification" class="desktop-menu-item">
+					<n-link to="/c/notification" class="desktop-menu-item" v-show="isLoggedIn">
 						<div class="notif-point">10</div>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
 						<use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
@@ -56,17 +56,36 @@
 
 					<div class="dropdown-container">
 
-						<button class="desktop-menu-item search-filter-action">
-						  <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="navigationDropdown">
-						  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#caretDown"></use>
-						  </svg>
-						  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
-							<use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
-						  </svg>
+						<button class="desktop-menu-item search-filter-action"  v-show="isLoggedIn">
+							<input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="navigationDropdown">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+								<use xlink:href="~/assets/customer/image/all-svg.svg#caretDown"></use>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
+								<use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+							</svg>
 						</button>
-						
-						<div class="navigation-dropdown" id="navigationDropdown">
+
+
+						<button class="desktop-menu-item search-filter-action" v-show="!isLoggedIn">
+							<input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="anonymousNavigationDropdown">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+							<use xlink:href="~/assets/customer/image/all-svg.svg#person"></use>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
+							<use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+							</svg>
+						</button>
+
+						<!-- logged in user -->
+						<div class="navigation-dropdown" id="navigationDropdown" v-show="isLoggedIn">
+							<n-link to="/b" class="mobile-side-nav-link" v-show="isLoggedIn && isBusinessOwner">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
+								  <use xlink:href="~/assets/customer/image/all-svg.svg#visitShop"></use>
+								</svg>
+								<span>Manage shop</span>
+							</n-link>
+							
 							<n-link to="/c/orders" class="mobile-side-nav-link">
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
 								  <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
@@ -100,13 +119,19 @@
 								<span>Account setting</span>
 							</n-link>
               
-							<n-link to="#" class="mobile-side-nav-link">
+							<n-link to="/c/logout" class="mobile-side-nav-link">
 								<svg xmlns="http://www.w3.org/2000/svg">
 								  <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
 								</svg>
 								<span>Logout</span>
 							</n-link>
 			
+						</div>
+
+						<!-- logged out in user -->
+						<div class="navigation-dropdown" id="anonymousNavigationDropdown" v-show="!isLoggedIn">
+							<n-link to="/auth/" class="mobile-side-nav-link btn btn-white btn-svg">Sign In</n-link>
+							<n-link to="/auth/sign-up" class="mobile-side-nav-link btn btn-white btn-svg">Sign Up</n-link>
 						</div>
 					  </div>
 
@@ -118,16 +143,31 @@
 </template>
 
 <script>
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
 export default {
 	name: "BUSINESSNAVIGATION",
 	data() {
 		return {
 			businessId: "",
 			businessName: "",
-			logo: ""
+			logo: "",
+			isLoggedIn: false,
+			isBusinessOwner: false,
 		}
 	},
 	methods: {
+		...mapGetters({
+			'GetLoginStatus': 'customer/GetLoginStatus',
+			'GetAnonymousId': 'customer/GetAnonymousId',
+			'GetBusinessStatus': 'business/GetBusinessStatus',
+			'GetBusinessDetails': 'business/GetBusinessDetails',
+		}),
+		statusChecker () {
+			this.isLoggedIn = this.GetLoginStatus()
+			this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+		},
 		getNameLogo: function (businessName) {
 			if (process.browser) {
 				let name =  this.$convertNameToLogo(businessName)
@@ -137,6 +177,7 @@ export default {
 	},
 	created() {
 		if (process.browser) {
+			this.statusChecker()
 			this.$nuxt.$on('searchData', (data) => {
 				this.businessName = data.name
 				this.businessId = data.id

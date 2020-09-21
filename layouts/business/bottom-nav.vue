@@ -28,7 +28,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
                 <use xlink:href="~/assets/business/image/all-svg.svg#visitShop"></use>
             </svg>
-            <span>Go to shop</span>
+            <span>My shop</span>
         </n-link>
     </div>
 </template>

@@ -392,3 +392,24 @@ mutation deleteProduct($businessId: String!, $productId: String!) {
   }
 }
 `
+
+export const CUSTOMER_SEARCH_PRODUCT_IN_BUSINESS = gql`
+query SearchInShop ($keyword: String!, $businessId: String!, $page: Int!) {
+  BusinessSearchProductByCustomer(input:{
+    keyword: $keyword,
+    businessId: $businessId,
+    page: $page
+  }) {
+    products {
+      name
+      id
+      price
+      primaryImage
+    }
+    resultCount
+    code
+    success
+    message
+  }
+}
+`

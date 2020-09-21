@@ -1,3 +1,4 @@
+import { concatAST } from 'graphql';
 import gql from 'graphql-tag'
 
 export const CREATE_USER_MUTATION = gql`
@@ -130,3 +131,40 @@ export const CREATE_USER_AND_BUSINESS_MUTATION = gql`
         }
     }
 `;
+
+
+export const IS_CUSTOMER_FOLLOWING_BUSINESS = gql`
+query checkstatus($businessId: String!) {
+    IsCustomerFollowingBusiness(input: {
+        businessId: $businessId,
+    }) {
+        status
+        code
+        success
+        message
+    }
+}
+`
+
+export const FOLLOWBUSINESS = gql`
+mutation followBusiness($businessId: String!){
+  FollowBusiness(input:{
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+export const UNFOLLOWBUSINESS = gql`
+mutation UNfollowBusiness($businessId: String!){
+    UnfollowBusiness(input:{
+        businessId: $businessId
+    }) {
+        code
+        success
+        message
+    }
+}
+`

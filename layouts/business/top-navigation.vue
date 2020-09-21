@@ -28,7 +28,7 @@
                     <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
                 </svg> 
             </n-link>
-            <n-link :to="`/${username}`" class="btn btn-white btn-md">Visit shop</n-link>
+            <n-link :to="`/${username}`" class="btn btn-white btn-md">My shop</n-link>
             <n-link to="/b/product/add-product" class="btn btn-primary btn-md">Add products</n-link>
         </div>
 

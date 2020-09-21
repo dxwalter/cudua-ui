@@ -125,7 +125,7 @@
                                         <div  v-show="!isLoading">
 
                                             <div class="row">  
-                                                <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="x in returnProductList" :key="x.productId"  v-show="!x.hide">
+                                                <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
                                                         <div class="product-card-image">
                                                             <img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
@@ -249,6 +249,7 @@
                 <BUSINESSSEARCH></BUSINESSSEARCH>
                 <BUSINESSCONTACT></BUSINESSCONTACT>
                 <REPORTBUSINESS></REPORTBUSINESS>
+                <LoginComponent></LoginComponent>
             </div>
     </div>
 </template>
@@ -269,6 +270,7 @@ import BUSINESSREVIEW from '~/layouts/customer/business/business-review-modal.vu
 import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
 import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
 import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
+import LoginComponent from '~/components/login/login.vue'
 
 import { mapActions, mapGetters } from 'vuex';
 
@@ -294,7 +296,8 @@ export default {
         BUSINESSSEARCH,
         BUSINESSCONTACT,
         REPORTBUSINESS,
-        DESKTOPNAVGATION 
+        DESKTOPNAVGATION,
+        LoginComponent
     },
     data: function() {
       return {
@@ -378,7 +381,6 @@ export default {
 		showSubcatList: function (id, category, e) {
             if (process.browser) {
                 
-                e.preventDefault()
 
                 let openedCat = document.querySelectorAll(".subcat-listing.showEffect");
                 for (let i = 0; i < openedCat.length; i++) {
@@ -448,7 +450,8 @@ export default {
                 reviewScore: data.review,
                 categories: data.businessCategories,
                 username: data.username,
-                description: data.description
+                description: data.description,
+                accessToken: this.accessToken
             }
 
             let searchData = {
@@ -504,7 +507,6 @@ export default {
                         }
                     }
                 }
-
             }
 
             
@@ -734,7 +736,7 @@ export default {
 
             if (this.productsType == "all") await this.getAllProducts(page);
             if (this.productsType == "sub") await this.getProductsBysubCategory(this.subcategoryId, this.subcategoryName, e, page);
-            if (this.productsType == "cat") await this.getProductsByCategory(page);
+            if (this.productsType == "cat") await this.getProductsByCategory(this.categoryId, this.categoryName, e, page);
 
             target.disabled = false
         },

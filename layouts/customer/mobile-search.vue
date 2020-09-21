@@ -31,7 +31,7 @@
           </div>
 
           <div class="mobile-nav-search">
-            <input type="text" name="" id="mobilePrimarySearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business">
+            <input type="text" name="" id="mobilePrimarySearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="off">
           </div>
 
         </div>

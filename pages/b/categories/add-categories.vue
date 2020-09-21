@@ -245,18 +245,25 @@ export default {
                     'accessToken': this.accessToken
                 }
             }
+            
             target.disabled = true;
+
             let query = await this.$performGraphQlMutation(this.$apollo, CREATE_BUSINESS_CATEGORY, variables, context);
+
             target.disabled = false
+
             if (query.error) {
                 this.$initiateNotification('error', "Network error", query.message)
                 return
             }
+
             let result = query.result.data.CreateBusinessCategory;
+
             if (result.success == false) {
                 this.$initiateNotification('error', "", result.message)
                 return
             }
+
             this.$initiateNotification('success', "", result.message);
         }
     },

@@ -1,41 +1,53 @@
 <template>
-        <div class="sign-in-cover-modal" id="signInModal">
-            <div class="sign-up-logo-container">
-                <div class="sign-up-logo">
-                    <img src="~/assets/customer/image/cudua-logo-icon.svg">
-                </div>
+<div class="modal-container mobile-search-modal-container" id="customerSignInModal">
+    <div class="modal-dialog-box white-bg-color">
+        <div class="mobile-login-container white-bg-color ">
+			<div class="sign-in-modal-logo">
+				<img src="~/assets/customer/image/cudua-logo-icon.svg" alt="">
+			</div>
 
-                <button class="close-modal-btn">
-                    <div class="dropdownCheckBox" @click="hideSignInBox()"></div>
-                    <svg data-v-2478c6c0="" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
-                        <use data-v-2478c6c0="" xlink:href="~/assets/business/image/all-svg.svg#times"></use>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-signin-body">
-                <div class="intent-bg-text">Sign into your account</div>
-                <div class="form-area">
-                    <!-- <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div> -->
-                    <div class="form-control">
-                        <input type="email" name="email" class="input-form" v-model="loginEmail" placeholder="Email address">
-                    </div>
-                    <div class="form-control">
-                        <input type="password" name="password" class="input-form" v-model="loginPassword" placeholder="Password">
-                    </div>
-                    <div class="form-control ">
-                        <button class="btn btn-primary btn-block" type="button" @click="validateUserLogin" :disabled="loginIsDisabled">
-                            Sign in
-                            <div class="loader-action"><span class="loader"></span></div>
-                        </button>
-                        <div class="fg-password"><n-link to="/auth/forgot-password">Forgot Password?</n-link></div>
-                    </div>
+			<div class="sign-in-modal-welcome">
+				<h1>Welcome Back!</h1>
+				<div class="instruction-text">Sign into your account</div>
+			</div>
+			<div class="modal-login-form-container">
+				<div class="form-control">
+					<button class="facebook-btn btn">
+						<img src="~/assets/global-asset/image/facebookLogo.svg" alt="">
+						Sign in with facebook
+					</button>
+				</div>
+
+				<div class="sign-in-option mg-bottom-32">or sign in with</div>
+
+                <div class="form-control">
+                    <input type="email" id="userLoginEmail" name="email" class="input-form" v-model="loginEmail" placeholder="Email address" autocomplete="off">
+                </div>
+                <div class="form-control">
+                    <input type="password" id="userLoginPassword" name="password" class="input-form" v-model="loginPassword" placeholder="Password">
                 </div>
                 <div class="form-control ">
-                    <n-link to="/auth/sign-up" class="btn btn-white btn-block" type="button" data-trigger="modal" data-target="createAccountModal">Create your account</n-link>
+                    <button class="btn btn-primary btn-block" type="button" @click="validateUserLogin" id="validateUserLogin">
+                        Sign in
+                        <div class="loader-action"><span class="loader"></span></div>
+                    </button>
                 </div>
-            </div>
+				<div class="form-control">
+					<div class="mg-top-24 mg-bottom-24 other-login-actions">
+						<n-link to="/auth/sign-up">Create your account</n-link>
+						<n-link to="/auth/forgot-password">Forgot password?</n-link>
+					</div>
+				</div>
+
+				<div class="d-flex-center">
+					<button class="btn btn-small btn-white" data-target="customerSignInModal" data-dismiss="modal">Cancel Sign in</button>
+				</div>
+
+			</div>
             <NOTIFICATION></NOTIFICATION>
         </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -48,12 +60,6 @@ export default {
     components: {
         NOTIFICATION
     },
-    props: {
-        showModal: {
-            type: Number,
-            default: 0 
-        } 
-    },
     data() {
         return {
             // login variables
@@ -61,7 +67,8 @@ export default {
             loginPassword: "",
             loginIsDisabled: false,
             anonymousId: "",
-            accessToken: ""
+            accessToken: "",
+            failedLoginCount: 0
         }
     },
     computed: {
@@ -78,84 +85,79 @@ export default {
 		}
     },
     methods: {
-        hideSignInBox: function () {
-            // add overflow-hidden to body tag
-            // document.querySelector("body").classList.remove("overflow-hidden");
-            // // add is-active to
-            // document.getElementById('signInModal').classList.remove("is-active")
-        },
-        showSignInModal: function() {
-                // add overflow-hidden to body tag
-                document.querySelector("body").classList.add("overflow-hidden");
-                // add is-active to
-                document.getElementById('signInModal').classList.add("is-active")
-        },
         validateUserLogin: async function () {
             if (this.loginEmail.length < 2 || this.loginPassword.length < 2) {
                 this.$showToast('Enter your email and password credentials to sign in', 'error')
                 return
             } 
-            // add disable to button
-            this.loginIsDisabled = true
 
-            try {
-                
-                let login = await this.$apollo.query({
-                    query: LOGIN_USER,
-                    variables: {
-                        email: this.loginEmail,
-                        password: this.loginPassword,
-                        anonymousId: this.anonymousId
-                    }
-                })
+            let target = document.getElementById('validateUserLogin');
 
-                let result = login.data.userLogin;
+            target.disabled = true
 
-                if (result.success == false) {
-                    this.loginIsDisabled = false
-                    this.$initiateNotification('error', 'Failed login', result.message);
-                    if (this.failedLoginCount == 3) {
-                        return this.$router.push('/auth/forgot-password')
-                    }
-                    return
-                }
-
-                // change login status
-                this.$store.dispatch('customer/changeLoginStatus', true);
-                // set access token
-                this.accessToken = result.accessToken;
-                this.customerFullname = result.userDetails.fullname;
-                
-
-                // delete anonymous id
-                localStorage.removeItem('CUDUA_ANONYMOUS_ID');
-                this.$store.dispatch('customer/setAnonymousId', '');
-
-                this.loginIsDisabled = true
-
-                if (result.businessDetails != null) {
-                    
-                    this.setCustomerData(result)
-                    this.setBusinessData(result)
-
-                    this.$initiateNotification('success', 'Sign in successful', result.message);
-                    
-                    this.hideSignInBox()
-                    return
-                }
-
-                // set customer data to store
-                this.setCustomerData(result)
-                this.updateAccessToken()
-                this.$initiateNotification('success', 'Sign in successful', `${result.message}. You can now create your online store`);
-
-                this.hideSignInBox()
-
-            } catch (error) {
-                    this.loginIsDisabled = false
-                    this.$initiateNotification('error', 'Failed request', "A network error occurred");
-                    return
+            let variables = {
+                email: this.loginEmail,
+                password: this.loginPassword,
+                anonymousId: this.anonymousId
             }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, LOGIN_USER, variables, {});
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Failed request', 'A network error occurred');
+                return
+            }
+
+            let result = request.result.data.userLogin;
+
+            if (result.success == false) {
+                
+                this.failedLoginCount = this.failedLoginCount + 1
+
+                this.$initiateNotification('error', 'Failed login', result.message);
+                if (this.failedLoginCount == 3) {
+                    return this.$router.push('/auth/forgot-password')
+                }
+                return
+            }
+
+            // change login status
+            this.$store.dispatch('customer/changeLoginStatus', true);
+            // set access token
+            this.accessToken = result.accessToken;
+            this.customerFullname = result.userDetails.fullname;
+
+
+            // delete anonymous id
+            localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+            this.$store.dispatch('customer/setAnonymousId', '');
+
+
+            if (result.businessDetails != null) {
+                
+                this.setCustomerData(result)
+                this.setBusinessData(result)
+
+                this.$initiateNotification('success', 'Sign in successful', result.message);
+
+                window.location.reload(true)
+                
+                return
+            }
+
+            // set customer data to store
+            this.setCustomerData(result)
+            this.updateAccessToken()
+            this.$initiateNotification('success', 'Sign in successful', `${result.message}.`);
+
+            window.location.reload(true)
+
+            return
+
+
+
         },
         updateAccessToken: function () {
             this.$emit('updateAccessToken', this.accessToken)
@@ -235,9 +237,7 @@ export default {
 
     },
     watch: {
-        showModal: function () {
-            this.showSignInModal()
-        }
+
     },
     mounted () {
         document.querySelector("body").classList.remove("overflow-hidden");
@@ -246,6 +246,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .is-active {
+        display: block !important;
+        z-index: 10000000 !important;
+    }
 </style>

@@ -15,16 +15,16 @@
 	<div class="modal-content">
 		<div id="createCategory" class="is-active tab-content-area">
 			<div class="form-control">
-				<label for="businessType" class="form-label">Subject of report</label>
-				<input type="text" name="" id="" class="input-form">
+				<!-- <label for="businessType" class="form-label">Subject of report</label> -->
+				<input type="text" name="" id="reportSubject" class="input-form" placeholder="Subject of report">
 			</div>
 			<div class="form-control">
-				<label for="businessType" class="form-label">Type your report</label>
-				<textarea name="" id="" cols="30" rows="5" class="input-form"></textarea>
+				<!-- <label for="businessType" class="form-label">Type your report</label> -->
+				<textarea name="" id="" cols="30" rows="5" class="input-form" placeholder="Type your report" id="reportBody"></textarea>
 			</div>
-			<div class="form-control">
+			<!-- <div class="form-control">
 				<button class="btn btn-white btn-small">Add a photo</button>
-			</div>
+			</div> -->
 			<div class="form-control">
 				<button class="btn btn-block btn-primary" type="button">Submit report</button>
 			</div>

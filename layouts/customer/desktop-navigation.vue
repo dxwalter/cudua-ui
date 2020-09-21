@@ -7,7 +7,7 @@
 
       <div class="desktop-search-container">
         <div class="position-relative">
-          <input type="text" name="" id="" class="desktop-search" placeholder="Search for a product or business">
+          <input type="text" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business">
           <div class="recent-search-list-container display-none">
             <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
             <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
@@ -65,6 +65,13 @@
 
             <!-- logged in user  -->
           <div class="navigation-dropdown" id="navigationDropdown" v-show="isLoggedIn">
+
+            <n-link :to="`/${username}`" class="mobile-side-nav-link" v-show="isLoggedIn && isBusinessOwner">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
+                <use xlink:href="~/assets/customer/image/all-svg.svg#visitShop"></use>
+                </svg>
+                <span>My shop</span>
+            </n-link>
             <n-link to="/c/orders" class="mobile-side-nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
@@ -127,7 +134,8 @@ export default {
 	data: function () {
 		return {
       isLoggedIn: false,
-      isBusinessOwner: false
+      isBusinessOwner: false,
+      username: ""
 		}
 	},
   computed: {
@@ -137,11 +145,13 @@ export default {
     ...mapGetters({
       'GetLoginStatus': 'customer/GetLoginStatus',
       'GetAnonymousId': 'customer/GetAnonymousId',
-			'GetBusinessStatus': 'business/GetBusinessStatus'
+			'GetBusinessStatus': 'business/GetBusinessStatus',
+			'GetBusinessDetails': 'business/GetBusinessDetails',
 		}),
 		statusChecker () {
 			this.isLoggedIn = this.GetLoginStatus()
-			this.isBusinessOwner = this.GetBusinessStatus.length > 0 ? true :  false
+      this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+      this.username = this.GetBusinessDetails().username
 		}
   },
   mounted () {

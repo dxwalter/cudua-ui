@@ -8,6 +8,13 @@
               <n-link to="/auth/sign-up" class="btn btn-white btn-primary-border">Sign up</n-link>
             </div>
 
+            <n-link :to="`/${username}`" class="mobile-side-nav-link" v-show="isLoggedIn && isBusinessOwner">
+              <svg xmlns="http://www.w3.org/2000/svg">
+                <use xlink:href="~/assets/customer/image/all-svg.svg#visitShop"></use>
+              </svg>
+              <span>My shop</span>
+            </n-link>
+
             <n-link to="/c/cart" class="mobile-side-nav-link">
               <svg xmlns="http://www.w3.org/2000/svg">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
@@ -84,7 +91,9 @@ export default {
 		return {
 			openedModalTarget: "",
 			screenWidth: "",
-			isLoggedIn: false
+			isLoggedIn: false,
+			isBusinessOwner: false,
+			username: ""
 		}
 	},
     created() {
@@ -100,9 +109,13 @@ export default {
 	methods: {
 		...mapGetters({
 			'GetLoginStatus': 'customer/GetLoginStatus',
+			'GetBusinessStatus': 'business/GetBusinessStatus',
+			'GetBusinessDetails': 'business/GetBusinessDetails'
 		}),
 		LoginStatus () {
-			this.isLoggedIn = this.GetLoginStatus()
+			this.isLoggedIn = this.GetLoginStatus();
+			this.isBusinessOwner = this.GetBusinessStatus();
+			this.username = this.GetBusinessDetails().username
 		},
 		clearFormInput: function() {
 			let formInput = document.querySelectorAll('[data-clear-form]');
@@ -167,7 +180,8 @@ export default {
 				// modalSearchForm.focus() //focus
 				// modalSearchForm.value = mobilePrimarySearchInput.value; //change value
 				// mobilePrimarySearchInput.blur()
-				// mobilePrimarySearchInput.value = '';
+				mobilePrimarySearchInput.value = '';
+				
 				this.$router.push('/search')
 			});
 		},
