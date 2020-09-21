@@ -13,15 +13,45 @@
 
 				<div class="desktop-search-container">
 					<div class="position-relative">
-						<input type="text" name="" id="businessDesktopSearch" class="desktop-search" :placeholder="`Search for products in ${businessName}`">
+						<input type="text" name="businessProductSearchDesktop" id="businessDesktopSearch" class="desktop-search" :placeholder="`Search for products in ${businessName}`" v-model="searchKeyword">
 						<!-- remove display-none to see search suggestions -->
-						<div class="recent-search-list-container display-none">
-							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
-							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
-							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
-							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
-							<a href="#">Infinix hot 7 <span>- 57 results</span></a>
+						<div class="recent-search-list-container" v-show="!resultCount">
+							
+							<a href="#" v-show="!doneSearching && searchKeyword.length >= 2">
+
+								<div class="info-area">
+									<span>Searching for</span> {{searchKeyword}}
+								</div>
+
+								<div class="loader-container">
+									<div class="loader-action"><span class="loader"></span></div>
+								</div>
+
+							</a>
+
+							<a href="#" v-show="doneSearching &&  noProduct">
+								<div class="info-area">
+									<span>No result was found for</span> {{searchKeyword}}
+								</div>
+							</a>
+
 						</div>
+
+						<!-- when result is found -->
+						<div class="recent-search-list-container add-max-height" v-show="resultCount > 0 && searchKeyword.length > 0">
+							<n-link :to="`/p/${x.productId}`" v-for="(x, index) in returnProductList" :key="index">
+								<div class="search-product-details">
+									<div class="product-image-area">
+										<img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
+									</div>
+									<div class="product-details">
+										<div class="product-name">{{x.productName}}</div>
+										<div class="product-price">₦ {{x.price}}</div>
+									</div>
+								</div>
+							</n-link>
+						</div>
+
 					</div>
 					<button class="btn btn-primary btn-search">Search</button>
 				</div>
@@ -146,6 +176,10 @@
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
+import { 
+	CUSTOMER_SEARCH_PRODUCT_IN_BUSINESS
+} from '~/graphql/product'
+
 export default {
 	name: "BUSINESSNAVIGATION",
 	data() {
@@ -155,6 +189,26 @@ export default {
 			logo: "",
 			isLoggedIn: false,
 			isBusinessOwner: false,
+
+			isSearchReady: 0,
+			isLoading: 0,
+			noProduct: 0,
+			productList: [],
+			reasonForError: '',
+			resultCount: 0,
+			page: 1,
+
+			doneSearching: 0,
+
+			searchKeyword: "",
+
+			timeoutHandler: null,
+			calculatedLoad: 0
+		}
+	},
+	computed:{
+		returnProductList () {
+			return this.productList
 		}
 	},
 	methods: {
@@ -174,20 +228,103 @@ export default {
 				return name
 			}
 		},
+		searchForProduct: async function (page) {
+			
+			let variables = {
+				businessId: this.businessId,
+				keyword: this.searchKeyword.trim(),
+				page: page
+			}
+
+			let query = await this.$performGraphQlQuery(this.$apollo, CUSTOMER_SEARCH_PRODUCT_IN_BUSINESS, variables, {});
+
+
+			if (query.error) {
+				this.$initiateNotification('error', 'Failed request', query.message);
+				this.searchKeyword = ""
+				return
+			}
+
+			let result = query.result.data.BusinessSearchProductByCustomer;
+
+			if (result.success == false) {
+				this.$initiateNotification('error', 'Failed request', result.message);
+				this.noProduct = 0
+				this.searchKeyword = ""
+				return
+			}
+
+			if (result.resultCount == 0) {
+				this.productList = []
+				this.noProduct = 1
+				this.resultCount = result.resultCount
+				this.reasonForError = `No result was found for <span class="indicator">${this.searchKeyword}</span>.`
+			} else {
+				this.noProduct = 0
+			}
+
+			if (result.resultCount > 0) {
+				this.resultCount = this.$numberNotation(result.resultCount)
+
+				for (let y of result.products) {
+					this.productList.push({
+						productName: y.name,
+						productId: y.id,
+						price: this.$numberNotation(y.price),
+						image: this.$formatProductImageUrl(this.businessId, y.primaryImage, "thumbnail"),
+					})
+				}
+			}
+
+
+		},
+        clearTimeOut: function (timerOut) {
+            clearTimeout(timerOut)
+        },
+	},
+	watch: {
+		searchKeyword: async function () {
+			if (this.searchKeyword.length <= 1) {
+				return
+			}
+
+			this.resultCount = 0;
+			this.isLoading = 1
+			this.doneSearching = 0
+
+			this.productList = []
+
+            // clear previous time out
+            this.clearTimeOut(this.timeoutHandler)
+
+            this.timeoutHandler = setTimeout( async() => {
+				this.page = 1
+				await this.searchForProduct(this.page)
+				this.doneSearching = 1
+				this.isLoading = 0
+
+			}, 1000)
+		}
 	},
 	created() {
 		if (process.browser) {
 			this.statusChecker()
 			this.$nuxt.$on('searchData', (data) => {
 				this.businessName = data.name
-				this.businessId = data.id
+				this.businessId = data.businessId
 				this.logo = data.logo
 			})
 		}
+	},
+	destroyed () {
+		clearTimeout(this.timeoutHandler);
 	}
 }
 </script>
 
-<style>
-
+<style scoped>
+	.add-max-height {
+		max-height: 400px;
+		overflow-y: scroll;
+	}
 </style>

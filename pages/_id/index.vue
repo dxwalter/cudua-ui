@@ -212,7 +212,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
                                 </svg>
-                                <span>Search shop</span>
+                                <span>Search</span>
                             </a>
 
                             <!-- <a href="#" class="bottom-nav-item" data-target="reportModal" data-trigger="modal">

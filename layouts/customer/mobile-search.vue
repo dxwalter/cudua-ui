@@ -33,16 +33,19 @@
           <div class="mobile-nav-search">
             <input type="text" name="" id="mobilePrimarySearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="off">
           </div>
-
+          <NOTIFICATION></NOTIFICATION>
         </div>
         <!-- end of mobile top nav with search box -->
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-
+import NOTIFICATION from '~/components/notification/notification.vue'; 
 export default {
-	name: 'MOBILESEARCHCOMPONENT',
+  name: 'MOBILESEARCHCOMPONENT',
+  components: {
+    NOTIFICATION
+  },
 	data: function() {
 		return {
 			isLoggedIn: false,

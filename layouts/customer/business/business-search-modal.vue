@@ -155,6 +155,7 @@ export default {
 			this.resultCount = 0;
 			this.isLoading = 1
 			this.doneSearching = 0
+			this.productList = []
 
             // clear previous time out
             this.clearTimeOut(this.timeoutHandler)
