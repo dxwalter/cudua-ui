@@ -150,7 +150,7 @@
 
                                         <!-- when no product is found, show this -->
                                         <div class="link-error-area" v-show="noProduct == 1">
-                                            <img src="~/static/images/404.svg" alt="">
+                                            <img src="~/static/images/product.svg" alt="" class="mg-bottom-32">
                                             <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
                                         </div>
                                         <!-- end of error area -->
@@ -172,7 +172,7 @@
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" data-target="businessDetailsModal" data-trigger="modal">View profile</button>
-                                                        <button class="btn btn-white" data-target="reportModal" data-trigger="modal">Report business</button>
+                                                        <!-- <button class="btn btn-white" data-target="reportModal" data-trigger="modal">Report business</button> -->
                                                         <button class="btn btn-white" data-target="contactBusiness" data-trigger="modal">Contact business</button>
                                                     </div>
                                                 </div>
@@ -187,7 +187,7 @@
 
                             <!-- when an error occurs, show this -->
                             <div class="link-error-area" v-show="pageError">
-                                <img src="~/static/images/404.svg" alt="">
+                                <img src="~/static/images/server-error.svg" alt="">
                                 <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
                                 <div class="action-area">
                                     <n-link to="/" class="btn btn-primary">Home page</n-link>
@@ -212,15 +212,15 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
                                 </svg>
-                                <span>Search in</span>
+                                <span>Search shop</span>
                             </a>
 
-                            <a href="#" class="bottom-nav-item" data-target="reportModal" data-trigger="modal">
+                            <!-- <a href="#" class="bottom-nav-item" data-target="reportModal" data-trigger="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#flag"></use>
                                 </svg>
                                 <span>Report</span>
-                            </a>
+                            </a> -->
 
                             <a :href="`https://wa.me/${getWhatsappContact.number}?text=Hello ${businessName}`" class="bottom-nav-item" v-show="getWhatsappContact.status == 1 && getWhatsappContact.number != null">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -248,7 +248,7 @@
                 <BUSINESSREVIEW></BUSINESSREVIEW>
                 <BUSINESSSEARCH></BUSINESSSEARCH>
                 <BUSINESSCONTACT></BUSINESSCONTACT>
-                <REPORTBUSINESS></REPORTBUSINESS>
+                <!-- <REPORTBUSINESS></REPORTBUSINESS> -->
                 <LoginComponent></LoginComponent>
             </div>
     </div>

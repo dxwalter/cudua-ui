@@ -606,3 +606,16 @@ button:disabled .loader-action {
   position: fixed;
   z-index: 4000;
 }
+
+.link-error-area {
+  height: 195px;
+}
+
+.link-error-area .error-cause {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #404040;
+  line-height: 27px;
+  margin-bottom: 16px;
+}

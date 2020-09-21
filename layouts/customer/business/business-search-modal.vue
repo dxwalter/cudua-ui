@@ -31,7 +31,7 @@
 			<!-- beginning of product listing -->
 			<div class="tab-content-area is-active" id="productResultTab">
 			
-			<div class="search-result-count"  v-show="doneSearching && !pageError">{{resultCount}} results for <span>{{searchKeyword}}</span></div>
+			<div class="search-result-count"  v-show="doneSearching && !pageError && searchKeyword.length >= 1">{{resultCount}} results for <span>{{searchKeyword}}</span></div>
 
 			<div class="search-result-count"  v-show="!doneSearching && searchKeyword.length >= 1">Searching for <span>{{searchKeyword}}</span></div>
 
@@ -74,16 +74,23 @@
 			<!-- end of product listing -->
 
 			<!-- when no product is found, show this -->
-			<div class="link-error-area" v-show="noProduct == 1">
-				<img src="~/static/images/404.svg" alt="">
+			<div class="link-error-area" v-show="noProduct == 1 && searchKeyword.length > 0 && !isLoading && !pageError">
+				<img src="~/static/images/search.svg" alt="">
 				<div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
 			</div>
 			<!-- end of error area -->
 
 			<!-- when no string has been typed into search box -->
 			<div class="link-error-area" v-show="searchKeyword.length == 0">
-				<img src="~/static/images/404.svg" alt="">
+				<img src="~/static/images/search.svg" alt="">
 				<div class="error-cause">Search for products in <span class="indicator">{{businessName}}</span></div>
+			</div>
+			<!-- end of error area -->
+
+			<!-- when no string has been typed into search box -->
+			<div class="link-error-area" v-show="pageError && searchKeyword.length > 0 && !isLoading">
+				<img src="~/static/images/server-error.svg" alt="">
+				<div class="error-cause">{{reasonForError}}</div>
 			</div>
 			<!-- end of error area -->
 
@@ -186,12 +193,18 @@ export default {
 			if (result.success == false) {
 				this.reasonForError = result.message;
 				this.pageError = true
+				this.noProduct = 0
+				this.searchKeyword = ""
 				return
 			}
 
 			if (result.resultCount == 0) {
 				this.productList = []
+				this.noProduct = 1
 				this.resultCount = result.resultCount
+				this.reasonForError = `No result was found for <span class="indicator">${this.searchKeyword}</span>.`
+			} else {
+				this.noProduct = 0
 			}
 
 			if (result.resultCount > 0) {
