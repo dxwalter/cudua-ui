@@ -202,7 +202,7 @@ export default {
 						productName: y.name,
 						productId: y.id,
 						price: this.$numberNotation(y.price),
-						primaryImage: this.$formatProductImageUrl(this.businessId, y.primaryImage, "thumbnail"),
+						image: this.$formatProductImageUrl(this.businessId, y.primaryImage, "thumbnail"),
 					})
 				}
 			}
