@@ -1,13 +1,18 @@
 export default {
 	head: {
-		title: 'Business name',
+		title: 'Welcome to Cudua. Create your online shop and start selling in 2 minutes',
 		meta: [
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'user-scalable=no, initial-scale=1, maximum-scale=1' },
 			{
-				hid: 'description',
+				hid: 'Cudua description',
 				name: 'description',
-				content: 'my website description'
+				content: 'Cudua is an ecommerce service that allows businesses to create and manage their online shops. Customers buy products from these businesses by searching for the business using the business name or location'
+			},
+			{
+				hid:'cudua_hid_og_logo',
+				name: 'og:image',
+				content: 'https://res.cloudinary.com/cudua-images/image/upload/v1600784939/cudua_asset/icon-colored-png_qkocfy.png'
 			}
 		],
 	
@@ -74,9 +79,9 @@ export default {
 			appleStatusBarStyle: 'default',
 			name: "Cudua",
 			author: "Cudua Inc.",
-			description: "Cudua is an ecommerce service that allows businesses to create and manage their online stores. Customers buy products from these businesses by searching for the business using the business name or location",
+			description: "Cudua is an ecommerce service that allows businesses to create and manage their online shops. Customers buy products from these businesses by searching for the business using the business name or location",
 			theme_color: '#ee6425',
-			ogHost: "https://cudua-ui.herokuapp.com/",
+			ogHost: "https://cudua.com",
 			nativeUI: true,
 		},
 		manifest: {

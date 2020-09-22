@@ -121,16 +121,19 @@
         <n-link to="/b" class="btn create-shop-btn"  v-show="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
 
       </div>
-
+      <NOTIFICATION></NOTIFICATION>
     </div>
     <!-- end of desktop nav -->
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
-
+import NOTIFICATION from '~/components/notification/notification.vue'; 
 export default {
   name: 'DESKTOPNAVGATIONCOMPONENT',
+  components: {
+    NOTIFICATION
+  },
 	data: function () {
 		return {
       isLoggedIn: false,

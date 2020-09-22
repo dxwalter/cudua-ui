@@ -312,6 +312,7 @@ export default {
         businessName: "",
         address: "",
         contact: "",
+        description: "",
         logo: "",
         whatsappContact: "",
         productsType: "all",
@@ -329,6 +330,44 @@ export default {
 
         accessToken: "",
         noProduct: 0
+      }
+    },
+    head() {
+      return {
+        title: this.businessName,
+        meta: [
+          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+          {
+            hid: `business_details`,
+            name: "description",
+            content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products here.` : this.description
+          },
+          {
+              hid: "business_details_og_description",
+              property: 'og:description',
+              content: this.description
+          },
+          {
+              hid: "business_details_og_title",
+              property: 'og:title',
+              content: this.businessName
+          },
+          {
+              hid: "business_details_og_image",
+              property: 'og:image',
+              content: this.logo
+          },
+          {
+              hid: "business_details_og_url",
+              property: 'og:url',
+              content: `https://www.cudua.com/${this.username}`
+          },
+          {
+              hid: "business_details_og_type",
+              property: 'og:type',
+              content: `website`
+          },
+        ]
       }
     },
     computed: {
@@ -439,6 +478,7 @@ export default {
             this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : "",
             this.contact = data.contact,
             this.whatsappContact = data.contact.whatsapp
+            this.description = data.description
 
             let aboutBusiness = {
                 name: data.businessname,

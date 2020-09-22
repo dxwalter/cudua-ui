@@ -113,19 +113,20 @@
                         
                         <div class="share-action-container d-flex">
                         
-                            <a href="#" class="close-modal-btn" data-brand="whatsapp">
+                            <a :href="`whatsapp://send?text=Checkout ${productName} https://cudua.com/p/${productId}`" target="_blank" class="close-modal-btn" data-action="share/whatsapp/share" v-show="screenWidth < 1024" data-brand="whatsapp">
+                            
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset">
                                 <use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
                             </svg>
                             </a>
 
-                            <a href="#" class="close-modal-btn btn-white" data-brand="facebook">
+                            <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://www.cudua.com/p/${productId}`" target="_blank"  class="close-modal-btn btn-white" data-brand="facebook">
                                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="margin-unset">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#facebookRoundIcon"></use>
                                 </svg>
                             </a>
 
-                            <a href="#" class="close-modal-btn" data-brand="twitter">
+                            <a :href="`https://twitter.com/home?status=https://www.cudua.com/p/${productId}`" target="_blank"  class="close-modal-btn" data-brand="twitter">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#twitterIcon"></use>
                                 </svg>
@@ -159,7 +160,7 @@
 
                     <div class="product-details-action">
                     <button class="btn btn-white btn-md" v-show="accessToken">Save for later</button>
-                    <n-link to="/bubbieklasic" class="btn btn-white btn-md">Visit shop</n-link>
+                    <n-link :to="`/${username}`" class="btn btn-white btn-md">Visit shop</n-link>
                 </div>
 
                 </div> 
@@ -167,14 +168,22 @@
 
             </div> <!-- End of product-details-content-info -->
 
+            <!-- when no product is found, show this -->
+            <div class="link-error-area" v-show="productNotFound && !pageLoader">
+                <img src="~/static/images/product.svg" alt="" class="mg-bottom-32" v-show="productNotFound && !serverError">
+                 <img src="~/static/images/server-error.svg" alt="" class="mg-bottom-32" v-show="productNotFound && serverError">
+                <div class="error-cause">{{errorReason}}</div>
+            </div>
+            <!-- end of error area -->
+
             <!-- product suggesstion -->
-            <div class="product-suggestion-container">
+            <div class="product-suggestion-container" v-show="!pageLoader">
                 <div class="section-header"><h4>Customers also viewed</h4></div>
                 <div class="product-suggestion-listing">
                     <div class="swiper-action-container">
                     <button class="close-modal-btn slider-control">
                         <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="productSuggestion"></div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
                             <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
                         </svg>
                     </button>
@@ -184,7 +193,7 @@
                     <div class="swiper-action-container">
                     <button class="close-modal-btn slider-control">
                         <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="productSuggestion"></div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
                             <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
                         </svg>
                     </button>
@@ -320,7 +329,7 @@
         <!-- end of content container -->
 
         <!-- mobile action area -->
-        <div class="product-bottom-action-area" v-show="!pageLoader">
+        <div class="product-bottom-action-area" v-show="!pageLoader && !productNotFound">
             <a href="tel:08104686729" class="btn btn-white">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
@@ -405,7 +414,48 @@ export default {
             // when productNotFound == 1, the products does not exist
             productNotFound: 0,
             screenWidth: "",
+
+            serverError: 0,
+            errorReason: ""
         }
+    },
+    head() {
+      return {
+        title: this.productName,
+        meta: [
+          // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+          {
+            hid: `product_details`,
+            name: "description",
+            content: this.productDescription
+          },
+          {
+              hid: "product_details_og_description",
+              property: 'og:description',
+              content: this.productDescription
+          },
+          {
+              hid: "product_details_og_title",
+              property: 'og:title',
+              content: this.productName
+          },
+          {
+              hid: "product_details_og_image",
+              property: 'og:image',
+              content: this.primaryImage
+          },
+          {
+              hid: "product_details_og_url",
+              property: 'og:url',
+              content: `https://www.cudua.com/p/${this.productId}`
+          },
+          {
+              hid: "product_details_og_type",
+              property: 'og:type',
+              content: `website`
+          },
+        ]
+      }
     },
     computed: {
         handleResize() {
@@ -464,8 +514,14 @@ export default {
             let request = await this.$performGraphQlQuery(this.$apollo, GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID, variables, {});
 
             if (request.error) {
+                this.productNotFound = 1
+                this.errorReason = request.message
+                this.serverError = 1
                 this.$initiateNotification('error', 'Failed request', request.message);
                 return
+            } else {
+                this.productNotFound = 0
+                this.serverError = 0
             }
 
             let result = request.result.data.GetProductById;
@@ -473,6 +529,7 @@ export default {
             if (!result.success || result.product == null) {
                 // set network error or no product found
                 this.productNotFound = 1
+                this.errorReason = 'The product you are looking for does not exists. It has been moved or deleted'
                 this.$initiateNotification('error', 'Failed request', result.message);
                 return
             }
@@ -488,6 +545,9 @@ export default {
             this.productDescription = product.description;
             this.hide = product.hide;
             this.productImages = product.images;
+
+            this.primaryImage = this.formatBigSizeImage(this.returnImages[0])
+
             this.productName = product.name;
             this.productPrice = this.$numberNotation(product.price);
             this.productSizes = product.sizes == null ? [] : product.sizes;
@@ -581,5 +641,8 @@ export default {
     color: rgba(238, 100, 37, 1);
     font-weight: 500;
     text-transform: uppercase;
+}
+.margin-unset {
+    margin: unset !important;
 }
 </style>
