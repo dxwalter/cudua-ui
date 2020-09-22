@@ -98,7 +98,8 @@ export default {
 	},
     created() {
         if (process.client) {
-            window.addEventListener('resize', this.handleResize);
+			window.addEventListener('resize', this.handleResize);
+			this.LoginStatus()
         }
     },
     computed: {
@@ -232,8 +233,6 @@ export default {
 		},
 	},
 	mounted () {
-		this.LoginStatus()
-
 		document.querySelector("body").classList.remove("overflow-hidden");
 
 		this.clearFormInput()

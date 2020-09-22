@@ -16,7 +16,7 @@
           <!-- bookmark area -->
             <div class="section-header"><h4>Product details</h4></div>
             <!-- content start here -->
-            <div class="all-product-details-container">
+            <div class="all-product-details-container" v-show="!productNotFound && !pageLoader">
                 <!-- product image area -->
                 <div class="image-area">
                     <!-- image area -->
@@ -24,44 +24,26 @@
                         <div class="product-details-img-container">
 
                             <div class="slide-container white-bg-color" id="productImageSlideShow">
-                                <div class="product-image-slide is-active">
-                                    <img src="~/assets/business/image/phone.png" alt="">
-                                </div>
-                                <div class="product-image-slide">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
-                                </div>
-                                <div class="product-image-slide">
-                                    <img src="~/assets/business/image/banner-image.jpg" alt="">
-                                </div>
-                                <div class="product-image-slide">
-                                    <img src="~/assets/business/image/card-bg.png" alt="">
+                                <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}">
+                                    <img :data-src="formatBigSizeImage(item)" alt="" v-lazy-load>
                                 </div>
                             </div>
 
-                            <button class="close-modal-btn btn-light-grey" @click="previousImage">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12" class="margin-unset">
+                            <button class="close-modal-btn btn-light-grey" @click="previousImage"  v-show="returnImages.length > 1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#leftArrow"></use>
                                 </svg>
                             </button>
-                            <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562" class="margin-unset">
+                            <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage"  v-show="returnImages.length > 1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
                                 </svg>
                             </button>
                         
                         </div>
-                        <div class="selected-img-preview mg-bottom-32">
-                            <div class="product-img-thumbnail" data-slide="1" @click="thumbSlide($event)">
-                                <img src="~/assets/business/image/phone.png" alt="" data-slide="1" @click="thumbSlide($event)">
-                            </div>
-                            <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="2">
-                                <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" data-slide="2" @click="thumbSlide($event)">
-                            </div>
-                            <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="3">
-                                <img src="~/assets/business/image/banner-image.jpg" alt="" data-slide="3" @click="thumbSlide($event)">
-                            </div>
-                            <div class="product-img-thumbnail" @click="thumbSlide($event)" data-slide="4">
-                                <img src="~/assets/business/image/card-bg.png" alt="" data-slide="4" @click="thumbSlide($event)">
+                        <div class="selected-img-preview mg-bottom-32" v-show="returnImages.length > 1">
+                            <div class="product-img-thumbnail" :data-slide="index + 1" @click="thumbSlide($event)" v-for="(item, index) in returnImages" :key="index"> 
+                                <img :data-src="iconSizeImage(item)" alt="" :data-slide="index + 1" @click="thumbSlide($event)" v-lazy-load>
                             </div>
                         </div>
 
@@ -73,72 +55,52 @@
                 <div class="product-details-content-info">
                     <!-- details area -->
                     <!-- name -->
-                    <div class="product-details-name"><h2>Blonde Trouser</h2></div>
+                    <div class="product-details-name"><h2>{{productName}}</h2></div>
                     <!-- price -->
                     <div class="product-price-container">
-                        <div class="product-details-price"><h3>₦ 2,500</h3></div>
+                        <div class="product-details-price"><h3>₦ {{productPrice}}</h3></div>
                         <a href="javascript:;" data-trigger="modal" data-target="productReview" class="navbar-review-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                            </svg>
+                            <StarRating :score=reviewScore></StarRating>
                         </a>
                     </div>
                     <!-- description -->
+                    
                     <div class="product-details-container mg-bottom-32">
-                    <div class="product-details-label">Product Description</div>
-                    <div class="product-description-text">Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Phasellus magna. Fusce pharetra convallis urna. Curabitur suscipit suscipit dictum felis eu pede mollis pretium. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Sed hendrerit…. <span>Show more</span></div>
+                        <div class="product-details-label">
+                            Product Description
+                        </div>
+                        <div class="product-description-text">
+                            {{productDescription}}
+                        </div>
+                        <div class="no-data-available" v-show="productDescription.length == 0">
+                            <div class="text-area">No description available</div>
+                        </div>
                     </div>
+
+
                     <!-- sizes -->
                     <div class="product-details-container">
                         <div class="product-details-label">
-                            Available sizes <span>- choose your size</span>
+                            Available sizes
                         </div>
                         <div class="color-picker-container">
-                            <div class="size-card">43</div>
-                            <div class="size-card">38</div>
-                            <div class="size-card selected">24</div>
-                            <div class="size-card">43</div>
-                            <div class="size-card">38</div>
-                            <div class="size-card">43</div>
-                            <div class="size-card">24</div>
-                            <div class="size-card">43</div>
-                            <div class="size-card">38</div>
-                            <div class="size-card">43</div>
+                            <div class="size-card" v-for="size in returnSizes" :key="size.sizeId">{{size.sizeNumber}}</div>
+                        </div>
+                        <div class="no-data-available" v-show="productSizes.length == 0">
+                            <div class="text-area">No size available</div>
                         </div>
                     </div>
 
                     <!-- color -->
                     <div class="product-details-container">
                         <div class="product-details-label">
-                            Available colors <span>- choose your color</span>
+                            Available colors
                         </div>
                         <div class="color-picker-container">
-                            <div style="background-color: #1232B1;"></div>
-                            <div style="background-color: #BB2320;"></div>
-                            <div style="background-color: #2C2C2C;"></div>
-                            <div style="background-color: #FBC02D;"></div>
-                            <div style="background-color: #F4F6F8;"></div>
-                            <div style="background-color: #388E3C;"></div>
-                            <div style="background-color: rgb(45, 53, 66);"></div>
-                            <div style="background-color: #1232B1;"></div>
-                            <div style="background-color: #BB2320;"></div>
-                            <div style="background-color: #2C2C2C;"></div>
-                            <!-- <div style="background-color: #FBC02D;"></div>
-                            <div style="background-color: #F4F6F8;"></div>
-                            <div style="background-color: #388E3C;"></div>
-                            <div style="background-color: #2874F0;"></div> -->
+                            <div v-for="color in returnColors" :key="color.colorId"  v-bind:style="{'background-color': color.color}"></div>
+                        </div>
+                        <div class="no-data-available" v-show="productColors.length == 0">
+                            <div class="text-area">No color available</div>
                         </div>
                     </div>
 
@@ -147,6 +109,8 @@
                         <div class="product-details-label">
                             Share
                         </div>
+                        <div class="opacity-0" id="productLink">https://cudua.com/p/{{productId}}</div>
+                        
                         <div class="share-action-container d-flex">
                         
                             <a href="#" class="close-modal-btn" data-brand="whatsapp">
@@ -167,11 +131,11 @@
                                 </svg>
                             </a>
 
-                            <a href="#" class="close-modal-btn">
+                            <button class="close-modal-btn" @click="copyLink('productLink')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#copyIcon"></use>
                                 </svg>
-                            </a>
+                            </button>
 
                         </div>
                     </div>
@@ -194,7 +158,7 @@
                     </div>
 
                     <div class="product-details-action">
-                    <button class="btn btn-white btn-md">Save for later</button>
+                    <button class="btn btn-white btn-md" v-show="accessToken">Save for later</button>
                     <n-link to="/bubbieklasic" class="btn btn-white btn-md">Visit shop</n-link>
                 </div>
 
@@ -390,6 +354,14 @@
 </template>
 
 <script>
+import { 
+    GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID
+} from '~/graphql/product';
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+
+import StarRating from '~/plugins/vue-star-rating.client.vue'
+
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
@@ -398,17 +370,65 @@ import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PRODUCTREVIEW from '~/components/product/product-review.vue'
 import PAGELOADER from '~/components/loader/loader.vue';
 export default {
+    name: "CUSTOMERPRODUCTPAGE",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PRODUCTREVIEW, PAGELOADER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PRODUCTREVIEW, PAGELOADER, StarRating
     },
     data: function () {
         return {
             currentSlide: 1,
             slider: "",
-            pageLoader: true
+            pageLoader: true,
+            username: "",
+            businessId: "",
+            accessToken: "",
+            businessContacts: [],
+            businessWhatsapp: "",
+   
+            productId: "",
+            productImages: [],
+            hide: "",
+            productName: "",
+            productPrice: "",
+            categoryId: "",
+            categoryName: "",
+            subcategoryId: "",
+            subcategoryName: "",
+            primaryImage: "",
+            productTags: [],
+            productSizes: [],
+            productColors: [],
+            productDescription: "",
+            reviewScore: 0,
+
+            // page settings
+            // when productNotFound == 1, the products does not exist
+            productNotFound: 0,
+            screenWidth: "",
+        }
+    },
+    computed: {
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        },
+        returnColors () {
+            return this.productColors
+        },
+        returnSizes () {
+            return this.productSizes
+        },
+        returnImages () {
+            return this.productImages
         }
     },
     methods : {
+        ...mapGetters({
+            'GetCustomerData': 'customer/GetCustomerDetails'
+        }),
+        GetCustomerDataFromStore: function () {
+			let customerData = this.GetCustomerData();
+            this.accessToken = customerData.userToken
+        },
         nextImage: function () {
             if (this.currentSlide >= this.slider.length) this.currentSlide = 0;
             this.$productImageSlides(this.currentSlide += 1, this.slider)
@@ -429,14 +449,137 @@ export default {
         },
         copyLink: function (target) {
             this.$copyToClipBoard(target)
+        },
+        iconSizeImage: function (image) {
+            return this.$formatProductImageUrl(this.businessId, image, "iconSize")
+        },
+        formatBigSizeImage: function (image) {
+            return this.$formatProductImageUrl(this.businessId, image, "bigSize")
+        },
+        getProductDetails: async function () {
+            let variables = {
+                productId: this.productId
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID, variables, {});
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return
+            }
+
+            let result = request.result.data.GetProductById;
+
+            if (!result.success || result.product == null) {
+                // set network error or no product found
+                this.productNotFound = 1
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+
+            this.productNotFound = 0
+
+            let product = result.product;
+
+            this.productId = product.id;
+            this.categoryName = product.category.categoryName;
+            this.categoryId = product.category.categoryId;
+            this.productColors = product.colors == null ? []: product.colors;
+            this.productDescription = product.description;
+            this.hide = product.hide;
+            this.productImages = product.images;
+            this.productName = product.name;
+            this.productPrice = this.$numberNotation(product.price);
+            this.productSizes = product.sizes == null ? [] : product.sizes;
+            this.subcategoryName = product.subcategory.subcategoryName;
+            this.subcategoryId = product.subcategory.subcategoryId;
+            this.tags = product.tags == null ? []: product.tags
+            this.reviewScore = product.reviewScore
+
+            let businessData = result.business
+
+            // emit to add category component
+            $nuxt.$emit('ProductReviews', {
+                reviews: product.reviews == null ? [] : product.reviews,
+                reviewScore: product.reviewScore
+            })
+
+
+            if (this.hide == 0 && businessData.id) {
+                this.productNotFound = 0
+
+                this.username = businessData.username
+                this.businessId = businessData.id
+
+                let contact = businessData.contact
+                let phones = [];
+
+                if (contact.whatsapp.status == 1 && contact.whatsapp.number.length > 0) {
+                    this.businessWhatsapp = contact.whatsapp.number
+                }
+
+                if (contact.phone != null && contact.phone.length > 0) {
+                    for (let p of contact.phone) {
+                        phones.push(p)
+                    }
+                }
+
+                this.businessContacts = phones
+                
+            } else {
+                this.productNotFound = 1
+            }
+
+
+        },
+    },
+    created () {
+        if (process.client) {
+            this.productId = this.$route.params.id;
+            window.addEventListener('resize', this.handleResize);
+            this.GetCustomerDataFromStore()
         }
     },
-    mounted () {
-        this.slider = document.getElementsByClassName("product-image-slide");
-        this.$productImageSlides(this.currentSlide, this.slider);
-        setTimeout(() => {
+    async mounted () {
+        if (process.client) {
+            this.slider = document.getElementsByClassName("product-image-slide");
+            this.$productImageSlides(this.currentSlide, this.slider);
+
+            await this.getProductDetails()
             this.pageLoader = false
-        }, 5000);
+        }
     }
 }
 </script>
+<style scoped>
+.no-data-available * {
+    align-self: center;
+}
+.no-data-available {
+    display: flex;
+    justify-content: space-between;
+}
+.text-area {
+    margin-right: 8px;
+    font-size: 14px;
+}
+.no-data-available .btn {
+    flex-shrink: 0;
+}
+.product-img-thumbnail {
+    width: 66px;
+    height: 57px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 8px;
+    position: relative;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+.indicator-area {
+    color: rgba(238, 100, 37, 1);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+</style>

@@ -29,7 +29,7 @@
 
 							</a>
 
-							<a href="#" v-show="doneSearching &&  noProduct">
+							<a href="#" v-show="doneSearching &&  noProduct && searchKeyword.length >= 2">
 								<div class="info-area">
 									<span>No result was found for</span> {{searchKeyword}}
 								</div>
@@ -169,19 +169,25 @@
 
 			</div>
 			<!-- end of desktop nav -->
+			<NOTIFICATION></NOTIFICATION>
 		</div>
 </template>
 
 <script>
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
+import NOTIFICATION from '~/components/notification/notification.vue'; 
 
 import { 
 	CUSTOMER_SEARCH_PRODUCT_IN_BUSINESS
 } from '~/graphql/product'
 
+
 export default {
 	name: "BUSINESSNAVIGATION",
+	components: {
+		NOTIFICATION
+	},
 	data() {
 		return {
 			businessId: "",
@@ -258,7 +264,6 @@ export default {
 				this.productList = []
 				this.noProduct = 1
 				this.resultCount = result.resultCount
-				this.reasonForError = `No result was found for <span class="indicator">${this.searchKeyword}</span>.`
 			} else {
 				this.noProduct = 0
 			}

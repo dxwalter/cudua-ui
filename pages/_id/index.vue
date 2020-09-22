@@ -424,7 +424,7 @@ export default {
             }
 
             if (result.businessData == null) {
-                this.reasonForError = `No result was found for <span class="indicator">${this.username}</span>. This shop has either been moved or deleted`
+                this.$initiateNotification('error', '', `No result was found for <span class="indicator">${this.username}</span>. This shop haseither been moved or deleted`)
                 this.pageError = 1
                 return
             }

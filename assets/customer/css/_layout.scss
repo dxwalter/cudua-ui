@@ -2391,7 +2391,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     display: flex;
     flex-wrap: wrap;
     div {
-        width: 48px;
+        min-width: 48px;
         height: 38px;
         border-radius: 4px;
         box-shadow: $btn-box-shadow;
@@ -2413,7 +2413,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 }
 
 .share-action-container {
-    a {
+    a,button {
         margin-right: 16px;
         margin-bottom: 16px;
         background-color: $white-color;
@@ -2429,7 +2429,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
         }
     }
 
-    a[data-brand=whatsapp] {
+    a[data-brand=whatsapp], button[data-brand=whatsapp] {
         background-color: #25D366;
         svg {
             fill: $white-color;
@@ -2474,7 +2474,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     display: flex;
     width: 100%;
     background-color: $white-color;
-    
+    z-index: 100;
     display: flex;
     overflow: auto;
     white-space: nowrap;
@@ -2485,6 +2485,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
     .btn {
         flex: 1;
+        // flex-shrink: 0;
     }
 
     .btn-white {
@@ -2894,7 +2895,9 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
             flex-shrink: 0;
             margin-right: 32px;
             align-self: flex-start;
-            padding-bottom: 32px;
+            padding-bottom: 32px;    
+            position: sticky;
+            top: 0;
 
             .card-title {
                 font-size: 16px;
@@ -4417,6 +4420,9 @@ h4.order-details-business-name {
         font-size: 12px;
         margin-bottom: 4px;
     }
+    .notification-content {
+        font-size: 16px;
+    }
 }
 
 .vue-notification-group {
@@ -4435,6 +4441,8 @@ h4.order-details-business-name {
         right: 27px !important;
     }
 }
+
+
 
 .desktop-sign-in {
     background-color: $light-grey;
@@ -4533,8 +4541,8 @@ h4.order-details-business-name {
 
     .error-cause {
         text-align: center;
-        font-size: 24px;
-        font-weight: 900;
+        font-size: 18px;
+        font-weight: 500;
         color: $dark-color;
         line-height: 27px;
         margin-bottom: 16px;
@@ -4678,4 +4686,9 @@ h4.order-details-business-name {
         display: block;
         font-weight: 500;
     }
+}
+.opacity-0 {
+    opacity: 0;
+    height: 0;
+    word-break: break-all;
 }

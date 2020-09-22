@@ -81,7 +81,7 @@
                                 <div class="product-details-content-info">
                                     <div class="product-details-name"><h2>{{productName}}</h2></div>
                                     <div class="product-price-container">
-                                        <div class="product-details-price"><h3>₦ {{formatProductPrice(productPrice)}}</h3></div>
+                                        <div class="product-details-price"><h3>₦ {{productPrice}}</h3></div>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
                                             <StarRating :score=reviewScore></StarRating>
                                         </a>
@@ -363,7 +363,7 @@ export default {
             this.hide = product.hide;
             this.productImages = product.images;
             this.productName = product.name;
-            this.productPrice = product.price;
+            this.productPrice = this.$numberNotation(product.price);
             this.productSizes = product.sizes == null ? [] : product.sizes;
             this.subcategoryName = product.subcategory.subcategoryName;
             this.subcategoryId = product.subcategory.subcategoryId;
@@ -377,11 +377,6 @@ export default {
             })
 
 
-        },
-        formatProductPrice: function (price) {
-            if (process.client) {
-                return this.$numberNotation(price)
-            }
         },
         showProduct: async function () {
 

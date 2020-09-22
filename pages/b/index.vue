@@ -38,7 +38,7 @@
                         <!-- product search -->
 
                         <div class="accordion grey-bg-color border-radius-4 search-result-container " id="searchResultContainer"
-                        v-bind:class="{showEffect: productSearchString.length > 2}"
+                        v-bind:class="{showEffect: productSearchString.length > 1}"
                         >
                         <div class="search-result-header">
                             <div class="search-result-keyword">
@@ -311,7 +311,7 @@ export default {
         },
         searchProductInShop: async function () {
 
-            if (this.productSearchString.length <= 2) return
+            if (this.productSearchString.length <= 1) return
 
             // when start search
             this.initiateSearch = 0;

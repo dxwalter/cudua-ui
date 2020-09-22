@@ -209,6 +209,18 @@ query getproduct($productId: String!) {
       }
       images
     }
+    business {
+      businessname,
+      id,
+      username,
+      contact {
+        phone,
+        whatsapp {
+          number,
+          status
+        }
+      }
+    }
     code
     success
     message
