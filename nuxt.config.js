@@ -5,12 +5,12 @@ export default {
 			{ charset: 'utf-8' },
 			{ name: 'viewport', content: 'user-scalable=no, initial-scale=1, maximum-scale=1' },
 			{
-				hid: 'Cudua description',
+				hid: 'Cudua_description',
 				name: 'description',
 				content: 'Cudua is an ecommerce service that allows businesses to create and manage their online shops. Customers buy products from these businesses by searching for the business using the business name or location'
 			},
 			{
-				hid:'cudua_hid_og_logo',
+				hid:'og:image',
 				name: 'og:image',
 				content: 'https://res.cloudinary.com/cudua-images/image/upload/v1600784939/cudua_asset/icon-colored-png_qkocfy.png'
 			}
