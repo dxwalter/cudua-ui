@@ -399,23 +399,23 @@ export default {
     },
     head() {
       return {
-        title: this.businessName,
+        title: `Welcome to ${this.businessName}`,
         meta: [
           // hid is used as unique identifier. Do not use `vmid` for it as it will not work
           {
             hid: `Cudua_description`,
             name: "description",
-            content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products here.` : this.description
+            content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products at great prices here.` : this.description
           },
           {
               hid: "og:description",
               property: 'og:description',
-              content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products here.` : this.description
+              content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products at great prices here.` : this.description
           },
           {
               hid: "og:title",
               property: 'og:title',
-              content: this.businessName
+              content: `Welcome to ${this.businessName}`
           },
           {
               hid: "og:image",
