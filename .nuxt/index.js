@@ -20,6 +20,7 @@ import nuxt_plugin_toast_06b24cd6 from 'nuxt_plugin_toast_06b24cd6' // Source: .
 import nuxt_plugin_BusinessUIPluginclient_d9f64744 from 'nuxt_plugin_BusinessUIPluginclient_d9f64744' // Source: ..\\plugins\\business\\BusinessUIPlugin.client.js (mode: 'client')
 import nuxt_plugin_customerUIPluginclient_ca04dc04 from 'nuxt_plugin_customerUIPluginclient_ca04dc04' // Source: ..\\plugins\\customer\\customerUIPlugin.client.js (mode: 'client')
 import nuxt_plugin_utilsclient_1ad1f319 from 'nuxt_plugin_utilsclient_1ad1f319' // Source: ..\\plugins\\utils.client.js (mode: 'client')
+import nuxt_plugin_apollo_82f16fdc from 'nuxt_plugin_apollo_82f16fdc' // Source: ..\\plugins\\apollo.js (mode: 'all')
 import nuxt_plugin_notificationclient_01319fff from 'nuxt_plugin_notificationclient_01319fff' // Source: ..\\plugins\\notification.client.js (mode: 'client')
 import nuxt_plugin_localStorage_830ec59e from 'nuxt_plugin_localStorage_830ec59e' // Source: ..\\plugins\\localStorage.js (mode: 'client')
 import nuxt_plugin_globalUIclient_f48116ea from 'nuxt_plugin_globalUIclient_f48116ea' // Source: ..\\plugins\\globalUI.client.js (mode: 'client')
@@ -231,6 +232,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (process.client && typeof nuxt_plugin_utilsclient_1ad1f319 === 'function') {
     await nuxt_plugin_utilsclient_1ad1f319(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_apollo_82f16fdc === 'function') {
+    await nuxt_plugin_apollo_82f16fdc(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_notificationclient_01319fff === 'function') {

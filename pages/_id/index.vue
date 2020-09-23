@@ -248,7 +248,7 @@
                 <BUSINESSREVIEW></BUSINESSREVIEW>
                 <BUSINESSSEARCH></BUSINESSSEARCH>
                 <BUSINESSCONTACT></BUSINESSCONTACT>
-                <!-- <REPORTBUSINESS></REPORTBUSINESS> -->
+                <REPORTBUSINESS></REPORTBUSINESS>
                 <LoginComponent></LoginComponent>
             </div>
     </div>
@@ -329,7 +329,10 @@ export default {
         isLoading: false,
 
         accessToken: "",
-        noProduct: 0
+        noProduct: 0,
+
+        // business details
+        businessDetailResult: ""
       }
     },
     head() {
@@ -441,6 +444,7 @@ export default {
 		},
         getBusinessDetails: async function() {
             
+
             let variables = {
                 username: this.username
             }
@@ -514,7 +518,7 @@ export default {
             $nuxt.$emit("searchData", searchData)
 
             let filteredCategories = [];
-            // this.businessCategory = 
+            
             if (data.businessCategories.length == 0 ) this.businessCategories = [];
 
             if (data.businessCategories.length > 0) {
@@ -817,6 +821,38 @@ export default {
                 }
             }
         }
+    },
+    async asyncData({ app, params }) {
+        
+        try {
+
+            let variables = {
+                username: params.id
+            }
+
+            let result = await app.apolloProvider.defaultClient.query({
+                query: GET_BUSINESS_DETAILS_BY_USERNAME,
+                variables: variables
+            })  
+
+            let data = result.data.GetSingleBusinessDetailsByUsername;
+            if (data.success) {
+                let returnData = data.businessData
+
+                // console.log(app)
+                let yap = {
+                    businessName: returnData.businessname,
+                    description: returnData.description.length == 0 ? `Welcome to ${returnData.businessName}. You'll find quality products here.` : returnData.description,
+                    logo: returnData.logo.length > 0 ? app.$getBusinessLogoUrl(returnData.id, returnData.logo) : "",
+                    username: returnData.username
+                }
+
+                return yap
+            }
+
+        } catch (error) {
+            
+        }   
     },
     async mounted () {
         this.anonymousId = this.GetAnonymousId
