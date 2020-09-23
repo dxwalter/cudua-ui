@@ -34,7 +34,7 @@ export default {
 		{src: '~/plugins/notification.client.js', ssr: false},
 		{ src: '~/plugins/localStorage.js', ssr: false },
 		{ src: '~/plugins/globalUI.client.js', ssr: false },
-		{ src: '~/plugins/imagePlugin.client.js', ssr: false },
+		{ src: '~/plugins/imagePlugin.js', ssr: true },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
 	],

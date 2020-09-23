@@ -41,7 +41,9 @@
                             <!-- mobile category listing -->
                             <div class="mobile-category-container" id="businessCategoryContainer" v-show="!pageError">
                                 <div class="shop-cat-dialog-box" id="businessCategoryContent">
+
                                     <div class="shop-cat-listing">
+
                                         <div class="section-header">
                                             <h4>Category listing</h4>
                                             <button class="close-modal-btn" id="closeMobileBusinessCategory" @click="hideMobileCategory">
@@ -69,11 +71,13 @@
                                                 <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="subcategory.subcategoryId"
                                                 @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event);"
                                                 >{{subcategory.subcategoryName}}</a>
+
                                                 <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event);">All products in {{category.categoryName}} category</a>
                                             </div>
                                         </div>
 
                                     </div>
+
                                 </div>
                             </div>
                             <!-- end of mobile category listing -->
@@ -281,6 +285,62 @@ import {
     GET_PRODUCT_BY_CATEGORY
 } from '~/graphql/product'
 
+async function getBusinessDetails (app, params) {
+    try {
+
+        let variables = {
+            username: params.id
+        }
+
+        let result = await app.apolloProvider.defaultClient.query({
+            query: GET_BUSINESS_DETAILS_BY_USERNAME,
+            variables: variables
+        })  
+        let data = result.data.GetSingleBusinessDetailsByUsername;
+
+        let returnData = {}
+
+        if (data.success == false) {
+            return {
+                pageError: 1,
+                reasonForError: data.message
+            }
+        }
+
+        if (data.businessData == null) {
+            return {
+                pageError: 1,
+                reasonForError: data.message
+            }
+        }
+
+        data = data.businessData;
+
+        return {
+            businessId: data.id,
+            businessContact: data.contact,
+            username: data.username,
+            businessName: data.businessname,
+            address: data.address,
+            logo: data.logo.length > 0 ? app.$getBusinessLogoUrl(data.id, data.logo) : "",
+            contact: data.contact,
+            whatsappContact: data.contact.whatsapp,
+            description: data.description,
+            name: data.businessname,
+            coverPhoto: data.coverPhoto.length > 0  ? app.$getBusinessCoverPhotoUrl(data.id, data.coverPhoto): "",
+            reviewScore: data.review,
+            categories: data.businessCategories,
+            reviews: data.reviews
+        }
+
+
+    } catch (error) {
+        return {
+            pageError: 1,
+            reasonForError: error.message
+        }
+    }   
+}
 
 export default {
     name: "BUSINESSPAGE",
@@ -312,6 +372,7 @@ export default {
         businessName: "",
         address: "",
         contact: "",
+        categories: "",
         description: "",
         logo: "",
         whatsappContact: "",
@@ -320,6 +381,7 @@ export default {
         productHeader: "All products",
         page: 1,
         loadMoreContent: false,
+        reviewScore: 0,
 
         // product retrieval details
         subcategoryId: "",
@@ -442,73 +504,40 @@ export default {
                 singleTabContainer.classList.toggle(`showEffect`);
             }
 		},
-        getBusinessDetails: async function() {
+        emitEvent: async function() {
             
-
-            let variables = {
-                username: this.username
-            }
-
-            let request = await this.$performGraphQlQuery(this.$apollo, GET_BUSINESS_DETAILS_BY_USERNAME, variables, {});
-
-            if (request.error) {
-                this.$initiateNotification('error', 'Failed request', 'A network error occurred');
-                this.reasonForError = "A network error occurred. Make sure you are connected to the internet"
-                this.pageError = 1
+            if (this.pageError) {
+                this.$initiateNotification('error', '', this.reasonForError);
                 return
             }
-
-            let result = request.result.data.GetSingleBusinessDetailsByUsername;
-
-            if (result.success == false) {
-                this.reasonForError = result.message
-                this.pageError = 1
-                return
-            }
-
-            if (result.businessData == null) {
-                this.$initiateNotification('error', '', `No result was found for <span class="indicator">${this.username}</span>. This shop haseither been moved or deleted`)
-                this.pageError = 1
-                return
-            }
-
-            let data = result.businessData;
-
-            this.businessId = data.id;
-            this.businessContact = data.contact
-            this.username = data.username
-            this.businessName = data.businessname
-            this.address = data.address
-            this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : "",
-            this.contact = data.contact,
-            this.whatsappContact = data.contact.whatsapp
-            this.description = data.description
 
             let aboutBusiness = {
-                name: data.businessname,
-                businessId: data.id,
-                address: data.address,
-                contact: data.contact,
-                logo: data.logo,
-                coverPhoto: data.coverPhoto,
-                reviewScore: data.review,
-                categories: data.businessCategories,
-                username: data.username,
-                description: data.description,
+                name: this.businessName,
+                businessId: this.businessId,
+                address: this.address,
+                contact: this.contact,
+                logo: this.logo,
+                coverPhoto: this.coverPhoto,
+                reviewScore: this.reviewScore,
+                categories: this.categories,
+                username: this.username,
+                description: this.description,
                 accessToken: this.accessToken
             }
 
             let searchData = {
-                name: data.businessname,
-                businessId: data.id,
-                logo: data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : "",
+                name: this.businessName,
+                businessId: this.businessId,
+                logo: this.logo,
             }
 
             let businessReview = {
-                businessId: data.id,
-                reviewScore: data.review,
-                reviews: data.reviews
+                businessId: this.businessId,
+                reviewScore: this.reviewScore,
+                reviews: this.reviews
             }
+
+            
 
             // emit to about business modal
             $nuxt.$emit('BusinessDetails', aboutBusiness)
@@ -519,10 +548,10 @@ export default {
 
             let filteredCategories = [];
             
-            if (data.businessCategories.length == 0 ) this.businessCategories = [];
+            if (this.categories.length == 0 ) this.businessCategory = [];
 
-            if (data.businessCategories.length > 0) {
-                for (const [index, category] of data.businessCategories.entries()) {
+            if (this.categories.length > 0) {
+                for (const [index, category] of this.categories.entries()) {
                     if (category.hide == 0) {
                         let cat = [];
 
@@ -551,6 +580,7 @@ export default {
                         }
                     }
                 }
+                this.categories = []
             }
 
             
@@ -801,7 +831,6 @@ export default {
             } else {
                 this.pageError = 0
                 this.username = username
-                await this.getBusinessDetails();
 
                 let queryData = this.$route.query
                 if (queryData.name != undefined) {
@@ -824,38 +853,11 @@ export default {
     },
     async asyncData({ app, params }) {
         
-        try {
-
-            let variables = {
-                username: params.id
-            }
-
-            let result = await app.apolloProvider.defaultClient.query({
-                query: GET_BUSINESS_DETAILS_BY_USERNAME,
-                variables: variables
-            })  
-
-            let data = result.data.GetSingleBusinessDetailsByUsername;
-            if (data.success) {
-                let returnData = data.businessData
-
-                // console.log(app)
-                let yap = {
-                    businessName: returnData.businessname,
-                    description: returnData.description.length == 0 ? `Welcome to ${returnData.businessName}. You'll find quality products here.` : returnData.description,
-                    logo: returnData.logo.length > 0 ? app.$getBusinessLogoUrl(returnData.id, returnData.logo) : "",
-                    username: returnData.username
-                }
-
-                return yap
-            }
-
-        } catch (error) {
-            
-        }   
+        return getBusinessDetails(app, params)
     },
     async mounted () {
         this.anonymousId = this.GetAnonymousId
+        this.emitEvent();
         this.pageLoader = 0
     }
 }

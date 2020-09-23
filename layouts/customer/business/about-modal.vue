@@ -344,13 +344,11 @@ export default {
 			this.getUserDataFromStore()
             this.$nuxt.$on('BusinessDetails', async (data) => {
 				this.businessId = data.businessId
-
 				this.isCustomerFollowingBusiness(data.businessId)
-
 				this.address = data.address
 				this.businessCategories = data.categories
-				this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : ""
-				this.coverPhoto = data.coverPhoto.length > 0 ? this.$getBusinessCoverPhotoUrl(this.businessId, data.coverPhoto): ""
+				this.logo = data.logo
+				this.coverPhoto = data.coverPhoto
 				this.businessName = data.name
 				this.reviewScore = data.reviewScore
 				this.username = data.username,
