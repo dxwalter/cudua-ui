@@ -29,7 +29,7 @@ export default {
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
-		{src: '~/plugins/utils.client.js', ssr: false},
+		{src: '~/plugins/utils.js', ssr: true},
 		{src: '~/plugins/apollo.js', ssr: true},
 		{src: '~/plugins/notification.client.js', ssr: false},
 		{ src: '~/plugins/localStorage.js', ssr: false },

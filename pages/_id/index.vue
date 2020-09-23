@@ -405,12 +405,12 @@ export default {
           {
             hid: `Cudua_description`,
             name: "description",
-            content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products at great prices here.` : this.description
+            content: this.description.length == 0 ? `You'll find quality products at great prices here.` : this.description
           },
           {
               hid: "og:description",
               property: 'og:description',
-              content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products at great prices here.` : this.description
+              content: this.description.length == 0 ? `You'll find quality products at great prices here.` : this.description
           },
           {
               hid: "og:title",

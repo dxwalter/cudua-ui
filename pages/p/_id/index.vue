@@ -378,6 +378,67 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PRODUCTREVIEW from '~/components/product/product-review.vue'
 import PAGELOADER from '~/components/loader/loader.vue';
+
+async function fetchProductDetailsFromApi (app, params) {
+    try {
+
+        let variables = {
+            productId: params.id
+        }
+
+        let result = await app.apolloProvider.defaultClient.query({
+            query: GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
+            variables: variables
+        })  
+
+        let data = result.data.GetProductById;
+
+        if (!data.success || data.product == null) {
+            // set network error or no product found
+            return {
+                errorReason: `The product you are looking for does not exists. It has been moved or deleted`,
+                productNotFound: 1
+            }
+        }
+
+        let businessData = data.business
+
+        data = data.product
+
+        return {
+            productNotFound: 0,
+            serverError: 0,
+            productId: data.id,
+            categoryName: data.category.categoryName,
+            categoryId: data.category.categoryId,
+            productColors: data.colors == null ? [] : data.colors,
+            productDescription: data.description,
+            hide: data.hide,
+            productImages: data.images,
+            primaryImage: app.$formatProductImageUrl(businessData.id, data.images[0], 'bigSize'),
+            productName: data.name,
+            productPrice: app.$numberNotation(data.price),
+            productSizes: data.sizes == null ? [] : data.sizes,
+            subcategoryName: data.subcategory.subcategoryName,
+            subcategoryId: data.subcategory.subcategoryId,
+            tags: data.tags == null ? []: data.tags,
+            reviewScore: data.reviewScore,
+            reviews: data.reviews,
+            businessName: businessData.businessname,
+            username: businessData.username,
+            businessId: businessData.id,
+            contact: businessData.contact
+        }
+
+    } catch (error) {
+        return {
+            productNotFound: 1,
+            errorReason: error.message,
+            serverError: 1
+        }
+    }
+}
+
 export default {
     name: "CUSTOMERPRODUCTPAGE",
     components: {
@@ -393,7 +454,9 @@ export default {
             accessToken: "",
             businessContacts: [],
             businessWhatsapp: "",
-   
+            contact: "",
+            businessName: "",
+            
             productId: "",
             productImages: [],
             hide: "",
@@ -427,12 +490,13 @@ export default {
           {
             hid: `Cudua_description`,
             name: "description",
-            content: this.productDescription
+            content: this.productDescription.length == 0 ? `Click this link to learn more about ${this.productName}`: this.productDescription
+
           },
           {
               hid: "og:description",
               property: 'og:description',
-              content: this.productDescription
+              content: this.productDescription.length == 0 ? `Click this link to learn more about ${this.productName}`: this.productDescription
           },
           {
               hid: "og:title",
@@ -506,72 +570,36 @@ export default {
         formatBigSizeImage: function (image) {
             return this.$formatProductImageUrl(this.businessId, image, "bigSize")
         },
-        getProductDetails: async function () {
-            let variables = {
-                productId: this.productId
-            }
+        formatProductDetails: async function () {
 
-            let request = await this.$performGraphQlQuery(this.$apollo, GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID, variables, {});
 
-            if (request.error) {
-                this.productNotFound = 1
-                this.errorReason = request.message
-                this.serverError = 1
-                this.$initiateNotification('error', 'Failed request', request.message);
+            if (this.serverError && this.productNotFound == 0) {
+                this.$initiateNotification('error', 'Failed request', this.errorReason);
                 return
             } else {
-                this.productNotFound = 0
                 this.serverError = 0
             }
 
-            let result = request.result.data.GetProductById;
 
-            if (!result.success || result.product == null) {
+            if (!this.serverError && this.productNotFound) {
                 // set network error or no product found
-                this.productNotFound = 1
-                this.errorReason = 'The product you are looking for does not exists. It has been moved or deleted'
-                this.$initiateNotification('error', 'Failed request', result.message);
+                this.$initiateNotification('error', 'N', this.errorReason);
                 return
             }
 
             this.productNotFound = 0
 
-            let product = result.product;
-
-            this.productId = product.id;
-            this.categoryName = product.category.categoryName;
-            this.categoryId = product.category.categoryId;
-            this.productColors = product.colors == null ? []: product.colors;
-            this.productDescription = product.description;
-            this.hide = product.hide;
-            this.productImages = product.images;
-
-            this.primaryImage = this.formatBigSizeImage(this.returnImages[0])
-
-            this.productName = product.name;
-            this.productPrice = this.$numberNotation(product.price);
-            this.productSizes = product.sizes == null ? [] : product.sizes;
-            this.subcategoryName = product.subcategory.subcategoryName;
-            this.subcategoryId = product.subcategory.subcategoryId;
-            this.tags = product.tags == null ? []: product.tags
-            this.reviewScore = product.reviewScore
-
-            let businessData = result.business
-
             // emit to add category component
             $nuxt.$emit('ProductReviews', {
-                reviews: product.reviews == null ? [] : product.reviews,
-                reviewScore: product.reviewScore
+                reviews: this.reviews == null ? [] : this.reviews,
+                reviewScore: this.reviewScore
             })
 
 
-            if (this.hide == 0 && businessData.id) {
+            if (this.hide == 0 && this.businessId) {
                 this.productNotFound = 0
 
-                this.username = businessData.username
-                this.businessId = businessData.id
-
-                let contact = businessData.contact
+                let contact = this.contact
                 let phones = [];
 
                 if (contact.whatsapp.status == 1 && contact.whatsapp.number.length > 0) {
@@ -597,15 +625,19 @@ export default {
         if (process.client) {
             this.productId = this.$route.params.id;
             window.addEventListener('resize', this.handleResize);
-            this.GetCustomerDataFromStore()
+            // this.GetCustomerDataFromStore()
         }
+    },
+    async asyncData({ app, params }) {
+        
+        return fetchProductDetailsFromApi(app, params)
     },
     async mounted () {
         if (process.client) {
             this.slider = document.getElementsByClassName("product-image-slide");
             this.$productImageSlides(this.currentSlide, this.slider);
 
-            await this.getProductDetails()
+            await this.formatProductDetails()
             this.pageLoader = false
         }
     }
