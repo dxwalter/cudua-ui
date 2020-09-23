@@ -410,7 +410,7 @@ export default {
           {
               hid: "og:description",
               property: 'og:description',
-              content: this.description
+              content: this.description.length == 0 ? `Welcome to ${this.businessName}. You'll find quality products here.` : this.description
           },
           {
               hid: "og:title",
