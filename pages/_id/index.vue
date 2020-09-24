@@ -507,7 +507,7 @@ export default {
         emitEvent: async function() {
             
             if (this.pageError) {
-                this.$initiateNotification('error', '', this.reasonForError);
+                // this.$initiateNotification('error', '', this.reasonForError);
                 return
             }
 

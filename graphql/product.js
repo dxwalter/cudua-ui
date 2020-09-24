@@ -425,3 +425,47 @@ query SearchInShop ($keyword: String!, $businessId: String!, $page: Int!) {
   }
 }
 `
+
+export const SAVE_PRODUCT_FOR_LATER = gql`
+mutation saveForLater($productId: String!){
+  SaveProductForLater(input:{
+    productId: $productId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const SIGNED_IN_USER_ADD_ITEM_TO_CART = gql`
+mutation addItemToCart($businessId: String!, $productId: String!, $colorId: String, $sizeId: String){
+  AddItemToCart(input:{
+    businessId: $businessId,
+    productId: $productId,
+    colorId: $colorId,
+    sizeId: $sizeId
+  }) {
+    code
+    success
+    message
+  }
+}
+
+`
+
+export const ANONYMOUS_ADD_ITEM_TO_CART = gql`
+mutation addToCart($anonymousId: String!, $businessId: String!, $productId: String!, $colorId: String, $sizeId: String){
+  AnonymousAddItemToCart(input:{
+    anonymousId: $anonymousId,
+    businessId: $businessId,
+    productId: $productId,
+    colorId: $colorId,
+    sizeId: $sizeId
+  }) {
+    code
+    success
+    message
+  }
+}
+`

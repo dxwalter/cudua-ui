@@ -82,9 +82,12 @@
                     <div class="product-details-container">
                         <div class="product-details-label">
                             Available sizes
+                            <span>- choose a size</span>
                         </div>
                         <div class="color-picker-container">
-                            <div class="size-card" v-for="size in returnSizes" :key="size.sizeId">{{size.sizeNumber}}</div>
+                            <div class="size-card" :id="`selectedSize${size.sizeId}`" v-for="size in returnSizes" :key="size.sizeId" @click="selectedSizeForCart(size.sizeId)">{{size.sizeNumber}}</div>
+
+                            <div class="reset-select btn-white" v-show="productSizes.length > 0 && selectedSize" @click="resetSelectedSize()">Reset size</div>
                         </div>
                         <div class="no-data-available" v-show="productSizes.length == 0">
                             <div class="text-area">No size available</div>
@@ -95,9 +98,11 @@
                     <div class="product-details-container">
                         <div class="product-details-label">
                             Available colors
+                            <span>- choose a color</span>
                         </div>
                         <div class="color-picker-container">
-                            <div v-for="color in returnColors" :key="color.colorId"  v-bind:style="{'background-color': color.color}"></div>
+                            <div :id="`selectedColor${color.colorId}`" v-for="color in returnColors" :key="color.colorId"  v-bind:style="{'background-color': color.color}" @click="selectedColorForCart(color.colorId)" class="color-listing"></div>
+                            <div class="reset-select btn-white" v-show="productColors.length > 0 && selectedColor" @click="resetSelectedColor()">Reset color</div>
                         </div>
                         <div class="no-data-available" v-show="productColors.length == 0">
                             <div class="text-area">No color available</div>
@@ -148,7 +153,7 @@
                             <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
                             </svg>
                         </button>
-                        <button class="btn btn-primary btn-lg btn-block">
+                        <button class="btn btn-primary btn-lg btn-block" id="addToCartBig" @click="addItemToCart('addToCartBig', $event)">
                             <svg xmlns="http://www.w3.org/2000/svg">
                             <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
                             </svg>
@@ -339,7 +344,7 @@
                 </svg>
                 <span>Call to order</span>
             </button>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" id="addToCartSmall" @click="addItemToCart('addToCartSmall', $event)">
                 <svg xmlns="http://www.w3.org/2000/svg">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
                 </svg>
@@ -368,7 +373,10 @@
 
 <script>
 import { 
-    GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID
+    GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
+    SAVE_PRODUCT_FOR_LATER,
+    SIGNED_IN_USER_ADD_ITEM_TO_CART,
+    ANONYMOUS_ADD_ITEM_TO_CART
 } from '~/graphql/product';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
@@ -467,6 +475,7 @@ export default {
             username: "",
             businessId: "",
             accessToken: "",
+            anonymousId: "",
             businessContacts: [],
             businessWhatsapp: "",
             contact: "",
@@ -495,7 +504,11 @@ export default {
 
             serverError: 0,
             errorReason: "",
-            timeout: null
+            timeout: null,
+
+            // add to cart
+            selectedColor: "",
+            selectedSize: ""
         }
     },
     head() {
@@ -558,6 +571,7 @@ export default {
         GetCustomerDataFromStore: function () {
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
+            this.anonymousId = customerData.anonymousId
         },
         nextImage: function () {
             if (this.currentSlide >= this.slider.length) this.currentSlide = 0;
@@ -590,14 +604,14 @@ export default {
 
 
             if (this.serverError && this.productNotFound) {
-                this.$initiateNotification('error', 'Failed request', this.errorReason);
+                // this.$initiateNotification('error', 'Failed request', this.errorReason);
                 return
             }
 
 
             if (!this.serverError && this.productNotFound) {
                 // set network error or no product found
-                this.$initiateNotification('error', 'N', this.errorReason);
+                // this.$initiateNotification('error', 'N', this.errorReason);
                 return
             }
 
@@ -647,9 +661,93 @@ export default {
 
         },
         saveForLater: async function () {
+            let target = document.getElementById('saveForLater');
+            
+            let variables = {
+                productId: this.productId
+            }
 
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, SAVE_PRODUCT_FOR_LATER, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Failed request', this.errorReason);
+                return
+            }
+
+            let result = request.result.data.SaveProductForLater;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Oops!', result.message);
+                return
+            }
+
+            this.$initiateNotification('success', 'Product saved', result.message);
+
+            target.style.display = 'none'
+
+        },
+        addItemToCart: async function (targetId, e) {
+
+            let target = document.getElementById(targetId);
+
+            if (this.accessToken.length == 0) {
+
+            }
+        },
+        selectedSizeForCart: function (sizeId) {
+            let allSizes = document.querySelectorAll('.size-card');
+
+            for (let x of allSizes) {
+                x.classList.add('is-active')
+            }
+
+            document.getElementById('selectedSize'+sizeId).classList.remove('is-active');
+
+            this.selectedSize = sizeId;
+
+            this.$showToast('Size selected', "success");
+
+        },
+        selectedColorForCart: function (colorId) {
+            let allColors = document.querySelectorAll('.color-listing');
+
+            for (let x of allColors) {
+                x.classList.add('is-active')
+            }
+
+            document.getElementById('selectedColor'+colorId).classList.remove('is-active');
+
+            this.selectedColor = colorId;
+
+            this.$showToast('Color selected', "success")
+        },
+        resetSelectedColor: function () {
+            let allColors = document.querySelectorAll('.color-listing');
+            for (let x of allColors) {
+                x.classList.remove('is-active')
+            }
+            this.selectedColor = "";
+        },
+        resetSelectedSize: function () {
+            let allSizes = document.querySelectorAll('.size-card');
+
+            for (let x of allSizes) {
+                x.classList.remove('is-active')
+            }
+
+            this.selectedSize = "";
         }
-    },
+    },  
     created () {
         if (process.client) {
             this.productId = this.$route.params.id;
@@ -712,5 +810,16 @@ export default {
 }
 .mg-right-10 {
     margin-right: 10px;
+}
+.color-listing.is-active,
+.size-card.is-active {
+    opacity: .2;
+    box-shadow: unset;
+}
+.reset-select {
+    font-weight: 500;
+    background-color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
 }
 </style>
