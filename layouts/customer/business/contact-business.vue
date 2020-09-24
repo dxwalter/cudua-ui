@@ -15,8 +15,10 @@
       <div class="modal-content">
         <div id="createCategory" class="">
             <div class="business-contact">
-
-				<div class="contact-details d-flex-between" v-for="(x, index) in getPhoneNumber" :key="index">
+				<div class="alert alert-info" v-show="getPhoneNumber.length == 0 && getEmail == undefined">
+					No contact info has been added by this business
+				</div>
+				<div class="contact-details d-flex-between-move" v-for="(x, index) in getPhoneNumber" :key="index">
 					<span>{{x}}</span>
 					<a :href="`tel: ${x}`" class="close-modal-btn">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" class="margin-unset">
@@ -24,7 +26,7 @@
 						</svg>
 					</a>
 				</div>
-				<div class="contact-details d-flex-between">
+				<div class="contact-details d-flex-between-move" v-show="getEmail !== undefined">
 					<span>{{getEmail}}</span>
 					<a :href="`mailto: ${getEmail}`" class="close-modal-btn">
 						<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" class="margin-unset">
@@ -50,9 +52,7 @@ export default {
 	name: "BUSINESSCONTACTMODAL",
 	data() {
 		return {
-			businessId: "",
 			businessName: "",
-			logo: "",
 			contact: ""
 		}
 	},
@@ -89,15 +89,7 @@ export default {
 	created() {
         if (process.browser) {
             this.$nuxt.$on('BusinessDetails', (data) => {
-				this.businessId = data.businessId
-				this.address = data.address
-				this.businessCategories = data.categories
-				this.logo = data.logo.length > 0 ? this.$getBusinessLogoUrl(this.businessId, data.logo) : ""
-				this.coverPhoto = data.coverPhoto.length > 0 ? this.$getBusinessCoverPhotoUrl(this.businessId, data.coverPhoto): ""
 				this.businessName = data.name
-				this.reviewScore = data.reviewScore
-				this.username = data.username,
-				this.description = data.description
 				this.contact = data.contact
             })
         }
@@ -105,6 +97,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+	.d-flex-between-move {
+		justify-content: space-between;
+		display: flex;
+	}
 </style>

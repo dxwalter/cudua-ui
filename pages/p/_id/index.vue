@@ -12,7 +12,7 @@
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-        <div class="content-container">
+        <div class="content-container mg-bottom-32">
           <!-- bookmark area -->
             <div class="section-header"><h4>Product details</h4></div>
             <!-- content start here -->
@@ -159,7 +159,8 @@
                     </div>
 
                     <div class="product-details-action">
-                    <button class="btn btn-white btn-md" v-show="accessToken">Save for later</button>
+                    <button class="btn btn-white btn-md" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Save for later</button>
+                    <button class="btn btn-white btn-md mg-right-10" v-show="accessToken" @click="saveForLater($event)" id="saveForLater">Save for later</button>
                     <n-link :to="`/${username}`" class="btn btn-white btn-md">Visit shop</n-link>
                 </div>
 
@@ -170,14 +171,16 @@
 
             <!-- when no product is found, show this -->
             <div class="link-error-area" v-show="productNotFound && !pageLoader">
+
                 <img src="~/static/images/product.svg" alt="" class="mg-bottom-32" v-show="productNotFound && !serverError">
+
                  <img src="~/static/images/server-error.svg" alt="" class="mg-bottom-32" v-show="productNotFound && serverError">
                 <div class="error-cause">{{errorReason}}</div>
             </div>
             <!-- end of error area -->
 
             <!-- product suggesstion -->
-            <div class="product-suggestion-container" v-show="!pageLoader">
+            <div class="product-suggestion-container display-none" v-show="!pageLoader">
                 <div class="section-header"><h4>Customers also viewed</h4></div>
                 <div class="product-suggestion-listing">
                     <div class="swiper-action-container">
@@ -330,12 +333,12 @@
 
         <!-- mobile action area -->
         <div class="product-bottom-action-area" v-show="!pageLoader && !productNotFound">
-            <a href="tel:08104686729" class="btn btn-white">
+            <button type="button" class="btn btn-white" data-target="contactBusiness" data-trigger="modal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
                 </svg>
                 <span>Call to order</span>
-            </a>
+            </button>
             <button class="btn btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
@@ -355,7 +358,8 @@
 
 
         <PRODUCTREVIEW></PRODUCTREVIEW>
-
+        <BUSINESSCONTACT></BUSINESSCONTACT>
+        <LoginComponent></LoginComponent>
     </div>
 
 
@@ -375,9 +379,11 @@ import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
+import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PRODUCTREVIEW from '~/components/product/product-review.vue'
 import PAGELOADER from '~/components/loader/loader.vue';
+import LoginComponent from '~/components/login/login.vue'
 
 async function fetchProductDetailsFromApi (app, params) {
     try {
@@ -433,7 +439,7 @@ async function fetchProductDetailsFromApi (app, params) {
     } catch (error) {
         return {
             productNotFound: 1,
-            errorReason: error.message,
+            errorReason: `A network error occurred. Kindly try again`,
             serverError: 1
         }
     }
@@ -442,7 +448,16 @@ async function fetchProductDetailsFromApi (app, params) {
 export default {
     name: "CUSTOMERPRODUCTPAGE",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PRODUCTREVIEW, PAGELOADER, StarRating
+      DESKTOPNAVGATION, 
+      MOBILENAVIGATION, 
+      MOBILESEARCH, 
+      BOTTOMADS, 
+      CUSTOMERFOOTER, 
+      PRODUCTREVIEW, 
+      PAGELOADER, 
+      StarRating,
+      LoginComponent,
+      BUSINESSCONTACT
     },
     data: function () {
         return {
@@ -479,7 +494,8 @@ export default {
             screenWidth: "",
 
             serverError: 0,
-            errorReason: ""
+            errorReason: "",
+            timeout: null
         }
     },
     head() {
@@ -570,14 +586,12 @@ export default {
         formatBigSizeImage: function (image) {
             return this.$formatProductImageUrl(this.businessId, image, "bigSize")
         },
-        formatProductDetails: async function () {
+        formatProductDetails: function () {
 
 
-            if (this.serverError && this.productNotFound == 0) {
+            if (this.serverError && this.productNotFound) {
                 this.$initiateNotification('error', 'Failed request', this.errorReason);
                 return
-            } else {
-                this.serverError = 0
             }
 
 
@@ -604,6 +618,12 @@ export default {
 
                 if (contact.whatsapp.status == 1 && contact.whatsapp.number.length > 0) {
                     this.businessWhatsapp = contact.whatsapp.number
+                    phones.push({
+                        whatsapp: {
+                            status: 1,
+                            number: contact.whatsapp.number
+                        }
+                    })
                 }
 
                 if (contact.phone != null && contact.phone.length > 0) {
@@ -618,28 +638,41 @@ export default {
                 this.productNotFound = 1
             }
 
+            let aboutBusiness = {
+                name: this.businessName,
+                contact: this.contact
+            }
+
+            $nuxt.$emit('BusinessDetails', aboutBusiness)
 
         },
+        saveForLater: async function () {
+
+        }
     },
     created () {
         if (process.client) {
             this.productId = this.$route.params.id;
             window.addEventListener('resize', this.handleResize);
-            // this.GetCustomerDataFromStore()
+            this.GetCustomerDataFromStore()
         }
     },
     async asyncData({ app, params }) {
         
         return fetchProductDetailsFromApi(app, params)
     },
-    async mounted () {
-        if (process.client) {
+    mounted () {
+        if (process.browser) {
             this.slider = document.getElementsByClassName("product-image-slide");
             this.$productImageSlides(this.currentSlide, this.slider);
-
-            await this.formatProductDetails()
             this.pageLoader = false
+            this.timeout = setTimeout(() => {
+                this.formatProductDetails()
+            }, 1000);
         }
+    },
+    beforeDestroy() {
+        clearTimeout(this.timeout)
     }
 }
 </script>
@@ -676,5 +709,8 @@ export default {
 }
 .margin-unset {
     margin: unset !important;
+}
+.mg-right-10 {
+    margin-right: 10px;
 }
 </style>

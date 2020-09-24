@@ -337,7 +337,7 @@ async function getBusinessDetails (app, params) {
     } catch (error) {
         return {
             pageError: 1,
-            reasonForError: error.message
+            reasonForError: `A network error occurred. Kindly try again`
         }
     }   
 }
@@ -375,6 +375,7 @@ export default {
         categories: "",
         description: "",
         logo: "",
+        coverPhoto: "",
         whatsappContact: "",
         productsType: "all",
         productLists: [],
@@ -485,7 +486,6 @@ export default {
 		showSubcatList: function (id, category, e) {
             if (process.browser) {
                 
-
                 let openedCat = document.querySelectorAll(".subcat-listing.showEffect");
                 for (let i = 0; i < openedCat.length; i++) {
                     openedCat[i].classList.remove('showEffect')
@@ -855,7 +855,7 @@ export default {
         
         return getBusinessDetails(app, params)
     },
-    async mounted () {
+    mounted () {
         this.anonymousId = this.GetAnonymousId
         this.emitEvent();
         this.pageLoader = 0

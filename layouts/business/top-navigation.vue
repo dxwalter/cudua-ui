@@ -295,7 +295,6 @@ export default {
     intervalId: null,
     mounted () {
         document.querySelector("body").classList.remove("overflow-hidden");
-
         // if lg
         if (this.isLoggedIn && this.isBusiness) {
             this.$options.intervalId = setInterval(() => {

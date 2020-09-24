@@ -44,7 +44,7 @@
 				</div>
 
 			</div>
-            <NOTIFICATION></NOTIFICATION>
+            <!-- <NOTIFICATION></NOTIFICATION> -->
         </div>
     </div>
 </div>
