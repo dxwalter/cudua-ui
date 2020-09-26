@@ -20,6 +20,7 @@
                 <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
               </svg>
               <span>My cart</span>
+			  <div class="notif-point" v-show="numberOfItemsInCart">{{numberOfItemsInCart}}</div>
             </n-link>
 
             <n-link to="/c/notification" class="mobile-side-nav-link" v-show="isLoggedIn">
@@ -93,25 +94,39 @@ export default {
 			screenWidth: "",
 			isLoggedIn: false,
 			isBusinessOwner: false,
-			username: ""
+			username: "",
+			numberOfItemsInCart: 0
+		}
+	},
+	props: {
+		cartTrigger: {
+			type: Number,
+			default: 0
 		}
 	},
     created() {
         if (process.client) {
 			window.addEventListener('resize', this.handleResize);
 			this.LoginStatus()
+			this.numberOfItemsInCart = this.GetCartItems().length
         }
     },
     computed: {
         handleResize() {
             this.screenWidth = window.innerWidth;
 		},
+	},
+    watch: {
+      cartTrigger: function () {
+        this.numberOfItemsInCart = this.GetCartItems().length
+      }
     },
 	methods: {
 		...mapGetters({
 			'GetLoginStatus': 'customer/GetLoginStatus',
 			'GetBusinessStatus': 'business/GetBusinessStatus',
-			'GetBusinessDetails': 'business/GetBusinessDetails'
+			'GetBusinessDetails': 'business/GetBusinessDetails',
+			"GetCartItems": "cart/GetCartItems"
 		}),
 		LoginStatus () {
 			this.isLoggedIn = this.GetLoginStatus();

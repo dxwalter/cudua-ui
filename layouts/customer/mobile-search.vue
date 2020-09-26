@@ -21,7 +21,7 @@
               <n-link to="/b" class="btn btn-white btn-md" v-show="isLoggedIn && isBusinessOwner">Manage Shop</n-link>
 
               <n-link to="/c/cart" class="btn btn-white btn-small btn-icon">
-                <div class="notif-point">10</div>
+                <div class="notif-point" v-show="numberOfItemsInCart" id="mobileCartIcon">{{numberOfItemsInCart}}</div>
                 <svg xmlns="http://www.w3.org/2000/svg">
                   <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
                 </svg>
@@ -49,9 +49,16 @@ export default {
 	data: function() {
 		return {
 			isLoggedIn: false,
-			isBusinessOwner: false
+      isBusinessOwner: false,
+      numberOfItemsInCart: 0
 		}
-	},
+  },
+  props: {
+    cartTrigger: {
+      type: Number,
+      default: 0
+    }
+  },
     created() {
         if (process.client) {
             window.addEventListener('resize', this.handleResize);
@@ -67,7 +74,8 @@ export default {
       ...mapGetters({
         'GetAnonymousId': 'customer/GetAnonymousId',
         'GetLoginStatus': 'customer/GetLoginStatus',
-        'GetBusinessStatus': 'business/GetBusinessStatus'
+        'GetBusinessStatus': 'business/GetBusinessStatus',
+        "GetCartItems": "cart/GetCartItems"
       }),
       toggleCustomerNavBar: function (e) {
           e.preventDefault();
@@ -84,8 +92,14 @@ export default {
           navToggle.getAttribute('data-toggle-status') == "1" ? navToggle.setAttribute('data-toggle-status', '0') : navToggle.setAttribute('data-toggle-status', '1');
       },
       statusChecker () {
-        this.isLoggedIn = this.GetLoginStatus()
+        this.isLoggedIn = this.GetLoginStatus();
+        this.numberOfItemsInCart = this.GetCartItems().length
         this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+      }
+    },
+    watch: {
+      cartTrigger: function () {
+        this.numberOfItemsInCart = this.GetCartItems().length
       }
     },
     mounted () {

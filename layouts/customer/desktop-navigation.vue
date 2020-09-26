@@ -28,7 +28,7 @@
         </n-link>
 
         <n-link to="/c/cart" class="desktop-menu-item">
-          <div class="notif-point">10</div>
+          <div class="notif-point" v-show="numberOfItemsInCart">{{numberOfItemsInCart}}</div>
           <svg xmlns="http://www.w3.org/2000/svg">
             <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
           </svg>
@@ -134,11 +134,18 @@ export default {
   components: {
     NOTIFICATION
   },
+  props: {
+    cartTrigger: {
+      type: Number,
+      default: 0
+    }
+  },
 	data: function () {
 		return {
       isLoggedIn: false,
       isBusinessOwner: false,
-      username: ""
+      username: "",
+      numberOfItemsInCart: 0
 		}
 	},
   computed: {
@@ -149,13 +156,20 @@ export default {
       'GetLoginStatus': 'customer/GetLoginStatus',
       'GetAnonymousId': 'customer/GetAnonymousId',
 			'GetBusinessStatus': 'business/GetBusinessStatus',
-			'GetBusinessDetails': 'business/GetBusinessDetails',
+      'GetBusinessDetails': 'business/GetBusinessDetails',
+      "GetCartItems": "cart/GetCartItems"
 		}),
 		statusChecker () {
 			this.isLoggedIn = this.GetLoginStatus()
       this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
-      this.username = this.GetBusinessDetails().username
+      this.username = this.GetBusinessDetails().username,
+      this.numberOfItemsInCart = this.GetCartItems().length
 		}
+  },
+  watch: {
+    cartTrigger: function () {
+      this.numberOfItemsInCart = this.GetCartItems().length
+    }
   },
   mounted () {
     this.statusChecker()

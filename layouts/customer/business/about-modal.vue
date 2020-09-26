@@ -296,7 +296,7 @@ export default {
 		},
 		isCustomerFollowingBusiness: async function(businessId) {
 
-			if (!this.accessToken) {
+			if (!this.accessToken || this.businessId == undefined) {
 				return
 			}
 

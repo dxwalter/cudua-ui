@@ -2481,6 +2481,15 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     
     button:first-child {
         margin-right: 4px;
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
     }
 
     .btn {

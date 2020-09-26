@@ -4,9 +4,13 @@
 
       <!-- beginning of navigation container -->
         <div class="nav-container">
-            <MOBILESEARCH></MOBILESEARCH>
-            <DESKTOPNAVGATION></DESKTOPNAVGATION>
-            <MOBILENAVIGATION></MOBILENAVIGATION>
+            <MOBILESEARCH :cartTrigger=cartTrigger></MOBILESEARCH>
+
+            <BUSINESSNAV v-show="!pageLoader && !serverError" :cartTrigger=cartTrigger></BUSINESSNAV>
+
+            <DESKTOPNAVGATION v-show="pageLoader || serverError" :cartTrigger=cartTrigger></DESKTOPNAVGATION>
+
+            <MOBILENAVIGATION :cartTrigger=cartTrigger></MOBILENAVIGATION>
         </div>
 
         <!-- pageLoader -->
@@ -30,12 +34,12 @@
                             </div>
 
                             <button class="close-modal-btn btn-light-grey" @click="previousImage"  v-show="returnImages.length > 1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12" class="margin-unset">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#leftArrow"></use>
                                 </svg>
                             </button>
                             <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage"  v-show="returnImages.length > 1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562" class="margin-unset">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
                                 </svg>
                             </button>
@@ -85,7 +89,7 @@
                             <span>- choose a size</span>
                         </div>
                         <div class="color-picker-container">
-                            <div class="size-card" :id="`selectedSize${size.sizeId}`" v-for="size in returnSizes" :key="size.sizeId" @click="selectedSizeForCart(size.sizeId)">{{size.sizeNumber}}</div>
+                            <div class="size-card" :id="`selectedSize${size.sizeId}`" v-for="size in returnSizes" :key="size.sizeId" @click="selectedSizeForCart(size.sizeId, size.sizeNumber)">{{size.sizeNumber}}</div>
 
                             <div class="reset-select btn-white" v-show="productSizes.length > 0 && selectedSize" @click="resetSelectedSize()">Reset size</div>
                         </div>
@@ -101,7 +105,7 @@
                             <span>- choose a color</span>
                         </div>
                         <div class="color-picker-container">
-                            <div :id="`selectedColor${color.colorId}`" v-for="color in returnColors" :key="color.colorId"  v-bind:style="{'background-color': color.color}" @click="selectedColorForCart(color.colorId)" class="color-listing"></div>
+                            <div :id="`selectedColor${color.colorId}`" v-for="color in returnColors" :key="color.colorId"  v-bind:style="{'background-color': color.color}" @click="selectedColorForCart(color.colorId, color.color)" class="color-listing"></div>
                             <div class="reset-select btn-white" v-show="productColors.length > 0 && selectedColor" @click="resetSelectedColor()">Reset color</div>
                         </div>
                         <div class="no-data-available" v-show="productColors.length == 0">
@@ -160,6 +164,7 @@
                             <span>
                             Add to cart
                             </span>
+                            <div class="loader-action"><span class="loader"></span></div>
                         </button>
                     </div>
 
@@ -351,6 +356,7 @@
                 <span>
                     Add to cart
                 </span>
+                <div class="loader-action"><span class="loader"></span></div>
             </button>
         </div>
 
@@ -365,9 +371,17 @@
         <PRODUCTREVIEW></PRODUCTREVIEW>
         <BUSINESSCONTACT></BUSINESSCONTACT>
         <LoginComponent></LoginComponent>
+        <BUSINESSSEARCH></BUSINESSSEARCH>
     </div>
 
-
+    <div class="filter-btn-container">
+        <button class="close-modal-btn btn-icon btn-primary advn-search-filter" >
+            <div class="dropdownCheckBox" data-target="BusinessMobileSearchModal" data-trigger="modal"> </div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <use xlink:href="~/assets/customer/image/all-svg.svg#advancedSearch"></use>
+            </svg>
+        </button>
+        </div>
   </div>
 </template>
 
@@ -383,6 +397,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import StarRating from '~/plugins/vue-star-rating.client.vue'
 
+import BUSINESSSEARCH from '~/layouts/customer/business/business-search-modal.vue';
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
@@ -392,6 +407,7 @@ import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PRODUCTREVIEW from '~/components/product/product-review.vue'
 import PAGELOADER from '~/components/loader/loader.vue';
 import LoginComponent from '~/components/login/login.vue'
+import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
 
 async function fetchProductDetailsFromApi (app, params) {
     try {
@@ -440,6 +456,7 @@ async function fetchProductDetailsFromApi (app, params) {
             reviews: data.reviews,
             businessName: businessData.businessname,
             username: businessData.username,
+            logo: businessData.logo.length > 0 ? app.$getBusinessLogoUrl(businessData.id, businessData.logo) : "",
             businessId: businessData.id,
             contact: businessData.contact
         }
@@ -465,7 +482,9 @@ export default {
       PAGELOADER, 
       StarRating,
       LoginComponent,
-      BUSINESSCONTACT
+      BUSINESSCONTACT,
+      BUSINESSNAV,
+      BUSINESSSEARCH
     },
     data: function () {
         return {
@@ -480,6 +499,7 @@ export default {
             businessWhatsapp: "",
             contact: "",
             businessName: "",
+            logo: "",
             
             productId: "",
             productImages: [],
@@ -505,10 +525,13 @@ export default {
             serverError: 0,
             errorReason: "",
             timeout: null,
+            cartTrigger: 0,
 
             // add to cart
             selectedColor: "",
-            selectedSize: ""
+            colorCode: "",
+            selectedSize: "",
+            sizeNumber: ""
         }
     },
     head() {
@@ -566,7 +589,8 @@ export default {
     },
     methods : {
         ...mapGetters({
-            'GetCustomerData': 'customer/GetCustomerDetails'
+            'GetCustomerData': 'customer/GetCustomerDetails',
+            "GetCartItems": "cart/GetCartItems"
         }),
         GetCustomerDataFromStore: function () {
 			let customerData = this.GetCustomerData();
@@ -617,12 +641,6 @@ export default {
 
             this.productNotFound = 0
 
-            // emit to add category component
-            $nuxt.$emit('ProductReviews', {
-                reviews: this.reviews == null ? [] : this.reviews,
-                reviewScore: this.reviewScore
-            })
-
 
             if (this.hide == 0 && this.businessId) {
                 this.productNotFound = 0
@@ -657,7 +675,19 @@ export default {
                 contact: this.contact
             }
 
+            let searchData = {
+                name: this.businessName,
+                businessId: this.businessId,
+                logo: this.logo,
+            }
+
+            $nuxt.$emit("searchData", searchData)
             $nuxt.$emit('BusinessDetails', aboutBusiness)
+            // emit to product review component
+            $nuxt.$emit('ProductReviews', {
+                reviews: this.reviews == null ? [] : this.reviews,
+                reviewScore: this.reviewScore
+            });
 
         },
         saveForLater: async function () {
@@ -687,7 +717,7 @@ export default {
             let result = request.result.data.SaveProductForLater;
 
             if (result.success == false) {
-                this.$initiateNotification('error', 'Oops!', result.message);
+                this.$initiateNotification('info', 'Oops!', result.message);
                 return
             }
 
@@ -696,15 +726,124 @@ export default {
             target.style.display = 'none'
 
         },
-        addItemToCart: async function (targetId, e) {
+        anonymousAddItemToCart: async function (targetId, e) {
 
             let target = document.getElementById(targetId);
 
-            if (this.accessToken.length == 0) {
-
+            let variables = {
+                productId: this.productId,
+                businessId: this.businessId,
+                colorId: this.selectedColor,
+                sizeId: this.selectedSize,
+                anonymousId: this.anonymousId
             }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, ANONYMOUS_ADD_ITEM_TO_CART, variables, context);
+
+            target.disabled = false;
+
+            if (request.error) {
+                return this.$initiateNotification('info', 'Oops!', request.message);
+            }
+
+            let result = request.result.data.AnonymousAddItemToCart;
+
+            if (result.success == false) {
+                return this.$initiateNotification('info', 'Oops!', result.message);
+            }
+
+            this.$initiateNotification('success', 'Item added', result.message);
+
+            this.addItemToStoreCart()
+
+            return
+
         },
-        selectedSizeForCart: function (sizeId) {
+        addItemToCart: async function (targetId, e) { 
+
+            if (this.accessToken.length == 0) {
+                this.anonymousAddItemToCart(targetId, e)
+                return
+            }
+
+            let target = document.getElementById(targetId);
+
+            let variables = {
+                productId: this.productId,
+                businessId: this.businessId,
+                colorId: this.selectedColor,
+                sizeId: this.selectedSize
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, SIGNED_IN_USER_ADD_ITEM_TO_CART, variables, context);
+
+            target.disabled = false;
+
+            if (request.error) {
+                return this.$initiateNotification('info', 'Oops!', request.message);
+            }
+
+            let result = request.result.data.AddItemToCart;
+
+            if (result.success == false) {
+                return this.$initiateNotification('info', 'Oops!', result.message);
+            }
+
+            this.$initiateNotification('success', 'Item added', result.message);
+            this.addItemToStoreCart()
+
+        },
+        addItemToStoreCart: function () {
+            let cartItemData = {
+                name: this.productName,
+                productId: this.productId,
+                price: this.productPrice,
+                reviewScore: this.reviewScore,
+                image: this.primaryImage,
+                size: this.sizeNumber,
+                color: this.colorCode,
+                username: this.username
+            }
+
+            let cartItems = this.GetCartItems();
+            
+            let newCartArray = []
+
+            for (let x of cartItems) {
+                newCartArray.push({
+                    name: x.name,
+                    productId: x.productId,
+                    price: x.price,
+                    reviewScore: x.reviewScore,
+                    image: x.image,
+                    size: x.size,
+                    color: x.color,
+                    username: x.username
+                })
+            }
+            
+            newCartArray.push(cartItemData);
+
+            this.$store.dispatch('cart/setCartItems', newCartArray)
+            this.cartTrigger = 1
+        },
+        selectedSizeForCart: function (sizeId, sizeNumber) {
             let allSizes = document.querySelectorAll('.size-card');
 
             for (let x of allSizes) {
@@ -714,11 +853,12 @@ export default {
             document.getElementById('selectedSize'+sizeId).classList.remove('is-active');
 
             this.selectedSize = sizeId;
+            this.sizeNumber = sizeNumber
 
             this.$showToast('Size selected', "success");
 
         },
-        selectedColorForCart: function (colorId) {
+        selectedColorForCart: function (colorId, colorCode) {
             let allColors = document.querySelectorAll('.color-listing');
 
             for (let x of allColors) {
@@ -728,6 +868,7 @@ export default {
             document.getElementById('selectedColor'+colorId).classList.remove('is-active');
 
             this.selectedColor = colorId;
+            this.colorCode = colorCode
 
             this.$showToast('Color selected', "success")
         },
@@ -737,6 +878,7 @@ export default {
                 x.classList.remove('is-active')
             }
             this.selectedColor = "";
+            this.colorCode = "";
         },
         resetSelectedSize: function () {
             let allSizes = document.querySelectorAll('.size-card');
@@ -746,6 +888,7 @@ export default {
             }
 
             this.selectedSize = "";
+            this.sizeNumber = "";
         }
     },  
     created () {
@@ -764,6 +907,7 @@ export default {
             this.slider = document.getElementsByClassName("product-image-slide");
             this.$productImageSlides(this.currentSlide, this.slider);
             this.pageLoader = false
+
             this.timeout = setTimeout(() => {
                 this.formatProductDetails()
             }, 1000);
@@ -821,5 +965,11 @@ export default {
     background-color: #fff;
     padding: 10px 15px;
     cursor: pointer;
+}
+.filter-btn-container {
+    display: block !important;
+}
+.advn-search-filter svg:last-child {
+    display: unset;
 }
 </style>

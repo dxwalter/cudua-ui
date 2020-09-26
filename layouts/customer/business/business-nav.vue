@@ -65,7 +65,7 @@
 					</n-link>
 
 					<n-link to="/c/cart" class="desktop-menu-item">
-						<div class="notif-point">10</div>
+						<div class="notif-point" v-show="numberOfItemsInCart">{{numberOfItemsInCart}}</div>
 						<svg xmlns="http://www.w3.org/2000/svg">
 						<use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
 						</svg>
@@ -196,6 +196,8 @@ export default {
 			isLoggedIn: false,
 			isBusinessOwner: false,
 
+			numberOfItemsInCart: 0,
+
 			isSearchReady: 0,
 			isLoading: 0,
 			noProduct: 0,
@@ -212,6 +214,12 @@ export default {
 			calculatedLoad: 0
 		}
 	},
+	props: {
+		cartTrigger: {
+		type: Number,
+		default: 0
+		}
+	},
 	computed:{
 		returnProductList () {
 			return this.productList
@@ -223,10 +231,12 @@ export default {
 			'GetAnonymousId': 'customer/GetAnonymousId',
 			'GetBusinessStatus': 'business/GetBusinessStatus',
 			'GetBusinessDetails': 'business/GetBusinessDetails',
+			"GetCartItems": "cart/GetCartItems"
 		}),
 		statusChecker () {
 			this.isLoggedIn = this.GetLoginStatus()
 			this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+			this.numberOfItemsInCart = this.GetCartItems().length
 		},
 		getNameLogo: function (businessName) {
 			if (process.browser) {
@@ -288,6 +298,9 @@ export default {
         },
 	},
 	watch: {
+		cartTrigger: function () {
+			this.numberOfItemsInCart = this.GetCartItems().length
+		},
 		searchKeyword: async function () {
 			if (this.searchKeyword.length <= 1) {
 				return
@@ -314,6 +327,7 @@ export default {
 	created() {
 		if (process.browser) {
 			this.statusChecker()
+
 			this.$nuxt.$on('searchData', (data) => {
 				this.businessName = data.name
 				this.businessId = data.businessId

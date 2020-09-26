@@ -213,6 +213,7 @@ query getproduct($productId: String!) {
       businessname,
       id,
       username,
+      logo
       contact {
         phone,
         whatsapp {

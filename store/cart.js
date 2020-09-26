@@ -18,14 +18,20 @@ const getDefaultState = () => {
     }
 }
 
-export const actions = {
+const actions = {
     resetCartState (context, state) { context.commit('resetCartState', state) },
+    setCartItems (context, payload) { context.commit('setCartItems', payload)},
 }
 
-export const getters = {}
+const getters = {
+    GetCartItems: state => state.products
+}
 
-export const mutations = {
-    resetCartState: (state) => Object.assign(state, getDefaultState())
+const mutations = {
+    resetCartState: (state) => Object.assign(state, getDefaultState()),
+    setCartItems: (state, data) => {
+        state.products = data
+    }
 }
 
 export default {

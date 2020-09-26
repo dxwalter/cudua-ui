@@ -12,7 +12,7 @@
             <!-- pageLoader -->
             <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-            <div class="content-container">
+            <div class="content-container" v-show="!pageLoader">
                 <!-- header area -->
                 <div class="section-header">
                 <h4>My cart (4)</h4>
