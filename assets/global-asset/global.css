@@ -619,3 +619,19 @@ button:disabled .loader-action {
   line-height: 27px;
   margin-bottom: 16px;
 }
+
+.toasted .primary.info, .toasted.toasted-primary.info {
+  background: rgba(104, 154, 252, 1) !important;
+  line-height: 21px !important;
+}
+    
+
+.toasted .primary.success, .toasted.toasted-primary.success {
+  background: rgba(69, 175, 69, 1) !important;
+  line-height: 21px !important;
+}
+
+.toasted .primary.danger, .toasted.toasted-primary.danger {
+  background: rgba(223, 84, 56, 1) !important;
+  line-height: 21px !important;
+}

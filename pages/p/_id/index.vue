@@ -374,14 +374,15 @@
         <BUSINESSSEARCH></BUSINESSSEARCH>
     </div>
 
-    <div class="filter-btn-container">
+    <div class="filter-btn-container" v-show="!productNotFound && !pageLoader">
         <button class="close-modal-btn btn-icon btn-primary advn-search-filter" >
             <div class="dropdownCheckBox" data-target="BusinessMobileSearchModal" data-trigger="modal"> </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#advancedSearch"></use>
             </svg>
         </button>
-        </div>
+    </div>
+    
   </div>
 </template>
 
@@ -448,6 +449,7 @@ async function fetchProductDetailsFromApi (app, params) {
             primaryImage: app.$formatProductImageUrl(businessData.id, data.images[0], 'bigSize'),
             productName: data.name,
             productPrice: app.$numberNotation(data.price),
+            mainPrice: data.price,
             productSizes: data.sizes == null ? [] : data.sizes,
             subcategoryName: data.subcategory.subcategoryName,
             subcategoryId: data.subcategory.subcategoryId,
@@ -506,6 +508,7 @@ export default {
             hide: "",
             productName: "",
             productPrice: "",
+            mainPrice: "",
             categoryId: "",
             categoryName: "",
             subcategoryId: "",
@@ -751,16 +754,16 @@ export default {
             target.disabled = false;
 
             if (request.error) {
-                return this.$initiateNotification('info', 'Oops!', request.message);
+                return this.$showToast(request.message, 'danger');
             }
 
             let result = request.result.data.AnonymousAddItemToCart;
 
             if (result.success == false) {
-                return this.$initiateNotification('info', 'Oops!', result.message);
+                return this.$showToast(result.message, 'info');
             }
 
-            this.$initiateNotification('success', 'Item added', result.message);
+            this.$showToast(result.message, 'success');
 
             this.addItemToStoreCart()
 
@@ -796,16 +799,16 @@ export default {
             target.disabled = false;
 
             if (request.error) {
-                return this.$initiateNotification('info', 'Oops!', request.message);
+                return this.$showToast(request.message, 'danger');
             }
 
             let result = request.result.data.AddItemToCart;
 
             if (result.success == false) {
-                return this.$initiateNotification('info', 'Oops!', result.message);
+                return this.$showToast(result.message, 'info');
             }
 
-            this.$initiateNotification('success', 'Item added', result.message);
+            this.$showToast(result.message, 'success');
             this.addItemToStoreCart()
 
         },
@@ -813,7 +816,7 @@ export default {
             let cartItemData = {
                 name: this.productName,
                 productId: this.productId,
-                price: this.productPrice,
+                price: this.mainPrice,
                 reviewScore: this.reviewScore,
                 image: this.primaryImage,
                 size: this.sizeNumber,
