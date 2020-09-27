@@ -821,7 +821,9 @@ export default {
                 image: this.primaryImage,
                 size: this.sizeNumber,
                 color: this.colorCode,
-                username: this.username
+                username: this.username,
+                businessName: this.businessName,
+                quantity: 1
             }
 
             let cartItems = this.GetCartItems();
@@ -837,7 +839,9 @@ export default {
                     image: x.image,
                     size: x.size,
                     color: x.color,
-                    username: x.username
+                    username: x.username,
+                    businessName: x.businessName,
+                    quantity: x.quantity
                 })
             }
             

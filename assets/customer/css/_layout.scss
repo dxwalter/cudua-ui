@@ -891,6 +891,10 @@
     display: block;
     flex-shrink: 0;
     margin-right: 16px;
+    img {
+        object-fit: cover;
+        -o-object-fit: cover;
+    }
 }
 
 .quantity-unit-price {
@@ -917,6 +921,7 @@
         margin-top: 21px;
         font-size: 18px;
         color: $dark-color;
+        display: flex;
     }
 }
 
@@ -1030,8 +1035,8 @@
         color: $dark-color;
         font-weight: 500;
     }
-    .d-flex {
-        margin-left: 32px
+    .size-area {
+        margin-right: 32px
     }
 }
 
