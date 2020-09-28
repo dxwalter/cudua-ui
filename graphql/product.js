@@ -428,10 +428,56 @@ query SearchInShop ($keyword: String!, $businessId: String!, $page: Int!) {
 `
 
 export const SAVE_PRODUCT_FOR_LATER = gql`
-mutation saveForLater($productId: String!){
+mutation saveForLater($productId: String!, $businessId: String!){
   SaveProductForLater(input:{
+    productId: $productId,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const REMOVE_PRODUCT_FROM_SAVED_PRODUCTS = gql`
+mutation remove($productId: String!) {
+  RemoveProductFromSavedProducts(input:{
+    productId: $productId
+  }){
+    code
+    success
+    message
+  }
+}
+`
+
+export const MOVE_PRODUCT_TO_CART = gql`
+mutation movetocart($productId: String!) {
+  MoveToCart(input:{
     productId: $productId
   }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_SAVED_PRODUCTS = gql`
+query Getproduct($page: Int!){
+  GetSavedItems(input:{
+    page: $page
+  }) {
+    products {
+      productId
+      name
+      image
+      review
+      businessId
+      price
+    }
+    count
     code
     success
     message

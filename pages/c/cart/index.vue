@@ -21,11 +21,11 @@
 
                     <div class="card cart-card" v-for="(item, index) in allProducts" :key="index" :data-price="`${item.mainPrice}`" :data-quantity="`${item.quantity}`" :id="`item${item.productId}`">
                         <div class="item-basic-info">
-                                <a href="#" class="cart-avatar">
+                                <n-link :to="`/p/${item.productId}`" class="cart-avatar">
                                     <img :data-src="item.image" :alt="`${item.name}'s image`"  v-lazy-load>
-                                </a>
+                                </n-link>
                             <div class="price-and-name">
-                                <a href="#">{{item.name}}</a>
+                                <n-link :to="`/p/${item.productId}`">{{item.name}}</n-link>
                                 <div class="price">₦ {{item.price}}</div>
                                 <div class="reviews">
                                     <StarRating :score=item.reviewScore></StarRating>
@@ -270,13 +270,22 @@ export default {
             
             let newPrice = document.getElementById('subTotal'+id);
             newPrice.innerHTML = ""
-            newPrice.innerHTML = this.formatPrice(newCount * price)
+            newPrice.innerHTML = this.formatPrice(newCount * price);
+
+            this.updateQuantityInCart(id, newCount)
+            this.updateQuantityInComponent(id, newCount)
             
-        }
+        },
+        updateQuantityInCart: function (id, newCount) {
+
+        },
+        updateQuantityInComponent: function (id, newCount) {
+
+        },
+
     },
     mounted () {
-    
-            this.pageLoader = false
+        this.pageLoader = false
     }
 }
 </script>

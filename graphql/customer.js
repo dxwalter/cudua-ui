@@ -168,3 +168,63 @@ mutation UNfollowBusiness($businessId: String!){
     }
 }
 `
+
+export const GET_BUSINESS_FOLLOWED_BY_CUSTOMER = gql`
+query getFollowing($page: Int!){
+  Getfollowing(input:{
+    page: $page
+  }) {
+    following {
+      businessId
+      username
+      businessName
+      logo
+      review 
+      businessCategory {
+        categoryId
+        categoryName 
+        hide 
+      }
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const UPLOAD_CUSTOMER_DP = gql`
+mutation uploadDp($file: Upload!){
+  editCustomerDP(input: {
+    file: $file,
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+export const EDIT_CUSTOMER_NAME = gql`
+mutation editName($fullname: String!){
+  editCustomerName(input:{
+    fullname: $fullname
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const EDIT_CUSTOMER_CONTACT = gql`
+mutation editContact($email: String!, $phone: String){
+  editUserContact(input:{
+    email: $email,
+    phone: $phone
+  }) {
+    code
+    success
+    message
+  }
+}
+`

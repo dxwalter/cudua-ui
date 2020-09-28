@@ -170,7 +170,10 @@
 
                     <div class="product-details-action">
                     <button class="btn btn-white btn-md" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Save for later</button>
-                    <button class="btn btn-white btn-md mg-right-10" v-show="accessToken" @click="saveForLater($event)" id="saveForLater">Save for later</button>
+                    <button class="btn btn-white btn-md mg-right-10" v-show="accessToken" @click="saveForLater($event)" id="saveForLater">
+                        Save for later
+                        <div class="loader-action"><span class="loader"></span></div>
+                    </button>
                     <n-link :to="`/${username}`" class="btn btn-white btn-md">Visit shop</n-link>
                 </div>
 
@@ -374,7 +377,7 @@
         <BUSINESSSEARCH></BUSINESSSEARCH>
     </div>
 
-    <div class="filter-btn-container" v-show="!productNotFound && !pageLoader">
+    <div class="filter-btn-container" v-show="!pageLoader">
         <button class="close-modal-btn btn-icon btn-primary advn-search-filter" >
             <div class="dropdownCheckBox" data-target="BusinessMobileSearchModal" data-trigger="modal"> </div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -697,7 +700,8 @@ export default {
             let target = document.getElementById('saveForLater');
             
             let variables = {
-                productId: this.productId
+                productId: this.productId,
+                businessId: this.businessId
             }
 
             let context = {
