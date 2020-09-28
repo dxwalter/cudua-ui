@@ -1158,7 +1158,7 @@
 
 .product-card-image {
     width: 100%;
-    height: 144px;
+    height: 250px;
     border-bottom: $border;
     .temporal-logo {
 		width: 80px !important;
@@ -1168,9 +1168,15 @@
 		font-size: 24px;
 		font-weight: 900;
     }
-    // img {
-    //     object-fit: conts !important;
-    // }
+    img {
+        object-fit: cover !important;
+    }
+}
+
+@media($mq-sm) {
+    .product-card-image {
+        height: 250px;
+    }
 }
 
 .product-card-details {

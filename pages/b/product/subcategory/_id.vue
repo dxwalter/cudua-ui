@@ -24,7 +24,7 @@
                                 <!-- main content goes in here -->
                                 <div class="row">
                                             
-                                    <n-link :to="`/b/product/${product.id}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3"
+                                    <n-link :to="`/b/product/${product.id}`" class="col-xs-12 col-sm-6 col-md-4 col-lg-4"
                                         v-for="(product, index) in returnAllproducts" :key="index"
                                     >
                                         <div class="product-card">
