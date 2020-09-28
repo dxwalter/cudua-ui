@@ -198,6 +198,7 @@ mutation uploadDp($file: Upload!){
   editCustomerDP(input: {
     file: $file,
   }) {
+    imagePath
     code
     success
     message
@@ -226,5 +227,32 @@ mutation editContact($email: String!, $phone: String){
     success
     message
   }
+}
+`
+
+export const EDIT_CUSTOMER_PASSWORD = gql`
+mutation editpassword($oldPassword: String!, $newPassword: String!){
+  editCustomerPassword(input:{
+    oldPassword: $oldPassword,
+    newPassword: $newPassword
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const EDIT_CUSTOMER_ADDRESS = gql`
+mutation address($streetNumber: Int!, $streetId: String!, $busStop: String!) {
+ editCustomerAddress(input: {
+  streetNumber: $streetNumber,
+  streetId: $streetId,
+  busStop: $busStop
+})  {
+  code
+  success
+  message
+}
 }
 `

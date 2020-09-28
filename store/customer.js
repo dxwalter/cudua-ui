@@ -11,9 +11,7 @@ const state = () => ({
         number: "",
         street: "",
         community: "",
-        lga: "",
         state: "",
-        country: "",
         busStop: "",
     },
     anonymousId: "",
@@ -36,9 +34,7 @@ const getDefaultState = () => {
             number: "",
             street: "",
             community: "",
-            lga: "",
             state: "",
-            country: "",
             busStop: "",
         },
         anonymousId: "",
@@ -80,9 +76,7 @@ const mutations = {
             state.address.number = dataObject.address.number
             state.address.street = dataObject.address.street
             state.address.community = dataObject.address.community
-            state.address.lga = dataObject.address.lga
             state.address.state = dataObject.address.state
-            state.address.country = dataObject.address.country
         }
 
     },

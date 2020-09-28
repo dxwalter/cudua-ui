@@ -3910,3 +3910,96 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
         display: none;
     }
 }
+
+.recent-search-list-container {
+    width: 100%;
+    height: auto;
+    background-color: $white-color;
+    position: absolute;
+    z-index: 3001;
+    border-radius: 0px 0px 4px 4px;
+    overflow: hidden;
+    a {
+        // display: block;
+        border-bottom: $border;
+        padding: 14px 16px;
+        font-size: 16px;
+        color: $dark-color;
+        display: flex;
+        justify-content: space-between;
+        span {
+            font-size: 12px;
+            margin-right: 4px;
+            color: $black-color-06;
+        }
+
+        .info-area {
+            border: 0;
+        }
+        
+        * {
+            align-self: center
+        }
+
+        .search-product-details {
+            display: flex;
+            margin-bottom: 0 !important;
+
+            .product-image-area {
+                height: 50px;
+                width: 50px;
+                margin-right: 16px;
+                border: 0 !important;
+                overflow: hidden; 
+                img {
+                    border-radius: 4px;
+                    object-fit: cover;
+                }
+            }
+            .product-details {
+                display: flex;
+                flex-direction: column;
+                * {
+                    align-self: flex-start;
+                
+                }
+                .product-name {
+                    font-size: 16px;
+                    margin-bottom: 3px;
+                    border: 0 !important;
+                }
+                .product-price {
+                    font-size: 14px;
+                    margin-bottom: 0;
+                    text-align: left;
+                }
+            }
+        }
+
+        .loader-container {
+            display: flex;
+            // margin-right: 10px;
+            position: relative;
+            width: 16px;
+            height: 16px;
+
+            .loader-action {
+                display: block;
+                background-color: transparent;
+
+                .loader {
+                    border: 1px solid rgba(0,0,0,.5);
+                    width: 16px;
+                    height: 16px;
+                    border-top: 2px solid transparent;
+                }
+            }
+        }
+    }
+    a:last-child {
+        border-bottom: unset;
+    }
+    a:hover {
+        background-color: $bg-color;
+    }
+}

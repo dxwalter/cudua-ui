@@ -4,7 +4,7 @@
         <div class="modal-dialog-box">
 
             <div class="modal-header">
-                <h4>Add your business location</h4>
+                <h4>Add your location</h4>
 
                 <button class="close-modal-btn" data-target="addNewLocation" data-dismiss="modal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">

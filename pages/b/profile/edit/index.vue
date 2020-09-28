@@ -174,14 +174,34 @@
                                                     <div class="form-control position-relative">
                                                         <!-- <label for="businessType" class="form-label">Name of street</label> -->
                                                         <input type="text" name="" id="businessStreet" class="input-form" placeholder="Name of street" v-model="streetName" @keyup="findStreet">
-                                                        <div class="recent-search-list-container" id="streetSearchSuggestion"  v-show="streetName">
+                                                        <div class="recent-search-list-container" id="streetSearchSuggestionAnimation" v-show="streetName.length > 0 && streetSuggestion.length == 0">
+                                                            <a href="#">
+                                                                <div class="info-area">
+                                                                    <span>Searching for</span> {{streetName}}
+                                                                </div>
+                                                                <div class="loader-container">
+                                                                    <div class="loader-action"><span class="loader"></span></div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="recent-search-list-container" id="streetSearchSuggestion"  v-show="streetSuggestion.length > 1 && noStreetSuggestionResult == 0">
                                                             <div v-for="(suggestion, index) in streetSuggestion" :key="index">
                                                                 <div @click="setStreetID(suggestion.streetId, suggestion.streetName, 'streetSearchSuggestion')" class="action-content">
                                                                     {{suggestion.streetName}} <span>- {{suggestion.community.name}}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my street? <span class="action-span">Add it</span></a>
+
+                                                        <div class="recent-search-list-container" v-show="streetName.length > 1 && noStreetSuggestionResult == 1">
+                                                            <a href="#">
+                                                                <div class="info-area">
+                                                                    <span>No result was found</span>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+
+                                                        <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my business location? <span class="action-span">Add it</span></a>
                                                     </div>
 
                                                     <div class="form-control">
@@ -449,6 +469,8 @@ export default {
             subscriptionStartDate: "",
             subscriptionEndDate: "",
             referenceId: "",
+
+            noStreetSuggestionResult: "",
 
             amount: 2000,
             PUBLIC_KEY: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4',
@@ -914,7 +936,8 @@ export default {
         },
         findStreet: async function () {
             if (this.streetName.length < 2) return
-
+            
+            this.noStreetSuggestionResult = 0
             document.getElementById('streetSearchSuggestion').style.display = "block"
             
             let variables = {
@@ -938,11 +961,12 @@ export default {
                         this.streetSuggestion = result.streetData
                     } else {
                         this.streetSuggestion = ''
+                        this.noStreetSuggestionResult = 1
                         document.getElementById('streetSearchSuggestion').style.display = "none"
                     }
                 }
 
-            }, 2000);
+            }, 1000);
 
         },
         setStreetID: function (streetId, streetName, suggestionBoxId) {
@@ -1017,7 +1041,6 @@ export default {
      
 
             let target = document.getElementById('updateBusinessAddress');
-            target.disabled = true
 
             let variables = {
                 streetNumber: this.streetNumber.toString(),
@@ -1032,9 +1055,11 @@ export default {
                 }
             }
 
-            target.disabled = false
+            target.disabled = true
 
             let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BUSINESS_ADDRESS, variables, context);
+
+            target.disabled = false
 
             if (request.error) {
                 this.$initiateNotification('error', "Network Error", request.message)
@@ -1338,6 +1363,10 @@ font-size: 14px;
     color: rgb(238 100 37);
     margin-left: 10px;
     font-weight: 500;
+}
+.recent-search-list-container {
+    position: relative !important;
+    z-index: auto;
 }
 .add-border-radius {
     border-radius: 4px !important;
