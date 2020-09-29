@@ -30,7 +30,7 @@
                                     <div class="temporal-logo" v-show="business.logo.length == 0">
                                         {{getNameLogo(business.businessName)}}
                                     </div>
-                                    <img :src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessName}'s logo`"  v-show="logo" v-lazy-load>
+                                    <img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessName}'s logo`"  v-show="logo" v-lazy-load>
                                 </div>
                                 <div class="bookmark-card-details">
                                     <h4 class="bookmark-comp-name">{{business.businessName}}</h4>
