@@ -129,7 +129,7 @@
                                         <div  v-show="!isLoading">
 
                                             <div class="row">  
-                                                <n-link :to="`/p/${x.productId}`" class="col-xs-12 col-sm-6 col-md-4 col-lg-4" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
+                                                <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
                                                         <div class="product-card-image">
                                                             <img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
@@ -216,7 +216,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
                                 </svg>
-                                <span>Search</span>
+                                <span>In-shop search</span>
                             </a>
 
                             <!-- <a href="#" class="bottom-nav-item" data-target="reportModal" data-trigger="modal">

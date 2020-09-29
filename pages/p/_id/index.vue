@@ -674,6 +674,8 @@ export default {
                 
             } else {
                 this.productNotFound = 1
+                this.errorReason = "This product has either been moved or deleted."
+                return
             }
 
             let aboutBusiness = {

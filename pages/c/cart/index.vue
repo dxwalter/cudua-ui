@@ -52,7 +52,7 @@
                             <div class="cart-action-area">
                                 <div class="mobile-actions">
                                     <button class="btn btn-white btn-small">
-                                        <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" :data-target="`moreDetails${index}`">
+                                        <input type="checkbox" class="dropdownCheckBox" @click="toggleMoreDetails(`moreDetails${index}`)">
                                         <span>More details</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
                                             <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="desktop-action">
                                     <button type="button" class="close-modal-btn">
-                                        <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" :data-target="`moreDetails${index}`">
+                                        <input type="checkbox" class="dropdownCheckBox" @click="toggleMoreDetails(`moreDetails${index}`)">
                                         <span></span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="22.05" height="13.616" viewBox="0 0 22.05 13.616">
                                             <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
@@ -101,6 +101,12 @@
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#store"></use>
                                     </svg>
                                     <div class="business-name">{{item.businessName}}</div>
+                                </div>
+                                <div class="cart-info-more-details" v-show="item.address.street">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16">
+                                        <use xlink:href="~/assets/customer/image/all-svg.svg#mapMaker"></use>
+                                    </svg>
+                                    <div class="business-name">{{item.address.number}} {{item.address.street}} {{item.address.community}}, {{item.address.state}}</div>
                                 </div>
                             </n-link>
                         </div>
@@ -163,11 +169,17 @@ import CHECKOUTMODAL from '~/layouts/customer/cart/checkout.vue';
 import CONFIRMORDER from '~/layouts/customer/cart/confirm-order.vue';
 import EDITCARTITEM from '~/layouts/customer/cart/edit-cart-item.vue';
 
+import {
+    GET_ANONYMOUS_CART_ITEMS,
+    GET_SIGNED_CART_ITEMS
+} from '~/graphql/cart'
+
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
+    name: "CARTCOMPONENT",
     components: {
       DESKTOPNAVGATION, 
       MOBILENAVIGATION, 
@@ -189,6 +201,9 @@ export default {
             anonymousId: "",
             totalPrice: 0,
             allProducts: [],
+
+            pageError: 0,
+            errorReason: ""
         }
     },
     computed: {
@@ -199,10 +214,18 @@ export default {
     created () {
         if (process.client) {
             this.GetCustomerDataFromStore();
-            this.formatCartItems()
+            if (this.accessToken.length == 0) {
+                this.getAnonymousCartItems()
+            } else {
+                this.getSignedCartItems()
+            }
         }
     },
     methods: {
+        toggleMoreDetails: function (elementId) {
+            let target = document.getElementById(elementId);
+            target.classList.toggle('showEffect')
+        },
         ...mapGetters({
             'GetCustomerData': 'customer/GetCustomerDetails',
             "GetCartItems": "cart/GetCartItems"
@@ -212,25 +235,73 @@ export default {
             this.accessToken = customerData.userToken
             this.anonymousId = customerData.anonymousId
         },
-        formatCartItems: function () {
-            let cartItems = this.GetCartItems();
+        getAnonymousCartItems: async function () {
+
+            if (this.anonymousId.length == 0) {
+                this.$initiateNotification('error', 'Page error', 'An error occurred. Kindly refresh page and try again');
+                this.pageError = 1
+                this.errorReason = 'An error occurred. Kindly refresh page and try again'
+                return
+            }
+
+            let variables = {
+                anonymousId: this.anonymousId
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_ANONYMOUS_CART_ITEMS, variables, {});
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Page error', request.message);
+                this.pageError = 1
+                this.errorReason = request.message
+                return
+            }
+
+
+
+            let result = request.result.data.AnonymousGetCartItems
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Page error', result.message);
+                this.pageError = 1
+                this.errorReason = result.message
+
+                return
+            }
+
+            if (result.cart.length == 0 || result.cart == null) {
+
+                return
+            }
+
+            this.formatCartItems(result.cart)
+
+
+        },
+        getSignedCartItems: async function () {
+
+        },
+        formatCartItems: async function (cartItems) {
+            
             let totalPrice = 0
             let formattedCartItem = []
             
             cartItems.slice().reverse().forEach(item => {
-                totalPrice = totalPrice + (item.price * item.quantity)
+                totalPrice = totalPrice + (item.product.price * item.quantity)
                 formattedCartItem.push({
                     color: item.color,
-                    image: item.image,
-                    name: item.name,
-                    price: this.$numberNotation(item.price),
-                    mainPrice: item.price,
-                    productId: item.productId,
-                    reviewScore: item.reviewScore,
                     size: item.size,
-                    username: item.username,
+                    image: this.$formatProductImageUrl(item.business.businessId, item.product.image, "thumbnail"),
+                    name: item.product.name,
+                    businessId: item.business.businessId,
+                    price: this.$numberNotation(item.product.price),
+                    mainPrice: item.product.price,
+                    productId: item.product.productId,
+                    reviewScore: item.product.review,
+                    username: item.business.username,
                     quantity: item.quantity,
-                    businessName: item.businessName
+                    businessName: item.business.name,
+                    address: item.business.address.street == undefined ? "": item.business.address
                 })
             });
 
