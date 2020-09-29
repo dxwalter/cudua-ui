@@ -17,7 +17,7 @@
                 <div class="section-header"><h4>My cart (4)</h4></div>
                 
                 <!-- beginning of cart listing -->
-                <div class="cart-listing-area">
+                <div class="cart-listing-area mg-bottom-32">
 
                     <div class="card cart-card" v-for="(item, index) in allProducts" :key="index" :data-price="`${item.mainPrice}`" :data-quantity="`${item.quantity}`" :id="`item${item.productId}`">
                         <div class="item-basic-info">
@@ -38,14 +38,14 @@
                                 <div class="item-count">
                                     <span>Quantity</span>
                                     <div class="cart-item-count-btn">
-                                        <button @click="decreaseQuantity(item.mainPrice, item.productId)">-</button>
+                                        <button @click="decreaseQuantity(item.mainPrice, item.productId, item.itemId)">-</button>
                                         <div :id="`quantity${item.productId}`">{{item.quantity}}</div>
-                                        <button @click="increaseQuantity(item.mainPrice, item.productId)">+</button>
+                                        <button @click="increaseQuantity(item.mainPrice, item.productId, item.itemId)">+</button>
                                     </div>
                                 </div>
                                 <div class="item-count">
                                     <span>Subtotal</span>
-                                    <div class="subtotal-price">₦ <div :id="`subTotal${item.productId}`">{{item.price}}</div></div>
+                                    <div class="subtotal-price">₦ <div :id="`subTotal${item.productId}`">{{item.subTotal}}</div></div>
                                 </div>
                             </div>
 
@@ -79,22 +79,24 @@
 
                         <div class="cart-business-details" :id="`moreDetails${index}`">
                             <div class="d-flex-between">
-                                <div class="info">More info:</div>
-                                <button class="close-modal-btn" data-trigger="modal" data-target="editItemInCart">
+                                <div class="info">Cart info:</div>
+                                <button class="close-modal-btn" @click="showEditProductModal(item.productId, item.itemId)">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#pencil"></use>
                                     </svg>
                                 </button>
                             </div>
                             <div class="cart-order-info mg-bottom-16">
-                                <div class="cart-product-size size-area" v-show="item.size">Size: <span>{{item.size}}</span></div>
+
+                                <div class="cart-product-size size-area mg-bottom-16" v-show="item.size">Size: <span>{{item.size}}</span></div>
+                                
                                 <div class="d-flex" v-show="item.color">
                                     <div class="cart-product-size">Color: </div>
                                     <div class="cart-details-color" :style="{'background-color': item.color}"></div>
                                 </div>
                             </div>
 
-                            <div class="info">This item is bought from:</div>
+                            <div class="info">Business details:</div>
                             <n-link :to="`/${item.username}`" class="cart-info-container">
                                 <div class="cart-info-more-details">
                                     <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 18 16">
@@ -116,27 +118,27 @@
                 </div>
                 <!-- end of cart listing -->
 
-                    <div class="col-xs-12">
-                        <div class="mg-bottom-32 md-cart-price-container">
-                            <div class="d-flex-between cart-total-price">
-                                <div>Items Total Price</div>
-                                <div>₦ {{totalPrice}}</div>
-                            </div>
-                            <div class="d-flex-between price-info"> 
-                                <div>Shipping price not included</div>
-                                <div>Learn more</div>
-                            </div>
+                <div class="">
+                    <div class="mg-bottom-32 md-cart-price-container">
+                        <div class="d-flex-between cart-total-price">
+                            <div>Items Total Price</div>
+                            <div>₦ {{totalPrice}}</div>
+                        </div>
+                        <div class="d-flex-between price-info"> 
+                            <div>Shipping price not included</div>
+                            <div>Learn more</div>
                         </div>
                     </div>
-                
-                    <div class="col-xs-12">
-                        <div class="md-cart-card">
-                            <div class="cart-card-checkout">
-                                <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="checkoutModal">Continue to checkout</button>
-                                <a href="#ewer" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</a>
-                            </div>
+                </div>
+            
+                <div class="">
+                    <div class="md-cart-card">
+                        <div class="cart-card-checkout">
+                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="checkoutModal">Continue to checkout</button>
+                            <a href="#ewer" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</a>
                         </div>
                     </div>
+                </div>
 
 
             </div> 
@@ -150,7 +152,13 @@
 
         <CHECKOUTMODAL></CHECKOUTMODAL>
         <CONFIRMORDER></CONFIRMORDER>
-        <EDITCARTITEM></EDITCARTITEM>
+        <EDITCARTITEM 
+            :productId="productId"
+            :itemId="itemId"
+            :count="modalCount"
+
+            v-on:editModalToCart="setNewlyEditedData"
+        ></EDITCARTITEM>
 
     </div>
   </div>
@@ -171,7 +179,8 @@ import EDITCARTITEM from '~/layouts/customer/cart/edit-cart-item.vue';
 
 import {
     GET_ANONYMOUS_CART_ITEMS,
-    GET_SIGNED_CART_ITEMS
+    GET_SIGNED_CART_ITEMS,
+    ANONYMOUS_EDIT_PRODUCT_QUANTITY_IN_CART
 } from '~/graphql/cart'
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
@@ -203,7 +212,16 @@ export default {
             allProducts: [],
 
             pageError: 0,
-            errorReason: ""
+            errorReason: "",
+
+
+            // showModal data
+            itemId: "",
+            productId: "",
+            modalCount: 0,
+
+            // quantity timeout
+            quantityTimeout: null
         }
     },
     computed: {
@@ -221,7 +239,13 @@ export default {
             }
         }
     },
+    beforeDestroy(){
+        this.clearTimeout(this.quantityTimeout)
+    },
     methods: {
+        clearTimeout: function (time) {
+            clearTimeout(time)
+        },
         toggleMoreDetails: function (elementId) {
             let target = document.getElementById(elementId);
             target.classList.toggle('showEffect')
@@ -234,6 +258,10 @@ export default {
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
             this.anonymousId = customerData.anonymousId
+        },
+        setNewlyEditedData: function (data) {
+            console.log(data.color)
+            console.log(data.size)
         },
         getAnonymousCartItems: async function () {
 
@@ -269,7 +297,7 @@ export default {
                 return
             }
 
-            if (result.cart.length == 0 || result.cart == null) {
+            if (result.cart == null) {
 
                 return
             }
@@ -287,8 +315,9 @@ export default {
             let formattedCartItem = []
             
             cartItems.slice().reverse().forEach(item => {
-                totalPrice = totalPrice + (item.product.price * item.quantity)
                 formattedCartItem.push({
+                    subTotal: this.$numberNotation(item.product.price * item.quantity),
+                    itemId: item.itemId, // please note that this is different from product id
                     color: item.color,
                     size: item.size,
                     image: this.$formatProductImageUrl(item.business.businessId, item.product.image, "thumbnail"),
@@ -307,54 +336,120 @@ export default {
 
             this.totalPrice = this.$numberNotation(totalPrice)
             this.allProducts = formattedCartItem
+            this.calculateTotalPrice()
         },
         formatPrice: function (number) {
             return this.$numberNotation(number)
         },
-        increaseQuantity: function (price, id) {
+        increaseQuantity: function (price, id, itemId) {
             let targetItem = document.getElementById(`item${id}`);
             let currentQuantity = parseInt(targetItem.getAttribute('data-quantity'), 10);
             
             let quantityTarget = document.getElementById(`quantity${id}`);
 
-            let newCount = currentQuantity + 1;
-            targetItem.setAttribute('data-quantity', newCount);
+            let newQuantity = currentQuantity + 1;
+            targetItem.setAttribute('data-quantity', newQuantity);
 
             quantityTarget.innerHTML = ""
-            quantityTarget.innerHTML = newCount
+            quantityTarget.innerHTML = newQuantity
 
             let newPrice = document.getElementById('subTotal'+id);
             newPrice.innerHTML = ""
-            newPrice.innerHTML = this.formatPrice(newCount * price)
+            newPrice.innerHTML = this.formatPrice(newQuantity * price)
+
+            this.updateProductQuantityInDb(newQuantity, itemId);
+
+            this.updateItemQuantityInComponent(itemId, newQuantity);
+            this.calculateTotalPrice()
         },
-        decreaseQuantity: function (price, id) {
+        decreaseQuantity: function (price, id, itemId) {
             let targetItem = document.getElementById(`item${id}`);
             let currentQuantity = parseInt(targetItem.getAttribute('data-quantity'), 10);
+
+            if(currentQuantity == 1) return
             
             let quantityTarget = document.getElementById(`quantity${id}`);
 
-            let newCount = currentQuantity <= 1 ? 1 : currentQuantity - 1;
-            targetItem.setAttribute('data-quantity', newCount);
+            let newQuantity = currentQuantity <= 1 ? 1 : currentQuantity - 1;
+
+            targetItem.setAttribute('data-quantity', newQuantity);
 
             quantityTarget.innerHTML = ""
-            quantityTarget.innerHTML = newCount;
+            quantityTarget.innerHTML = newQuantity;
             
             let newPrice = document.getElementById('subTotal'+id);
             newPrice.innerHTML = ""
-            newPrice.innerHTML = this.formatPrice(newCount * price);
+            newPrice.innerHTML = this.formatPrice(newQuantity * price);
 
-            this.updateQuantityInCart(id, newCount)
-            this.updateQuantityInComponent(id, newCount)
+            this.updateProductQuantityInDb(newQuantity, itemId)
+            this.updateItemQuantityInComponent(itemId, newQuantity);
+            this.calculateTotalPrice()
             
         },
-        updateQuantityInCart: function (id, newCount) {
+        updateItemQuantityInComponent: function (itemId, newQuantity) {
+
+            let allItems = this.allProducts
+            
+            for (const [index, x] of allItems.entries()) {
+                if (x.itemId == itemId) {
+                    allItems[index].quantity = newQuantity
+                }
+            }
 
         },
-        updateQuantityInComponent: function (id, newCount) {
+        calculateTotalPrice: function () {
+            let allItems = this.returnAllCartItems
+
+            let totalPrice = 0
+
+            allItems.forEach(item => {
+                totalPrice = totalPrice + (item.mainPrice * item.quantity)
+            })
+
+            this.totalPrice = this.formatPrice(totalPrice)
+        },
+        updateProductQuantityInDb: async function (quantity, itemId) {
+            
+            this.clearTimeout(this.quantityTimeout)
+
+            if (this.anonymousId.length > 0) {
+
+                this.quantityTimeout = setTimeout(async () => {
+
+                    let variables = {
+                        quantity: quantity,
+                        itemId: itemId
+                    }
+
+                    let request = await this.$performGraphQlQuery(this.$apollo, ANONYMOUS_EDIT_PRODUCT_QUANTITY_IN_CART, variables, {});
+
+                    if (request.error) {
+                        this.$initiateNotification('error', "Network", request.message)
+                        return
+                    }
+
+                    let result = request.result.data.AnonymousEditProductQuanityInCart;
+
+                    if (result.success == false) {
+                        this.$initiateNotification('error', "Quantity update", result.message)
+                        return
+                    }
+
+                    this.$showToast('Quantity updated', 'success')
+
+                }, 1000);
+
+            } else {
+                
+            }
 
         },
-
-    },
+        showEditProductModal: function(productId, itemId) {
+            this.itemId = itemId
+            this.productId = productId
+            this.modalCount = this.modalCount + 1
+        },
+    }, 
     mounted () {
         this.pageLoader = false
     }

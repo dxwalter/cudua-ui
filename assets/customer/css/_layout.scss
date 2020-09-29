@@ -986,7 +986,7 @@
     border-radius: 4px;
     background-color: $bg-color;
     padding: 16px;
-    margin-top: 8px;
+    margin-top: 16px;
     display: none;
 
     .info {
@@ -1034,6 +1034,8 @@
 
 .cart-order-info {
     display: flex;
+    flex-direction: column;
+    
     margin-top: -19px;
     .cart-product-size {
         color: $dark-color;

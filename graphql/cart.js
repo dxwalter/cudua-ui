@@ -80,3 +80,30 @@ query cart ($anonymousId: String!) {
 }
 
 `
+
+export const ANONYMOUS_EDIT_PRODUCT_QUANTITY_IN_CART = gql`
+mutation editQuantity($quantity: Int!, $itemId: String!){
+  AnonymousEditProductQuanityInCart(input:{
+    quantity: $quantity,
+    itemId: $itemId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const ANONYMOUS_EDIT_PRODUCT_COLOR_AND_SIZE = gql`
+mutation editColorAndSize($sizeId: String, $colorId: String, $itemId: String!){
+  AnonymousEditProductSizeAndColorInCart(input:{
+    sizeId: $sizeId,
+    colorId: $colorId,
+    itemId: $itemId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
