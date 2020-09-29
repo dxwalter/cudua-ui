@@ -14,12 +14,12 @@
 
             <div class="content-container" v-show="!pageLoader">
                 <!-- header area -->
-                <div class="section-header"><h4>My cart (4)</h4></div>
+                <div class="section-header" v-show="returnAllCartItems.length > 0"><h4>My cart ({{returnAllCartItems.length}})</h4></div>
                 
                 <!-- beginning of cart listing -->
-                <div class="cart-listing-area mg-bottom-32">
+                <div class="cart-listing-area mg-bottom-32" v-show="returnAllCartItems.length > 0">
 
-                    <div class="card cart-card" v-for="(item, index) in allProducts" :key="index" :data-price="`${item.mainPrice}`" :data-quantity="`${item.quantity}`" :id="`item${item.productId}`">
+                    <div class="card cart-card" v-for="(item, index) in returnAllCartItems" :key="index" :data-price="`${item.mainPrice}`" :data-quantity="`${item.quantity}`" :id="`item${item.productId}`">
                         <div class="item-basic-info">
                                 <n-link :to="`/p/${item.productId}`" class="cart-avatar">
                                     <img :data-src="item.image" :alt="`${item.name}'s image`"  v-lazy-load>
@@ -88,11 +88,11 @@
                             </div>
                             <div class="cart-order-info mg-bottom-16">
 
-                                <div class="cart-product-size size-area mg-bottom-16" v-show="item.size">Size: <span>{{item.size}}</span></div>
+                                <div class="cart-product-size size-area mg-bottom-16" v-show="item.size">Size: <span :id="`size${item.itemId}`">{{item.size}}</span></div>
                                 
                                 <div class="d-flex" v-show="item.color">
                                     <div class="cart-product-size">Color: </div>
-                                    <div class="cart-details-color" :style="{'background-color': item.color}"></div>
+                                    <div class="cart-details-color" :style="{'background-color': item.color}" :id="`color${item.itemId}`"></div>
                                 </div>
                             </div>
 
@@ -118,7 +118,7 @@
                 </div>
                 <!-- end of cart listing -->
 
-                <div class="">
+                <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
                     <div class="mg-bottom-32 md-cart-price-container">
                         <div class="d-flex-between cart-total-price">
                             <div>Items Total Price</div>
@@ -131,11 +131,12 @@
                     </div>
                 </div>
             
-                <div class="">
+                <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
                     <div class="md-cart-card">
                         <div class="cart-card-checkout">
-                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="checkoutModal">Continue to checkout</button>
-                            <a href="#ewer" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</a>
+                            <button class="btn btn-primary btn-lg" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Continue to checkout</button>
+                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="checkoutModal" v-show="accessToken">Continue to checkout</button>
+                            <n-link to="/" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</n-link>
                         </div>
                     </div>
                 </div>
@@ -160,6 +161,8 @@
             v-on:editModalToCart="setNewlyEditedData"
         ></EDITCARTITEM>
 
+        <LoginComponent></LoginComponent>
+
     </div>
   </div>
 </template>
@@ -171,6 +174,7 @@ import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
+import LoginComponent from '~/components/login/login.vue'
 
 // cart modals
 import CHECKOUTMODAL from '~/layouts/customer/cart/checkout.vue';
@@ -190,17 +194,18 @@ import StarRating from '~/plugins/vue-star-rating.client.vue'
 export default {
     name: "CARTCOMPONENT",
     components: {
-      DESKTOPNAVGATION, 
-      MOBILENAVIGATION, 
-      MOBILESEARCH, 
-      BOTTOMADS, 
-      CUSTOMERFOOTER, 
-      PAGELOADER,
-      CHECKOUTMODAL,
-      CONFIRMORDER,
-      EDITCARTITEM,
-
-      StarRating
+        DESKTOPNAVGATION, 
+        MOBILENAVIGATION, 
+        MOBILESEARCH, 
+        BOTTOMADS, 
+        CUSTOMERFOOTER, 
+        PAGELOADER,
+        CHECKOUTMODAL,
+        CONFIRMORDER,
+        EDITCARTITEM,
+        
+        StarRating,
+        LoginComponent
     },
     name: "CARTCOMPONENT",
     data: function() {
@@ -260,8 +265,17 @@ export default {
             this.anonymousId = customerData.anonymousId
         },
         setNewlyEditedData: function (data) {
-            console.log(data.color)
-            console.log(data.size)
+
+            if (data.size.length > 0) {
+                let sizeData = document.getElementById(`size${this.itemId}`);
+                sizeData.innerHTML = ""
+                sizeData.innerHTML = data.size
+            }
+
+            if (data.color.length > 0) {
+                let colorData = document.getElementById(`color${this.itemId}`);
+                colorData.style.backgroundColor = data.color
+            }
         },
         getAnonymousCartItems: async function () {
 
@@ -298,7 +312,7 @@ export default {
             }
 
             if (result.cart == null) {
-
+                
                 return
             }
 
@@ -307,6 +321,48 @@ export default {
 
         },
         getSignedCartItems: async function () {
+
+            if (this.accessToken.length == 0) {
+                this.$initiateNotification('error', 'Page error', 'An error occurred. Kindly refresh page and try again');
+                this.pageError = 1
+                this.errorReason = 'An error occurred. Kindly refresh page and try again'
+                return
+            }
+
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_SIGNED_CART_ITEMS, {}, context);
+
+            if (request.error) {
+                this.$initiateNotification('error', 'Page error', request.message);
+                this.pageError = 1
+                this.errorReason = request.message
+                return
+            }
+
+
+
+            let result = request.result.data.GetCartItems
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Page error', result.message);
+                this.pageError = 1
+                this.errorReason = result.message
+
+                return
+            }
+
+            if (result.cart == null) {
+                
+                return
+            }
+
+            this.formatCartItems(result.cart)
 
         },
         formatCartItems: async function (cartItems) {

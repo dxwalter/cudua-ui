@@ -348,8 +348,6 @@ export default {
             this.selectedSize = sizeId;
             this.sizeNumber = sizeNumber
 
-            this.$showToast('Size selected', "success");
-
         },
         selectedColorForCart: function (colorId, colorCode) {
             let allColors = document.querySelectorAll('.color-listing');
@@ -362,8 +360,6 @@ export default {
 
             this.selectedColor = colorId;
             this.colorCode = colorCode
-
-            this.$showToast('Color selected', "success")
         },
         resetSelectedColor: function () {
             let allColors = document.querySelectorAll('.color-listing');
@@ -408,11 +404,11 @@ export default {
                 }
 
                 this.$showToast('Cart updated', 'success')
+                
+                this.sendEmittedData()
 
                 return
             }
-
-            // this.sendEmittedData()
         }
     },
     watch: {
