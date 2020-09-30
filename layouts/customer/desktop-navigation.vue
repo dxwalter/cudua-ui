@@ -4,7 +4,7 @@
     <div class="desktop-nav-container card">
 
       <n-link to="/" class="desktop-logo">
-        <img data-src="~/assets/global-asset/image/cudua-logo-full.png" alt="" v-lazy-load>
+        <img data-src="~/assets/customer/image/cudua-logo-full.svg" alt="" v-lazy-load>
       </n-link>
 
       <div class="desktop-search-container">
@@ -31,9 +31,9 @@
 
         <n-link to="/c/cart" class="desktop-menu-item">
           <div class="notif-point" v-show="numberOfItemsInCart">{{numberOfItemsInCart}}</div>
-          <!-- <svg xmlns="http://www.w3.org/2000/svg">
+          <svg xmlns="http://www.w3.org/2000/svg">
             <use xlink:href="~/assets/customer/image/all-svg.svg#order"></use>
-          </svg> -->
+          </svg>
         </n-link>
 
         <n-link to="/c/notification" class="desktop-menu-item" v-show="isLoggedIn">
@@ -47,67 +47,67 @@
 
             <button class="desktop-menu-item search-filter-action" v-show="isLoggedIn">
               <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="navigationDropdown">
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#caretDown"></use>
-              </svg> -->
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
-              </svg> -->
+              </svg>
             </button>
 
             <button class="desktop-menu-item search-filter-action" v-show="!isLoggedIn">
               <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="anonymousNavigationDropdown">
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#person"></use>
-              </svg> -->
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
-              </svg> -->
+              </svg>
             </button>
 
               <!-- logged in user  -->
             <div class="navigation-dropdown" id="navigationDropdown" v-show="isLoggedIn">
 
               <n-link :to="`/${username}`" class="mobile-side-nav-link" v-show="isLoggedIn && isBusinessOwner">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#visitShop"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 21">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#visitShop"></use>
+                  </svg>
                   <span>My shop</span>
               </n-link>
               <n-link to="/c/orders" class="mobile-side-nav-link">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14.74 16.378">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#myOrders"></use>
+                  </svg>
                   <span>My orders</span>
               </n-link>
               <n-link to="/c/following" class="mobile-side-nav-link">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#followers"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#followers"></use>
+                  </svg>
                   <span>Following</span>
               </n-link>
               <n-link to="/c/saved-items" class="mobile-side-nav-link">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.349 15">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#heart"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.349 15">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#heart"></use>
+                  </svg>
                   <span>Saved for later</span>
               </n-link>
               <n-link to="/c/profile" class="mobile-side-nav-link">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#person"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#person"></use>
+                  </svg>
                   <span>My profile</span>
               </n-link>
               <n-link to="/c/profile/edit" class="mobile-side-nav-link">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#profile"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18.505" viewBox="0 0 18 18.505">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#profile"></use>
+                  </svg>
                   <span>Account setting</span>
               </n-link>
               <n-link to="/c/logout" class="mobile-side-nav-link">
-                  <!-- <svg xmlns="http://www.w3.org/2000/svg">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
-                  </svg> -->
+                  <svg xmlns="http://www.w3.org/2000/svg">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
+                  </svg>
                   <span>Logout</span>
               </n-link>
             </div>
