@@ -4,7 +4,7 @@
     <div class="desktop-nav-container card">
 
       <n-link to="/" class="desktop-logo">
-        <img data-src="~/assets/customer/image/cudua-logo-full.svg" alt="" v-lazy-load>
+        <img data-src="~/assets/global-asset/image/cudua-logo-full.png" alt="" v-lazy-load>
       </n-link>
 
       <div class="desktop-search-container">
@@ -106,7 +106,7 @@
               </n-link>
               <n-link to="/c/logout" class="mobile-side-nav-link">
                   <svg xmlns="http://www.w3.org/2000/svg">
-                    <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
+                  <use xlink:href="~/assets/customer/image/all-svg.svg#logout"></use>
                   </svg>
                   <span>Logout</span>
               </n-link>
