@@ -4,9 +4,9 @@
 
             <!-- beginning of navigation container -->
             <div class="nav-container">
-                
-                
-                
+                <MOBILESEARCH></MOBILESEARCH>
+                <DESKTOPNAVGATION></DESKTOPNAVGATION>
+                <MOBILENAVIGATION></MOBILENAVIGATION>
             </div>
 
             <!-- pageLoader -->
@@ -20,8 +20,7 @@
                 <div class="cart-listing-area mg-bottom-32" v-show="returnAllCartItems.length > 0">
 
                     <div class="card cart-card" v-for="(item, index) in returnAllCartItems" :key="index" :data-price="`${item.mainPrice}`" :data-quantity="`${item.quantity}`" :id="`item${item.productId}`">
-                        {{index}}
-                        <!-- <div class="item-basic-info">
+                        <div class="item-basic-info">
                                 <n-link :to="`/p/${item.productId}`" class="cart-avatar">
                                     <img :data-src="item.image" :alt="`${item.name}'s image`"  v-lazy-load>
                                 </n-link>
@@ -32,10 +31,10 @@
                                     <StarRating :score=item.reviewScore></StarRating>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
                         <div class="mb-fold-content">
-                            <!-- <div class="quantity-unit-price">
+                            <div class="quantity-unit-price">
                                 <div class="item-count">
                                     <span>Quantity</span>
                                     <div class="cart-item-count-btn">
@@ -48,9 +47,9 @@
                                     <span>Subtotal</span>
                                     <div class="subtotal-price">₦ <div :id="`subTotal${item.productId}`">{{item.subTotal}}</div></div>
                                 </div>
-                            </div> -->
+                            </div>
 
-                            <!-- <div class="cart-action-area">
+                            <div class="cart-action-area">
                                 <div class="mobile-actions">
                                     <button class="btn btn-white btn-small">
                                         <input type="checkbox" class="dropdownCheckBox" @click="toggleMoreDetails(`moreDetails${index}`)">
@@ -75,19 +74,19 @@
                                         </svg>
                                     </button>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
 
-                        <!-- <div class="cart-business-details" :id="`moreDetails${index}`"> -->
-                            <!-- <div class="d-flex-between">
+                        <div class="cart-business-details" :id="`moreDetails${index}`">
+                            <div class="d-flex-between">
                                 <div class="info">Cart info:</div>
                                 <button class="close-modal-btn" @click="showEditProductModal(item.productId, item.itemId)">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#pencil"></use>
                                     </svg>
                                 </button>
-                            </div> -->
-                            <!-- <div class="cart-order-info mg-bottom-16">
+                            </div>
+                            <div class="cart-order-info mg-bottom-16">
 
                                 <div class="cart-product-size size-area mg-bottom-16" v-show="item.size">Size: <span :id="`size${item.itemId}`">{{item.size}}</span></div>
                                 
@@ -95,31 +94,31 @@
                                     <div class="cart-product-size">Color: </div>
                                     <div class="cart-details-color" :style="{'background-color': item.color}" :id="`color${item.itemId}`"></div>
                                 </div>
-                            </div> -->
+                            </div>
 
-                            <!-- <div class="info">Business details:</div> -->
-                            <!-- <n-link :to="`/${item.username}`" class="cart-info-container"> -->
-                                <!-- <div class="cart-info-more-details"> -->
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 18 16"> -->
-                                        <!-- <use xlink:href="~/assets/customer/image/all-svg.svg#store"></use> -->
-                                    <!-- </svg> -->
-                                    <!-- <div class="business-name">{{item.businessName}}</div> -->
-                                <!-- </div> -->
-                                <!-- <div class="cart-info-more-details" v-show="item.address.street"> -->
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16"> -->
-                                        <!-- <use xlink:href="~/assets/customer/image/all-svg.svg#mapMaker"></use> -->
-                                    <!-- </svg> -->
-                                    <!-- <div class="business-name">{{item.address.number}} {{item.address.street}} {{item.address.community}}, {{item.address.state}}</div> -->
-                                <!-- </div> -->
-                            <!-- </n-link> -->
-                        <!-- </div> -->
+                            <div class="info">Business details:</div>
+                            <n-link :to="`/${item.username}`" class="cart-info-container">
+                                <div class="cart-info-more-details">
+                                    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 18 16">
+                                        <use xlink:href="~/assets/customer/image/all-svg.svg#store"></use>
+                                    </svg>
+                                    <div class="business-name">{{item.businessName}}</div>
+                                </div>
+                                <div class="cart-info-more-details" v-show="item.address.street">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 16">
+                                        <use xlink:href="~/assets/customer/image/all-svg.svg#mapMaker"></use>
+                                    </svg>
+                                    <div class="business-name">{{item.address.number}} {{item.address.street}} {{item.address.community}}, {{item.address.state}}</div>
+                                </div>
+                            </n-link>
+                        </div>
 
                     </div>
 
                 </div>
                 <!-- end of cart listing -->
 
-                <!-- <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
+                <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
                     <div class="mg-bottom-32 md-cart-price-container">
                         <div class="d-flex-between cart-total-price">
                             <div>Items Total Price</div>
@@ -130,9 +129,9 @@
                             <div>Learn more</div>
                         </div>
                     </div>
-                </div> -->
+                </div>
             
-                <!-- <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
+                <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
                     <div class="md-cart-card">
                         <div class="cart-card-checkout">
                             <button class="btn btn-primary btn-lg" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Continue to checkout</button>
@@ -140,7 +139,7 @@
                             <n-link to="/" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</n-link>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
 
             </div> 

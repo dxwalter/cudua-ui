@@ -1,92 +1,94 @@
 <template>
-  <div class="customer">
-    <div class="body-container grey-bg-color">
+    <client-only>
+        <div class="customer">
+            <div class="body-container grey-bg-color">
 
-      <!-- beginning of navigation container -->
-        <div class="nav-container">
-            <MOBILESEARCH></MOBILESEARCH>
-            <DESKTOPNAVGATION></DESKTOPNAVGATION>
-            <MOBILENAVIGATION></MOBILENAVIGATION>
-        </div>
+            <!-- beginning of navigation container -->
+                <div class="nav-container">
+                    <MOBILESEARCH></MOBILESEARCH>
+                    <DESKTOPNAVGATION></DESKTOPNAVGATION>
+                    <MOBILENAVIGATION></MOBILENAVIGATION>
+                </div>
 
-        <!-- pageLoader -->
-        <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                <!-- pageLoader -->
+                <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-        <div class="content-container">
-            <!-- bookmark area -->
-            <div class="section-header" v-show="!pageLoader"><h4>Following</h4></div>
+                <div class="content-container">
+                    <!-- bookmark area -->
+                    <div class="section-header" v-show="!pageLoader"><h4>Following</h4></div>
 
-            <!-- bookmark listing area -->
-            <div class="bookmark-listing-area"  v-show="!pageLoader">
+                    <!-- bookmark listing area -->
+                    <div class="bookmark-listing-area"  v-show="!pageLoader">
 
-                <!-- beginning of row -->
-                <div class="row">
+                        <!-- beginning of row -->
+                        <div class="row">
 
 
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" v-for="(business, index) in returnBusiness" :key="index">
-                        <div class="card bookmark-big-card">
-                            <n-link :to="`/${business.username}`" class="d-flex">
-                                <div class="bookmark-logo">
-                                    <div class="temporal-logo" v-show="business.logo.length == 0">
-                                        {{getNameLogo(business.businessName)}}
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" v-for="(business, index) in returnBusiness" :key="index">
+                                <div class="card bookmark-big-card">
+                                    <n-link :to="`/${business.username}`" class="d-flex">
+                                        <div class="bookmark-logo">
+                                            <div class="temporal-logo" v-show="business.logo.length == 0">
+                                                {{getNameLogo(business.businessName)}}
+                                            </div>
+                                            <img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessName}'s logo`"  v-show="business.logo.length > 1" v-lazy-load>
+                                        </div>
+                                        <div class="bookmark-card-details">
+                                            <h4 class="bookmark-comp-name">{{business.businessName}}</h4>
+                                            
+                                            <div class="reviews">
+                                                <StarRating :score=business.reviewScore></StarRating> 
+                                            </div>
+                                        </div>
+                                    </n-link>
+                                    <div class="card-footer" v-show="business.businessCategory.length > 0">
+                                        <div class="accordion-subcat-area">
+                                            <a :href="`/${business.username}?cat=${category.categoryId}&name=${category.categoryName}`" class="chip" v-for="(category, index) in business.businessCategory" :key="index">{{category.categoryName}}</a>
+                                        </div>
                                     </div>
-                                    <img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessName}'s logo`"  v-show="business.logo.length > 1" v-lazy-load>
-                                </div>
-                                <div class="bookmark-card-details">
-                                    <h4 class="bookmark-comp-name">{{business.businessName}}</h4>
-                                    
-                                    <div class="reviews">
-                                        <StarRating :score=business.reviewScore></StarRating> 
-                                    </div>
-                                </div>
-                            </n-link>
-                            <div class="card-footer" v-show="business.businessCategory.length > 0">
-                                <div class="accordion-subcat-area">
-                                    <a :href="`/${business.username}?cat=${category.categoryId}&name=${category.categoryName}`" class="chip" v-for="(category, index) in business.businessCategory" :key="index">{{category.categoryName}}</a>
                                 </div>
                             </div>
+
+
                         </div>
+                        <!-- end of row -->
+
+
+                        <!-- when no product is found, show this -->
+                        <div class="link-error-area" v-show="noBusiness == 1">
+                            <img src="~/static/images/product.svg" alt="" class="mg-bottom-32">
+                            <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
+                        </div>
+                        <!-- end of error area -->
+
+                        <!-- when an error occurs, show this -->
+                        <div class="link-error-area" v-show="networkError">
+                            <img src="~/static/images/server-error.svg" alt="">
+                            <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
+                        </div>
+                        <!-- end of error area -->
+
+                        
+                        <div class="load-more-action move-center" v-show="businessCount == 12">
+                            <button class="btn btn-white" @click="loadMoreContent()" id="loadMoreContent">
+                                Load more
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </button>
+                        </div>
+
                     </div>
-
+                    <!-- end of bookmark listing area -->
 
                 </div>
-                <!-- end of row -->
+                <!-- end of content container -->
 
+                <BOTTOMADS></BOTTOMADS>
 
-                <!-- when no product is found, show this -->
-                <div class="link-error-area" v-show="noBusiness == 1">
-                    <img src="~/static/images/product.svg" alt="" class="mg-bottom-32">
-                    <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
-                </div>
-                <!-- end of error area -->
-
-                <!-- when an error occurs, show this -->
-                <div class="link-error-area" v-show="networkError">
-                    <img src="~/static/images/server-error.svg" alt="">
-                    <div class="error-cause" v-html="reasonForError">{{reasonForError}}</div>
-                </div>
-                <!-- end of error area -->
-
-                
-                <div class="load-more-action move-center" v-show="businessCount == 12">
-                    <button class="btn btn-white" @click="loadMoreContent()" id="loadMoreContent">
-                        Load more
-                        <div class="loader-action"><span class="loader"></span></div>
-                    </button>
-                </div>
+                <CUSTOMERFOOTER></CUSTOMERFOOTER>
 
             </div>
-            <!-- end of bookmark listing area -->
-
         </div>
-        <!-- end of content container -->
-
-        <BOTTOMADS></BOTTOMADS>
-
-        <CUSTOMERFOOTER></CUSTOMERFOOTER>
-
-    </div>
-  </div>
+    </client-only>
 </template>
 
 <script>
