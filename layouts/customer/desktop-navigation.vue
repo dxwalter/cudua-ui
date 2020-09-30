@@ -24,9 +24,9 @@
       <div class="desktop-nav-link">
 
         <n-link to="/" class="desktop-menu-item">
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24.706" height="21" viewBox="0 0 24.706 21">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24.706" height="21" viewBox="0 0 24.706 21">
               <use xlink:href="~/assets/customer/image/all-svg.svg#homeIcon"></use>
-            </svg> -->
+            </svg>
         </n-link>
 
         <n-link to="/c/cart" class="desktop-menu-item">
