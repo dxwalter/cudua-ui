@@ -1,4 +1,5 @@
 <template>
+  <client-only>
         <!-- beginning of mobile top nav with search box -->
         <div class="mobile-nav-container card">
           <div class="mobile-nav-links">
@@ -36,6 +37,7 @@
           <NOTIFICATION></NOTIFICATION>
         </div>
         <!-- end of mobile top nav with search box -->
+  </client-only>
 </template>
 
 <script>
