@@ -5,7 +5,7 @@
         <img src="~/assets/customer/image/cudua-logo-full.svg" alt="">
       </n-link>
 
-      <div class="desktop-search-container">
+      <!-- <div class="desktop-search-container">
         <div class="position-relative">
           <input type="text" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business">
           <div class="recent-search-list-container display-none">
@@ -17,7 +17,7 @@
           </div>
         </div>
         <button class="btn btn-primary btn-search">Search</button>
-      </div>
+      </div> -->
 
       <div class="desktop-nav-link">
 
