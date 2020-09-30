@@ -4,9 +4,9 @@
 
             <!-- beginning of navigation container -->
             <div class="nav-container">
-                <MOBILESEARCH></MOBILESEARCH>
                 
-                <MOBILENAVIGATION></MOBILENAVIGATION>
+                
+                
             </div>
 
             <!-- pageLoader -->
