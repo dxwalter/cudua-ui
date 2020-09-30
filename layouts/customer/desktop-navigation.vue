@@ -2,7 +2,7 @@
       <!-- beginning of desktop nav -->
     <div class="desktop-nav-container card">
       <n-link to="/" class="desktop-logo">
-        <img src="~/assets/customer/image/cudua-logo-full.svg" alt="">
+        <!-- <img data-src="~/assets/customer/image/cudua-logo-full.svg" alt="" v-lazy-load> -->
       </n-link>
 
       <!-- <div class="desktop-search-container">
