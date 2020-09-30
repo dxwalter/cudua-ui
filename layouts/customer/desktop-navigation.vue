@@ -38,9 +38,9 @@
 
         <n-link to="/c/notification" class="desktop-menu-item" v-show="isLoggedIn">
           <div class="notif-point">10</div>
-          <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
             <use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
-          </svg> -->
+          </svg>
         </n-link>
 
           <div class="dropdown-container">
