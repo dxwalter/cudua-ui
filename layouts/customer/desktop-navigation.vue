@@ -1,9 +1,10 @@
 <template>
       <!-- beginning of desktop nav -->
     <div class="desktop-nav-container card">
-      <n-link to="/" class="desktop-logo">
+
+      <!-- <n-link to="/" class="desktop-logo"> -->
         <!-- <img data-src="~/assets/customer/image/cudua-logo-full.svg" alt="" v-lazy-load> -->
-      </n-link>
+      <!-- </n-link> -->
 
       <!-- <div class="desktop-search-container">
         <div class="position-relative">
