@@ -1,6 +1,6 @@
 <template>
     <client-only>
-        <!-- <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications> -->
+        <notifications group="All" classes="vue-notification" style="position:absolute" animation-type="velocity"  id="notificationToast"></notifications>
     </client-only>
 </template>
 
