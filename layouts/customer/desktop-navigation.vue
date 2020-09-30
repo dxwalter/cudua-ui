@@ -1,8 +1,23 @@
 <template>
       
     <div class="desktop-nav-container card">
+      <n-link to="/" class="desktop-logo">
+        <img data-src="~/assets/customer/image/cudua-logo-full.svg" alt="" v-lazy-load>
+      </n-link>
 
-
+      <div class="desktop-search-container">
+        <div class="position-relative">
+          <input type="text" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business">
+          <div class="recent-search-list-container display-none">
+            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
+            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
+            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
+            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
+            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-search">Search</button>
+      </div>
       
     </div>
     
