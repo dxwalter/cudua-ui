@@ -5,7 +5,7 @@
             <!-- beginning of navigation container -->
             <div class="nav-container">
                 <MOBILESEARCH></MOBILESEARCH>
-                
+                <DESKTOPNAVGATION></DESKTOPNAVGATION>
                 <MOBILENAVIGATION></MOBILENAVIGATION>
             </div>
 
