@@ -148,6 +148,7 @@ export default {
 
             this.name = "";
             this.phoneOne = ""
+            this.type = ""
             this.phoneTwo = ""
             this.countData = result.countData
 
