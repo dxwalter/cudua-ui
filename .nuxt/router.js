@@ -9,6 +9,7 @@ const _3ec016b2 = () => interopDefault(import('..\\pages\\b\\index.vue' /* webpa
 const _4671bc11 = () => interopDefault(import('..\\pages\\c\\index.vue' /* webpackChunkName: "pages/c/index" */))
 const _ab11bc38 = () => interopDefault(import('..\\pages\\p\\index.vue' /* webpackChunkName: "pages/p/index" */))
 const _0a509918 = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages/search/index" */))
+const _6d849140 = () => interopDefault(import('..\\pages\\t\\index.vue' /* webpackChunkName: "pages/t/index" */))
 const _adcbc10c = () => interopDefault(import('..\\pages\\auth\\create-store.vue' /* webpackChunkName: "pages/auth/create-store" */))
 const _f668966a = () => interopDefault(import('..\\pages\\auth\\forgot-password.vue' /* webpackChunkName: "pages/auth/forgot-password" */))
 const _69521b1e = () => interopDefault(import('..\\pages\\auth\\sign-up.vue' /* webpackChunkName: "pages/auth/sign-up" */))
@@ -85,6 +86,10 @@ export const routerOptions = {
     path: "/search",
     component: _0a509918,
     name: "search"
+  }, {
+    path: "/t",
+    component: _6d849140,
+    name: "t"
   }, {
     path: "/auth/create-store",
     component: _adcbc10c,
