@@ -1,5 +1,4 @@
 <template>
-	<client-only>
         <!-- Beginning of mobile side nav -->
         <div class="mobile-side-nav" id="mobileSideNav">
           <div class="mobile-side-nav-content" id="mobileSideNavContent">
@@ -79,7 +78,6 @@
 		  <INITCOMPONENT></INITCOMPONENT>
         </div>
         <!-- end of mobile side nav -->
-	</client-only>
 </template>
 
 <script>
