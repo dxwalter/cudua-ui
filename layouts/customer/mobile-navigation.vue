@@ -110,7 +110,7 @@ export default {
         if (process.client) {
 			window.addEventListener('resize', this.handleResize);
 			this.LoginStatus()
-			this.numberOfItemsInCart = this.GetCartItems().length
+			this.numberOfItemsInCart = this.GetCartItems()
         }
     },
     computed: {
@@ -120,7 +120,7 @@ export default {
 	},
     watch: {
       cartTrigger: function () {
-        this.numberOfItemsInCart = this.GetCartItems().length
+        this.numberOfItemsInCart = this.GetCartItems()
       }
     },
 	methods: {

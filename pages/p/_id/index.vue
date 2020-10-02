@@ -771,7 +771,8 @@ export default {
 
             this.$showToast(result.message, 'success');
 
-            this.addItemToStoreCart()
+            this.$store.dispatch('cart/addItemCount', 1)
+            this.cartTrigger = 1
 
             return
 
@@ -815,46 +816,10 @@ export default {
             }
 
             this.$showToast(result.message, 'success');
-            this.addItemToStoreCart()
 
-        },
-        addItemToStoreCart: function () {
-            let cartItemData = {
-                name: this.productName,
-                productId: this.productId,
-                price: this.mainPrice,
-                reviewScore: this.reviewScore,
-                image: this.primaryImage,
-                size: this.sizeNumber,
-                color: this.colorCode,
-                username: this.username,
-                businessName: this.businessName,
-                quantity: 1
-            }
-
-            let cartItems = this.GetCartItems();
-            
-            let newCartArray = []
-
-            for (let x of cartItems) {
-                newCartArray.push({
-                    name: x.name,
-                    productId: x.productId,
-                    price: x.price,
-                    reviewScore: x.reviewScore,
-                    image: x.image,
-                    size: x.size,
-                    color: x.color,
-                    username: x.username,
-                    businessName: x.businessName,
-                    quantity: x.quantity
-                })
-            }
-            
-            newCartArray.push(cartItemData);
-
-            this.$store.dispatch('cart/setCartItems', newCartArray)
+            this.$store.dispatch('cart/addItemCount', 1)
             this.cartTrigger = 1
+
         },
         selectedSizeForCart: function (sizeId, sizeNumber) {
             let allSizes = document.querySelectorAll('.size-card');

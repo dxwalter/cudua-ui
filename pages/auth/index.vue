@@ -88,7 +88,8 @@ export default {
             email: "",
             password: "",
             isDisabled: false,
-            failedLoginCount: 0
+            failedLoginCount: 0,
+            timeOutHolder: null
 		}
     },
     computed: {
@@ -164,7 +165,7 @@ export default {
                 this.$store.dispatch('customer/setAnonymousId', '');
 
                 this.$initiateNotification('success', 'Sign in successful', `${result.message}`);
-                setTimeout(() => {
+                this.timeOutHolder = setTimeout(() => {
                     // window.location.assign('/')
                     this.$router.push('/')
                 }, 1000);
@@ -233,6 +234,9 @@ export default {
         
         document.querySelector("body").classList.remove("overflow-hidden");
         this.anonymousId = this.GetAnonymousId
+    },
+    beforeDestroy() {
+        clearTimeout(this.timeOutHolder)
     }
 }
 </script>

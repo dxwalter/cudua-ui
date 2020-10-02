@@ -236,7 +236,7 @@ export default {
 		statusChecker () {
 			this.isLoggedIn = this.GetLoginStatus()
 			this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
-			this.numberOfItemsInCart = this.GetCartItems().length
+			this.numberOfItemsInCart = this.GetCartItems()
 		},
 		getNameLogo: function (businessName) {
 			if (process.browser) {
@@ -299,7 +299,7 @@ export default {
 	},
 	watch: {
 		cartTrigger: function () {
-			this.numberOfItemsInCart = this.GetCartItems().length
+			this.numberOfItemsInCart = this.GetCartItems()
 		},
 		searchKeyword: async function () {
 			if (this.searchKeyword.length <= 1) {

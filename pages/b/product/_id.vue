@@ -232,7 +232,7 @@ import PAGELOADER from '~/components/loader/loader.vue';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import { 
-    GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
+    BUSINESS_GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
     SHOW_PRODUCT,
     HIDE_PRODUCT,
     DELETE_PRODUCT
@@ -335,14 +335,14 @@ export default {
                 }
             }
 
-            let request = await this.$performGraphQlQuery(this.$apollo, GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID, variables, {});
+            let request = await this.$performGraphQlQuery(this.$apollo, BUSINESS_GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID, variables, {});
 
             if (request.error) {
                 this.$initiateNotification('error', 'Failed request', request.message);
                 return
             }
 
-            let result = request.result.data.GetProductById;
+            let result = request.result.data.BusinessGetProductById;
 
             if (!result.success || result.product == null) {
                 // set network error or no product found

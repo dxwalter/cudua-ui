@@ -20,7 +20,7 @@
 			</div>
 			<div class="form-control">
 				<!-- <label for="businessType" class="form-label">Type your report</label> -->
-				<textarea name="" id="" cols="30" rows="5" class="input-form" placeholder="Type your report" id="reportBody"></textarea>
+				<textarea name="" cols="30" rows="5" class="input-form" placeholder="Type your report" id="reportBody"></textarea>
 			</div>
 			<!-- <div class="form-control">
 				<button class="btn btn-white btn-small">Add a photo</button>

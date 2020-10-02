@@ -1,5 +1,5 @@
 export const state = () => ({
-    products: []
+    itemCount: 0
 })
 
 // product name
@@ -21,16 +21,28 @@ const getDefaultState = () => {
 const actions = {
     resetCartState (context, state) { context.commit('resetCartState', state) },
     setCartItems (context, payload) { context.commit('setCartItems', payload)},
+    setItemCount (context, payload) {context.commit('setItemCount', payload)},
+    addItemCount (context, payload) {context.commit('addItemCount', payload)},
+    subtractItemCount (context, payload) {context.commit('subtractItemCount', payload)}
 }
 
 const getters = {
-    GetCartItems: state => state.products
+    GetCartItems: state => state.itemCount
 }
 
 const mutations = {
     resetCartState: (state) => Object.assign(state, getDefaultState()),
     setCartItems: (state, data) => {
         state.products = data
+    },
+    setItemCount: (state, data) => {
+        state.itemCount = data
+    },
+    addItemCount: (state, data) => {
+        state.itemCount = state.itemCount + 1
+    },
+    subtractItemCount: (state) => {
+        state.itemCount = state.itemCount <= 1 ? 0 : state.itemCount - 1
     }
 }
 

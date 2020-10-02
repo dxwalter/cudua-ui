@@ -115,13 +115,14 @@
                 
                                 <!-- action -->
                                 <div class="">
-                                <button class="btn btn-primary btn-block" v-show="selectedColor || selectedSize" @click="updateCartItemInDb()">
+                                <button class="btn btn-primary btn-block" v-show="selectedColor || selectedSize" @click="updateCartItemInDb()" id="updateCartItemInDb">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="mg-right-8 ">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#pencil"></use>
                                     </svg>
                                     <span>
                                         Update cart
                                     </span>
+                                    <div class="loader-action"><span class="loader"></span></div>
                                 </button>
                                 </div>
 
@@ -146,7 +147,8 @@ import {
 } from '~/graphql/product'
 
 import {
-    ANONYMOUS_EDIT_PRODUCT_COLOR_AND_SIZE
+    ANONYMOUS_EDIT_PRODUCT_COLOR_AND_SIZE,
+    SIGNED_USER_UPDATE_PRODUCT_SIZE_AND_COLOR
 } from '~/graphql/cart'
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
@@ -380,7 +382,9 @@ export default {
             this.sizeNumber = "";
         },
         updateCartItemInDb: async function () {
-            
+
+            let target = document.getElementById('updateCartItemInDb');
+
             if (this.anonymousId.length > 0) {
 
                 let variables = {
@@ -389,14 +393,56 @@ export default {
                     itemId: this.itemId
                 }
 
+                target.disabled = true;
+
                 let request = await this.$performGraphQlMutation(this.$apollo, ANONYMOUS_EDIT_PRODUCT_COLOR_AND_SIZE, variables, {});
 
+                target.disabled = false;
+                
                 if (request.error) {
                     this.$initiateNotification('error', 'Failed request', request.message);
                     return
                 }
 
                 let result = request.result.data.AnonymousEditProductSizeAndColorInCart;
+
+                if (result.success == false) {
+                    this.$initiateNotification('error', 'Oops!', result.message);
+                    return
+                }
+
+                this.$showToast('Cart updated', 'success')
+                
+                this.sendEmittedData()
+
+                return
+                
+            } else {
+                
+                let context = {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
+                
+                let variables = {
+                    sizeId: this.selectedSize,
+                    colorId: this.selectedColor,
+                    itemId: this.itemId
+                }
+
+                target.disabled = true;
+
+                let request = await this.$performGraphQlMutation(this.$apollo, SIGNED_USER_UPDATE_PRODUCT_SIZE_AND_COLOR, variables, context);
+
+                target.disabled = false;
+                
+                if (request.error) {
+                    this.$initiateNotification('error', 'Failed request', request.message);
+                    return
+                }
+
+                let result = request.result.data.UpdateItemColorAndSize;
 
                 if (result.success == false) {
                     this.$initiateNotification('error', 'Oops!', result.message);

@@ -107,3 +107,58 @@ mutation editColorAndSize($sizeId: String, $colorId: String, $itemId: String!){
   }
 }
 `
+
+export const ANONYMOUS_DELETE_ITEM_FROM_CART = gql`
+mutation deleteItem($itemId: String!, $anonymousId: String!){
+  AnonymousDeleteItemFromCart(input:{
+    itemId: $itemId,
+    anonymousId: $anonymousId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+// signed in user
+export const SIGNED_USER_UPDATE_PRODUCT_QUANTITY_IN_CART = gql`
+mutation updateCartQuantity($itemId: String!, $quantity: Int!){
+  UpdateItemQuantity(input:{
+    itemId: $itemId,
+    quantity: $quantity
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+// signed in user
+export const SIGNED_USER_UPDATE_PRODUCT_SIZE_AND_COLOR = gql`
+mutation updateSizeAndColor($itemId: String!, $sizeId: String, $colorId: String){
+  UpdateItemColorAndSize(input:{
+    sizeId: $sizeId,
+    colorId: $colorId,
+    itemId: $itemId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+// signed in user
+export const SIGNED_DELETE_ITEM_IN_CART = gql`
+mutation deleteItem($itemId: String!){
+  DeleteItemFromCart(input:{
+    itemId: $itemId,
+  }){
+    code
+    success
+    message
+  }
+}
+`

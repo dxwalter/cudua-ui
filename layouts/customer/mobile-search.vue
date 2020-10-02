@@ -95,13 +95,13 @@ export default {
       },
       statusChecker () {
         this.isLoggedIn = this.GetLoginStatus();
-        this.numberOfItemsInCart = this.GetCartItems().length
-        this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+        this.numberOfItemsInCart = this.GetCartItems()
+        this.isBusinessOwner = this.GetBusinessStatus().lenth > 0 ? true :  false
       }
     },
     watch: {
       cartTrigger: function () {
-        this.numberOfItemsInCart = this.GetCartItems().length
+        this.numberOfItemsInCart = this.GetCartItems()
       }
     },
     mounted () {

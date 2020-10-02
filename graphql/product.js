@@ -229,6 +229,72 @@ query getproduct($productId: String!) {
 }
 `
 
+export const BUSINESS_GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID = gql`
+query getproduct($productId: String!) {
+  BusinessGetProductById(input:{
+    productId: $productId,
+  })
+  {
+    product{
+      id
+      name
+      price
+      description
+      primaryImage
+      reviewScore
+      tags {
+        tagId
+        tagName
+      }
+      colors {
+        colorId
+        color
+      }
+      sizes {
+        sizeId
+        sizeNumber
+      }
+      hide
+      category{
+        categoryId
+        categoryName
+      }
+      subcategory{
+        subcategoryId
+        subcategoryName
+      }
+      reviews {
+        author {
+          authorId
+          fullname
+          displayPicture
+        }
+        rating
+        description
+        timeStamp
+      }
+      images
+    }
+    business {
+      businessname,
+      id,
+      username,
+      logo
+      contact {
+        phone,
+        whatsapp {
+          number,
+          status
+        }
+      }
+    }
+    code
+    success
+    message
+  }
+}
+`
+
 export const CREATE_PRODUCT_SIZE = gql`
 mutation create ($sizes: [String]!, $productId: String!, $businessId: String!){
 	CreateProductSizes(input:{

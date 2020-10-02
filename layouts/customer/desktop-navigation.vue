@@ -166,12 +166,12 @@ export default {
 			this.isLoggedIn = this.GetLoginStatus()
       this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
       this.username = this.GetBusinessDetails().username,
-      this.numberOfItemsInCart = this.GetCartItems().length
+      this.numberOfItemsInCart = this.GetCartItems()
 		}
   },
   watch: {
     cartTrigger: function () {
-      this.numberOfItemsInCart = this.GetCartItems().length
+      this.numberOfItemsInCart = this.GetCartItems()
     }
   },
   mounted () {

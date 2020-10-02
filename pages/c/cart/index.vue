@@ -4,9 +4,9 @@
 
             <!-- beginning of navigation container -->
             <div class="nav-container">
-                <MOBILESEARCH></MOBILESEARCH>
-                <DESKTOPNAVGATION></DESKTOPNAVGATION>
-                <MOBILENAVIGATION></MOBILENAVIGATION>
+                <MOBILESEARCH :cartTrigger=cartTrigger></MOBILESEARCH>
+                <DESKTOPNAVGATION :cartTrigger=cartTrigger></DESKTOPNAVGATION>
+                <MOBILENAVIGATION :cartTrigger=cartTrigger></MOBILENAVIGATION>
             </div>
 
             <!-- pageLoader -->
@@ -58,7 +58,10 @@
                                             <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                         </svg>
                                     </button>
-                                    <button class="btn btn-light-grey btn-small ">Remove</button>
+                                    <button class="btn btn-light-grey btn-small " @click="deleteItemFromCart(item.productId, item.itemId)" :id="`deleteItemFromCart${item.itemId}`">
+                                        Remove
+                                        <div class="loader-action"><span class="loader"></span></div>
+                                    </button>
                                 </div>
                                 <div class="desktop-action">
                                     <button type="button" class="close-modal-btn">
@@ -68,10 +71,11 @@
                                             <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
                                         </svg>
                                     </button>
-                                    <button type="button" class="close-modal-btn">
+                                    <button type="button" class="close-modal-btn" @click="deleteItemFromCart(item.productId, item.itemId)" :id="`deleteItemFromCart${item.itemId}`">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="last-svg">
                                             <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
                                         </svg>
+                                        <div class="loader-action"><span class="loader"></span></div>
                                     </button>
                                 </div>
                             </div>
@@ -118,31 +122,95 @@
                 </div>
                 <!-- end of cart listing -->
 
+                        <!-- when no product is found, show this -->
+                    <div class="link-error-area" v-show="!pageError && allProducts.length == 0 && !pageLoader">
+                        <img src="~/static/images/product.svg" alt="" class="mg-bottom-32">
+                        <div class="error-cause" v-html="errorReason">{{errorReason}}</div>
+                    </div>
+                    <!-- end of error area -->
+
+                    <!-- when an error occurs, show this -->
+                    <div class="link-error-area" v-show="pageError && !pageLoader">
+                        <img src="~/static/images/server-error.svg" alt="">
+                        <div class="error-cause" v-html="errorReason">{{errorReason}}</div>
+                    </div>
+                    <!-- end of error area -->
+
+
+
                 <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
                     <div class="mg-bottom-32 md-cart-price-container">
                         <div class="d-flex-between cart-total-price">
                             <div>Items Total Price</div>
                             <div>₦ {{totalPrice}}</div>
                         </div>
-                        <div class="d-flex-between price-info"> 
-                            <div>Shipping price not included</div>
+                        <div class="d-flex-between price-info" @click="toggleMoreDetails('deliveryChargeInfo')"> 
+                            <div>Shipping price is not included</div>
                             <div>Learn more</div>
                         </div>
+                    <div id="deliveryChargeInfo" class="cart-business-details white-bg-color font-14 price-info">
+                        The shipping price/delivery charge of ordered products is to determined by the business(es) you are buying from. A business will have to see an order, know the location of the customer before providing the delivery charge.
+                    </div>
                     </div>
                 </div>
             
                 <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
-                    <div class="md-cart-card">
+                    <!-- <div class="md-cart-card"> -->
                         <div class="cart-card-checkout">
                             <button class="btn btn-primary btn-lg" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Continue to checkout</button>
-                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="checkoutModal" v-show="accessToken">Continue to checkout</button>
+
+                            <button class="btn btn-primary btn-lg" v-show="accessToken && storePhoneNumber" id="placeOrder" @click="placeOrder()">
+                                Place order
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </button>
+
+                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="addPhoneNumberModal" v-show="accessToken && storePhoneNumber.length == 0">Continue to checkout</button>
+
                             <n-link to="/" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</n-link>
                         </div>
-                    </div>
+                    <!-- </div> -->
                 </div>
 
 
             </div> 
+
+            <div class="modal-container" id="addPhoneNumberModal">
+                <div class="modal-dialog-box">
+
+                    <div class="modal-header">
+                        <h4>Add your phone number</h4>
+
+                        <button class="close-modal-btn" data-target="addPhoneNumberModal" data-dismiss="modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="modal-content">
+                        <div id="createCategory" class="is-active tab-content-area">
+                            <div class="alert alert-light font-14 mg-bottom-24">
+                                The reason we are collecting this data is to allow the business(es) you are buying from to contact you as regarding delivery charge and payment method.
+                            </div>
+                            <div class="form-control">
+                                <!-- <label for="businessType" class="form-label">Subject of report</label> -->
+                                <input type="number" name="" id="cartPhoneNumber" class="input-form" placeholder="Phone number" v-model="inputPhoneNumber">
+                            </div>
+                            <div class="form-control">
+                                <button class="btn btn-block btn-primary" type="button" id="addCustomerPhoneNumber" @click="addCustomerPhoneNumber()">
+                                    Submit phone number
+                                    <div class="loader-action"><span class="loader"></span></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer" data-target="addPhoneNumberModal" data-dismiss="modal">
+                        <button class="btn btn-default btn-light-grey">Close</button>
+                    </div>
+
+                </div>
+            </div>
         <!-- end of content container -->
 
         <!-- footer area -->
@@ -184,8 +252,15 @@ import EDITCARTITEM from '~/layouts/customer/cart/edit-cart-item.vue';
 import {
     GET_ANONYMOUS_CART_ITEMS,
     GET_SIGNED_CART_ITEMS,
-    ANONYMOUS_EDIT_PRODUCT_QUANTITY_IN_CART
-} from '~/graphql/cart'
+    ANONYMOUS_EDIT_PRODUCT_QUANTITY_IN_CART,
+    ANONYMOUS_DELETE_ITEM_FROM_CART,
+    SIGNED_USER_UPDATE_PRODUCT_QUANTITY_IN_CART,
+    SIGNED_DELETE_ITEM_IN_CART
+} from '~/graphql/cart';
+
+import { CREATE_NEW_ORDER } from '~/graphql/order'
+
+import { EDIT_CUSTOMER_CONTACT } from '~/graphql/customer'
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
@@ -219,14 +294,20 @@ export default {
             pageError: 0,
             errorReason: "",
 
-
             // showModal data
             itemId: "",
             productId: "",
             modalCount: 0,
 
             // quantity timeout
-            quantityTimeout: null
+            quantityTimeout: null,
+            cartTrigger: 0,
+
+            storePhoneNumber: "",
+            inputPhoneNumber: "",
+            email: "",
+
+            timeOutHolder: null
         }
     },
     computed: {
@@ -248,6 +329,98 @@ export default {
         this.clearTimeout(this.quantityTimeout)
     },
     methods: {
+        placeOrder: async function() {
+
+            let target = document.getElementById('placeOrder');
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true;
+
+            let request = await this.$performGraphQlMutation(this.$apollo, CREATE_NEW_ORDER, {}, context);
+
+            target.disabled = false;
+
+            if (request.error) {
+                return this.$initiateNotification('error', "Failed request", request.message)
+            }
+
+
+            let result = request.result.data.CreateOrder;
+
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Oops!', result.message);
+                return
+            }
+
+            this.$initiateNotification('success', 'Order placed', result.message);
+            
+            this.timeOutHolder = setTimeout(() => {
+                this.$router.push(`/c/orders/${result.orderId}`)
+            }, 1000);
+
+
+
+        },
+        addCustomerPhoneNumber: async function() {
+
+            if (this.inputPhoneNumber.length < 11) {
+                this.$showToast(`Your phone number must be 11 characters but you typed ${this.inputPhoneNumber.length} characters`, 'error', 6000);
+                this.$addRedBorder('cartPhoneNumber')
+                return
+            } else {
+                this.$removeRedBorder('addCustomerPhoneNumber')
+            }
+
+
+            let target = document.getElementById('addCustomerPhoneNumber');
+            let modalTarget = document.getElementById('addPhoneNumberModal');
+
+
+            let variables = {
+                email: this.email,
+                phone: this.inputPhoneNumber
+            }
+
+            let context = {
+                hasUpload: true,
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, EDIT_CUSTOMER_CONTACT, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                return this.$initiateNotification('error', "Failed upload", request.message)
+            }
+
+            let result = request.result.data.editUserContact
+
+            if (result.success == false) {
+                return  this.$initiateNotification('error', "Oops!", result.message)
+            }
+
+            this.$initiateNotification('success', "Profile Updated", result.message)
+
+            modalTarget.classList.remove('show-modal', 'display-block')
+            document.querySelector("body").classList.remove("overflow-hidden");
+
+            this.storePhoneNumber = this.inputPhoneNumber
+
+            this.$store.dispatch('customer/setCustomerData', {
+                phone: this.inputPhoneNumber,
+                email: this.email,
+            })
+        },
         clearTimeout: function (time) {
             clearTimeout(time)
         },
@@ -262,6 +435,8 @@ export default {
         GetCustomerDataFromStore: function () {
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
+            this.storePhoneNumber = customerData.phone
+            this.email = customerData.email
             this.anonymousId = customerData.anonymousId
         },
         setNewlyEditedData: function (data) {
@@ -299,8 +474,6 @@ export default {
                 return
             }
 
-
-
             let result = request.result.data.AnonymousGetCartItems
 
             if (result.success == false) {
@@ -311,8 +484,13 @@ export default {
                 return
             }
 
+            
+            this.$store.dispatch('cart/setItemCount', result.cart == null ? 0 : result.cart.length)
+            this.cartTrigger = 1
+            
             if (result.cart == null) {
-                
+                this.errorReason = "You do not have any item in your cart"
+                this.$initiateNotification('info', 'Empty cart', result.message)
                 return
             }
 
@@ -345,8 +523,6 @@ export default {
                 return
             }
 
-
-
             let result = request.result.data.GetCartItems
 
             if (result.success == false) {
@@ -357,8 +533,12 @@ export default {
                 return
             }
 
+            this.$store.dispatch('cart/setItemCount', result.cart == null ? 0 : result.cart.length)
+            this.cartTrigger = 1
+
             if (result.cart == null) {
-                
+                this.errorReason = "You do not have any item in your cart"
+                this.$initiateNotification('info', 'Empty cart', result.message)
                 return
             }
 
@@ -367,10 +547,11 @@ export default {
         },
         formatCartItems: async function (cartItems) {
             
+
             let totalPrice = 0
             let formattedCartItem = []
             
-            cartItems.slice().reverse().forEach(item => {
+            cartItems.forEach(item => {
                 formattedCartItem.push({
                     subTotal: this.$numberNotation(item.product.price * item.quantity),
                     itemId: item.itemId, // please note that this is different from product id
@@ -386,13 +567,14 @@ export default {
                     username: item.business.username,
                     quantity: item.quantity,
                     businessName: item.business.name,
-                    address: item.business.address.street == undefined ? "": item.business.address
+                    address: item.business.address == undefined || item.business.address == null ? "": item.business.address
                 })
             });
 
             this.totalPrice = this.$numberNotation(totalPrice)
             this.allProducts = formattedCartItem
             this.calculateTotalPrice()
+
         },
         formatPrice: function (number) {
             return this.$numberNotation(number)
@@ -454,7 +636,7 @@ export default {
 
         },
         calculateTotalPrice: function () {
-            let allItems = this.returnAllCartItems
+            let allItems = this.allProducts
 
             let totalPrice = 0
 
@@ -497,17 +679,151 @@ export default {
 
             } else {
                 
-            }
+                this.quantityTimeout = setTimeout(async () => {
 
+                        let variables = {
+                            quantity: quantity,
+                            itemId: itemId
+                        }
+
+                        let context = {
+                            headers: {
+                                'accessToken': this.accessToken
+                            }
+                        }
+
+
+                        let request = await this.$performGraphQlQuery(this.$apollo, SIGNED_USER_UPDATE_PRODUCT_QUANTITY_IN_CART, variables, context);
+
+                        if (request.error) {
+                            this.$initiateNotification('error', "Network", request.message)
+                            return
+                        }
+
+                        let result = request.result.data.UpdateItemQuantity;
+
+                        if (result.success == false) {
+                            this.$initiateNotification('error', "Quantity update", result.message)
+                            return
+                        }
+
+                        this.$showToast('Quantity updated', 'success')
+
+                    }, 1000);
+                }
         },
         showEditProductModal: function(productId, itemId) {
             this.itemId = itemId
             this.productId = productId
             this.modalCount = this.modalCount + 1
         },
+        removeItemFromUI: function (itemId) {
+            let allItems = this.allProducts
+            let newArray = []
+
+            for (const [index, x] of allItems.entries()) {
+                if (x.itemId !== itemId) {
+                    newArray.push(x)
+                }
+            }
+
+            this.allProducts = newArray;
+
+            if (this.allProducts.length == 0) {
+                this.allProducts = [];
+                this.errorReason = "You no longer have any item in your cart"
+                return
+            }
+
+            this.calculateTotalPrice()
+
+        },
+        deleteItemFromCart: async function (productId, itemId) {
+            
+            let target = document.getElementById(`deleteItemFromCart${itemId}`);
+
+            if (this.anonymousId.length > 0) {
+
+                let variables = {
+                    itemId: itemId,
+                    anonymousId: this.anonymousId
+                }
+
+                target.disabled = true;
+
+                let request = await this.$performGraphQlMutation(this.$apollo, ANONYMOUS_DELETE_ITEM_FROM_CART, variables, {});
+
+                target.disabled = false;
+
+                if (request.error) {
+                    return this.$initiateNotification('error', "Failed request", request.message)
+                }
+
+
+                let result = request.result.data.AnonymousDeleteItemFromCart;
+
+                if (result.success == false) {
+                    this.$initiateNotification('error', 'Oops!', result.message);
+                    return
+                }
+
+                this.removeItemFromUI(itemId)
+
+
+                this.$initiateNotification('success', 'Item deleted', result.message);
+
+                this.$store.dispatch('cart/subtractItemCount', 1)
+                this.cartTrigger = this.cartTrigger == 0 ? 1 : 0
+
+            } else {
+
+                let variables = {
+                    itemId: itemId
+                }
+
+                let context = {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
+
+                target.disabled = true;
+
+                let request = await this.$performGraphQlMutation(this.$apollo, SIGNED_DELETE_ITEM_IN_CART, variables, context);
+
+                target.disabled = false;
+
+                if (request.error) {
+                    return this.$initiateNotification('error', "Failed request", request.message)
+                }
+
+
+                let result = request.result.data.DeleteItemFromCart;
+
+                if (result.success == false) {
+                    this.$initiateNotification('error', 'Oops!', result.message);
+                    return
+                }
+
+                this.removeItemFromUI(itemId)
+                this.$initiateNotification('success', 'Item deleted', result.message);
+
+                this.$store.dispatch('cart/subtractItemCount', 1)
+                this.cartTrigger = this.cartTrigger == 0 ? 1 : 0
+            }
+        }
     }, 
     mounted () {
         this.pageLoader = false
+    },
+    beforeDestroy() {
+        clearTimeout(this.timeOutHolder)
     }
 }
 </script>
+<style scoped>
+    .font-14 {
+        font-size: 14px !important;
+        line-height: 27px !important;
+    }
+</style>

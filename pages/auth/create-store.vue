@@ -151,7 +151,8 @@ export default {
             // UI variables
             error: 0,
             isDisabled: false,
-            failedLoginCount: 0
+            failedLoginCount: 0,
+            timeOutHolder: null
 
 		}
 	},
@@ -332,7 +333,7 @@ export default {
                     }
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);
-                    setTimeout(() => {
+                    this.timeOutHolder = setTimeout(() => {
 
                         this.$router.push('/b')
                     }, 1000);   
@@ -405,7 +406,7 @@ export default {
                 this.$store.commit('customer/setAnonymousId', '');
 
                 this.$initiateNotification('success', 'Online shop created', result.message);
-                setTimeout(() => {
+                this.timeOutHolder = setTimeout(() => {
                     // window.location.assign('/b')
                     return this.$router.push('/b')
                 }, 1000);
@@ -482,7 +483,7 @@ export default {
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);
 
-                    setTimeout(() => {
+                    this.timeOutHolder = setTimeout(() => {
                         this.$router.push('/b') 
                     }, 1000);
                     
@@ -579,6 +580,9 @@ export default {
         if (this.isLoggedIn) {
             this.getUserDataFromStore()
         }
+    },
+    beforeDestroy() {
+        clearTimeout(this.timeOutHolder)
     }
 }
 </script>
