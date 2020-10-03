@@ -94,7 +94,7 @@ export default {
       statusChecker () {
         this.isLoggedIn = this.GetLoginStatus();
         this.numberOfItemsInCart = this.GetCartItems()
-        this.isBusinessOwner = this.GetBusinessStatus().lenth > 0 ? true :  false
+        this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
       }
     },
     watch: {
