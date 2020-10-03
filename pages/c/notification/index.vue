@@ -18,101 +18,36 @@
             <!-- bookmark area -->
             <div class="section-header"><h4>Notification</h4></div>
 
-            <div class="notification-listing-container">
-                <div class="chat-listing">
+                <div class="notification-listing-containe">
+                    <div class="chat-listing">
 
-                    <a href="#" class="chat-recipient">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
-                    <a href="#" class="chat-recipient is-read">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
-        
-                    <a href="#" class="chat-recipient">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
-                    <a href="#" class="chat-recipient is-read">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
-                    <a href="#" class="chat-recipient is-read">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
-                    <a href="#" class="chat-recipient">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
-                    <a href="#" class="chat-recipient">
-                        <div class="chat-recipient-img">
-                            <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
-                        </div>
-                        <div class="last-chat-details">
-                            <div class="chat-time-recipient">
-                                <span>John Mayers</span>
-                                <span>3 min ago</span>
-                            </div>
-                            <div class="last-chat-preview">Lorem ipsum dolor sit amet dsdf sdsd ctetur Lorem ipsum dolor sit amet </div>
-                        </div>
-                    </a>
+                        <div v-for="(notification, index) in returnNotification" :key="index">
+                            <div class="chat-recipient" 
+                            v-bind:class="{'is-read': notification.isRead == 1}" 
 
+                            @click="markAsRead(notification.type, notification.actionId, notification.notificationId, notification.isRead, $event)">
+                                <div class="last-chat-details">
+                                    <div class="chat-time-recipient">
+                                        <span>{{getNotificationHeader(notification.type)}}</span>
+                                        <span>{{formatNotificationTimer(notification.timeStamp)}}</span>
+                                    </div>
+                                    <div class="last-chat-preview">{{notification.message}}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="load-more-action move-center mg-top-16" v-show="notificationCount == 12">
+                        <button class="btn btn-white" @click="loadMoreNotification()" id="notificationLoader">
+                            Load more
+                            <div class="loader-action"><span class="loader"></span></div>
+                        </button>
+                    </div>
+
+                    <div v-show="!pageLoader && notificationCount < 12" class="alert alert-info mg-top-16">
+                        There is no new notification for your business
+                    </div>
                 </div>
-
-                <div class="load-more-action move-center">
-                    <button class="btn btn-white">Load more notifications</button>
-                </div>
-            </div>
 
         </div>
       <!-- end of content container -->
@@ -127,6 +62,7 @@
 </template>
 
 <script>
+
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue';
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue';
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue';
@@ -134,37 +70,144 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
+import { GET_CUSTOMER_NOTIFICATION } from '~/graphql/customer'
+
+import { MARK_BUSINESS_NOTIFICATION_AS_READ } from '~/graphql/business';
+
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
+    name: "CUSTOMERNOTIFICATION",
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
     },
     data: function() {
         return {
             pageLoader: true,
+            accessToken: "",
+            page: 1,
+            allNotifications: [],
+            notificationCount: 0,
+            serverError: 0,
+            errorReason: ""
         }
     },
     computed: {
 		...mapGetters({
-			'GetLoginStatus': 'customer/GetLoginStatus'
+            'GetLoginStatus': 'customer/GetLoginStatus',
+            'GetCustomerDetails': 'customer/GetCustomerDetails'
         }),
 		LoginStatus () {
 			return this.GetLoginStatus
-		}
+        },
+        returnNotification () {
+            return this.allNotifications
+        }
+    },
+    methods:{
+        getUserData: function () {
+            this.accessToken = this.GetCustomerDetails.userToken
+        },
+		formatNotificationTimer: function (timeStamp) {
+			return this.$timeStampModifier(timeStamp)
+		},
+        getNotifications: async function (page = 1) {
+
+            let variables = {
+                page: page
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_CUSTOMER_NOTIFICATION, variables, context);
+
+            if (request.error) {
+                this.$initiateNotification('info', 'Oops!', request.message);
+                this.serverError = 1;
+                this.errorReason = result.message
+                return
+            }
+
+            let result = request.result.data.GetCustomerNotification;
+
+            if (result.success == false) {
+                this.$initiateNotification('info', 'Oops!', result.message);
+                this.serverError = 1
+                this.errorReason = result.message
+                return
+            }
+
+            if (result.notification == null) {
+                this.notificationCount = 0
+                return
+            }
+
+            
+            for (let x of result.notification) {
+                this.allNotifications.push(x)
+            }
+
+
+            this.notificationCount = result.notification.length
+
+            this.page = page
+        },
+		getNotificationLink: function (type, id) {
+			return this.$customerNotificationLink(type, id)
+		},
+		getNotificationHeader: function (type) {
+			return this.$customerNotificationTitle(type)
+		},
+		markAsRead: async function (type, actionId, notificationId, status, e) {
+			let url = this.getNotificationLink(type, actionId);
+
+			if (status == 0) {
+				// notificatio has not been read, perform query to mark as read
+				let variables = { 
+					notificationId: notificationId,
+					type: 'customer'
+				}
+				let context = {
+					headers: {
+						'accessToken': this.accessToken
+					}
+				}
+
+				let request = await this.$performGraphQlMutation(this.$apollo, MARK_BUSINESS_NOTIFICATION_AS_READ, variables, context);
+				// let currentCount = this.GetBusinessData.newNotificationCount - 1;
+                // this.$store.dispatch('business/setNotificationData', {
+                //     'newNotificationCount': currentCount
+                // })
+			}
+
+			this.$router.push(url)
+		},
     },
     created: async function () {
 		if (process.browser) {
             let status = this.LoginStatus
-            if (status == false) 
+            if (status == false) {
                 return this.$router.push('/')
+            }
+            this.getUserData()
+            this.getNotifications()
 		}
-
     },
     mounted () {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        this.pageLoader = false
     }
 }
 </script>
+<style scoped>
+    .chat-recipient {
+        cursor: pointer;
+    }
+
+    .chat-recipient:hover {
+        background-color: #f4f4f4;
+    }
+</style>

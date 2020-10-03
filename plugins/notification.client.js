@@ -86,6 +86,37 @@ export default ({app}, inject) => {
 
     inject('businessNotificationTitle', businessNotificationTitle);
 
+
+    let customerNotificationTitle = (type) => {
+        console.log(type)
+        type = type.toLowerCase().trim();
+        let header;
+        switch (type) {
+            case "follow":
+                header = "New Follower";
+                break;
+
+            case "order":
+                header = "Order";
+                break;
+
+            case "customer_profile":
+                header = "Profile";
+                break;
+
+            case "customerreview":
+                header = "Review";
+                break;
+        
+            default:
+                header = "Notification"
+        }
+
+        return header
+    }
+
+    inject('customerNotificationTitle', customerNotificationTitle);
+
     let businessNotificationLink = (type, id) => {
 
             type = type.toLowerCase();
@@ -123,4 +154,31 @@ export default ({app}, inject) => {
     }
 
     inject('businessNotificationLink', businessNotificationLink)
+
+    let customerNotificationLink = (type, id) => {
+            console.log(type)
+            type = type.toLowerCase();
+			let url;
+			switch (type) {
+
+				case "order":
+					url = `/c/orders/${id}`;
+					break;
+
+				case "customer_profile":
+					url = "/c/profile/";
+                    break;
+                    
+                case "customerreview":
+                    url = "/c/profile/?newReview";
+                    break;
+			
+				default:
+					url = "#"
+			}
+
+			return url
+    }
+
+    inject('customerNotificationLink', customerNotificationLink)
 }

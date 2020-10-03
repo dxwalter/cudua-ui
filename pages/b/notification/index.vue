@@ -194,7 +194,7 @@ export default {
 				let request = await this.$performGraphQlMutation(this.$apollo, MARK_BUSINESS_NOTIFICATION_AS_READ, variables, context);
 				let currentCount = this.GetBusinessData.newNotificationCount - 1;
                 this.$store.dispatch('business/setNotificationData', {
-                        'newNotificationCount': currentCount
+                    'newNotificationCount': currentCount
                 })
 			}
 

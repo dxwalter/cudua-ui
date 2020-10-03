@@ -256,3 +256,24 @@ mutation address($streetNumber: Int!, $streetId: String!, $busStop: String!) {
 }
 }
 `
+
+export const GET_CUSTOMER_NOTIFICATION = gql`
+query getNotification($page: Int!){
+  GetCustomerNotification(input:{
+    page: $page
+  }){
+    notification{
+      notificationId
+      isRead
+      owner
+      actionId
+      type
+      message
+      timeStamp
+    }
+    code
+    success
+    message
+  }
+}
+`
