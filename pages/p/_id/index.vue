@@ -654,7 +654,7 @@ export default {
                 let contact = this.contact
                 let phones = [];
 
-                if (contact.whatsapp.status == 1 && contact.whatsapp.number.length > 0) {
+                if (contact.whatsapp.status == 1 && contact.whatsapp.number !== null) {
                     this.businessWhatsapp = contact.whatsapp.number
                     phones.push({
                         whatsapp: {

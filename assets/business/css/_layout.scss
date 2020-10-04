@@ -946,8 +946,21 @@
     margin-right: 16px;
     width: 80px;
     height: 80px ;
+    border-radius: 50%;
+    overflow: hidden;
     border-radius: 4px;
     flex-shrink: 0;
+    .temporal-logo {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 900;
+        border: $border;
+        border-radius: 50%;
+    }
 }
 
 .customer-name {

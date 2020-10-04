@@ -18,7 +18,7 @@
             <!-- bookmark area -->
             <div class="section-header"><h4>Notification</h4></div>
 
-                <div class="notification-listing-containe">
+                <div class="notification-listing-container">
                     <div class="chat-listing">
 
                         <div v-for="(notification, index) in returnNotification" :key="index">
@@ -38,14 +38,14 @@
 
                     </div>
                     <div class="load-more-action move-center mg-top-16" v-show="notificationCount == 12">
-                        <button class="btn btn-white" @click="loadMoreNotification()" id="notificationLoader">
+                        <button class="btn btn-white" @click="loadMoreNotification()" id="loadMoreNotification">
                             Load more
                             <div class="loader-action"><span class="loader"></span></div>
                         </button>
                     </div>
 
                     <div v-show="!pageLoader && notificationCount < 12" class="alert alert-info mg-top-16">
-                        There is no new notification for your business
+                        There is no new notification
                     </div>
                 </div>
 
@@ -110,7 +110,15 @@ export default {
         },
 		formatNotificationTimer: function (timeStamp) {
 			return this.$timeStampModifier(timeStamp)
-		},
+        },
+        loadMoreNotification: async function() {
+            let page = this.page + 1;
+
+            let target = document.getElementById('loadMoreNotification');
+            target.disabled = true
+            await this.getNotifications(page)
+            target.disabled = false
+        },
         getNotifications: async function (page = 1) {
 
             let variables = {
@@ -209,5 +217,9 @@ export default {
 
     .chat-recipient:hover {
         background-color: #f4f4f4;
+    }
+
+    .notification-listing-container {
+        width: 100%;
     }
 </style>

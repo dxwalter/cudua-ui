@@ -88,7 +88,6 @@ export default ({app}, inject) => {
 
 
     let customerNotificationTitle = (type) => {
-        console.log(type)
         type = type.toLowerCase().trim();
         let header;
         switch (type) {
