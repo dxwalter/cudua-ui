@@ -1565,6 +1565,17 @@
     border-radius: 50%;
     overflow: hidden;
     margin-bottom: 32px;
+    .temporal-logo {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        font-weight: 900;
+        border: $border;
+        border-radius: 50%;
+    }
 }
 
 .customer-name {
@@ -1641,19 +1652,23 @@
 }
 
 .order-card-img {
-    width: 127px;
-    height: 136px;
+    width: 100px;
+    height: 100px;
     border-radius: 4px;
     overflow: hidden;
     margin-right: 16px;
     flex-shrink: 0;
+    img {
+        object-fit: cover;
+        -o-object-fit: cover;
+    }
 }
 
 .card-product-name {
-    font-size: 18px;
+    // font-size: 18px;
     font-weight: 500;
     color: $dark-color;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     display: block;
     word-wrap: break-word;
 }
@@ -1715,7 +1730,7 @@
     }
 
     span {
-        font-size: 18px;
+        
         font-weight: 500;
         color: $black-color-06;
         align-self: center;
@@ -1745,7 +1760,7 @@
     display: flex;
     justify-content: space-between;
     color: $brand-color;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 500;
 }
 
@@ -1753,7 +1768,6 @@
     margin-bottom: 16px;
     display: flex;
     justify-content: space-between;
-    font-size: 18px;
     color: $black-color-06;
     font-weight: 500;
 

@@ -149,7 +149,7 @@
 															<div class="temporal-logo" v-show="!order.profilePicture">
 																{{getNameLogo(order.customerName)}}
 															</div>
-															<img :data-src="order.profilePicture" :alt="`${order.customerName}'s profile picture`"  v-show="order.profilePicture" v-lazy-load>
+															<img :data-src="getProfilePicture(order.customerId, order.profilePicture)" :alt="`${order.customerName}'s profile picture`"  v-show="order.profilePicture" v-lazy-load>
 
 														</div>
 														<div class="order-details-area">
@@ -161,7 +161,7 @@
 														</div>
 													</div>
 													<div class="item-card-footer">
-														<n-link :to="`/b/orders/${order.orderId}`" class="btn btn-md btn-white">
+														<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
 															View products
 														</n-link>
 													</div>
@@ -332,6 +332,9 @@ export default {
 			if (process.browser) {
 				return  this.$convertNameToLogo(name)
 			}
+		},
+		getProfilePicture: function (id, path) {
+			return this.$getCustomerProfilePictureUrl(id, path);
 		}
 	},
     async created () {

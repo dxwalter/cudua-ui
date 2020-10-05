@@ -44,7 +44,7 @@ export default {
 		'@nuxtjs/pwa',
 		'@nuxtjs/apollo',
 		['nuxt-lazy-load', {
-			defaultImage: '/images/loading.gif',
+			defaultImage: '/images/image-loader.png',
 			observerConfig: {
 				// See IntersectionObserver documentation
 			}

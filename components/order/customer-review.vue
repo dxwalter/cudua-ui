@@ -1,10 +1,12 @@
 <template>
-      <div class="modal-container" id="productReview">
+  <div>
+    <div class="modal-container" id="customerReviewModal">
         <div class="modal-dialog-box">
 
             <div class="modal-header">
                 <div>
-                    <h4 class="mg-bottom-4">Product review</h4>
+                    <h4 class="mg-bottom-4">Customer review</h4>
+                    <!-- <div class="review-text">These are reviews by businesses written about this customer</div> -->
                     <div class="review-text nav-rating-result" v-show="reviewScore">
                         <a href="javasscript:;" class="navbar-review-icon">
                             <StarRating :score=reviewScore></StarRating>
@@ -15,31 +17,32 @@
                     </div>
                 </div>
 
-                <button class="close-modal-btn" data-target="productReview" data-dismiss="modal">
+                <button class="close-modal-btn" data-target="customerReviewModal" data-dismiss="modal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                         <use xlink:href="~/assets/business/image/all-svg.svg#times"></use>
                     </svg>
                 </button>
             </div>
 
-            <div class="modal-content modal-fixed-height" v-bind:class="{'no-height': allReviews.length <  1}">
+            <div class="modal-content modal-fixed-height" v-bind:class="{'no-height': returnReviews.length <  1}">
 
-                <div class="alert alert-info notification-alert" v-show="allReviews.length <  1">
-                    <div id="infoArea">No review has been written for this product.</div>
+                <div class="alert alert-info notification-alert" v-show="returnReviews.length <  1">
+                    <div id="infoArea">No review has been written for this customer.</div>
                 </div>
 
-               <div class="business-review-container">
+                <div class="business-review-container">
+                    
                     <div class="review-item" v-for="(review, index) in returnReviews" :key="index">
                         <div class="review-header">
-                            <div class="review-image" v-show="!review.author.displayPicture">
-                                <div class="no-logo-review">{{CustomerNameAsDP(review.author.fullname)}}</div>
+                            <div class="review-image" v-show="!review.logo">
+                                <div class="no-logo-review">{{CustomerNameAsDP(review.author)}}</div>
                             </div>
-                            <div class="review-image" v-show="review.author.displayPicture">
-                                <img :data-src="`${getImageInLogoSize(review.author.authorId, review.author.displayPicture)}`" :alt="`${review.fullname}'s picture`" v-lazy-load>
+                            <div class="review-image" v-show="review.logo">
+                                <img :data-src="`${getImageInLogoSize(review.businessId, review.logo)}`" :alt="`${review.author}'s logo`" v-lazy-load>
                             </div>
 
                             <div class="review-details">
-                                <div class="reviewer-name">{{review.author.fullname}}</div>
+                                <div class="reviewer-name">{{review.author}}</div>
                                 <div class="display-flex">
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
@@ -52,23 +55,27 @@
                         </div>
                         <p class="review-text">{{review.description}}</p>
                     </div>
-               </div>
+
+
+                </div>
 
             </div>
             
-            <div class="modal-footer" data-target="productReview" data-dismiss="modal">
+            <div class="modal-footer" data-target="customerReviewModal" data-dismiss="modal">
                 <button class="btn btn-default btn-light-grey">Close</button>
             </div>
 
         </div>
     </div>
+  </div>
 </template>
+
 
 <script>
 import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
-    name: "PRODUCTREVIEW",
+    name: "CUSTOMERREVIEW",
     components: {
         StarRating
     },
@@ -90,13 +97,13 @@ export default {
 		formatNotificationTimer: function (timeStamp) {
 			return this.$timeStampModifier(timeStamp)
         },
-        getImageInLogoSize: function (customerId, imagePath) {
-            return this.$getCustomerProfilePictureUrl(customerId, imagePath)
-        }
+        getImageInLogoSize: function (businessId, imagePath) {
+            return this.$getBusinessLogoUrl(businessId, imagePath)
+        },
     },
     created() {
         if (process.browser) {
-            this.$nuxt.$on('ProductReviews', (data) => {
+            this.$nuxt.$on('CustomerReviews', (data) => {
                 this.allReviews = data.reviews;
                 this.reviewScore = data.reviewScore
             })

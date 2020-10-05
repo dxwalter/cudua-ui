@@ -31,6 +31,11 @@
                             <img :src="displayPicture" alt="" >
                         </div>
                         <div class="profile-name">{{fullname}}</div>
+                        <div class="review-text nav-rating-result" data-trigger="modal" data-target="customerReviewModal">
+                            <a href="javasscript:;" class="navbar-review-icon">
+                                <StarRating :score=reviewScore></StarRating>
+                            </a>
+                        </div>
                     </div>
                     
                     <!-- profile navigation -->
@@ -93,6 +98,7 @@
       <BOTTOMADS></BOTTOMADS>
 
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
+      <CUSTOMERREVIEW></CUSTOMERREVIEW>
 
     </div>
   </div>
@@ -106,12 +112,18 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
+import CUSTOMERREVIEW from '~/components/order/customer-review.vue';
+
 import { mapActions, mapGetters, mapMutations } from 'vuex';
+
+import { GET_CUSTOMER_REVIEWS } from '~/graphql/customer'
+
+import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
     name: "CUSTOMERPROFILE",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER, StarRating, CUSTOMERREVIEW
     },
     data: function() {
         return {
@@ -121,12 +133,15 @@ export default {
             email: "",
             phone: "",
             displayPicture: "",
+            accessToken: "",
             address: {
                 number: "",
                 street: "",
                 community: "",
                 state: "",
             },
+
+            reviewScore: 0
         }
     },
     computed: {
@@ -139,9 +154,9 @@ export default {
 		}
     },
     methods: {
-		getNameLogo: function (businessName) {
+		getNameLogo: function (fullname) {
 			if (process.browser) {
-				return this.$convertNameToLogo(businessName)
+                return this.$convertNameToLogo(fullname)
 			}
         },
         setCustomerData: function () {
@@ -151,12 +166,43 @@ export default {
             this.fullname = customerData.fullname
             this.email = customerData.email
             this.phone = customerData.phone
+            this.accessToken = customerData.userToken
 
             this.address.number = customerData.address.number
             this.address.street = customerData.address.street
             this.address.community = customerData.address.community
             this.address.state = customerData.address.state
         },
+        getCustomerReviews: async function () {
+
+            let variables = {}
+            let context = {
+                hasUpload: true,
+                headers: {
+                    'accessToken': this.accessToken
+                }
+			}
+			
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_CUSTOMER_REVIEWS, variables, context);
+            
+            if (request.error) {
+                return this.$initiateNotification('error', 'Failed request', 'A network error occurred');
+            }
+
+            let result = request.result.data.getCustomerReviews;
+
+            if (result.success == false) {
+                return this.$initiateNotification('error', '', result.message);
+            }
+
+            this.reviewScore = result.reviewScore
+
+            $nuxt.$emit('CustomerReviews', {
+                reviews: result.reviews == null ? [] : result.reviews,
+                reviewScore: this.reviewScore
+            });
+
+        }
     },
     created: async function () {
 		if (process.browser) {
@@ -164,14 +210,20 @@ export default {
             if (status == false) {
                 return this.$router.push('/')
             }
-            this.setCustomerData()
+            this.setCustomerData();
+            this.getCustomerReviews();
 		}
 
     },
     mounted () {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        this.pageLoader = false
     }
 }
 </script>
+
+<style scoped>
+    .nav-rating-result {
+        display: flex !important;
+        justify-content: center !important;
+    }
+</style>

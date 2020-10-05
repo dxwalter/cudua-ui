@@ -277,3 +277,23 @@ query getNotification($page: Int!){
   }
 }
 `
+
+export const GET_CUSTOMER_REVIEWS = gql`
+query{
+  getCustomerReviews{
+    reviews{
+      businessId
+     	customerId
+      rating
+      author
+      description
+      logo
+      timeStamp
+    }
+    reviewScore
+    code
+    success
+    message
+  }
+}
+`
