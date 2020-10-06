@@ -139,3 +139,40 @@ mutation ConfirmOrder($startTime: String!, $endTime: String!, $businessId: Strin
   }
 }
 `
+
+export const UPDATE_DELIVERY_CHARGE_AND_TIME = gql`
+mutation update ($startTime: String!, $endTime: String!, $businessId: String!, $customerId: String!, $orderId: String!, $deliveryCharge: Int!) {
+  UpdateDeliveryCharge(input:{
+    startTime: $startTime,
+    endTime: $endTime,
+  	businessId: $businessId,
+    customerId: $customerId,
+    orderId: $orderId,
+    deliveryCharge: $deliveryCharge
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const SEARCH_ORDER_USING_ORDER_ID = gql`
+query search($orderId: String!, $businessId: String!){
+	SearchForOrder(input:{
+		orderId: $orderId,
+    businessId: $businessId,
+  }) {
+    orders {
+      customerName
+      customerId
+      profilePicture
+      orderTime
+      orderId
+    }
+    code
+    success
+    message
+  }
+}
+`

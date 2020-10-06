@@ -267,6 +267,7 @@ query getNotification($page: Int!){
       isRead
       owner
       actionId
+      header
       type
       message
       timeStamp

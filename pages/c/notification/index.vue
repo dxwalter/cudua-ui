@@ -28,7 +28,7 @@
                             @click="markAsRead(notification.type, notification.actionId, notification.notificationId, notification.isRead, $event)">
                                 <div class="last-chat-details">
                                     <div class="chat-time-recipient">
-                                        <span>{{getNotificationHeader(notification.type)}}</span>
+                                        <span>{{notification.header}}</span>
                                         <span>{{formatNotificationTimer(notification.timeStamp)}}</span>
                                     </div>
                                     <div class="last-chat-preview">{{notification.message}}</div>

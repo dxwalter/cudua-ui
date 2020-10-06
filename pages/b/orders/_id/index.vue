@@ -115,7 +115,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card" id="orderInfoDiv" v-show="!orderStatus && !deliveryStatus">
+                                <div class="card" id="orderInfoDiv" v-show="!deliveryStatus">
                                     <div class="order-action-container">
                                         <div class="delivery-charge-area">
                                             <span>Delivery charge & time</span>
@@ -123,10 +123,10 @@
                                         </div>
 
                                         <div class="delivery-price-input-container grey-bg-color" id="deliveryPrice">
-                                            <label for="" class="mg-bottom-16">Customer's location</label>
-                                            <div class="location-charge-reminder">{{returnAddress}}</div>
-
-                                            <input type="number" name="" id="" class="input-form white-bg-color" placeholder="Type delivery price" v-model="deliveryCharge">
+                                            <div class="">
+                                                <label for="businessType" class="form-label">Delivery charge - <span>optional</span></label>
+                                                <input type="number" name="" id="" class="input-form white-bg-color" placeholder="" v-model="deliveryCharge">
+                                            </div>
 
                                             <div class="form-control">
                                                 <label for="businessType" class="form-label">Delivery time span</label>
@@ -165,14 +165,14 @@
                                             <div>₦ {{formatNumber(paymentPrice)}}</div>
                                         </div>
 
-                                        <div class="order-items-action" v-show="!orderStatus && !deliveryStatus">
+                                        <div class="order-items-action" v-show="!deliveryStatus">
                                             <button class="btn btn-primary btn-block" id="acceptOrder" @click="acceptOrder()" v-show="orderStatus == 0">
                                                 Accept order
                                                 <div class="loader-action"><span class="loader"></span></div>
                                             </button>
                                             <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder" v-show="orderStatus == 0">Reject order</button>
 
-                                            <button class="btn btn-primary btn-block" id="acceptOrder" @click="acceptOrder()" v-show="orderStatus == 1">
+                                            <button class="btn btn-primary btn-block" id="updateDeliveryData" @click="updateDeliveryData()" v-show="orderStatus == 1">
                                                 Update delivery charge and time
                                                 <div class="loader-action"><span class="loader"></span></div>
                                             </button>
@@ -246,7 +246,11 @@ import CREATECUSTOMERREVIEW from '~/components/customer/review/create-customer-r
 
 import StarRating from '~/plugins/vue-star-rating.client.vue'
 
-import { BUSINESS_GET_ORDER_PRODUCTS, BUSINESS_REJECT_ORDER, BUSINESS_CONFIRM_ORDER } from '~/graphql/order';
+import { 
+    BUSINESS_GET_ORDER_PRODUCTS, 
+    BUSINESS_REJECT_ORDER, 
+    BUSINESS_CONFIRM_ORDER,
+    UPDATE_DELIVERY_CHARGE_AND_TIME } from '~/graphql/order';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
@@ -473,7 +477,7 @@ export default {
                 businessId: this.businessId,
                 customerId: this.customerId,
                 orderId: this.orderId,
-                deliveryCharge: this.deliveryCharge,
+                deliveryCharge: parseInt(this.deliveryCharge, 10),
                 startTime: this.deliveryTime.start,
                 endTime: this.deliveryTime.end
             }
@@ -504,7 +508,56 @@ export default {
             this.$initiateNotification("success", "", result.message)
 
             this.orderStatus = 1
+        },
+        updateDeliveryData: async function () {
 
+            if (this.deliveryTime.start.length == 0 || this.deliveryTime.end.length == 0) {
+                this.$showToast("Add the delivery time span for this order", 'error', 7000);
+                this.$addRedBorder('orderInfoDiv')
+                this.$addRedBorder('startTime')
+                this.$addRedBorder('endTime')
+                return
+            } else {
+                this.$removeRedBorder('orderInfoDiv')
+                this.$removeRedBorder('startTime')
+                this.$removeRedBorder('endTime')
+            }
+
+            let target = document.getElementById("updateDeliveryData")
+
+            let variables = {
+                businessId: this.businessId,
+                customerId: this.customerId,
+                orderId: this.orderId,
+                deliveryCharge: parseInt(this.deliveryCharge, 10),
+                startTime: this.deliveryTime.start,
+                endTime: this.deliveryTime.end
+            }
+            
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+			}
+            
+            target.disabled = true
+            
+			let request = await this.$performGraphQlQuery(this.$apollo, UPDATE_DELIVERY_CHARGE_AND_TIME, variables, context);
+
+            target.disabled = false
+
+			if (request.error) {
+				return this.$initiateNotification("error", "Failed request", request.message)
+			}
+
+            let result = request.result.data.UpdateDeliveryCharge;
+            
+            if (result.success == false) {
+                return this.$initiateNotification("error", "Update failed", result.message)
+            }
+
+            this.$initiateNotification("success", "Order updated", result.message)
 
         }
     },
