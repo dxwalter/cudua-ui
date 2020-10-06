@@ -112,7 +112,7 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue';
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
-import CUSTOMERREVIEW from '~/components/order/customer-review.vue';
+import CUSTOMERREVIEW from '~/components/customer/review/customer-review.vue';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 

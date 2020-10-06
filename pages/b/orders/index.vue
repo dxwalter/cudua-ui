@@ -173,23 +173,28 @@
 
 									<div class="tab-content-area" id="pendingOrders">
 										<div class="row">
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(order, index) in returnPendingOrders" :key="index">
 												<div class="item-card">
 													<div class="card-upper-layer">
-														<div class="card-image"><img src="~/assets/business/image/daniel-chigisoft.jpg" alt=""></div>
+														<div class="card-image">
+															<div class="temporal-logo" v-show="!order.profilePicture">
+																{{getNameLogo(order.customerName)}}
+															</div>
+															<img :data-src="getProfilePicture(order.customerId, order.profilePicture)" :alt="`${order.customerName}'s profile picture`"  v-show="order.profilePicture" v-lazy-load>
+
+														</div>
 														<div class="order-details-area">
 															<div class="order-customer-details">
-																<h4 class="customer-name">Daniel Walter</h4>
-																<div class="order-timestamp">20 mins ago</div>
+																<h4 class="customer-name">{{order.customerName}}</h4>
+																<div class="order-timestamp">{{formatTimeData(order.orderTime)}}</div>
 															</div>
-
-															<div class="order-item-count">Order Id: 303454</div>
+															<div class="order-item-count">Order Id: {{order.orderId}}</div>
 														</div>
 													</div>
 													<div class="item-card-footer">
-														<a href="cleared-order.html" class="btn btn-md btn-white">
-															More details
-														</a>
+														<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
+															View products
+														</n-link>
 													</div>
 												</div>
 											</div>
@@ -200,23 +205,28 @@
 									<div class="tab-content-area" id="clearedOrders">
 										<div class="row">
 
-											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(order, index) in returnClearedOrders" :key="index">
 												<div class="item-card">
 													<div class="card-upper-layer">
-														<div class="card-image"><img src="~/assets/business/image/daniel-chigisoft.jpg" alt=""></div>
+														<div class="card-image">
+															<div class="temporal-logo" v-show="!order.profilePicture">
+																{{getNameLogo(order.customerName)}}
+															</div>
+															<img :data-src="getProfilePicture(order.customerId, order.profilePicture)" :alt="`${order.customerName}'s profile picture`"  v-show="order.profilePicture" v-lazy-load>
+
+														</div>
 														<div class="order-details-area">
 															<div class="order-customer-details">
-																<h4 class="customer-name">Daniel Walter</h4>
-																<div class="order-timestamp">20 mins ago</div>
+																<h4 class="customer-name">{{order.customerName}}</h4>
+																<div class="order-timestamp">{{formatTimeData(order.orderTime)}}</div>
 															</div>
-
-															<div class="order-item-count">Order Id: 303454</div>
+															<div class="order-item-count">Order Id: {{order.orderId}}</div>
 														</div>
 													</div>
 													<div class="item-card-footer">
-														<a href="#" class="btn btn-md btn-white">
-															More details
-														</a>
+														<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
+															View products
+														</n-link>
 													</div>
 												</div>
 											</div>
@@ -321,7 +331,7 @@ export default {
 
 			let orders = result.orders
 			this.newOrders = orders.newOrder
-			this.pendingOrders = orders.pendingOrders
+			this.pendingOrders = orders.pendingOrder
 			this.clearedOrders = orders.clearedOrder
 
 		},

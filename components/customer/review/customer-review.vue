@@ -106,9 +106,9 @@ export default {
             this.$nuxt.$on('CustomerReviews', (data) => {
                 this.allReviews = data.reviews;
                 this.reviewScore = data.reviewScore
-            })
+            });
         }
-    }
+    },
 }
 </script>
 <style scoped>

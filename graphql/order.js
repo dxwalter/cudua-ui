@@ -67,8 +67,13 @@ query getProduct($businessId: String!, $customerId: String!, $orderId: String!){
       deliveryCharge
       orderStatus
       deliveryStatus
-      deliveryTime
+      deliveryTime {
+        start
+        end
+      }
       orderTime
+      cancelDeliveryReason
+      customerCancelOrder
     }
     customerDetails {
       fullname
@@ -114,6 +119,23 @@ mutation reject($businessId: String!, $customerId: String!, $orderId: String!, $
     code
     success
    	message
+  }
+}
+`
+
+export const BUSINESS_CONFIRM_ORDER = gql`
+mutation ConfirmOrder($startTime: String!, $endTime: String!, $businessId: String!, $customerId: String!, $orderId: String!, $deliveryCharge: Int!){
+  ConfirmOrder(input:{
+    startTime: $startTime,
+    endTime: $endTime,
+  	businessId: $businessId,
+    customerId: $customerId,
+    orderId: $orderId,
+    deliveryCharge: $deliveryCharge
+  }) {
+    code
+    success
+    message
   }
 }
 `

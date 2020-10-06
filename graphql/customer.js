@@ -297,3 +297,18 @@ query{
   }
 }
 `
+
+export const CREATE_CUSTOMER_REVIEW = gql`
+mutation create($businessId: String!, $customerId: String!, $rating: Int!, $description: String){
+  createCustomerReview(input:{
+    businessId: $businessId,
+    customerId: $customerId,
+    rating: $rating,
+    description: $description
+  }) {
+    code
+    success
+    message
+  }
+}
+`

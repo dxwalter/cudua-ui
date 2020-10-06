@@ -11,10 +11,25 @@
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
                     <nuxt />
                     <!-- content goes in here -->
-                    <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus">
+                    <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader">
                         <div>We strongly recommed that you call this customer before adding delivery price and confirming this order.</div>
                         <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
+
+                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader">
+                        <div>You have confirmed this order but yet to deliver order.</div>
+                    </div>
+
+                    <div class="alert alert-danger notification-alert" v-show="orderStatus && deliveryStatus == -1 && !pageLoader">
+                        <div>The delivery of this order was rejected. Kindly call the customer to know why.</div>
+                        <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
+                    </div>
+
+                    <div class="alert alert-success notification-alert" v-show="orderStatus && deliveryStatus == 1 && !pageLoader">
+                        <div>The delivery of this order was confirmed by this customer. Write a review about this customer</div>
+                        <button class="btn btn-white btn-small" data-trigger="modal" data-target="createCustomerReview">Write review</button>
+                    </div>
+
                     <div class="main-content">
 
                         <div class="page-header" v-show="!networkError && !pageLoader">
@@ -100,7 +115,7 @@
                                     </div>
                                 </div>
 
-                                <div class="card">
+                                <div class="card" id="orderInfoDiv" v-show="!orderStatus && !deliveryStatus">
                                     <div class="order-action-container">
                                         <div class="delivery-charge-area">
                                             <span>Delivery charge & time</span>
@@ -114,11 +129,11 @@
                                             <input type="number" name="" id="" class="input-form white-bg-color" placeholder="Type delivery price" v-model="deliveryCharge">
 
                                             <div class="form-control">
-                                                <label for="businessType" class="form-label">Delivery time</label>
+                                                <label for="businessType" class="form-label">Delivery time span</label>
                                                 <div class="delivery-time-input-area">
-                                                    <input type="text" class="input-form white-bg-color" placeholder="3 hours" value="3 hour" readonly>
+                                                    <input type="text" class="input-form white-bg-color" placeholder="3 hours" v-model="deliveryTime.start" id="startTime">
                                                     <div>TO</div>
-                                                    <input type="text" class="input-form white-bg-color" placeholder="3 days" v-model="deliveryTime">
+                                                    <input type="text" class="input-form white-bg-color" placeholder="3 days" v-model="deliveryTime.end" id="endTime">
                                                 </div>
                                             </div>
                                             <button class="btn btn-white btn-block" data-single-tab="singleTab" data-target="deliveryPrice">Add delivery charge</button>
@@ -130,11 +145,9 @@
                                 <div class="card">
                                     <div class="order-action-container">
                                         <div class="final-delivery-charge">
-                                            <div>Delivery time</div>
-                                            <div>3 hours to 
-                                                <span v-show="deliveryTime">{{deliveryTime}}</span>
-                                                <span v-show="!deliveryTime">3 days</span>    
-                                            </div>
+                                            <div>Delivery time span</div>
+                                            <div v-show="deliveryTime.start || deliveryTime.end">{{deliveryTime.start}} to {{deliveryTime.end}}</div>
+                                            <div v-show="!deliveryTime.start && !deliveryTime.end">- to -</div>
                                         </div>
                                         <div class="final-delivery-charge">
                                             <div>Delivery charge</div>
@@ -152,9 +165,17 @@
                                             <div>₦ {{formatNumber(paymentPrice)}}</div>
                                         </div>
 
-                                        <div class="order-items-action">
-                                            <button class="btn btn-primary btn-block">Accept order</button>
-                                            <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder">Reject order</button>
+                                        <div class="order-items-action" v-show="!orderStatus && !deliveryStatus">
+                                            <button class="btn btn-primary btn-block" id="acceptOrder" @click="acceptOrder()" v-show="orderStatus == 0">
+                                                Accept order
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
+                                            <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder" v-show="orderStatus == 0">Reject order</button>
+
+                                            <button class="btn btn-primary btn-block" id="acceptOrder" @click="acceptOrder()" v-show="orderStatus == 1">
+                                                Update delivery charge and time
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -210,6 +231,7 @@
             </div>
         </div>
         <CUSTOMERREVIEW></CUSTOMERREVIEW>
+        <CREATECUSTOMERREVIEW></CREATECUSTOMERREVIEW>
     </div>
 </template>
 
@@ -219,18 +241,19 @@ import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
-import CUSTOMERREVIEW from '~/components/order/customer-review.vue';
+import CUSTOMERREVIEW from '~/components/customer/review/customer-review.vue';
+import CREATECUSTOMERREVIEW from '~/components/customer/review/create-customer-review.vue';
 
 import StarRating from '~/plugins/vue-star-rating.client.vue'
 
-import { BUSINESS_GET_ORDER_PRODUCTS, BUSINESS_REJECT_ORDER } from '~/graphql/order';
+import { BUSINESS_GET_ORDER_PRODUCTS, BUSINESS_REJECT_ORDER, BUSINESS_CONFIRM_ORDER } from '~/graphql/order';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
     name: "BUSINESSORDERDETAILSPAGE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER, CUSTOMERREVIEW, StarRating
+        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER, CUSTOMERREVIEW, StarRating, CREATECUSTOMERREVIEW
     },
     data : function () {
         return {
@@ -257,7 +280,10 @@ export default {
             totalProductPrice: 0,
             deliveryCharge: 0,
             deliveryStatus: 0,
-            deliveryTime: "",
+            deliveryTime: {
+                start: "",
+                end: ""
+            },
             orderTime: "",
             paymentPrice: 0,
             orderStatus: 0,
@@ -347,7 +373,8 @@ export default {
             this.deliveryCharge = data.orderInfo.deliveryCharge
             this.deliveryStatus = data.orderInfo.deliveryStatus
 
-            this.deliveryTime = data.orderInfo.deliveryTime
+            this.deliveryTime.start = data.orderInfo.deliveryTime.start == null ? "" : data.orderInfo.deliveryTime.start
+            this.deliveryTime.end = data.orderInfo.deliveryTime.end == null ? "" : data.orderInfo.deliveryTime.end
             this.orderTime = this.$timeStampModifier(data.orderInfo.orderTime)
             this.orderStatus = data.orderInfo.orderStatus
 
@@ -424,6 +451,60 @@ export default {
                     this.$router.push('/b/orders')
                 }, 1000);
             }
+
+        },
+        acceptOrder: async function () {
+
+            if (this.deliveryTime.start.length == 0 || this.deliveryTime.end.length == 0) {
+                this.$showToast("Add the delivery time span for this order", 'error', 7000);
+                this.$addRedBorder('orderInfoDiv')
+                this.$addRedBorder('startTime')
+                this.$addRedBorder('endTime')
+                return
+            } else {
+                this.$removeRedBorder('orderInfoDiv')
+                this.$removeRedBorder('startTime')
+                this.$removeRedBorder('endTime')
+            }
+
+            let target = document.getElementById("acceptOrder")
+
+            let variables = {
+                businessId: this.businessId,
+                customerId: this.customerId,
+                orderId: this.orderId,
+                deliveryCharge: this.deliveryCharge,
+                startTime: this.deliveryTime.start,
+                endTime: this.deliveryTime.end
+            }
+            
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+			}
+            
+            target.disabled = true
+            
+			let request = await this.$performGraphQlQuery(this.$apollo, BUSINESS_CONFIRM_ORDER, variables, context);
+
+            target.disabled = false
+
+			if (request.error) {
+				return this.$initiateNotification("error", "Failed request", request.message)
+			}
+
+            let result = request.result.data.ConfirmOrder;
+            
+            if (result.success == false) {
+                return this.$initiateNotification("error", "", result.message)
+            }
+
+            this.$initiateNotification("success", "", result.message)
+
+            this.orderStatus = 1
+
 
         }
     },

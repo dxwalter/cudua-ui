@@ -169,7 +169,7 @@ export default ({app}, inject) => {
                     break;
                     
                 case "customerreview":
-                    url = "/c/profile/?newReview";
+                    url = "/c/profile/?newReview=true";
                     break;
 			
 				default:
