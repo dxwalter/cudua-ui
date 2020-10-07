@@ -14,4 +14,17 @@ export default ({app}, inject) => {
 
     inject("singleClickTab", singleClickTab);
 
+    let carouselSlider = (target, direction, size) => {
+        
+        let carouselSlide = document.getElementById(target)
+        
+        if (direction == 'left') {
+            app.$carouselActionSlider(carouselSlide, 'left', 30, size, 10);
+        } else {
+            app.$carouselActionSlider(carouselSlide, 'right', 30, size, 10);
+        }
+    }
+
+    inject("carouselSlider", carouselSlider);
+
 }

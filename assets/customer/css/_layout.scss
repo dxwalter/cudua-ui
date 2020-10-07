@@ -3876,7 +3876,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
 .order-details-header {
     background-color: $white-color;
-    padding: 8px;
+    padding: 10px 8px;
     border-bottom: $border;
     border-radius: 4px 4px 0 0;
 }
@@ -3923,6 +3923,7 @@ h4.order-details-business-name {
         text-overflow: ellipsis;
         width: 100%;
         white-space: nowrap;
+        margin-bottom: 4px;
     }
 }
 

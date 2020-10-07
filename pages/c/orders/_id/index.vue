@@ -61,17 +61,21 @@
 
                         <div class="md-flex">
                             <!-- products -->
-                            <div class="col-md-12 col-lg-9">
+                            <div class="col-md-12" :class="[details.orderInfo.orderStatus ? 'col-lg-9' : 'col-lg-12']">
                                 <div class="order-details-notification">
                                     <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0">
-                                        <div class="info-text">Your order has been placed but yet to be confirmed. </div>
+                                        <div class="info-text">This order has been placed but yet to be confirmed. </div>
                                         <!-- <button class="btn btn-small btn-white">confirm</button> -->
+                                    </div>
+                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0">
+                                        <div class="info-text">This order has been confirmed. </div>
+                                        <button class="btn btn-small btn-white">Confirm delivery</button>
                                     </div>
                                 </div>
                                 <div class="order-details-product-container">
                                     <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
                                         <button class="close-modal-btn slider-control">
-                                            <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="busines12345"></div>
+                                            <div class="dropdownCheckBox" @click="moveCarousel(`carousel${details.businessData.businessId}`, 'left')"></div>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                                 <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
                                             </svg>
@@ -80,14 +84,14 @@
                                     
                                     <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
                                         <button class="close-modal-btn slider-control">
-                                            <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="busines12345"></div>
+                                            <div class="dropdownCheckBox" @click="moveCarousel(`carousel${details.businessData.businessId}`, 'right')"></div>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                                 <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
                                             </svg>
                                         </button>
                                     </div>
                             
-                                    <div class="order-details-product-list" id="busines12345">
+                                    <div class="order-details-product-list" :id="`carousel${details.businessData.businessId}`">
 
                                         <div class="card street-biz-card order-details-product carousel-item" v-for="(productListing, productIndex) in details.orderProduct" :key="productIndex">
                                             <div class="street-biz-card-flex order-details-card-flex">
@@ -138,19 +142,19 @@
                                 </div>
                             </div>
                             <!-- actions -->
-                            <div class="col-md-12 col-lg-3 white-bg-color">
+                            <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus">
                                 <div class="order-price-area position-relative">
                                     <div class="d-flex-between option-container">
                                         <div class="option">Delivery time</div>
-                                        <div class="result">1 hour - 2 days</div>
+                                        <div class="result">{{details.orderInfo.deliveryTime.start}} - {{details.orderInfo.deliveryTime.end}}</div>
                                     </div>
                                     <div class="d-flex-between option-container">
                                         <div class="option">Delivery price</div>
-                                        <div class="result">₦ 200</div>
+                                        <div class="result">₦ {{formatNumber(details.orderInfo.deliveryCharge)}}</div>
                                     </div>
                                     <div class="d-flex-between option-container">
                                         <div class="option">Total price</div>
-                                        <div class="result">₦ 1,200</div>
+                                        <div class="result">₦ {{calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge)}}</div>
                                     </div>
                                     <div class="option-container order-action-area move-bottom">
                                         <!-- <button class="btn btn-white">Write business review</button> -->
@@ -278,6 +282,20 @@ export default {
         },
         formatproductImage: function (businessId, imagePath) {
             return this.$formatProductImageUrl(businessId, imagePath, "thumbnail")
+        },
+        moveCarousel: function (target, direction) {
+            let carouselItems = document.querySelectorAll(`#${target} .carousel-item`);
+            let size = carouselItems[0].clientWidth + 16;
+            this.$carouselSlider(target, direction, size)
+        },
+        calculateTotalPrice: function (allProducts, deliveryCharge) {
+            let price = 0
+
+            for (let x of allProducts) {
+                price = price + (parseInt(x.quantity, 10) * parseInt(x.price, 10));
+            }
+
+            return this.formatNumber((price + deliveryCharge))
         }
     },
     created: async function () {
