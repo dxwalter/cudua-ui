@@ -210,6 +210,15 @@ export default ({app}, inject) => {
 				}
 		
 			}
+
+			//it has months
+			if ((difference % 1000 * 3600 * 60 * 24 * 7 * 4) > 0) {
+				if (Math.floor(difference / 1000 / 60 / 60 / 24 / 7 / 4) > 0) {
+					let s = Math.floor(difference / 1000 / 60 / 60 / 24 / 7 / 4) == 1 ? '' : 's';
+					result = `${Math.floor(difference / 1000 / 60 / 60 / 24 / 7 / 4)} month${s}`;
+				}
+		
+			}
 		
 			return result + ' ago';
 

@@ -174,7 +174,7 @@ export default {
 			let url = this.getNotificationLink(type, actionId);
 
 			if (status == 0) {
-				// notificatio has not been read, perform query to mark as read
+				// notification has not been read, perform query to mark as read
 				let variables = { 
 					notificationId: notificationId,
 					type: 'customer'
@@ -186,10 +186,9 @@ export default {
 				}
 
 				let request = await this.$performGraphQlMutation(this.$apollo, MARK_BUSINESS_NOTIFICATION_AS_READ, variables, context);
-				// let currentCount = this.GetBusinessData.newNotificationCount - 1;
-                // this.$store.dispatch('business/setNotificationData', {
-                //     'newNotificationCount': currentCount
-                // })
+                let currentCount = this.GetCustomerDetails.newNotificationCount - 1;
+                
+                this.$store.dispatch('customer/setNotificationCount', currentCount)
 			}
 
 			this.$router.push(url)

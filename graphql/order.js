@@ -72,7 +72,7 @@ query getProduct($businessId: String!, $customerId: String!, $orderId: String!){
         end
       }
       orderTime
-      cancelDeliveryReason
+      cancelOrderReason
       customerCancelOrder
     }
     customerDetails {
@@ -169,6 +169,62 @@ query search($orderId: String!, $businessId: String!){
       profilePicture
       orderTime
       orderId
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const DELETE_ORDER = gql`
+mutation delete($orderId: String!, $businessId: String!, $customerId: String!){
+  DeleteOrder(input:{
+    orderId: $orderId,
+    businessId: $businessId,
+    customerId: $customerId
+  }) {
+    code
+    success
+    message
+  }
+}
+`
+
+export const CUSTOMER_GET_ORDER_DETAILS = gql`
+query getDetails($orderId: String!){
+  GetOrderItemsForCustomer(input:{
+    orderId: $orderId
+  }){
+    orderDetails{
+       orderProduct{
+        name
+        productId
+        image
+        quantity
+        price
+        size
+        color
+        businessId
+      }
+      orderInfo {
+        deliveryCharge
+        orderStatus
+        deliveryStatus
+        deliveryTime {
+          start
+          end
+        }
+        orderTime
+        cancelOrderReason
+        customerCancelOrder
+      }
+ 			businessData {
+        businessName
+        username
+        businessId
+        logo
+      }
     }
     code
     success

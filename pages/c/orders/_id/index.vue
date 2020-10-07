@@ -12,896 +12,159 @@
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-        <div class="content-container">
+        <div class="content-container" v-show="!pageLoader">
             <!-- header area -->
             <div class="section-header">
-            <h4>Order details for 345345</h4>
+            <h4>Order details for {{orderId}}</h4>
             </div>
             
             <!-- beginning of cart listing -->
-            <div class="cart-listing-area mg-top-24 ">
+            <div class="cart-listing-area mg-top-24 mg-bottom-32">
 
-                <div class="order-details-container">
-                    <div class="order-details-header">
-                        <div class="order-details-business-info">
-                            <div class="order-details-logo"><img src="~/assets/customer/image/asus logo@2x.png" alt=""></div>
-                            <h4 class="order-details-business-name">
-                                <a href="#" class="">Oremit power solution limited rrtr rtraed erwe</a>
-                                <div class="order-details-status">
-                                    <div class="order-dot new"></div>
-                                    <div class="stat">New order</div>
-                                </div>
-                            </h4>
-                        </div>
-                        <div class="dk-action">
-                            <a href="shop.html" class="btn btn-white btn-md">Visit shop</a>
-                        </div>
-                    </div>
+                <div v-show="returnOrderDetails.length > 0">
 
-                    <div class="md-flex">
-                        <!-- products -->
-                        <div class="col-md-12 col-lg-9">
-                            <div class="order-details-notification">
-                                <div class="alert alert-info order-details-alert">
-                                    <div class="info-text">Info alert</div>
-                                    <button class="btn btn-small btn-white">confirm</button>
+            
+                    <div class="order-details-container" v-for="(details, index) in returnOrderDetails" :key="index">
+                        <div class="order-details-header">
+                            <div class="order-details-business-info">
+                                <div class="order-details-logo">
+                                    <div class="no-logo-review" v-show="!details.businessData.logo">
+                                        {{getNameLogo(details.businessData.businessName)}}
+                                    </div>
+                                    <img :src="`${getBusinessLogo(details.businessData.businessId, details.businessData.logo)}`" :alt="`${details.businessData.businessName}'s logo`" v-show="details.businessData.logo">
                                 </div>
+                                <h4 class="order-details-business-name">
+                                    <n-link :to="`/${details.businessData.username}`" class="">{{details.businessData.businessName}}</n-link>
+                                    <div class="order-details-status">
+                                        <!-- new and unconfirmed order -->
+                                        <div class="order-dot new" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0"></div>
+                                        <div class="stat" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0">New order</div>
+                                        
+                                        <!-- confirmed order but pending delivery -->
+                                        <div class="order-dot pending" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0"></div>
+                                        <div class="stat" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0">Confirmed order</div>
+
+                                        <!-- order delivered and cleared -->
+                                        <div class="order-dot cleared" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1"></div>
+                                        <div class="stat" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1">Cleared order</div>
+                                        
+                                        <!-- order rejected by business -->
+                                        <div class="order-dot cancelled" v-show="details.orderInfo.orderStatus == -1 && details.orderInfo.deliveryStatus == 0"></div>
+                                        <div class="stat" v-show="details.orderInfo.orderStatus == -1 && details.orderInfo.deliveryStatus == 0">Rejected order</div>
+                                    </div>
+                                </h4>
                             </div>
-                            <div class="order-details-product-container">
-                                <div class="swiper-action-container">
-                                    <button class="close-modal-btn slider-control">
-                                        <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="busines12345"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
-                                        </svg>
-                                    </button>
+                            <div class="dk-action">
+                                <n-link :to="`/${details.businessData.username}`" class="btn btn-white btn-md">Visit shop</n-link>
+                            </div>
+                        </div>
+
+                        <div class="md-flex">
+                            <!-- products -->
+                            <div class="col-md-12 col-lg-9">
+                                <div class="order-details-notification">
+                                    <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0">
+                                        <div class="info-text">Your order has been placed but yet to be confirmed. </div>
+                                        <!-- <button class="btn btn-small btn-white">confirm</button> -->
+                                    </div>
                                 </div>
-                                
-                                <div class="swiper-action-container">
-                                    <button class="close-modal-btn slider-control">
-                                        <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="busines12345"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                        
-                                <div class="order-details-product-list" id="busines12345">
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo one</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
+                                <div class="order-details-product-container">
+                                    <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
+                                        <button class="close-modal-btn slider-control">
+                                            <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="busines12345"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                                <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
+                                            </svg>
+                                        </button>
                                     </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo two</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> --> 
-                                        </div>
-                                        </div>
+                                    
+                                    <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
+                                        <button class="close-modal-btn slider-control">
+                                            <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="busines12345"></div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                                <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
+                                            </svg>
+                                        </button>
                                     </div>
+                            
+                                    <div class="order-details-product-list" id="busines12345">
 
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo threee</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
+                                        <div class="card street-biz-card order-details-product carousel-item" v-for="(productListing, productIndex) in details.orderProduct" :key="productIndex">
+                                            <div class="street-biz-card-flex order-details-card-flex">
+                                            <div class="businesss-card-img">
+                                                <img :data-src="`${formatproductImage(productListing.businessId, productListing.image)}`" :alt="`${productListing.name}'s  picture`" v-lazy-load>
                                             </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
+                                            <div class="order-details-product-detail">
+                                                <div class="business-name">{{productListing.name}}</div>
+                                                <div class="categories">₦ {{formatNumber(productListing.price)}}</div>
+                                                
                                             </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
                                             </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> --> 
-                                        </div>
-                                        </div>
-                                    </div>
+                                            <div class="order-product-option">
 
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo four</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
+                                                <div class="d-flex-btw option-container" v-show="productListing.size.length > 0 || productListing.color.length > 0">
+                                                    <div class="d-flex"  v-show="productListing.size">
+                                                        <div class="option">Size:</div>
+                                                        <div class="result">{{productListing.size}}</div>
+                                                    </div>
+                                                    <div class="d-flex" v-show="productListing.color">
+                                                        <div class="option">Color:</div>
+                                                        <div class="result"><div class="cart-details-color" v-bind:style="{'background-color': productListing.color}"></div></div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex-between option-container">
+                                                    <div class="option">Unit price</div>
+                                                    <div class="result">₦ {{formatNumber(productListing.price)}}</div>
+                                                </div>
+
+                                                <div class="d-flex-between option-container">
+                                                    <div class="option">Quanity</div>
+                                                    <div class="result">{{productListing.quantity}}</div>
+                                                </div>
+
+                                                <div class="d-flex-between option-container">
+                                                    <div class="option">Subtotal</div>
+                                                    <div class="result">₦ {{formatNumber(productListing.price * productListing.quantity)}}</div>
+                                                </div>
+                                                <div class="d-flex-between option-container">
+                                                    <n-link :to="`/p/${productListing.productId}`" class="btn btn-white btn-small">View product</n-link>
+                                                </div>
                                             </div>
                                         </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- actions -->
-                        <div class="col-md-12 col-lg-3 white-bg-color">
-                            <div class="order-price-area position-relative">
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Delivery time</div>
-                                    <div class="result">1 hour - 2 days</div>
-                                </div>
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Delivery price</div>
-                                    <div class="result">₦ 200</div>
-                                </div>
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Total price</div>
-                                    <div class="result">₦ 1,200</div>
-                                </div>
-                                <div class="option-container order-action-area move-bottom">
-                                    <!-- <button class="btn btn-white">Write business review</button> -->
-                                    <button class="btn btn-primary">Accept delivery charge</button>
-                                    <button class="btn btn-white">Reject delivery charge</button>
+                            <!-- actions -->
+                            <div class="col-md-12 col-lg-3 white-bg-color">
+                                <div class="order-price-area position-relative">
+                                    <div class="d-flex-between option-container">
+                                        <div class="option">Delivery time</div>
+                                        <div class="result">1 hour - 2 days</div>
+                                    </div>
+                                    <div class="d-flex-between option-container">
+                                        <div class="option">Delivery price</div>
+                                        <div class="result">₦ 200</div>
+                                    </div>
+                                    <div class="d-flex-between option-container">
+                                        <div class="option">Total price</div>
+                                        <div class="result">₦ 1,200</div>
+                                    </div>
+                                    <div class="option-container order-action-area move-bottom">
+                                        <!-- <button class="btn btn-white">Write business review</button> -->
+                                        <button class="btn btn-primary">Accept delivery charge</button>
+                                        <button class="btn btn-white">Reject delivery charge</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div class="order-details-container">
-                    <div class="order-details-header">
-                        <div class="order-details-business-info">
-                            <div class="order-details-logo"><img src="~/assets/customer/image/asus logo@2x.png" alt=""></div>
-                            <h4 class="order-details-business-name">
-                                <a href="#" class="">Oremit power solution limited rrtr rtraed erwe</a>
-                                <div class="order-details-status">
-                                    <div class="order-dot pending"></div>
-                                    <div class="stat">Confirmed order - pending delivery</div>
-                                </div>
-                            </h4>
-                        </div>
-                        <div class="dk-action">
-                            <a href="shop.html" class="btn btn-white btn-md">Visit shop</a>
-                        </div>
-                    </div>
-
-                    <div class="md-flex">
-                        <!-- products -->
-                        <div class="col-md-12 col-lg-9">
-                            <div class="order-details-product-container">
-                                <div class="swiper-action-container">
-                                    <button class="close-modal-btn slider-control">
-                                        <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="busines123456"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="swiper-action-container">
-                                    <button class="close-modal-btn slider-control">
-                                        <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="busines123456"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="order-details-product-list" id="busines123456">
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo one</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo two</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo threee</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo four</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- actions -->
-                        <div class="col-md-12 col-lg-3 white-bg-color">
-                            <div class="order-price-area position-relative">
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Delivery price</div>
-                                    <div class="result">₦ 200</div>
-                                </div>
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Total price</div>
-                                    <div class="result">₦ 1,200</div>
-                                </div>
-                                <div class="option-container order-action-area move-bottom">
-                                    <div>
-                                        <div class="intro">How was your experience with this business</div>
-                                        <div class="review-action-container">
-                                            <div class="review-star-action">
-                                                <button class="btn btn-light-grey" data-trigger="modal" data-target="businessReview">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                    </svg>
-                                                </button>
-                                                <div class="review-type">Hated it</div>
-                                            </div>
-                
-                                            <div class="review-star-action">
-                                                <button class="btn btn-light-grey">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                    </svg>
-                                                </button>
-                                                <div class="review-type">Didn't like it</div>
-                                            </div>
-                
-                                            <div class="review-star-action">
-                                                <button class="btn btn-light-grey">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                    </svg>
-                                                </button>
-                                                <div class="review-type">Just OK</div>
-                                            </div>
-                
-                                            <div class="review-star-action">
-                                                <button class="btn btn-light-grey">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                    </svg>
-                                                </button>
-                                                <div class="review-type">Liked it</div>
-                                            </div>
-                
-                                            <div class="review-star-action">
-                                                <button class="btn btn-light-grey">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                    </svg>
-                                                </button>
-                                                <div class="review-type">Loved it</div>
-                                            </div>
-                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="order-details-container">
-                    <div class="order-details-header">
-                        <div class="order-details-business-info">
-                            <div class="order-details-logo"><img src="~/assets/customer/image/asus logo@2x.png" alt=""></div>
-                            <h4 class="order-details-business-name">
-                                <a href="#" class="">Oremit power solution limited rrtr rtraed erwe</a>
-                                <div class="order-details-status">
-                                    <div class="order-dot cleared"></div>
-                                    <div class="stat">Cleared order</div>
-                                </div>
-                            </h4>
-                        </div>
-                        <div class="dk-action">
-                            <a href="shop.html" class="btn btn-white btn-md">Visit shop</a>
-                        </div>
-                    </div>
-
-                    <div class="md-flex">
-                        <!-- products -->
-                        <div class="col-md-12 col-lg-9">
-                            <div class="order-details-product-container">
-                                <div class="swiper-action-container">
-                                    <button class="close-modal-btn slider-control">
-                                        <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="busines1234567"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="swiper-action-container">
-                                    <button class="close-modal-btn slider-control">
-                                        <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="busines1234567"></div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div class="order-details-product-list" id="busines1234567">
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo one</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo two</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo threee</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card street-biz-card order-details-product carousel-item">
-                                        <div class="street-biz-card-flex order-details-card-flex">
-                                        <div class="businesss-card-img">
-                                            <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                        </div>
-                                        <div class="order-details-product-detail">
-                                            <div class="business-name">Glam's Tuxedo four</div>
-                                            <div class="categories">₦ 1,200</div>
-                                            <div class="reviews">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="order-product-option">
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="d-flex">
-                                                <div class="option">Size:</div>
-                                                <div class="result">12</div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="option">Color:</div>
-                                                <div class="result"><div class="cart-details-color" style="background-color: #BB2320;"></div></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <div class="option">Quanity</div>
-                                            <div class="result">12</div>
-                                        </div>
-                                        <div class="d-flex-between option-container">
-                                            <a href="#" class="btn btn-white btn-small">View product</a>
-                                            <!-- <button class="btn btn-white btn-small">Review product</button> -->
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- actions -->
-                        <div class="col-md-12 col-lg-3 white-bg-color">
-                            <div class="order-price-area position-relative">
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Delivery price</div>
-                                    <div class="result">₦ 200</div>
-                                </div>
-                                <div class="d-flex-between option-container">
-                                    <div class="option">Total price</div>
-                                    <div class="result">₦ 1,200</div>
-                                </div>
-                                <div class="option-container order-action-area move-bottom">
-                                    <button class="btn btn-primary">Confirm delivery</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                <div v-show="returnOrderDetails.length == 0">
 
                 </div>
                 
@@ -930,35 +193,120 @@ import PAGELOADER from '~/components/loader/loader.vue';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
+import { CUSTOMER_GET_ORDER_DETAILS } from '~/graphql/order'
+
 export default {
+    name: "CUSTOMERORDERDETAILSCOMPONENT",
     components: {
       DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
     },
     data: function() {
         return {
             pageLoader: true,
+            accessToken: "",
+            orderId: "",
+            networkError: 0,
+            errorReason: "",
+            allOrders: []
         }
     },
     computed: {
 		...mapGetters({
-			'GetLoginStatus': 'customer/GetLoginStatus'
+            'GetLoginStatus': 'customer/GetLoginStatus',
+            'GetCustomerDetails': 'customer/GetCustomerDetails'
+            
         }),
 		LoginStatus () {
 			return this.GetLoginStatus
-		}
+        },
+        returnOrderDetails () {
+            return this.allOrders
+        }
+    },
+    methods: {
+        getUserData: function () {
+            this.accessToken = this.GetCustomerDetails.userToken
+        },
+        getOrderDetails: async function () {
+            this.orderId = this.orderId.toUpperCase();
+
+            let variables = {
+                orderId: this.orderId
+            }
+
+            let context = {
+                headers: {
+                    accessToken: this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, CUSTOMER_GET_ORDER_DETAILS, variables, context);
+
+            if (request.error) {
+                this.networkError = 1
+                this.errorReason = request.message
+                this.$initiateNotification('error', 'Failed request', request.message);
+                return 
+            }
+
+            let result = request.result.data.GetOrderItemsForCustomer;
+
+            if (result.success == false) {
+                this.networkError = 1
+                this.errorReason = result.message
+                this.$initiateNotification('error', 'Oops!', result.message);
+                return    
+            }
+
+            
+            this.allOrders = result.orderDetails
+
+            this.$initiateNotification('success', '', result.message);
+
+        },
+		getNameLogo: function (businessName) {
+			if (process.browser) {
+				let name =  this.$convertNameToLogo(businessName)
+				return name
+			}
+        },
+        getBusinessLogo: function (businessId, logoPath) {
+            return this.$getBusinessLogoUrl(businessId, logoPath)
+        },
+        formatNumber: function (number) {
+            return this.$numberNotation(number)
+        },
+        formatproductImage: function (businessId, imagePath) {
+            return this.$formatProductImageUrl(businessId, imagePath, "thumbnail")
+        }
     },
     created: async function () {
 		if (process.browser) {
             let status = this.LoginStatus
-            if (status == false) 
+            if (status == false) {
                 return this.$router.push('/')
-		}
+            }
+            this.orderId = this.$route.params.id
+            if(this.orderId == undefined || this.orderId.length == 0) {
+                return this.$router.push('/c/orders/')
+            } 
+
+        }
+        this.getUserData()
+        this.getOrderDetails()
 
     },
     mounted () {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        this.pageLoader = false
     }
 }
 </script>
+<style scoped>
+    .alert .info-text {
+        font-weight: unset !important;
+    }
+    .d-flex-btw {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

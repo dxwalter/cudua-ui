@@ -28,7 +28,7 @@
                 <use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
               </svg>
               <span>Notification</span>
-			  <div class="notif-point">10</div>
+			  <div class="notif-point" v-show="unreadNotificationCount > 0">{{unreadNotificationCount}}</div>
             </n-link>
 
             <n-link to="/c/orders" class="mobile-side-nav-link"  v-show="isLoggedIn">
@@ -95,7 +95,8 @@ export default {
 			isLoggedIn: false,
 			isBusinessOwner: false,
 			username: "",
-			numberOfItemsInCart: 0
+			numberOfItemsInCart: 0,
+			unreadNotificationCount: 0
 		}
 	},
 	props: {
@@ -108,6 +109,7 @@ export default {
         if (process.client) {
 			window.addEventListener('resize', this.handleResize);
 			this.LoginStatus()
+			this.statusChecker()
 			this.numberOfItemsInCart = this.GetCartItems()
         }
     },
@@ -126,8 +128,14 @@ export default {
 			'GetLoginStatus': 'customer/GetLoginStatus',
 			'GetBusinessStatus': 'business/GetBusinessStatus',
 			'GetBusinessDetails': 'business/GetBusinessDetails',
-			"GetCartItems": "cart/GetCartItems"
+			"GetCartItems": "cart/GetCartItems",
+			'GetCustomerData': 'customer/GetCustomerDetails',
 		}),
+		statusChecker () {
+			let customerData = this.GetCustomerData();
+			this.accessToken = customerData.userToken
+			this.unreadNotificationCount = customerData.newNotificationCount
+		},
 		LoginStatus () {
 			this.isLoggedIn = this.GetLoginStatus();
 			this.isBusinessOwner = this.GetBusinessStatus();

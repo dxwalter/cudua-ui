@@ -358,6 +358,9 @@ export default {
             }
 
             this.$initiateNotification('success', 'Order placed', result.message);
+
+            this.$store.dispatch('cart/setItemCount', 0)
+            this.cartTrigger = 1
             
             this.timeOutHolder = setTimeout(() => {
                 this.$router.push(`/c/orders/${result.orderId}`)

@@ -16,7 +16,8 @@ const state = () => ({
     },
     anonymousId: "",
     isLoggedIn: false,
-    emailNotification: 1
+    emailNotification: 1,
+    newNotificationCount: 0
 
 });
 
@@ -40,6 +41,7 @@ const getDefaultState = () => {
         anonymousId: "",
         isLoggedIn: false,
         emailNotification: 1,
+        newNotificationCount: 0
 	}
 }
 
@@ -47,14 +49,15 @@ const actions = {
     resetCustomerState (context, state) { context.commit('resetCustomerState', state)},
     setAnonymousId (context, payload) { context.commit('setAnonymousId',  payload)},
     setCustomerData (context, payload) { context.commit('setCustomerData', payload)},
-    changeLoginStatus (context, payload) { context.commit('changeLoginStatus', payload) }
+    changeLoginStatus (context, payload) { context.commit('changeLoginStatus', payload) },
+    setNotificationCount (context, payload) { context.commit('setNotificationCount', payload) }
 }
 
 
 const getters = {
     GetAnonymousId: state => state.anonymousId,
     GetLoginStatus: state => state.isLoggedIn,
-    GetCustomerDetails: state => state
+    GetCustomerDetails: state => state,
  }
 
 
@@ -79,6 +82,9 @@ const mutations = {
             state.address.state = dataObject.address.state
         }
 
+    },
+    setNotificationCount: (state, count) => {
+        state.newNotificationCount = count
     },
     resetCustomerState: (state) => Object.assign(state, getDefaultState())
 }

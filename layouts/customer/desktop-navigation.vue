@@ -37,7 +37,7 @@
         </n-link>
 
         <n-link to="/c/notification" class="desktop-menu-item" v-show="isLoggedIn">
-          <div class="notif-point">10</div>
+          <div class="notif-point" v-show="unreadNotificationCount > 0">{{unreadNotificationCount}}</div>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
             <use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
           </svg>
@@ -132,6 +132,9 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import NOTIFICATION from '~/components/notification/notification.vue'; 
+
+import { GET_CUSTOMER_UNREAD_NOTIFICATION_COUNT } from '~/graphql/customer';
+
 export default {
   name: 'DESKTOPNAVGATIONCOMPONENT',
   components: {
@@ -148,11 +151,19 @@ export default {
       isLoggedIn: false,
       isBusinessOwner: false,
       username: "",
-      numberOfItemsInCart: 0
+      numberOfItemsInCart: 0,
+      accessToken: "",
+      unreadNotificationCount: 0
 		}
 	},
   computed: {
 
+  },
+  created () {
+    if (process.client) {
+      this.statusChecker()
+      this.getCustomerNotificationCount()
+    }
   },
   methods: {
     ...mapGetters({
@@ -160,14 +171,38 @@ export default {
       'GetAnonymousId': 'customer/GetAnonymousId',
 			'GetBusinessStatus': 'business/GetBusinessStatus',
       'GetBusinessDetails': 'business/GetBusinessDetails',
-      "GetCartItems": "cart/GetCartItems"
+      "GetCartItems": "cart/GetCartItems",
+      'GetCustomerData': 'customer/GetCustomerDetails',
 		}),
 		statusChecker () {
-			this.isLoggedIn = this.GetLoginStatus()
+      this.isLoggedIn = this.GetLoginStatus()
+      
+			let customerData = this.GetCustomerData();
+      this.accessToken = customerData.userToken
+
       this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
       this.username = this.GetBusinessDetails().username,
       this.numberOfItemsInCart = this.GetCartItems()
-		}
+    },
+    getCustomerNotificationCount: async function () { 
+        let context = {
+            headers: {
+                'accessToken': this.accessToken
+            }
+        }
+
+        let request = await this.$performGraphQlQuery(this.$apollo, GET_CUSTOMER_UNREAD_NOTIFICATION_COUNT, {}, context);
+
+        if (request.error) return
+
+        let result = request.result.data.GetCustomerNotificationCount;
+
+        if (!result.success) return
+
+        this.$store.dispatch('customer/setNotificationCount', result.count);
+
+        this.unreadNotificationCount = result.count
+    }
   },
   watch: {
     cartTrigger: function () {
@@ -175,7 +210,7 @@ export default {
     }
   },
   mounted () {
-    this.statusChecker()
+    
   }
 }
 </script>

@@ -16,13 +16,18 @@
                         <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
 
-                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader">
+                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder">
                         <div>You have confirmed this order but yet to deliver order.</div>
                     </div>
 
                     <div class="alert alert-danger notification-alert" v-show="orderStatus && deliveryStatus == -1 && !pageLoader">
                         <div>The delivery of this order was rejected. Kindly call the customer to know why.</div>
                         <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
+                    </div>
+
+                    <div class="alert alert-danger notification-alert" v-show="orderStatus && customerCancelOrder && !pageLoader">
+                        <div>This order was cancelled by the customer. Click learn more to know why.</div>
+                        <button class="btn btn-white btn-small" @click="showDeleteModal = 1">Learn more</button>
                     </div>
 
                     <div class="alert alert-success notification-alert" v-show="orderStatus && deliveryStatus == 1 && !pageLoader">
@@ -105,7 +110,7 @@
                                             </n-link>
                                             <div class="order-price">₦ {{formatNumber(product.price)}}</div>
                                             <div class="order-price" v-show="product.size">Size: {{product.size}}</div>
-                                            <div class="order-price" v-show="product.color">Color: <span style="background-color: rgba(187, 35, 32, 1);"></span></div>
+                                            <div class="order-price" v-show="product.color">Color: <span v-bind:style="{'background-color': product.color}"></span></div>
                                             <div class="order-price">Quantity: {{product.quantity}}</div>
                                         </div>
                                     </div>
@@ -184,6 +189,7 @@
                     
                         </div>
 
+                        <!-- reject order modal -->
                         <div class="modal-container" id="rejectOrder">
                             <div class="modal-dialog-box">
 
@@ -223,6 +229,30 @@
 
                             </div>
                         </div>
+                        <!-- reject order modal -->
+
+                        <!-- delete order modal -->
+                        <div class="modal-container-2" id="confirmedOrderModal" v-show="showDeleteModal">
+                            <div class="modal-dialog-box success-order-modal-container">
+
+
+                                <div class="modal-content">
+                                    <div class="success-order-text">
+                                        <p class="font-18">Reason for cancellation</p>
+                                        <div class="price-info line-27" v-show="customerCancelOrderReason">{{customerCancelOrderReason}}</div>
+                                        <div class="price-info line-27" v-show="!customerCancelOrderReason">The reason for cancelling the order was not provided</div>
+                                    </div>
+                                    <div class="mg-bottom-32">
+                                        <button class="btn btn-primary btn-block mg-bottom-8" id="deleteOrder" @click="deleteOrder">Delete order
+                                            <div class="loader-action"><span class="loader"></span></div> 
+                                        </button>
+                                        <button class="btn btn-white btn-block" @click="showDeleteModal = 0">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--  delete order modal -->
 
                     </div>
                     <BOTTOMNAV />
@@ -250,7 +280,8 @@ import {
     BUSINESS_GET_ORDER_PRODUCTS, 
     BUSINESS_REJECT_ORDER, 
     BUSINESS_CONFIRM_ORDER,
-    UPDATE_DELIVERY_CHARGE_AND_TIME } from '~/graphql/order';
+    UPDATE_DELIVERY_CHARGE_AND_TIME,
+    DELETE_ORDER } from '~/graphql/order';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
@@ -294,8 +325,12 @@ export default {
 
             // reject order
             rejectOrderMessage: "",
-            timeOut: null
-
+            timeOut: null,
+            
+            // customer cancel
+            customerCancelOrder: 0,
+            customerCancelOrderReason: "",
+            showDeleteModal: 0,
         }
     },
     computed: {
@@ -381,6 +416,18 @@ export default {
             this.deliveryTime.end = data.orderInfo.deliveryTime.end == null ? "" : data.orderInfo.deliveryTime.end
             this.orderTime = this.$timeStampModifier(data.orderInfo.orderTime)
             this.orderStatus = data.orderInfo.orderStatus
+
+            this.customerCancelOrder = data.orderInfo.customerCancelOrder
+            this.customerCancelOrderReason = data.orderInfo.cancelOrderReason
+
+            // when order status is -1 it means the order was rejected by the business owner
+            // when order status is 0 it means it has not been confirmed
+            // when order status is 1 it means it has been confirmed
+
+
+            // when deliveryStatus is -1, it means the customer rejected the delivery of the product
+
+            // when customer cancel order is 1, it means the customer cancelled the order after the business had approved it
 
             if (this.orderStatus == -1) {
                 return this.$router.push('/b/orders')
@@ -559,6 +606,43 @@ export default {
 
             this.$initiateNotification("success", "Order updated", result.message)
 
+        },
+        deleteOrder: async function () {
+
+            let variables = {
+                orderId: this.orderId,
+                businessId: this.businessId,
+                customerId: this.customerId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            let target = document.getElementById('deleteOrder');
+            
+            target.disabled = true
+            
+			let request = await this.$performGraphQlMutation(this.$apollo, DELETE_ORDER, variables, context);
+
+            target.disabled = false
+
+			if (request.error) {
+				return this.$initiateNotification("error", "Failed request", request.message)
+			}
+
+            let result = request.result.data.DeleteOrder;
+            
+            if (result.success == false) {
+                return this.$showToast(result.message, "error", 6000)
+            }
+
+            this.showDeleteModal = 0
+
+            this.$initiateNotification("success", "Order deleted", result.message)
+
         }
     },
     beforeDestroy() {
@@ -601,5 +685,12 @@ export default {
     .navbar-review-icon {
         display: flex !important;
         justify-content: center !important;
+    }
+    .font-18 {
+        font-size: 18px !important;
+        margin-bottom: 16px !important;
+    }
+    .line-27 {
+        line-height: 27px !important;
     }
 </style>

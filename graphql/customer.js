@@ -313,3 +313,14 @@ mutation create($businessId: String!, $customerId: String!, $rating: Int!, $desc
   }
 }
 `
+
+export const GET_CUSTOMER_UNREAD_NOTIFICATION_COUNT = gql`
+  query {
+      GetCustomerNotificationCount{
+        count
+        code
+        success
+        message
+      }
+  }
+`
