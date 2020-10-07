@@ -141,6 +141,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <!-- actions -->
                             <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus">
                                 <div class="order-price-area position-relative">
