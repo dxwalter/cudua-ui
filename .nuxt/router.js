@@ -43,7 +43,6 @@ const _1dbeb9b6 = () => interopDefault(import('..\\pages\\p\\_id\\index.vue' /* 
 const _1ca1d844 = () => interopDefault(import('..\\pages\\p\\_id\\review\\index.vue' /* webpackChunkName: "pages/p/_id/review/index" */))
 const _4c13e940 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 const _4f042bda = () => interopDefault(import('..\\pages\\_id\\index.vue' /* webpackChunkName: "pages/_id/index" */))
-const _791ca777 = () => interopDefault(import('..\\pages\\_id\\business page.vue' /* webpackChunkName: "pages/_id/business page" */))
 const _61022202 = () => interopDefault(import('..\\pages\\_id\\review\\index.vue' /* webpackChunkName: "pages/_id/review/index" */))
 
 // TODO: remove in Nuxt 3
@@ -222,10 +221,6 @@ export const routerOptions = {
     path: "/:id",
     component: _4f042bda,
     name: "id"
-  }, {
-    path: "/:id/business page",
-    component: _791ca777,
-    name: "id-business page"
   }, {
     path: "/:id/review",
     component: _61022202,

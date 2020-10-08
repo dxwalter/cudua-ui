@@ -206,6 +206,7 @@ query getDetails($orderId: String!){
         size
         color
         businessId
+        ratingScore
       }
       orderInfo {
         deliveryCharge
@@ -218,6 +219,7 @@ query getDetails($orderId: String!){
         orderTime
         cancelOrderReason
         customerCancelOrder
+        BusinessRejectOrderReason
       }
  			businessData {
         businessName
@@ -226,6 +228,33 @@ query getDetails($orderId: String!){
         logo
       }
     }
+    code
+    success
+    message
+  }
+}
+`
+
+export const CONFIRM_ORDER_DELIVERY = gql`
+mutation ($businessId: String!, $orderId: String!) {
+  ConfirmDelivery(input:{
+    businessId: $businessId,
+    orderId: $orderId
+  }){
+    code
+    success
+    message
+  }
+}
+`
+
+export const CUSTOMER_CANCEL_ORDER = gql`
+mutation cancel($businessId: String!, $orderId: String!, $reason: String) {
+  CustomerCancelOrder(input:{
+    businessId: $businessId,
+    orderId: $orderId,
+    reason: $reason
+  }){
     code
     success
     message

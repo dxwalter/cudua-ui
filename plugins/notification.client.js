@@ -126,7 +126,7 @@ export default ({app}, inject) => {
 					break;
 
 				case "order":
-					url = `/b/orders/${id}`;
+					url = `/b/orders`;
 					break;
 
 				case "business_profile":
@@ -155,7 +155,7 @@ export default ({app}, inject) => {
     inject('businessNotificationLink', businessNotificationLink)
 
     let customerNotificationLink = (type, id) => {
-            console.log(type)
+            
             type = type.toLowerCase();
 			let url;
 			switch (type) {

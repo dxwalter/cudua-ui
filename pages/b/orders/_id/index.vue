@@ -456,6 +456,7 @@ export default {
             this.paymentPrice = this.deliveryCharge + this.totalProductPrice
         },
         rejectOrder: async function () {
+
             if (this.rejectOrderMessage.length == 0) {
                 this.$showToast("Tell the customer the reason His/Her order is being rejected", 'error', 6000)
                 this.$addRedBorder("rejectOrderForm");
@@ -493,14 +494,14 @@ export default {
             let result = request.result.data.RejectOrder;
             
             if (result.success == false) {
-				return this.$initiateNotification(result.message, 'error', 6000);
+				return this.$showToast(result.message, 'error', 6000);
             }
 
             if (result.success) {
-                this.$initiateNotification(result.message, 'success', 6000);
+                this.$showToast(result.message, 'success', 6000);
                 this.timeOut = setTimeout(() => {
                     this.$router.push('/b/orders')
-                }, 1000);
+                }, 1500);
             }
 
         },

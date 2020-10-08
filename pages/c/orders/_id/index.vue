@@ -61,7 +61,7 @@
 
                         <div class="md-flex">
                             <!-- products -->
-                            <div class="col-md-12" :class="[details.orderInfo.orderStatus ? 'col-lg-9' : 'col-lg-12']">
+                            <div class="col-md-12" :class="[details.orderInfo.orderStatus ? 'col-lg-9' : 'col-lg-12']" v-show="details.orderInfo.orderStatus != -1">
                                 <div class="order-details-notification">
                                     <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0">
                                         <div class="info-text">This order has been placed but yet to be confirmed. </div>
@@ -69,12 +69,12 @@
                                     </div>
                                     <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0">
                                         <div class="info-text">This order has been confirmed. </div>
-                                        <button class="btn btn-small btn-white">Confirm delivery</button>
+                                        <button class="btn btn-small btn-white"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery</button>
                                     </div>
                                 </div>
                                 <div class="order-details-product-container">
                                     <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
-                                        <button class="close-modal-btn slider-control">
+                                        <button class="close-modal-btn slider-control small-slider-btn">
                                             <div class="dropdownCheckBox" @click="moveCarousel(`carousel${details.businessData.businessId}`, 'left')"></div>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                                 <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
@@ -83,7 +83,7 @@
                                     </div>
                                     
                                     <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
-                                        <button class="close-modal-btn slider-control">
+                                        <button class="close-modal-btn slider-control small-slider-btn">
                                             <div class="dropdownCheckBox" @click="moveCarousel(`carousel${details.businessData.businessId}`, 'right')"></div>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                                 <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
@@ -101,7 +101,9 @@
                                             <div class="order-details-product-detail">
                                                 <div class="business-name">{{productListing.name}}</div>
                                                 <div class="categories">₦ {{formatNumber(productListing.price)}}</div>
-                                                
+                                                <div class="reviews">
+                                                    <StarRating :score=productListing.ratingScore></StarRating>
+                                                </div>
                                             </div>
                                             </div>
                                             <div class="order-product-option">
@@ -141,9 +143,9 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- actions -->
-                            <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus">
+                            <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus == 1">
                                 <div class="order-price-area position-relative">
                                     <div class="d-flex-between option-container">
                                         <div class="option">Delivery time</div>
@@ -159,9 +161,29 @@
                                     </div>
                                     <div class="option-container order-action-area move-bottom">
                                         <!-- <button class="btn btn-white">Write business review</button> -->
-                                        <button class="btn btn-primary">Accept delivery charge</button>
-                                        <button class="btn btn-white">Reject delivery charge</button>
+                                        <div v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0">
+                                            <button class="btn btn-primary btn-block"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery</button>
+                                            <button class="btn btn-white btn-block" @click="cancelOrderBusinessId = details.businessData.businessId">Cancel order</button>
+                                        </div>
+                                        <div v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1">
+                                            <n-link :to="`/c/orders/cleared/${orderId}`" class="btn btn-primary btn-block">Write a review</n-link>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div v-show="details.orderInfo.orderStatus == -1" class="rejected-order-layout">
+                                <div class="rejected-order-content">
+                                    <div class="header">This order was rejected </div>
+                                    <div class="message-by">This is a message from <span>{{details.businessData.businessName}}</span></div>
+                                    <div class="reject-message">{{details.orderInfo.BusinessRejectOrderReason}}</div>
+                                    
+                                    <div class="action-area">
+                                        <button class="btn btn-primary" id="deleteOrder" @click="deleteOrder(details.businessData.businessId)">
+                                            Delete order
+                                            <div class="loader-action"><span class="loader"></span></div>
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -184,6 +206,77 @@
       <BOTTOMADS></BOTTOMADS>
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
 
+
+      <!-- confirm delivery -->
+        <div class="modal-container" id="confirmedOrderModal">
+            <div class="modal-dialog-box success-order-modal-container">
+
+
+                <div class="modal-content">
+                    <div class="thumbs-up-container">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <use xlink:href="~/assets/customer/image/all-svg.svg#thumbsUp"></use>
+                        </svg>
+                    </div>
+                    <div class="success-order-text">
+                        <p>Confirm the delivery of this order.</p>
+                        <!-- <div class="price-info">Expect a message from the business you ordered from.</div> -->
+                    </div>
+                    <div class="mg-bottom-32">
+                        <button class="btn btn-primary btn-block mg-bottom-8" @click="confirmOrder()" id="confirmOrder">
+                            Confirm Delivery
+                            <div class="loader-action"><span class="loader"></span></div>
+                        </button>
+                        <button class="btn btn-white btn-block"  @click="confirmOrderBusinessId = '' ">Cancel action</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- end of confirmed delivery -->
+
+        <!-- Cancel order modal -->
+        <div class="modal-container" id="cancelOrder">
+            <div class="modal-dialog-box">
+
+                <div class="modal-header">
+                    <div>
+                        <h4 class="mg-bottom-4">Cancel order</h4>
+                    </div>
+
+                    <button class="close-modal-btn" data-target="rejectOrder" data-dismiss="modal"  @click="cancelOrderBusinessId = ''">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                            <use xlink:href="~/assets/business/image/all-svg.svg#times"></use>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="modal-content">
+
+                    <div id="createCategory">
+                        
+                        <div class="form-control">
+                            <label for="businessType" class="form-label">Why are you cancelling this order? <span>optional</span></label>
+                            <textarea name="" cols="30" rows="5" class="input-form" id="rejectOrderForm" v-model="cancelOrderReason"></textarea>
+                        </div>
+                        <div class="form-control">
+                            <button class="btn btn-block btn-primary" type="button" @click="cancelOrder()" id="cancelOrder">
+                                Cancel order
+                                <div class="loader-action"><span class="loader"></span></div>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer" data-target="rejectOrder" data-dismiss="modal" @click="cancelOrderBusinessId = ''">
+                    <button class="btn btn-default btn-light-grey">Close</button>
+                </div>
+
+            </div>
+        </div>
+        <!-- cancel order modal -->
+
     </div>
   </div>
 </template>
@@ -196,23 +289,36 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
+import StarRating from '~/plugins/vue-star-rating.client.vue'
+
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
-import { CUSTOMER_GET_ORDER_DETAILS } from '~/graphql/order'
+import { 
+    CUSTOMER_GET_ORDER_DETAILS,
+    CONFIRM_ORDER_DELIVERY,
+    DELETE_ORDER,
+    CUSTOMER_CANCEL_ORDER
+} from '~/graphql/order'
 
 export default {
     name: "CUSTOMERORDERDETAILSCOMPONENT",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER, StarRating
     },
     data: function() {
         return {
             pageLoader: true,
             accessToken: "",
+            userId: "",
             orderId: "",
             networkError: 0,
             errorReason: "",
-            allOrders: []
+            allOrders: [],
+
+            confirmOrderBusinessId: "",
+            timeOut: null,
+            cancelOrderReason: "",
+            cancelOrderBusinessId: ""
         }
     },
     computed: {
@@ -231,6 +337,7 @@ export default {
     methods: {
         getUserData: function () {
             this.accessToken = this.GetCustomerDetails.userToken
+            this.userId = this.GetCustomerDetails.userId
         },
         getOrderDetails: async function () {
             this.orderId = this.orderId.toUpperCase();
@@ -297,6 +404,132 @@ export default {
             }
 
             return this.formatNumber((price + deliveryCharge))
+        },
+        confirmOrder: async function () {
+            
+            let target = document.getElementById('confirmOrder')
+
+            let variables = {
+                businessId: this.confirmOrderBusinessId,
+                orderId: this.orderId
+            }
+
+            let context = {
+                headers: {
+                    accessToken: this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, CONFIRM_ORDER_DELIVERY, variables, context);
+            
+            target.disabled = false
+
+            if (request.error) {
+                this.confirmOrderBusinessId = ""
+                return this.$initiateNotification('error', 'Failed request', request.message);
+            }
+
+            let result = request.result.data.ConfirmDelivery;
+
+            if (result.success == false) {
+                this.confirmOrderBusinessId = ""
+                return this.$initiateNotification('error', '', result.message);
+            }
+
+            this.confirmOrderBusinessId = ""
+            
+            this.$initiateNotification('success', '', result.message);
+            clearTimeout(this.timeOut)
+            this.timeOut = setTimeout(() => {
+                window.location.reload(true)
+            }, 1500);
+
+
+        },
+        deleteOrder: async function (businessId) {
+
+            let variables = {
+                orderId: this.orderId,
+                businessId: businessId,
+                customerId: this.userId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            let target = document.getElementById('deleteOrder');
+            
+            target.disabled = true
+            
+			let request = await this.$performGraphQlMutation(this.$apollo, DELETE_ORDER, variables, context);
+
+            target.disabled = false
+
+			if (request.error) {
+				return this.$initiateNotification("error", "Failed request", request.message)
+			}
+
+            let result = request.result.data.DeleteOrder;
+            
+            if (result.success == false) {
+                return this.$showToast(result.message, "error", 6000)
+            }
+
+            this.$initiateNotification("success", "Order deleted", result.message)
+
+            clearTimeout(this.timeOut)
+
+            this.timeOut = setTimeout(() => {
+                window.location.reload(true)
+            }, 1500);
+        },
+        cancelOrder: async function () {
+            
+            let variables = {
+                businessId: this.cancelOrderBusinessId,
+                orderId: this.orderId,
+                reason: this.cancelOrderReason
+            }
+
+            let context = {
+                headers: {
+                    accessToken: this.accessToken
+                }
+            }
+            
+
+            let target = document.getElementById('cancelOrder');
+            
+            target.disabled = true
+            
+			let request = await this.$performGraphQlMutation(this.$apollo, CUSTOMER_CANCEL_ORDER, variables, context);
+            
+            target.disabled = false
+
+            if (request.error) {
+                this.cancelOrderBusinessId = ""
+                return this.$initiateNotification('error', 'Failed request', request.message);
+            }
+
+            let result = request.result.data.CustomerCancelOrder;
+
+            if (result.success == false) {
+                this.cancelOrderBusinessId = ""
+                return this.$initiateNotification('error', '', result.message);
+            }
+
+            this.cancelOrderBusinessId = ""
+            
+            this.$initiateNotification('success', '', result.message);
+            clearTimeout(this.timeOut)
+            this.timeOut = setTimeout(() => {
+                window.location.reload(true)
+            }, 1500);
         }
     },
     created: async function () {
@@ -317,6 +550,31 @@ export default {
     },
     mounted () {
         this.pageLoader = false
+    },
+    watch: {
+        confirmOrderBusinessId: function () {
+
+            let target = document.getElementById('confirmedOrderModal');
+
+            if (this.confirmOrderBusinessId.length > 0) {
+                
+                target.classList.add('show-modal', 'display-block')
+
+            } else {
+                target.classList.remove('show-modal', 'display-block')
+            }
+        },
+        cancelOrderBusinessId: function () {
+            let target = document.getElementById('cancelOrder');
+            if (this.cancelOrderBusinessId.length > 0) {
+                target.classList.add('show-modal', 'display-block')
+            } else {
+                target.classList.remove('show-modal', 'display-block')
+            }
+        }
+    },
+    beforeDestroy() {
+        clearTimeout(this.timeOut)
     }
 }
 </script>

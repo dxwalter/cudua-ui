@@ -489,12 +489,15 @@
 .desktop-logo {
     width: 100px;
     display: inline-block;
+    height: 50px;
 }
 
 .business-desktop-logo {
     width: 54px;
+    height: 54px;
     display: block;
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .desktop-menu-item,
@@ -3894,6 +3897,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     flex-shrink: 0;
     margin-right: 8px;
     position: relative;
+    overflow: hidden;
 
     .no-logo-review {
         font-size: 18px;
@@ -4035,9 +4039,10 @@ h4.order-details-business-name {
         white-space: nowrap;
         color: $black-color-06;
         width: 100%;
+        margin-bottom: 4px;
     }
     .categories {
-        margin-bottom: 8px;
+        margin-bottom: 4px;
     }
     .reviews {
         margin-bottom: 0;
@@ -4122,6 +4127,10 @@ h4.order-details-business-name {
 
 .option-container.order-action-area {
     border-bottom: unset;
+}
+
+.md-flex {
+    position: relative;
 }
 
 @media($mq-md) {
@@ -4791,5 +4800,75 @@ h4.order-details-business-name {
         height: 100%;
         opacity: 0;
         z-index: 1;
+    }
+}
+
+.small-slider-btn {
+    width: 25px !important;
+    height: 25px !important;
+    svg {
+        width: 9px !important;
+        height: 9px !important;
+    }
+}
+
+.rejected-order-layout {
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(255, 255, 255, 0.87);
+    top: 0;
+    left: 0;
+    z-index: 1000; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 16px;
+}
+
+.rejected-order-content {
+    margin-bottom: 32px;
+
+    .header {
+        font-weight: 500;
+        font-size: 18px;
+        color: $dark-color;
+        margin-bottom: 16px;
+        text-align: center;
+    }
+
+    .message-by {
+        font-size: 14px;
+        margin-bottom: 8px;
+        text-align: center;
+        span {
+            color: $dark-color;
+        }
+    }
+
+   .action-area {
+       display: flex;
+       justify-content: center;
+       button:disabled {
+           .loader-action {
+               display: flex;
+           }
+       }
+   }
+
+    .reject-message {
+        text-align: center;
+        line-height: 24px;
+        width: 100%;
+        border-radius: 4px;
+        background-color: $shadow-color;
+        padding: 8px 16px;
+        margin-bottom: 24px;
+    }
+}
+
+@media($mq-md) {
+    .rejected-order-content {
+        width: 600px;
+        margin: 0 auto;
     }
 }
