@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="cleared-review-action">
-                                <n-link :to="`/${details.businessData.username}/review`" class="btn btn-primary btn-md">
+                                <n-link :to="`/review/business/${details.businessData.username}`" class="btn btn-primary btn-md">
                                     Write business review
                                 </n-link>
                             </div>

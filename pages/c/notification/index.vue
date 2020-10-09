@@ -134,7 +134,7 @@ export default {
             let request = await this.$performGraphQlQuery(this.$apollo, GET_CUSTOMER_NOTIFICATION, variables, context);
 
             if (request.error) {
-                this.$initiateNotification('info', 'Oops!', request.message);
+                this.$initiateNotification('error', 'Oops!', request.message);
                 this.serverError = 1;
                 this.errorReason = result.message
                 return
@@ -143,7 +143,7 @@ export default {
             let result = request.result.data.GetCustomerNotification;
 
             if (result.success == false) {
-                this.$initiateNotification('info', 'Oops!', result.message);
+                this.$initiateNotification('error', 'Oops!', result.message);
                 this.serverError = 1
                 this.errorReason = result.message
                 return

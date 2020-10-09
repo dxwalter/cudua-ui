@@ -35,6 +35,13 @@
     "_name": "_ab11bc38"
   },
   {
+    "name": "review",
+    "path": "/review",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\review\\\\index.vue",
+    "chunkName": "pages/review/index",
+    "_name": "_78491968"
+  },
+  {
     "name": "search",
     "path": "/search",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\search\\\\index.vue",
@@ -252,18 +259,25 @@
     "_name": "_681ce1e4"
   },
   {
+    "name": "review-business-id",
+    "path": "/review/business/:id?",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\review\\\\business\\\\_id.vue",
+    "chunkName": "pages/review/business/_id",
+    "_name": "_19c865e0"
+  },
+  {
+    "name": "review-product-id",
+    "path": "/review/product/:id?",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\review\\\\product\\\\_id.vue",
+    "chunkName": "pages/review/product/_id",
+    "_name": "_2da249f6"
+  },
+  {
     "name": "p-id",
     "path": "/p/:id",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\p\\\\_id\\\\index.vue",
     "chunkName": "pages/p/_id/index",
     "_name": "_1dbeb9b6"
-  },
-  {
-    "name": "p-id-review",
-    "path": "/p/:id/review",
-    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\p\\\\_id\\\\review\\\\index.vue",
-    "chunkName": "pages/p/_id/review/index",
-    "_name": "_1ca1d844"
   },
   {
     "name": "index",
@@ -278,12 +292,5 @@
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\_id\\\\index.vue",
     "chunkName": "pages/_id/index",
     "_name": "_4f042bda"
-  },
-  {
-    "name": "id-review",
-    "path": "/:id/review",
-    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\_id\\\\review\\\\index.vue",
-    "chunkName": "pages/_id/review/index",
-    "_name": "_61022202"
   }
 ]

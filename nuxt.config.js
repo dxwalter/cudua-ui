@@ -1,5 +1,4 @@
 export default {
-	mode: "universal",
 	head: {
 		title: 'Welcome to Cudua. Create your online shop and start selling in 2 minutes',
 		meta: [

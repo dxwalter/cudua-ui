@@ -21,19 +21,19 @@
                 <div class="image-area">
                     <!-- image area -->
                     <div class="product-details-image-info">
-                    <div class="product-details-img-container height-auto overflow-unset">
-                        <div class="business-review-cover">
-                            <img src="~/assets/customer/image/cover-photo.png" alt="">
+                        <div class="product-details-img-container height-auto overflow-unset">
+                            <div class="business-review-cover">
+                                <img src="~/assets/customer/image/cover-photo.png" alt="">
+                            </div>
+                            <div class="order-business-logo">
+                                <img src="~/assets/customer/image/mainOremitLogo.png" alt="">
+                            </div>
+                            <div class="follow-area-action">
+                                <button class="btn btn-primary btn-small">Follow business</button>
+                            </div>
                         </div>
-                        <div class="order-business-logo">
-                            <img src="~/assets/customer/image/mainOremitLogo.png" alt="">
-                        </div>
-                        <div class="follow-area-action">
-                            <button class="btn btn-primary btn-small">Follow business</button>
-                        </div>
+                        
                     </div>
-                    
-                </div>
                 </div>
                 <!-- end of product image area -->
 
@@ -168,9 +168,7 @@ export default {
 
     },
     mounted () {
-        setTimeout(() => {
-            this.pageLoader = false
-        }, 5000);
+        this.pageLoader = false
     }
 }
 </script>
