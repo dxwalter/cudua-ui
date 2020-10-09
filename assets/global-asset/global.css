@@ -641,7 +641,7 @@ button:disabled .loader-action {
   display: flex;
   flex-direction: column;
   font-weight: unset;
-  border-radius: 0;
+  border-radius: 0 !important;
   margin-top: 2px;
   font-weight: unset;
 }

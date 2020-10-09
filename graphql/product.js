@@ -582,3 +582,17 @@ mutation addToCart($anonymousId: String!, $businessId: String!, $productId: Stri
   }
 }
 `
+
+export const CREATE_PRODUCT_REVIEW = gql`
+mutation create ($productId: String!, $message: String!, $score: Int!) {
+  CreateProductReview(input:{
+    productId: $productId,
+    message: $message,
+    score: $score
+  }) {
+    code
+    success
+    message
+  }
+}
+`

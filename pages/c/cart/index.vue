@@ -11,6 +11,10 @@
 
             <!-- pageLoader -->
             <PAGELOADER v-show="pageLoader"></PAGELOADER>
+            <div class="alert alert-info global-notification-alert" v-show="returnAllBusinessInCart.length > 1 && !pageLoader">
+                <div>Your cart contains products from more than one business</div>
+                <button class="btn btn-white btn-small"  data-trigger="modal" data-target="allBusinessInCart" >Learn more</button>
+            </div>
 
             <div class="content-container" v-show="!pageLoader">
                 <!-- header area -->
@@ -174,6 +178,7 @@
 
             </div> 
 
+            <!-- add phone number modal -->
             <div class="modal-container" id="addPhoneNumberModal">
                 <div class="modal-dialog-box">
 
@@ -211,7 +216,54 @@
 
                 </div>
             </div>
-        <!-- end of content container -->
+            <!-- end of add phone number modal -->
+
+            <!-- all businesses in cart -->
+            <div class="modal-container" id="allBusinessInCart">
+                <div class="modal-dialog-box">
+
+                    <div class="modal-header">
+                        <h4>Products from {{returnAllBusinessInCart.length}} businesses</h4>
+
+                        <button class="close-modal-btn" data-target="allBusinessInCart" data-dismiss="modal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="modal-content">
+                        <div id="createCategory" class="is-active tab-content-area">
+                            <div class="alert alert-light font-14 mg-bottom-32">
+                                Your cart contains products from {{returnAllBusinessInCart.length}} businesses. Each of these businesses will decide the delivery charge and delivery time span for the products you want to buy.
+                            </div>
+
+                            <div class="biz-listing">
+
+                                <n-link :to="`/${business.username}`" class="chat-recipient" v-for="(business, index) in returnAllBusinessInCart" :key="index">
+                                        <div  class="last-chat-details">
+                                            <div  class="chat-time-recipient">
+                                                <span >{{business.name}}</span> 
+                                            </div> 
+                                        <div  class="last-chat-preview">@{{business.username}}</div>
+                                    </div>
+                                </n-link>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer" data-target="allBusinessInCart" data-dismiss="modal">
+                        <button class="btn btn-default btn-light-grey">Close</button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- end of add phone number modal -->
+
+
+            <!-- end of content container -->
 
         <!-- footer area -->
 
@@ -306,6 +358,7 @@ export default {
             storePhoneNumber: "",
             inputPhoneNumber: "",
             email: "",
+            allBusinessInCart: [],
 
             timeOutHolder: null
         }
@@ -313,6 +366,9 @@ export default {
     computed: {
         returnAllCartItems: function () {
             return this.allProducts
+        },
+        returnAllBusinessInCart () {
+            return this.allBusinessInCart
         }
      },
     created () {
@@ -552,7 +608,10 @@ export default {
             
 
             let totalPrice = 0
-            let formattedCartItem = []
+            let formattedCartItem = [];
+
+            let businessDataArray = [];
+            let allBusinessId =  [];
             
             cartItems.forEach(item => {
                 formattedCartItem.push({
@@ -571,8 +630,43 @@ export default {
                     quantity: item.quantity,
                     businessName: item.business.name,
                     address: item.business.address == undefined || item.business.address == null ? "": item.business.address
+                });
+                allBusinessId.push(item.business.businessId)
+                businessDataArray.push({
+                    name: item.business.name,
+                    businessId: item.business.businessId,
+                    username: item.business.username
                 })
             });
+
+            if (allBusinessId.length > 1) {
+
+                    let uniqueId = new Set(allBusinessId);
+                    let clearedArrayIds = []
+
+                    uniqueId.forEach(element => {
+                        clearedArrayIds.push(element)
+                    });
+                
+                    let allBusiness = [];
+
+                    if (clearedArrayIds.length > 1) {
+                        
+                        for (let ids of clearedArrayIds) {
+                            for (let biz of businessDataArray) {
+                                
+                                if (ids == biz.businessId) {
+                                    allBusiness.push(biz)
+                                    break;
+                                }
+                            }
+                        }
+                        
+                    }
+
+                    this.allBusinessInCart = allBusiness
+
+            }
 
             this.totalPrice = this.$numberNotation(totalPrice)
             this.allProducts = formattedCartItem
@@ -828,5 +922,19 @@ export default {
     .font-14 {
         font-size: 14px !important;
         line-height: 27px !important;
+    }
+    .global-notification-alert {
+        margin-top: 0 !important;
+    }
+    @media(min-width: 1280px) {
+        .global-notification-alert {
+            padding: 16px 40px
+        }
+    }
+    .chat-time-recipient span {
+        font-size: 18px !important;
+    }
+    .biz-listing .chat-recipient:last-child {
+        border: 0 !important;
     }
 </style>

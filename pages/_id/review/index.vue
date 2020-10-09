@@ -126,7 +126,7 @@
                         <textarea name="" id="" cols="30" rows="5" class="input-form white-bg-color add-border" v-model="reviewDescription"></textarea>
                     </div>
 
-                                    <!-- action -->
+                    <!-- action -->
                     <div class="d-flex mg-bottom-16">
                         <button class="btn btn-block btn-primary" type="button" @click="submitReview" id="submitReview">
                             Submit review
