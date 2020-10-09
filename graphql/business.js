@@ -488,3 +488,17 @@ mutation activateGift($businessId: String!, $viralId: String!){
   }
 }
 `
+
+export const CREATE_BUSINESS_REVIEW = gql`
+mutation create ($description: String, $score: Int!, $businessId: String!) {
+  CreateBusinessReview(input:{
+    description: $description,
+    score: $score,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`

@@ -33,6 +33,7 @@
 				</div>
 
 				<div v-show="checkFollowStatus > -1">
+					
 					<button class="btn btn-primary btn-md" @click="followBusiness()" v-show="accessToken && checkFollowStatus == 0" id="followBusiness">
 						Follow business
 						<div class="loader-action"><span class="loader"></span></div>	

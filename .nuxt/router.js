@@ -8,7 +8,6 @@ const _df0742d0 = () => interopDefault(import('..\\pages\\auth\\index.vue' /* we
 const _3ec016b2 = () => interopDefault(import('..\\pages\\b\\index.vue' /* webpackChunkName: "pages/b/index" */))
 const _4671bc11 = () => interopDefault(import('..\\pages\\c\\index.vue' /* webpackChunkName: "pages/c/index" */))
 const _ab11bc38 = () => interopDefault(import('..\\pages\\p\\index.vue' /* webpackChunkName: "pages/p/index" */))
-const _78491968 = () => interopDefault(import('..\\pages\\review\\index.vue' /* webpackChunkName: "pages/review/index" */))
 const _0a509918 = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages/search/index" */))
 const _6d849140 = () => interopDefault(import('..\\pages\\t\\index.vue' /* webpackChunkName: "pages/t/index" */))
 const _adcbc10c = () => interopDefault(import('..\\pages\\auth\\create-store.vue' /* webpackChunkName: "pages/auth/create-store" */))
@@ -40,11 +39,11 @@ const _6eea1c44 = () => interopDefault(import('..\\pages\\c\\orders\\cleared\\_i
 const _47c1420d = () => interopDefault(import('..\\pages\\b\\orders\\_id\\index.vue' /* webpackChunkName: "pages/b/orders/_id/index" */))
 const _bb2f930a = () => interopDefault(import('..\\pages\\b\\product\\_id.vue' /* webpackChunkName: "pages/b/product/_id" */))
 const _681ce1e4 = () => interopDefault(import('..\\pages\\c\\orders\\_id\\index.vue' /* webpackChunkName: "pages/c/orders/_id/index" */))
-const _19c865e0 = () => interopDefault(import('..\\pages\\review\\business\\_id.vue' /* webpackChunkName: "pages/review/business/_id" */))
-const _2da249f6 = () => interopDefault(import('..\\pages\\review\\product\\_id.vue' /* webpackChunkName: "pages/review/product/_id" */))
 const _1dbeb9b6 = () => interopDefault(import('..\\pages\\p\\_id\\index.vue' /* webpackChunkName: "pages/p/_id/index" */))
+const _1ca1d844 = () => interopDefault(import('..\\pages\\p\\_id\\review\\index.vue' /* webpackChunkName: "pages/p/_id/review/index" */))
 const _4c13e940 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 const _4f042bda = () => interopDefault(import('..\\pages\\_id\\index.vue' /* webpackChunkName: "pages/_id/index" */))
+const _61022202 = () => interopDefault(import('..\\pages\\_id\\review\\index.vue' /* webpackChunkName: "pages/_id/review/index" */))
 
 // TODO: remove in Nuxt 3
 const emptyFn = () => {}
@@ -82,10 +81,6 @@ export const routerOptions = {
     path: "/p",
     component: _ab11bc38,
     name: "p"
-  }, {
-    path: "/review",
-    component: _78491968,
-    name: "review"
   }, {
     path: "/search",
     component: _0a509918,
@@ -211,17 +206,13 @@ export const routerOptions = {
     component: _681ce1e4,
     name: "c-orders-id"
   }, {
-    path: "/review/business/:id?",
-    component: _19c865e0,
-    name: "review-business-id"
-  }, {
-    path: "/review/product/:id?",
-    component: _2da249f6,
-    name: "review-product-id"
-  }, {
     path: "/p/:id",
     component: _1dbeb9b6,
     name: "p-id"
+  }, {
+    path: "/p/:id/review",
+    component: _1ca1d844,
+    name: "p-id-review"
   }, {
     path: "/",
     component: _4c13e940,
@@ -230,6 +221,10 @@ export const routerOptions = {
     path: "/:id",
     component: _4f042bda,
     name: "id"
+  }, {
+    path: "/:id/review",
+    component: _61022202,
+    name: "id-review"
   }],
 
   fallback: false

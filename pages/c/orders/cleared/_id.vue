@@ -12,9 +12,9 @@
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-        <div class="content-container">
+        <div class="content-container" v-show="!pageLoader">
             <!-- header area -->
-            <div class="section-header" v-show="!pageLoader">
+            <div class="section-header" v-show="!pageLoader && !isNetworkError">
             <h4>Cleared order</h4>
             </div>
             
@@ -23,8 +23,8 @@
 
                 <div v-show="returnOrderDetails.length > 0">
 
-                    <div class="order-details-container" >
-                        <div class="order-details-header cleared-header" v-for="(details, index) in returnOrderDetails" :key="index">
+                    <div class="order-details-container"  v-for="(details, index) in returnOrderDetails" :key="index">
+                        <div class="order-details-header cleared-header">
 
                             <div class="order-details-business-info">
                                 <div class="order-details-logo">
@@ -44,7 +44,7 @@
                             </div>
 
                             <div class="cleared-review-action">
-                                <n-link :to="`/review/business/${details.businessData.username}`" class="btn btn-primary btn-md">
+                                <n-link :to="`/${details.businessData.username}/review/`" class="btn btn-primary btn-md">
                                     Write business review
                                 </n-link>
                             </div>
@@ -57,31 +57,18 @@
                                 
                                 <div class="order-details-product-container">
                                     <!-- start -->
-                                    <div class="order-details-product-list flex-column" id="busines12345">
-                                        <div class="card cart-card">
+                                    <div class="order-details-product-list flex-column">
+
+                                        <div class="card cart-card" v-for="(productListing, productIndex) in details.orderProduct" :key="productIndex">
                                             <div class="item-basic-info">
                                                 <a href="#" class="cart-avatar">
-                                                    <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
+                                                    <img :data-src="`${formatproductImage(productListing.businessId, productListing.image)}`" :alt="`${productListing.name}'s  picture`" v-lazy-load>
                                                 </a>
                                                 <div class="price-and-name">
-                                                    <a href="#">Product name is Coming is Coming</a>
-                                                    <div class="price">₦ 1,200</div>
+                                                    <a href="#">{{productListing.name}}</a>
+                                                    <div class="price">₦ {{formatNumber(productListing.price)}}</div>
                                                     <div class="reviews">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
+                                                        <StarRating :score=productListing.ratingScore></StarRating>
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,8 +76,8 @@
                                             <div class="cleared-order-review">
                                                 <div class="cart-action-area">
                                                     <div class="mobile-actions">
-                                                        <n-link to="/p/4534534/review" class="btn btn-white btn-small">
-                                                            Write a review
+                                                        <n-link :to="`/p/${productListing.productId}/review`" class="btn btn-white btn-small">
+                                                            Write product review
                                                         </n-link>
                                                     </div>
                                                 </div>
@@ -98,45 +85,6 @@
                         
                                         </div>
                         
-                                        <div class="card cart-card">
-                                            <div class="item-basic-info">
-                                                <a href="#" class="cart-avatar">
-                                                    <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                                                </a>
-                                                <div class="price-and-name">
-                                                    <a href="#">Product name is Coming is Coming</a>
-                                                    <div class="price">₦ 1,200</div>
-                                                    <div class="reviews">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="19" viewBox="0 0 20 19">
-                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#star"></use>
-                                                        </svg>
-                                                    </div>
-                                                </div>
-                                            </div>
-                        
-                                            <div class="cleared-order-review">
-                                                <div class="cart-action-area">
-                                                    <div class="mobile-actions">
-                                                        <n-link to="/p/4534534/review" class="btn btn-white btn-small">
-                                                            Write a review
-                                                        </n-link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                        
-                                        </div>
                                     </div>
                                     <!-- end -->
                                 </div>
@@ -146,11 +94,18 @@
 
                 </div>
 
-           
-
-
             </div>
             <!-- end of cart listing -->
+
+            <!-- when an error occurs, show this -->
+            <div class="link-error-area" v-show="isNetworkError && !pageLoader">
+                <img src="~/static/images/server-error.svg" alt="">
+                <div class="error-cause" v-html="errorReason">{{errorReason}}</div>
+                <div class="action-area">
+                    <n-link to="/" class="btn btn-primary">Home page</n-link>
+                </div>
+            </div>
+            <!-- end of error area -->
 
         </div>
         <!-- end of content container -->
@@ -175,21 +130,24 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import { 
     CUSTOMER_GET_ORDER_DETAILS
-} from '~/graphql/order'
+} from '~/graphql/order';
+
+import StarRating from '~/plugins/vue-star-rating.client.vue'
 
 export default {
     name: "CUSTOMERCLEAREDORDERS",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER, StarRating
     },
     data: function() {
         return {
             pageLoader: true,
             accessToken: "",
             orderId: "",
-            networkError: 0,
+            isNetworkError: 0,
             errorReason: "",
-            allOrders: []
+            allOrders: [],
+
         }
     },
     computed: {
@@ -233,6 +191,7 @@ export default {
             return this.formatNumber((price + deliveryCharge))
         },
         getOrderDetails: async function () {
+
             this.orderId = this.orderId.toUpperCase();
 
             let variables = {
@@ -248,7 +207,7 @@ export default {
             let request = await this.$performGraphQlQuery(this.$apollo, CUSTOMER_GET_ORDER_DETAILS, variables, context);
 
             if (request.error) {
-                this.networkError = 1
+                this.isNetworkError = 1
                 this.errorReason = request.message
                 this.$initiateNotification('error', 'Failed request', request.message);
                 return 
@@ -257,7 +216,7 @@ export default {
             let result = request.result.data.GetOrderItemsForCustomer;
 
             if (result.success == false) {
-                this.networkError = 1
+                this.isNetworkError = 1
                 this.errorReason = result.message
                 this.$initiateNotification('error', 'Oops!', result.message);
                 return    

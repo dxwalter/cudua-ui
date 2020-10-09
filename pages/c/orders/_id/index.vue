@@ -14,14 +14,14 @@
 
         <div class="content-container" v-show="!pageLoader">
             <!-- header area -->
-            <div class="section-header">
+            <div class="section-header"  v-show="!isNetworkError && !pageLoader">
             <h4>Order details for {{orderId}}</h4>
             </div>
             
             <!-- beginning of cart listing -->
-            <div class="cart-listing-area mg-top-24 mg-bottom-32">
+            <div class="cart-listing-area mg-top-24 mg-bottom-32" v-show="!isNetworkError && !pageLoader">
 
-                <div v-show="returnOrderDetails.length > 0">
+                <div v-show="returnOrderDetails.length > 0" >
 
             
                     <div class="order-details-container" v-for="(details, index) in returnOrderDetails" :key="index">
@@ -198,6 +198,16 @@
             </div>
             <!-- end of cart listing -->
 
+            <!-- when an error occurs, show this -->
+            <div class="link-error-area" v-show="isNetworkError">
+                <img src="~/static/images/server-error.svg" alt="">
+                <div class="error-cause" v-html="errorReason">{{errorReason}}</div>
+                <div class="action-area">
+                    <n-link to="/" class="btn btn-primary">Home page</n-link>
+                </div>
+            </div>
+            <!-- end of error area -->
+
         </div>
         <!-- end of content container -->
 
@@ -311,7 +321,7 @@ export default {
             accessToken: "",
             userId: "",
             orderId: "",
-            networkError: 0,
+            isNetworkError: 0,
             errorReason: "",
             allOrders: [],
 
@@ -355,7 +365,7 @@ export default {
             let request = await this.$performGraphQlQuery(this.$apollo, CUSTOMER_GET_ORDER_DETAILS, variables, context);
 
             if (request.error) {
-                this.networkError = 1
+                this.isNetworkError = 1
                 this.errorReason = request.message
                 this.$initiateNotification('error', 'Failed request', request.message);
                 return 
@@ -364,7 +374,7 @@ export default {
             let result = request.result.data.GetOrderItemsForCustomer;
 
             if (result.success == false) {
-                this.networkError = 1
+                this.isNetworkError = 1
                 this.errorReason = result.message
                 this.$initiateNotification('error', 'Oops!', result.message);
                 return    
@@ -541,11 +551,12 @@ export default {
             this.orderId = this.$route.params.id
             if(this.orderId == undefined || this.orderId.length == 0) {
                 return this.$router.push('/c/orders/')
-            } 
+            }
+            
+            this.getUserData()
+            this.getOrderDetails()
 
         }
-        this.getUserData()
-        this.getOrderDetails()
 
     },
     mounted () {
