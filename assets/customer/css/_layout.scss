@@ -435,10 +435,13 @@
     border-bottom: $border;
     display: flex;
     align-items: center;
-    overflow: auto;
+    overflow: hidden;
     white-space: nowrap;
     display: flex;
     overflow: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    
     img {
         width: 100%;
         object-fit: contain;
@@ -448,6 +451,11 @@
         display: block;
         justify-content: flex-start;
     }
+}
+
+.product-card-image::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
 }
 
 .product-image-container {
@@ -478,6 +486,22 @@
         position: absolute;
         top: 50%;
         left: 0
+    }
+}
+
+@media($mq-mb) {
+    .product-image-container {
+        button {
+            display: none
+        }
+    }
+    .product-card-image {
+        display: block;
+        overflow: hidden;
+        img {
+            object-fit: contain;
+            -o-object-fit: contain;
+        }
     }
 }
 
@@ -773,6 +797,13 @@
     display: none;
     padding: 0;
     overflow-y: auto;
+}
+
+@media(min-width: 1024px) {
+    .mobile-category-container {
+        top: 0;
+        background-color: rgba(0, 0, 0, .5);
+    }
 }
 
 .section-header {
@@ -2891,6 +2922,12 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
 }
 
+@media(min-width: 1024px) {
+    .shop-cat-listing {
+        width: 350px
+    }
+}
+
 .shop-cat-item {
     border-bottom: $border;
     a {
@@ -4527,6 +4564,16 @@ h4.order-details-business-name {
         display: block;
         width: 15px;
         height: 15px;
+    }
+}
+
+.business-page-action * {
+    align-self: center
+}
+
+.business-page-action button {
+    svg {
+        fill: $brand-color
     }
 }
 

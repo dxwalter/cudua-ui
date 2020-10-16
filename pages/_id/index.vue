@@ -84,41 +84,24 @@
                             
                             <div class="product-area"  v-show="!pageError">
                                 <div class="business-product-container">
-                                    <!-- desktop category listing -->
-                                    <div class="desktop-category-area card">
-                                        <div class="card-title">
-                                            Categories
-                                        </div>
-                                        <div class="alert alert-info no-radius" v-show="returnCategories.length == 0">
-                                            <div>No category has been added by this business</div>
-                                        </div>
-                                        <div class="desktop-shop-cat-listing">
-                                            <div class="shop-cat-item" v-for="(category, index) in returnCategories" :key="`${index}dk`">
-                                                <n-link to="#">
-                                                    <input type="checkbox" class="dropdownCheckBox" @click="showSubcatList(`dkcheck${category.categoryId}`, category.categoryName+'dk', $event)" v-bind:checked="!index" :id="`dkcheck${category.categoryId}`">
-                                                    <span class="accord-chip-name">{{category.categoryName}}</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
-                                                    </svg>
-                                                </n-link>
-                                                <div class="subcat-listing" :id="`${category.categoryName}dkCategory`"
-                                                v-bind:class="{'showEffect': !index}"
-                                                >
-                                                    <a href="#" class="chip" v-for="subcategory in category.subcategories" :key="`${subcategory.subcategoryId}dk`"
-                                                        @click="getProductsBysubCategory(subcategory.subcategoryId, subcategory.subcategoryName, $event);"
-                                                    >{{subcategory.subcategoryName}}</a>
-                                                    <a href="#" class="chip" @click="getProductsByCategory(category.categoryId, category.categoryName, $event); ">All products in {{category.categoryName}} category</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end of desktop category listing -->
-                                    
                                     <div class="business-product-listing">
 
                                         <div class="section-header d-flex-between business-page-action">
                                             <h4>{{productHeader}}</h4>
-                                            <button class="btn btn-white btn-md" @click="getAllProducts(1);">All products</button>
+                                            <div>
+                                                <button class="btn btn-svg btn-white btn-md" @click="showMobileCategory">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
+                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#categories"></use>
+                                                    </svg>
+                                                    <span>All categories</span>
+                                                </button>
+                                                <button class="btn btn-white btn-svg btn-md" @click="getAllProducts(1);">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
+                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#productIcon"></use>
+                                                    </svg>
+                                                    <span>All products</span>
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <!-- business product listing -->
@@ -133,13 +116,13 @@
                                                     <div class="product-card">
                                                         <div class="product-image-container">
 
-                                                            <button class="close-modal-btn btn-light-grey" @click="moveCarousel(`imageContainer${x.productId}`, 'left')"  v-show="x.imageArray.length > 1" data-direction="left">
+                                                            <button class="close-modal-btn btn-light-grey" @click="moveCarousel(`imageContainer${x.productId}`, 'right')"  v-show="x.imageArray.length > 1" data-direction="left">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
                                                                     <use xlink:href="~/assets/customer/image/all-svg.svg#leftSlider"></use>
                                                                 </svg>
                                                             </button>
 
-                                                            <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="moveCarousel(`imageContainer${x.productId}`, 'right')"  v-show="x.imageArray.length > 1" data-direction="right">
+                                                            <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="moveCarousel(`imageContainer${x.productId}`, 'left')"  v-show="x.imageArray.length > 1" data-direction="right">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
                                                                     <use xlink:href="~/assets/customer/image/all-svg.svg#rightSlider"></use>
                                                                 </svg>
@@ -488,9 +471,9 @@ export default {
             let carouselSlide = document.getElementById(target)
 
             if (direction == 'left') {
-                this.$carouselActionSlider(carouselSlide, 'left', 5, size, 10);
+                this.$carouselActionSlider(carouselSlide, 'left', 10, size, size);
             } else {
-                this.$carouselActionSlider(carouselSlide, 'right', 5, size, 10);
+                this.$carouselActionSlider(carouselSlide, 'right', 10, size, size);
             }
         },
         showMobileCategory: function () {

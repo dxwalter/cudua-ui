@@ -717,8 +717,6 @@
       <nuxt />
 
       <CUSTOMERFOOTER />
-
-      <MOBILESEARCHMODAL></MOBILESEARCHMODAL>
       <nuxt />
 
     </div>
@@ -729,13 +727,12 @@
 import MOBILENAVIGATION from '~/layouts/customer/mobile-navigation.vue'
 import DESKTOPNAVGATION from '~/layouts/customer/desktop-navigation.vue'
 import MOBILESEARCH from '~/layouts/customer/mobile-search.vue'
-import MOBILESEARCHMODAL from '~/layouts/customer/search/mobile-search.vue'
 import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue'
 
 export default {
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER,MOBILESEARCHMODAL
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER
     }
 }
 </script>
