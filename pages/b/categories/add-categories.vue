@@ -1,11 +1,9 @@
 <template>
     <div class="business">
         <div class="body-container">
-            <TOPHEADER />
-            <nuxt/>
+            <TOPHEADER></TOPHEADER>
             <div class="content-container">
-                <SIDENAV />
-                <nuxt />
+                <SIDENAV></SIDENAV>
                     <div class="content-area grey-bg-color">
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader" />
