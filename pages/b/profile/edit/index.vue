@@ -334,7 +334,10 @@
                                                 <div v-show="!subscriptionStatus">You can activate your your 1 month basic subscription plan for inviting 3 businesses when your current subscription plan expires</div>
                                                 <div v-show="subscriptionStatus">Activate your 1 month subscription plan for inviting 3 businesses</div>
 
-                                                <button class="btn btn-white btn-small" v-show="subscriptionStatus" @click="activateInvitationPlan()" id="activateInvitationPlan">Activate plan</button>
+                                                <button class="btn btn-white btn-small" v-show="subscriptionStatus" @click="activateInvitationPlan()" id="activateInvitationPlan">
+                                                    Activate plan
+                                                    <div class="loader-action"><span class="loader"></span></div>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -368,9 +371,6 @@
                                                             :embed="false"
                                                         >Subscribe</paystack>
                                                     </div>
-                                                </div>
-                                                <div class="subscription-details">
-
                                                 </div>
                                             </div>
                                         </div>
@@ -1311,7 +1311,7 @@ export default {
 
             let result = request.result.data.ActivateViralInvitationGift;
 
-            if (result.error) {
+            if (result.success == false) {
                 this.$initiateNotification('error', "Subscription error", result.message)
                 return
             }

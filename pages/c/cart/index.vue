@@ -170,7 +170,7 @@
 
                             <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="addPhoneNumberModal" v-show="accessToken && storePhoneNumber.length == 0">Continue to checkout</button>
 
-                            <n-link to="/" class="btn btn-white btn-lg" data-trigger="modal" data-target="confirmedOrderModal">Continue to shopping</n-link>
+                            <n-link to="/" class="btn btn-white btn-lg">Continue to shopping</n-link>
                         </div>
                     <!-- </div> -->
                 </div>

@@ -29,6 +29,7 @@ query getProduct($businessId: String!, $page: Int!){
       name
       price
       primaryImage
+      images
       hide
     }
     code
@@ -49,6 +50,7 @@ query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
     products {
       id
       name
+      images
       price
       hide
       reviewScore
@@ -81,6 +83,7 @@ query getProducts ($businessId: String!, $categoryId: String!, $page: Int!) {
       id
       name
       price
+      images
       hide
       reviewScore
       category {

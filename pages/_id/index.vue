@@ -129,23 +129,39 @@
                                         <div  v-show="!isLoading">
 
                                             <div class="row">  
-                                                <n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
+                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
-                                                        <div class="product-card-image">
-                                                            <img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
+                                                        <div class="product-image-container">
+
+                                                            <button class="close-modal-btn btn-light-grey" @click="moveCarousel(`imageContainer${x.productId}`, 'left')"  v-show="x.imageArray.length > 1" data-direction="left">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#leftSlider"></use>
+                                                                </svg>
+                                                            </button>
+
+                                                            <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="moveCarousel(`imageContainer${x.productId}`, 'right')"  v-show="x.imageArray.length > 1" data-direction="right">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#rightSlider"></use>
+                                                                </svg>
+                                                            </button>
+
+                                                            <div class="product-card-image" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
+                                                                <img class="carousel-item" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-lazy-load v-bind:class="[imageIndex ? '' : 'is-active']">
+                                                            </div>
                                                         </div>
-                                                        <div class="product-card-details">
+                                                        
+                                                        <n-link :to="`/p/${x.productId}`" class="product-card-details display-block">
                                                             <div class="product-name">
                                                                 {{x.productName}}
                                                             </div>
                                                             <div class="product-price">₦ {{x.price}}</div>
-                                                        </div>
+                                                        </n-link>
                                                     </div>
-                                                </n-link>
+                                                </div>
                                             </div>
                                             <div class="load-more-action move-center" v-show="loadMoreContent">
                                                 <button class="btn btn-white" @click="loadMoreProducts(page = page + 1, $event)" id="loadMoreProducts">
-                                                    Load more products
+                                                    Load more
                                                     <div class="loader-action"><span class="loader"></span></div>    
                                                 </button>
                                             </div>
@@ -395,7 +411,10 @@ export default {
         noProduct: 0,
 
         // business details
-        businessDetailResult: ""
+        businessDetailResult: "",
+
+        screenWidth: 0,
+        contentHeight: "",
       }
     },
     head() {
@@ -441,6 +460,9 @@ export default {
           'GetAnonymousId': 'customer/GetAnonymousId',
           'GetUserData': 'customer/GetCustomerDetails'
         }),
+        handleResize() {
+            this.screenWidth = window.innerWidth;
+        },
 		getBusinessAddress: function() {
 			if (this.address == null) return "Not available";
 
@@ -460,6 +482,17 @@ export default {
         }
     },
     methods: {
+        moveCarousel: function (target, direction) {
+            let carouselItems = document.querySelectorAll(`#${target} .carousel-item`);
+            let size = carouselItems[0].clientWidth;
+            let carouselSlide = document.getElementById(target)
+
+            if (direction == 'left') {
+                this.$carouselActionSlider(carouselSlide, 'left', 5, size, 10);
+            } else {
+                this.$carouselActionSlider(carouselSlide, 'right', 5, size, 10);
+            }
+        },
         showMobileCategory: function () {
             if (process.client) {
                 let businessCategoryContainer = document.getElementById('businessCategoryContainer');
@@ -590,7 +623,10 @@ export default {
 				let name =  this.$convertNameToLogo(businessName)
 				return name
 			}
-		},
+        },
+        formatProductImageUrl: function (imagePath) {
+            return this.$formatProductImageUrl(this.businessId, imagePath, "thumbnail")
+        },
         triggerSearch: function () {
             document.getElementById("mobilePrimarySearchInput").focus()
         },
@@ -661,7 +697,8 @@ export default {
                     productId: x.id,
                     price: this.$numberNotation(x.price),
                     image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
-                    hide: x.hide
+                    hide: x.hide,
+                    imageArray: x.images,
                 })
             }
 
@@ -738,7 +775,8 @@ export default {
                     productId: x.id,
                     price: this.$numberNotation(x.price),
                     image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
-                    hide: x.hide
+                    hide: x.hide,
+                    imageArray: x.images,
                 })
             }
 
@@ -797,6 +835,7 @@ export default {
                     productId: x.id,
                     price: this.$numberNotation(x.price),
                     image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    imageArray: x.images,
                     hide: x.hide
                 })
             }
@@ -817,11 +856,18 @@ export default {
         getCustomerDataFromStore: function () {
             let customerData = this.GetUserData
             this.accessToken = customerData.userToken
+        },
+        setContentHeight: function () {
+            if (this.screenWidth < 599) {
+                this.contentHeight = `auto`;
+            }
         }
     },
     created: async function () {
         if(process.browser) {
-            
+
+            window.addEventListener('resize', this.handleResize);
+
             this.getCustomerDataFromStore()
 
             let username = this.$route.params.id
@@ -849,6 +895,8 @@ export default {
                     await this.getAllProducts(1);
                 }
             }
+
+            this.setContentHeight()
         }
     },
     async asyncData({ app, params }) {
@@ -884,5 +932,9 @@ export default {
         width: 30px;
         height: 30px;
         border-top: 2px solid transparent;
+    }
+    .product-card-details {
+        display: block;
+        padding-top: 16px !important;
     }
 </style>

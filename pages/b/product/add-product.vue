@@ -51,21 +51,24 @@
 
                                     </div>
                                     <!-- after the user has selected a category and subcategory, show the details below by removing display-none -->
-                                    <div class="upload-tab-category mg-bottom-16" v-show="selectedCategoryName && selectedSubcategoryName">
-                                        <span>{{selectedCategoryName}}</span>
-                                        <span>
-                                            <svg>
-                                                <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
-                                            </svg>
-                                        </span>
-                                        <span>{{selectedSubcategoryName}}</span>
+                                    <div class="d-flex-between-query mg-bottom-16"  v-show="selectedCategoryName && selectedSubcategoryName">
+                                        <div class="upload-tab-category">
+                                            <span>{{selectedCategoryName}}</span>
+                                            <span>
+                                                <svg>
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
+                                                </svg>
+                                            </span>
+                                            <span>{{selectedSubcategoryName}}</span>
+                                        </div>
+                                        <button class="btn btn-white btn-small" @click="selectedSubcategoryId = ''">Change</button>
                                     </div>
                                     <!-- After the user has selected a category, show the list of subcategories to be selected -->
                                     <!-- show this when selected category ID has been set -->
                                     <div class="change-upload-cat" v-show="selectedCategoryId">
                                         <!-- show when selected catgory has been set and when subcategory ID has not been set -->
                                         <!-- when selected subcategory ID is set, hide -->
-                                        <div class="">
+                                        <div class="" v-show="!selectedSubcategoryId">
                                             <label for="businessType" class="form-label margin-unset">Choose a subcategory</label>
                                             <div class="upload-subcategory-chip-container"  id="selectedSubCat">
                                                 <div class="chip" 
@@ -80,6 +83,7 @@
                                 </div>
 
                                 <div  v-show="catAndSubcatFromUrl">
+
                                     <label for="businessType" class="form-label mg-bottom-8">Selected category and subcategory</label>
                                     <div class="d-flex-between-query">
                                         <div class="upload-tab-category" v-show="selectedCategoryName && selectedSubcategoryName">
@@ -91,7 +95,9 @@
                                             </span>
                                             <span>{{selectedSubcategoryName}}</span>
                                         </div>
+
                                         <button class="btn btn-white btn-small" @click="catAndSubcatFromUrl = 0">Change</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +131,7 @@
             </div>
 
             <ADDCATEGORIESMODAL></ADDCATEGORIESMODAL>
+
 
 
             <!-- place order modal -->
@@ -207,7 +214,11 @@ export default {
             // uploaded product ID
             productId: "",
 
-            successfulUpload: 0
+            successfulUpload: 0,
+            screenWidth: "",
+            formatterWidth: "",
+            formatterHeight: "",
+            
         }
     },
     computed: {
@@ -216,6 +227,9 @@ export default {
         },
         returnSubcategoriesOfCategory: function () {
             return this.subcategoriesUnderCategories
+        },
+        handleResize() {
+            this.screenWidth = window.innerWidth;
         },
     },
     methods: {
@@ -242,8 +256,6 @@ export default {
             } 
 
             this.$previewImage(e, preview);
-
-            this.uploadLoadedFile = uploadFile
         },
         GetAllCategories: async function () {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
@@ -442,15 +454,25 @@ export default {
             e.preventDefault();
             this.successfulUpload = 0;
             document.querySelector("body").classList.remove("overflow-hidden");
+        },
+        setWidthAndHeightForImageFormatter: function () {
+            if (this.screenWidth <= 599) {
+                this.formatterWidth = `${this.screenWidth - 16}px`
+                this.formatterHeight = `${this.screenWidth - 16}px`
+            } else {
+                this.formatterWidth = "320px"
+                this.formatterHeight = "320px"
+            }
         }
     },
     async created () {
         if (process.client) {
+            window.addEventListener('resize', this.handleResize);
             this.allCategories = "";
             this.GetBusinessDataFromStore()
             await this.GetAllCategories();
 
-            this.setCatAndSubcatFromQueryString()
+            this.setCatAndSubcatFromQueryString();
         }
     },
     watch: {

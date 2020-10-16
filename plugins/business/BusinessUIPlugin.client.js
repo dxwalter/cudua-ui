@@ -156,7 +156,7 @@ export default ({app}, inject) => {
     // image previews
     let previewImage = (e, target) => {
         let inputImagePath = URL.createObjectURL(e.target.files[0]);
-        app.$showImagePreview(inputImagePath, target)
+        return app.$showImagePreview(inputImagePath, target)
     }
 
     inject('previewImage', previewImage)
@@ -166,7 +166,9 @@ export default ({app}, inject) => {
         let imageTag = `<img src="${path}">`;
         previewTarget.innerHTML = "";
         previewTarget.style.display = 'block'
-        previewTarget.innerHTML = imageTag;   
+        previewTarget.innerHTML = imageTag;  
+        
+        return imageTag
     }
     inject('showImagePreview', showImagePreview);
 
