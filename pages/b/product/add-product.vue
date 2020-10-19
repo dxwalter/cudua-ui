@@ -105,7 +105,7 @@
                             <div class="form-control upload-image-control">
                                 <!-- <label for="businessType" class="form-label">Product image</label> -->
                                 <div class="upload-action margin-unset">
-                                    <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile">
+                                    <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile" accept="image/*">
                                     
                                     <button class="btn btn-light-grey btn-block margin-unset" id="productsImage">Upload product's image</button>
                                 </div>
@@ -160,12 +160,12 @@
             <!--  end ofplace order modal -->
 
             <!-- Format image modal -->
-            <div class="modal-container mobile-search-modal-container display-block show-modal" id="businessDetailsModal">
+            <div class="modal-container mobile-search-modal-container" id="formatProductImage">
                 <div class="modal-dialog-box business-details-modal">
                 
                     <div class="card close-business-modal">
                         <!-- close search modal -->
-                        <button class="modal-search-close-btn" data-target="businessDetailsModal" data-dismiss="modal">
+                        <button class="modal-search-close-btn" data-target="formatProductImage" data-dismiss="modal">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.512 18.341">
                             <use xlink:href="~/assets/business/image/all-svg.svg#modalArrowLeft"></use>
                         </svg>
@@ -182,17 +182,17 @@
                         <div class="layout-container">
                             <div class="format-image-container">
                                 <!-- make this 100%-->
-                                <div class="business-cover-photo">
+                                <div class="business-cover-photo" id="dumpProductImage">
                                     <!-- make this 100%-->
                                     <!-- <img src="./image/test-image.jpeg" alt=""> -->
                                 </div>
                             </div>
-                            <button class="image-formatter-button" >
+                            <button class="image-formatter-button" @click="adjustImage()">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#expandImage"></use>
                                 </svg>
                             </button>
-                            <button class="image-formatter-button">
+                            <button class="image-formatter-button" @click="rotateImage()">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#rotateImage"></use>
                                 </svg>
@@ -305,7 +305,20 @@ export default {
                 return
             } 
 
+            let target = document.getElementById('formatProductImage')
+           
             this.$previewImage(e, preview);
+            this.$previewImage(e, "dumpProductImage");
+
+            target.classList.add('show-modal', 'display-block')
+            
+        },
+        adjustImage: function () {
+            let target = document.getElementById('dumpProductImage');
+            target.classList.toggle('toggleHeight');
+        },
+        rotateImage: function () {
+
         },
         GetAllCategories: async function () {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
@@ -571,5 +584,8 @@ export default {
 }
 .dd-block {
     display: block;
+}
+.toggleHeight {
+    height: 100% !important;
 }
 </style>

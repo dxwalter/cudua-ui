@@ -4102,7 +4102,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     height: 0;
 }
 
-@media($mq-mb) {
+@media(min-width: 466px) {
     .format-image-container {
         width: 370px;
         height: 370px;
