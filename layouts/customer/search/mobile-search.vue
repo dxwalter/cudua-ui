@@ -90,23 +90,23 @@
 							<div class="row">
 
 								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3" v-for="(business, index) in returnBusinessList" :key="index">
-								<n-link :to="`/${business.username}`" class="card street-biz-card search-biz-card">
-									<div class="street-biz-card-flex">
-									<div class="businesss-card-img">
-										
-										<div class="temporal-logo" v-show="business.logo.length == 0">
-											{{getNameLogo(business.businessname)}}
-										</div>
-                                    	<img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessname}'s logo`"  v-show="business.logo.length > 1" v-lazy-load>
+									<n-link :to="`/${business.username}`" class="card street-biz-card search-biz-card">
+										<div class="street-biz-card-flex">
+										<div class="businesss-card-img">
+											
+											<div class="temporal-logo" v-show="business.logo.length == 0">
+												{{getNameLogo(business.businessname)}}
+											</div>
+											<img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessname}'s logo`"  v-show="business.logo.length > 1" v-lazy-load>
 
-									</div>
-									<div>
-										<div class="business-name">{{business.businessname}}</div>
-										<div class="categories mg-bottom-4">@{{business.username}}</div>
-										<div class="categories" v-show="business.address != null">{{formatBusinessAddress(business.address)}}</div>
-									</div>
-									</div>
-								</n-link>
+										</div>
+										<div>
+											<div class="business-name">{{business.businessname}}</div>
+											<div class="categories mg-bottom-4">@{{business.username}}</div>
+											<div class="categories" v-show="business.address != null">{{formatBusinessAddress(business.address)}}</div>
+										</div>
+										</div>
+									</n-link>
 								</div>
 							</div>
 
@@ -165,7 +165,7 @@ export default {
 	name: "MOBILESEARCHMODAL",
     data: function () {
       return {
-		screenWidth: "",
+		screenWidth: 0,
 		isSearchReady: 0,
 		isLoading: 0,
 		noProduct: 0,
@@ -362,7 +362,7 @@ export default {
             clearTimeout(timerOut)
         },
 	},
-    destroyed () {
+    beforeDestroy () {
         clearTimeout(this.timeoutHandler);
     },
     created () {

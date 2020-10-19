@@ -335,7 +335,7 @@ export default {
 			})
 		}
 	},
-	destroyed () {
+	beforeDestroy () {
 		clearTimeout(this.timeoutHandler);
 	}
 }

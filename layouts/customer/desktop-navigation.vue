@@ -9,16 +9,40 @@
 
       <div class="desktop-search-container">
         <div class="position-relative">
-          <input type="text" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business">
-          <div class="recent-search-list-container display-none">
-            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
-            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
-            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
-            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
-            <n-link to="#">Infinix hot 7 <span>- 57 results</span></n-link>
-          </div>
+          <input type="text" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business" v-model="desktopSearchKeyword">
+						<div class="recent-search-list-container" v-show="!resultCount && searchIndex == -1">
+							
+							<a href="#" v-show="!doneSearching && desktopSearchKeyword.length >= 2">
+
+								<div class="info-area">
+									<span>Searching for</span> {{desktopSearchKeyword}}
+								</div>
+
+								<div class="loader-container">
+									<div class="loader-action"><span class="loader"></span></div>
+								</div>
+
+							</a>
+
+							<a href="#" v-show="doneSearching &&  noProduct && desktopSearchKeyword.length >= 2">
+								<div class="info-area">
+									<span>No result was found for</span> {{desktopSearchKeyword}}
+								</div>
+							</a>
+
+						</div>
+
+            <div class="recent-search-list-container" v-show="desktopSearchKeyword.length > 1 && doneSearching && searchIndex == -1">
+              <n-link :to="`/search?q=${desktopSearchKeyword}`">{{desktopSearchKeyword}} 
+                <span v-show="resultCount == 0" class="large-span">- No result was found</span>
+                <span v-show="resultCount == 1" class="large-span">- 1 result was found</span>
+                <span v-show="resultCount > 1" class="large-span">- {{formatNumber(resultCount)}} results were found</span>
+              </n-link>
+            </div>
+
+
         </div>
-        <button class="btn btn-primary btn-search">Search</button>
+        <button class="btn btn-primary btn-search" @click="redirectToSearchPage()">Search</button>
       </div>
 
       <div class="desktop-nav-link">
@@ -134,6 +158,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 
 import { GET_CUSTOMER_UNREAD_NOTIFICATION_COUNT } from '~/graphql/customer';
+import { REGULAR_SEARCH_COUNT } from '~/graphql/search';
 
 export default {
   name: 'DESKTOPNAVGATIONCOMPONENT',
@@ -153,7 +178,19 @@ export default {
       username: "",
       numberOfItemsInCart: 0,
       accessToken: "",
-      unreadNotificationCount: 0
+      unreadNotificationCount: 0,
+      desktopSearchKeyword: "",
+      pagePath: "",
+
+
+			isSearchReady: 0,
+			isLoading: 0,
+			noProduct: 0,
+			reasonForError: '',
+      resultCount: 0,
+      doneSearching: 0,
+      searchIndex: 0,
+      timeoutHandler: null,
 		}
 	},
   computed: {
@@ -161,11 +198,28 @@ export default {
   },
   created () {
     if (process.client) {
-      this.statusChecker()
-      this.getCustomerNotificationCount()
+        this.statusChecker()
+        this.pagePath = this.$route.path
+        this.getCustomerNotificationCount()
+
+
+        let queryString = this.$route.query.q
+        if (queryString != undefined && queryString.length > 0) {
+          this.desktopSearchKeyword = queryString
+        }
     }
   },
   methods: {
+    formatNumber: function(number) {
+      return this.$numberNotation(number)
+    },
+    redirectToSearchPage: function () {
+      if (this.desktopSearchKeyword.length == 0) {
+           return this.$router.push(`/search?q=big`)
+      } else {
+          return this.$router.push(`/search?q=${this.desktopSearchKeyword}`)
+      }
+    },
     ...mapGetters({
       'GetLoginStatus': 'customer/GetLoginStatus',
       'GetAnonymousId': 'customer/GetAnonymousId',
@@ -177,7 +231,7 @@ export default {
 		statusChecker () {
       this.isLoggedIn = this.GetLoginStatus()
       
-			let customerData = this.GetCustomerData();
+      let customerData = this.GetCustomerData();
       this.accessToken = customerData.userToken
 
       this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
@@ -202,16 +256,81 @@ export default {
         this.$store.dispatch('customer/setNotificationCount', result.count);
 
         this.unreadNotificationCount = result.count
+    },
+    clearTimeOut: function (timerOut) {
+        clearTimeout(timerOut)
+    },
+    runSearchCount: async function () {
+
+
+      if (this.desktopSearchKeyword.length < 2) {
+        return
+      }
+
+      let variables = {
+        queryString: this.desktopSearchKeyword
+      }
+
+      let request = await this.$performGraphQlQuery(this.$apollo, REGULAR_SEARCH_COUNT, variables, {});
+
+      if (request.error) {
+        return this.$initiateNotification('error', 'Failed request', request.message);
+      }
+
+      let result = request.result.data.RegularSearchResultCount;
+
+      if (result.success == false) {
+        return this.$initiateNotification('error', 'Oops!', result.message);
+      }
+
+      this.resultCount = result.products + result.businesses
     }
   },
   watch: {
     cartTrigger: function () {
       this.numberOfItemsInCart = this.GetCartItems()
+    },
+    desktopSearchKeyword: async function () {
+
+
+      // check if this search is happening in search page or another page
+      this.searchIndex = this.pagePath.search('search');
+      
+      if (this.searchIndex == -1) {
+        // run suggestion search
+
+        if (this.desktopSearchKeyword.length < 2) {
+          return
+        }
+
+        this.resultCount = 0;
+        this.isLoading = 1
+        this.doneSearching = 0
+
+              // clear previous time out
+        this.clearTimeOut(this.timeoutHandler)
+
+        this.timeoutHandler = setTimeout( async() => {
+          this.page = 1
+          await this.runSearchCount()
+          this.doneSearching = 1
+          this.isLoading = 0
+
+        }, 1000)
+
+      } else {
+        // pass down search keyword to parent component
+        this.$emit('retrieveSearchKeyword', this.desktopSearchKeyword)
+      }
+
     }
   },
   mounted () {
     
-  }
+  },
+  beforeDestroy () {
+		clearTimeout(this.timeoutHandler);
+	}
 }
 </script>
 

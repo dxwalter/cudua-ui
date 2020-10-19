@@ -35,3 +35,17 @@ query search($queryString: String!, $page: Int!){
   }
 }
 `
+
+export const REGULAR_SEARCH_COUNT = gql`
+query regularCount($queryString: String!) {
+  RegularSearchResultCount(input:{
+    queryString: $queryString
+  }){
+    products
+    businesses
+    code
+    success
+    message
+  }
+}
+`

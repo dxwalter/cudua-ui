@@ -1744,6 +1744,10 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     white-space: nowrap;
 }
 
+.search-biz-card {
+    display: block;
+}
+
 .search-biz-card .businesss-card-img {
     width: 87px;
     height: 87px;
@@ -2785,10 +2789,16 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
         color: $dark-color;
         display: flex;
         justify-content: space-between;
+        
         span {
             font-size: 12px;
             margin-right: 4px;
             color: $black-color-06;
+        }
+
+        span.large-span {
+            font-size: 14px !important;
+            font-weight: 500;
         }
 
         .info-area {
