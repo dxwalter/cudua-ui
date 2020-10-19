@@ -31,7 +31,7 @@
 				<div class="mobile-search-container">
 
 					<!-- beginning of tab nav -->
-					<div v-show="resultCount > 0 && searchKeyword.length > 1">
+					<div v-show="doneSearching && searchKeyword.length > 1">
 						<div class="d-flex-between">
 							<div class="chip-tabs" id="tabList">
 								<a href="#" class="chip-tab-item is-active" id="tabLink" data-tab="productResultTab">Products ({{returnProductList.length}})</a>
@@ -42,12 +42,12 @@
 					<!-- end of tab nav -->
 
 					<!-- beginning of tab content -->
-					<div id="tabContent" v-show="resultCount > 0 && searchKeyword.length > 1">
+					<div id="tabContent" v-show="doneSearching && searchKeyword.length > 1">
 
 						<!-- beginning of product listing -->
 						<div class="tab-content-area is-active" id="productResultTab">
 							
-							<div class="search-result-count mg-top-24">Search result for <span>{{searchKeyword}}</span></div>
+							<div class="search-result-count mg-top-24" v-show="returnProductList.length > 0">Search result for <span>{{searchKeyword}}</span></div>
 
 							<div class="row">
 													
@@ -61,66 +61,81 @@
 												{{product.name}}
 											</div>
 											<div class="product-price">₦ {{formatPrice(product.price)}}</div>
-											<div class="search-product-location">Apamini, Woji</div>
 										</div>
 									</div>
 								</n-link>
 
 							</div>
-							<div class="load-more-action"><button class="btn btn-white">Load more</button></div>
+
+							<!-- when no string has been typed into search box -->
+							<div class="link-error-area" v-show="returnProductList.length == 0 && doneSearching">
+								<img src="~/static/images/search.svg" alt="">
+								<div class="error-cause">No product with the name <span class="indicator">{{searchKeyword}}</span> was found.</div>
+							</div>
+							<!-- end of error area -->
+
+							<div class="load-more-action" v-show="productCount == 50">
+								<button class="btn btn-white" id="loadMoreProductResults" @click="loadMoreProductResults()">
+									Load more
+									<div class="loader-action"><span class="loader"></span></div>	
+								</button>
+							</div>
 						</div>
 						<!-- end of product listing -->
 
 						<!-- beginning of business listing -->
 						<div class="tab-content-area" id="companyResultTab">
-							<div class="search-result-count mg-top-24">Search result for <span>{{searchKeyword}}</span></div>
+							<div class="search-result-count mg-top-24" v-show="returnBusinessList.length > 0">Search result for <span>{{searchKeyword}}</span></div>
 							
 							<div class="row">
 
-								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-								<a href="#" class="card street-biz-card search-biz-card">
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3" v-for="(business, index) in returnBusinessList" :key="index">
+								<n-link :to="`/${business.username}`" class="card street-biz-card search-biz-card">
 									<div class="street-biz-card-flex">
 									<div class="businesss-card-img">
-										<img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
+										
+										<div class="temporal-logo" v-show="business.logo.length == 0">
+											{{getNameLogo(business.businessname)}}
+										</div>
+                                    	<img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.businessname}'s logo`"  v-show="business.logo.length > 1" v-lazy-load>
+
 									</div>
 									<div>
-										<div class="business-name">Ihuoma fashion home international limited</div>
-										<div class="categories">15 mini-Woji street, woji, Port Harcourt, Rivers state, Nigeria</div>
+										<div class="business-name">{{business.businessname}}</div>
+										<div class="categories mg-bottom-4">@{{business.username}}</div>
+										<div class="categories" v-show="business.address != null">{{formatBusinessAddress(business.address)}}</div>
 									</div>
 									</div>
-								</a>
+								</n-link>
 								</div>
-
-								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-								<a href="#" class="card street-biz-card search-biz-card">
-									<div class="street-biz-card-flex">
-									<div class="businesss-card-img">
-										<img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-									</div>
-									<div>
-										<div class="business-name">Ihuoma fashion home international limited</div>
-										<div class="categories">15 mini-Woji street, woji, Port Harcourt, Rivers state, Nigeria</div>
-									</div>
-									</div>
-								</a>
-								</div>
-
-
 							</div>
-							<div class="load-more-action"><button class="btn btn-white">Load more</button></div>
+
+							<!-- when no string has been typed into search box -->
+							<div class="link-error-area" v-show="returnBusinessList.length == 0 && doneSearching">
+								<img src="~/static/images/search.svg" alt="">
+								<div class="error-cause">No business with the name or username <span class="indicator">{{searchKeyword}}</span> was found.</div>
+							</div>
+							<!-- end of error area -->
+
+							<div class="load-more-action" v-show="businessCount == 50">
+								<button class="btn btn-white" id="loadMoreProductResults" @click="loadMoreProductResults()">
+									Load more
+									<div class="loader-action"><span class="loader"></span></div>	
+								</button>
+							</div>
 						</div>
 						<!-- end of business listing -->
 					</div>
 					<!-- end of tab content -->
 
 				
-					<div class="content-loading" v-show="isLoading">
+					<div class="content-loading" v-show="isLoading && searchKeyword.length > 1">
 						<div class="loader-action"><span class="loader"></span></div>    
 					</div>
 			
 
 					<!-- when no string has been typed into search box -->
-					<div class="link-error-area" v-show="searchKeyword.length == 0">
+					<div class="link-error-area" v-show="searchKeyword.length < 2">
 						<img src="~/static/images/search.svg" alt="">
 						<div class="error-cause">Search for <span class="indicator">products</span> and <span class="indicator">businesses</span></div>
 					</div>
@@ -154,8 +169,13 @@ export default {
 		isSearchReady: 0,
 		isLoading: 0,
 		noProduct: 0,
+		
 		productList: [],
+		productCount: 0,
+
 		businessList: [],
+		businessCount: 0,
+
 		reasonForError: '',
 		resultCount: 0,
 		pageError: false,
@@ -195,6 +215,8 @@ export default {
 			this.isLoading = 1
 			this.doneSearching = 0
 			this.resultCount = 0
+			this.productList = []
+			this.businessList = []
 
             // clear previous time out
             this.clearTimeOut(this.timeoutHandler)
@@ -209,7 +231,7 @@ export default {
 		},
 		showMobileSearch: function () {
 			if (this.showMobileSearch == 1){
-				document.querySelector("body").classList.remove("overflow-hidden");
+				document.querySelector("body").classList.add("overflow-hidden");
 				let target = document.getElementById('mobileSearchModal')
 				target.classList.add('show-modal', 'display-block')
 				target.classList.add('show-modal', 'display-block')
@@ -229,7 +251,7 @@ export default {
 		},
 		checkDeviceStat: function () {
 			if (this.screenWidth < 1024) {
-				document.querySelector("body").classList.remove("overflow-hidden");
+				document.querySelector("body").classList.add("overflow-hidden");
 				let target = document.getElementById('mobileSearchModal')
 				target.classList.add('show-modal', 'display-block')
 			} else {
@@ -239,6 +261,14 @@ export default {
 		formatPrice: function (price) {
 			return this.$numberNotation(price)
 		},
+        getNameLogo: function(name) {
+			if (process.browser) {
+				return this.$convertNameToLogo(name)
+			}
+		},
+        getBusinessLogo: function (businessId, logo) {
+            return this.$getBusinessLogoUrl(businessId, logo)
+        },
 		formatProductImage: function (businessId, imagePath) {
 			return this.$formatProductImageUrl(businessId, imagePath, "thumbnail")
 		},
@@ -269,24 +299,63 @@ export default {
 
 			this.resultCount = result.businesses.length + result.products.length
 
-			if (this.resultCount == 0) {
+			if (this.resultCount == 0 && page == 1) {
 				this.productList = []
 				this.noProduct = 1
 				this.reasonForError = `No result was found for <span class="indicator">${this.searchKeyword}</span>.`
+				return
 			} else {
 				this.noProduct = 0
 			}
 			
-			this.productList = result.products
-			this.businessList = result.businesses
+			if (result.products.length > 0) {
+				for (const product of result.products) {
+					this.productList.push({
+						id: product.id,
+						name: product.name,
+						primaryImage: product.primaryImage,
+						price: product.price,
+						businessId: product.businessId,
+						reviewScore: product.reviewScore
+					})
+				}
+			}
+			this.productCount = result.products.length
+
+
+			if (result.businesses.length > 0) {
+				for (const business of result.businesses) {
+					this.businessList.push({
+						businessname: business.businessname,
+						username: business.username,
+						address: business.address,
+						businessId: business.id,
+						logo: business.logo
+					})
+				}
+			}
+			this.businessCount = result.businesses.length
 
 			this.pageError = false
 
 		},
-		loadMoreSearchResults: async function (page, e) {
+		loadMoreProductResults: async function () {
+			let page = parseInt(this.page + 1)
+			let target = document.getElementById('loadMoreProductResults');
+
+			target.disabled = true;
 			await this.makeRegularSearch(page)
+			target.disabled = false;
+
 			if ((page * 50 ) >= this.resultCount) {
 				this.calculatedLoad = 1
+			}
+		},
+		formatBusinessAddress: function(address){
+			if (address == null) {
+				return
+			} else {
+				return `${address.number} ${address.street}, ${address.community} ${address.state}.`
 			}
 		},
         clearTimeOut: function (timerOut) {

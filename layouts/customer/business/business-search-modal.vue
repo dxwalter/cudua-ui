@@ -31,7 +31,7 @@
 			<!-- beginning of product listing -->
 			<div class="tab-content-area is-active" id="productResultTab">
 			
-			<div class="search-result-count"  v-show="doneSearching && !pageError && searchKeyword.length >= 1">{{resultCount}} results for <span>{{searchKeyword}}</span></div>
+			<div class="search-result-count"  v-show="doneSearching && !pageError && searchKeyword.length >= 1">{{formatNumber(resultCount)}} results for <span>{{searchKeyword}}</span></div>
 
 			<div class="search-result-count"  v-show="!doneSearching && searchKeyword.length >= 1">Searching for <span>{{searchKeyword}}</span></div>
 
@@ -41,34 +41,34 @@
 			</div>
 
 
-			<div  v-show="resultCount > 0 && searchKeyword.length > 0">
+				<div  v-show="resultCount > 0 && searchKeyword.length > 0">
 
-				<div class="row">
-										
-					<n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index">
-						<div class="product-card">
-							<div class="product-card-image">
-								<img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
-							</div>
-							<div class="product-card-details">
-								<div class="product-name">
-									{{x.productName}}
+					<div class="row">
+											
+						<n-link :to="`/p/${x.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index">
+							<div class="product-card">
+								<div class="product-card-image">
+									<img :data-src="x.image"  :alt="`${x.productName}'s image`" v-lazy-load>
 								</div>
-								<div class="product-price">₦ {{x.price}}</div>
+								<div class="product-card-details">
+									<div class="product-name">
+										{{x.productName}}
+									</div>
+									<div class="product-price">₦ {{x.price}}</div>
+								</div>
 							</div>
-						</div>
-					</n-link>
+						</n-link>
 
+						
+					</div>
+
+					<div class="load-more-action">
+						<button class="btn btn-white" @click="loadMoreSearchResults(page = page + 1, $event)" v-show="!calculatedLoad && resultCount > 12" id="loadMoreSearchResults">
+							Load more results
+							<div class="loader-action"><span class="loader"></span></div>    
+						</button>
+					</div>
 					
-				</div>
-
-				<div class="load-more-action">
-					<button class="btn btn-white" @click="loadMoreSearchResults(page = page + 1, $event)" v-show="!calculatedLoad && resultCount > 12">
-						Load more results
-						<div class="loader-action"><span class="loader"></span></div>    
-					</button>
-				</div>
-				
 				</div>
 			</div>
 			<!-- end of product listing -->
@@ -202,14 +202,15 @@ export default {
 			if (result.resultCount == 0) {
 				this.productList = []
 				this.noProduct = 1
-				this.resultCount = result.resultCount
+				this.resultCount = parseInt(result.resultCount, 10)
 				this.reasonForError = `No result was found for <span class="indicator">${this.searchKeyword}</span>.`
+				return
 			} else {
 				this.noProduct = 0
 			}
 
 			if (result.resultCount > 0) {
-				this.resultCount = this.$numberNotation(result.resultCount)
+				this.resultCount = result.resultCount
 
 				for (let y of result.products) {
 					this.productList.push({
@@ -225,10 +226,16 @@ export default {
 
 		},
 		loadMoreSearchResults: async function (page, e) {
+			let target = document.getElementById('loadMoreSearchResults');
+			target.disabled = true
 			await this.searchForProduct(page)
+			target.disabled = false
 			if ((page * 12 ) >= this.resultCount) {
 				this.calculatedLoad = 1
 			}
+		},
+		formatNumber: function (number) {
+			return this.$numberNotation(number)
 		},
         clearTimeOut: function (timerOut) {
             clearTimeout(timerOut)

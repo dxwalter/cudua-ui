@@ -18,6 +18,7 @@ query search($queryString: String!, $page: Int!){
       id
       businessname
       logo
+      username
       address {
         number
         street

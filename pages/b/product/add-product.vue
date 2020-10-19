@@ -158,6 +158,56 @@
                 </div>
             </div>
             <!--  end ofplace order modal -->
+
+            <!-- Format image modal -->
+            <div class="modal-container mobile-search-modal-container display-block show-modal" id="businessDetailsModal">
+                <div class="modal-dialog-box business-details-modal">
+                
+                    <div class="card close-business-modal">
+                        <!-- close search modal -->
+                        <button class="modal-search-close-btn" data-target="businessDetailsModal" data-dismiss="modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.512 18.341">
+                            <use xlink:href="~/assets/business/image/all-svg.svg#modalArrowLeft"></use>
+                        </svg>
+                        </button>
+                        <div class="about-biz-header">
+                        <h4>Select product image</h4>
+                        </div>
+                        <!-- end of search input area -->
+                    </div>
+            
+                    <!-- beginning of mobile search container -->
+                    <div class="mobile-search-container no-padding white-bg-color">
+                        
+                        <div class="layout-container">
+                            <div class="format-image-container">
+                                <!-- make this 100%-->
+                                <div class="business-cover-photo">
+                                    <!-- make this 100%-->
+                                    <!-- <img src="./image/test-image.jpeg" alt=""> -->
+                                </div>
+                            </div>
+                            <button class="image-formatter-button" >
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#expandImage"></use>
+                                </svg>
+                            </button>
+                            <button class="image-formatter-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#rotateImage"></use>
+                                </svg>
+                            </button>
+                        </div>
+            
+                    
+            
+                    </div>
+                    <!-- end of mobile search container -->
+            
+                </div>
+            </div>
+            <!-- End of format image modal -->
+
         </div>
     </div>
 </template>

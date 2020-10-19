@@ -305,6 +305,7 @@
     .categories {
         font-size: 14px;
         line-height: 22px;
+        word-break: break-word;
     }
 }
 
@@ -1750,7 +1751,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
 .search-biz-card .business-name {
     font-size: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100%;
@@ -2060,6 +2061,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
             }
             .categories {
                 font-size: 16px;
+                word-break: break-word;
             }
         }
     }

@@ -279,7 +279,7 @@ export default {
 			}
 
 			if (result.resultCount > 0) {
-				this.resultCount = this.$numberNotation(result.resultCount)
+				this.resultCount = result.resultCount
 
 				for (let y of result.products) {
 					this.productList.push({
