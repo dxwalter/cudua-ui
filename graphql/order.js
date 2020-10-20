@@ -47,10 +47,9 @@ query getOrder($businessId: String!) {
 `
 
 export const BUSINESS_GET_ORDER_PRODUCTS = gql`
-query getProduct($businessId: String!, $customerId: String!, $orderId: String!){
+query getProduct($businessId: String!, $orderId: String!){
   BusinessGetProductsInOrder(input:{
     businessId: $businessId,
-    customerId: $customerId,
     orderId: $orderId
   }) {
     orderDetails {

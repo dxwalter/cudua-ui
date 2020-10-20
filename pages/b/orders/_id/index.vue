@@ -370,7 +370,6 @@ export default {
 
 			let variables = {
                 businessId: this.businessId,
-                customerId: this.customerId,
                 orderId: this.orderId
 			}
 
@@ -401,6 +400,7 @@ export default {
             // customer details
 
             this.fullname = data.customerDetails.fullname
+            this.customerId = data.customerDetails.customerId
             this.address = data.customerDetails.address
             this.phoneNumber = data.customerDetails.phoneNumber
             this.email = data.customerDetails.email
@@ -433,10 +433,16 @@ export default {
                 return this.$router.push('/b/orders')
             }
 
+            // this is emitted to customer review component where all customer reviews are listed
             $nuxt.$emit('CustomerReviews', {
                 reviews: data.customerDetails.reviews == null ? [] : data.customerDetails.reviews,
                 reviewScore: this.ratingScore
             });
+
+            // this is emitted to create customer review component
+            $nuxt.$emit('customerDetails', {
+                customerId: this.customerId
+            })
 
             // products
 
@@ -663,8 +669,7 @@ export default {
     created() {
         if (process.client) {
             this.orderId = this.$route.params.id
-            this.customerId = this.$route.query.ctr
-            if((this.customerId == undefined) || this.orderId.length == 0) {
+            if(this.orderId.length == 0) {
                 return this.$router.push('/b/orders/')
             } 
             this.GetBusinessDataFromStore()

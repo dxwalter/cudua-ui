@@ -126,7 +126,7 @@ export default ({app}, inject) => {
 					break;
 
 				case "order":
-					url = `/b/orders`;
+					url = `/b/orders/${id}`;
 					break;
 
 				case "business_profile":

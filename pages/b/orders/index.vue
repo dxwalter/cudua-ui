@@ -80,7 +80,7 @@
 											</div>
 										</div>
 										<div class="item-card-footer">
-											<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
+											<n-link :to="`/b/orders/${order.orderId}`" class="btn btn-md btn-white">
 												View products
 											</n-link>
 										</div>
@@ -136,7 +136,7 @@
 														</div>
 													</div>
 													<div class="item-card-footer">
-														<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
+														<n-link :to="`/b/orders/${order.orderId}`" class="btn btn-md btn-white">
 															View products
 														</n-link>
 													</div>
@@ -171,7 +171,7 @@
 														</div>
 													</div>
 													<div class="item-card-footer">
-														<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
+														<n-link :to="`/b/orders/${order.orderId}`" class="btn btn-md btn-white">
 															View products
 														</n-link>
 													</div>
@@ -207,7 +207,7 @@
 														</div>
 													</div>
 													<div class="item-card-footer">
-														<n-link :to="`/b/orders/${order.orderId}?ctr=${order.customerId}`" class="btn btn-md btn-white">
+														<n-link :to="`/b/orders/${order.orderId}`" class="btn btn-md btn-white">
 															View products
 														</n-link>
 													</div>

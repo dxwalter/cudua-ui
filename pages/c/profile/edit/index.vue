@@ -43,7 +43,7 @@
                                     <div id="previewBusinessLogo" class="edit-logo-preview"></div>
                                 </div>
                                 <div class="upload-action">
-                                    <input type="file" id="selectimage" ref="dpUpload" @change="uploadLogoImage($event, 'previewBusinessLogo')">
+                                    <input type="file" id="selectimage" ref="dpUpload" @change="uploadLogoImage($event, 'previewBusinessLogo')" accept="image/png,image/jpg,image/jpeg">
 
                                     <button class="btn btn-white btn-small">Select picture</button>
                                 </div>

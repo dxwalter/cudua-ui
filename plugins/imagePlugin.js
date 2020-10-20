@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas';
+
 export default ({app}, inject) => {
 
     let getBusinessLogoUrl = (businessId, logoPath) => {
@@ -60,6 +62,17 @@ export default ({app}, inject) => {
     }
 
     inject("getCustomerProfilePictureUrl", getCustomerProfilePictureUrl);
+
+    let htmlToCanvas =  async (el, options = {}) => {
+        const { type } = options;
+        const canvas = await html2canvas(el, options);
+        if (type && type === 'dataURL') { return canvas.toDataURL(); } else {
+          console.warn('Vue Html2Canvas Warn: Invalid option type. Use \'dataURL\' instead. Returning canvas.');
+          return canvas;
+        }
+    }
+
+    inject("htmlToCanvas", htmlToCanvas);
 
 }
 

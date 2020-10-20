@@ -175,10 +175,9 @@ export default {
     created() {
         if (process.client) {
             this.orderId = this.$route.params.id
-            this.customerId = this.$route.query.ctr
-            if((this.customerId == undefined) || this.orderId.length == 0) {
-                
-            } 
+            this.$nuxt.$on('customerDetails', (data) => {
+                this.customerId = data.customerId;
+            });
             this.GetBusinessDataFromStore()
         }
     },

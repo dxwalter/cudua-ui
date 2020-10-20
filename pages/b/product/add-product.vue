@@ -10,7 +10,7 @@
                     <!-- pageLoader -->
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
 
-                    <div>
+                    <div class="display-none">
                         <div class="alert alert-secondary notification-alert">
                             <div>Images on white/transparent background look better. Remove background before upload</div>
                             <a href="https://remove.bg" target="_blank" class="btn btn-small btn-white">Remove background</a>
@@ -105,7 +105,7 @@
                             <div class="form-control upload-image-control">
                                 <!-- <label for="businessType" class="form-label">Product image</label> -->
                                 <div class="upload-action margin-unset">
-                                    <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile" accept="image/*">
+                                    <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile" accept="image/png,image/jpg,image/jpeg">
                                     
                                     <button class="btn btn-light-grey btn-block margin-unset" id="productsImage">Upload product's image</button>
                                 </div>
@@ -165,7 +165,7 @@
                 
                     <div class="card close-business-modal">
                         <!-- close search modal -->
-                        <button class="modal-search-close-btn" data-target="formatProductImage" data-dismiss="modal">
+                        <button class="modal-search-close-btn" data-target="formatProductImage" data-dismiss="modal" @click="resetSelectedImage()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.512 18.341">
                             <use xlink:href="~/assets/business/image/all-svg.svg#modalArrowLeft"></use>
                         </svg>
@@ -180,11 +180,11 @@
                     <div class="mobile-search-container no-padding white-bg-color">
                         
                         <div class="layout-container">
-                            <div class="format-image-container">
+                            <div class="format-image-container" id="dumpProductImageContainer" ref="imageToPrint">
                                 <!-- make this 100%-->
-                                <div class="business-cover-photo" id="dumpProductImage">
+                                <div class="business-cover-photo" id="dumpProductImage" data-rotate="0">
                                     <!-- make this 100%-->
-                                    <!-- <img src="./image/test-image.jpeg" alt=""> -->
+                                    <img src="~/assets/business/image/all-svg.svg#expandImage" alt="">
                                 </div>
                             </div>
                             <button class="image-formatter-button" @click="adjustImage()">
@@ -197,6 +197,12 @@
                                     <use xlink:href="~/assets/business/image/all-svg.svg#rotateImage"></use>
                                 </svg>
                             </button>
+                        </div>
+
+                        <canvas id="imageCanvas" class=""></canvas>
+
+                        <div class="mg-top-32 d-flex-center">
+                            <button class="btn btn-primary btn-md" @click="cropImageForUpload()">Crop and continue</button>
                         </div>
             
                     
@@ -223,6 +229,8 @@ import PAGELOADER from '~/components/loader/loader.vue';
 import { GET_ALL_CATEGORIES } from '~/graphql/categories';
 import { CREATE_NEW_PRODUCT } from '~/graphql/product';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
+
+// import VueHtml2Canvas from 'vue-html2canvas';
 
 export default {
     name: "ADDNEWPRODUCT",
@@ -268,6 +276,9 @@ export default {
             screenWidth: "",
             formatterWidth: "",
             formatterHeight: "",
+
+            // crop image
+            targetImageFile: ""
             
         }
     },
@@ -305,20 +316,56 @@ export default {
                 return
             } 
 
+            this.targetImageFile = e
+
             let target = document.getElementById('formatProductImage')
            
             this.$previewImage(e, preview);
             this.$previewImage(e, "dumpProductImage");
-
+            
+            document.querySelector("body").classList.add("overflow-hidden");
             target.classList.add('show-modal', 'display-block')
             
+        },
+        cropImageForUpload: async function () {
+            let imageContainer = document.getElementById('dumpProductImageContainer');
+            let width = imageContainer.offsetWidth 
+            let height = imageContainer.offsetHeight 
+            
+            imageContainer.style.width = `${width}px`
+            imageContainer.style.height = `${height}px`;
+
+            const el = this.$refs.imageToPrint
+
+            const options = {
+                type: 'dataURL',
+                allowTaint: true
+            }
+            
+            let img = await this.$htmlToCanvas(el, options);
+
+            this.uploadLoadedFile = img
+
+            let previewImage = document.querySelectorAll('#previewPrimaryImage img');
+            previewImage[0].setAttribute('src', img)
+        },
+        resetSelectedImage: function () {
+            this.$refs.primaryImageFile.value=null;
+            this.targetImageFile = ""
         },
         adjustImage: function () {
             let target = document.getElementById('dumpProductImage');
             target.classList.toggle('toggleHeight');
         },
         rotateImage: function () {
-
+            let target = document.getElementById('dumpProductImage');
+            let currentDegree = parseInt(target.getAttribute('data-rotate'), 10);
+            let newDegree = currentDegree + 90
+            if (newDegree > 270) {
+                newDegree = 0
+            }
+            target.setAttribute('data-rotate', newDegree)
+            target.style.transform = `rotate(${newDegree}deg)`
         },
         GetAllCategories: async function () {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
@@ -453,7 +500,7 @@ export default {
             }
 
             // check upload image
-            if (this.uploadLoadedFile.name == undefined) {
+            if (this.uploadLoadedFile.length == 0) {
                 this.$addRedBorder("productsImage");
                 this.$showToast("Upload the image of the product that you want to sell", "error");
                 return
@@ -509,9 +556,6 @@ export default {
 
             this.$showToast("Upload successful", "success");
 
-            
-
-
         },
         hideSuccessModal: function (e) {
             e.preventDefault();
@@ -552,6 +596,7 @@ export default {
     },
     mounted() {
         this.pageLoader = false
+        
     }
 }
 </script>
@@ -585,7 +630,8 @@ export default {
 .dd-block {
     display: block;
 }
-.toggleHeight {
-    height: 100% !important;
+canvas {
+    width: 0;
+    height: 0;
 }
 </style>

@@ -36,7 +36,7 @@
                                                 <div id="previewBusinessLogo" class="edit-logo-preview"></div>
 											</div>
                                             <div class="upload-action">
-                                                <input type="file" id="selectimage" ref="logoUpload" @change="uploadLogoImage($event, 'previewBusinessLogo')">
+                                                <input type="file" id="selectimage" ref="logoUpload" @change="uploadLogoImage($event, 'previewBusinessLogo')" accept="image/png,image/jpg,image/jpeg">
                                                 <button class="btn btn-white btn-small">Select logo</button>
                                             </div>
                                             
@@ -53,7 +53,7 @@
                                                 <div id="previewBusinessCover" class="edit-logo-preview"></div>
                                             </div>
                                             <div class="upload-action">
-                                                <input type="file" id="selectLogoImage" ref="coverUpload" @change="uploadCoverPhoto($event, 'previewBusinessCover')">
+                                                <input type="file" id="selectLogoImage" ref="coverUpload" @change="uploadCoverPhoto($event, 'previewBusinessCover')" accept="image/png,image/jpg,image/jpeg">
                                                 <button class="btn btn-white btn-small">Select cover photo</button>
                                             </div>
                                             <!-- once a logo is selected, an animated loaded is shown to tell the progress of the upload -->
