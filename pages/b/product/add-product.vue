@@ -115,7 +115,10 @@
                                 </div> -->
                                 
 
-                                <div id="previewPrimaryImage" class="image-upload-preview"></div>
+                                <div v-show="uploadLoadedFile">
+                                    <div id="previewPrimaryImage" class="image-upload-preview"></div>
+                                </div>
+
                             </div>
                     
                             <div class="form-control">
@@ -324,12 +327,15 @@ export default {
 
             let target = document.getElementById('formatProductImage')
 
-            // scroll to top of the page
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            if (process.browser) {
+                window.scrollTo(0, 0);
+            }
            
-            this.$previewImage(e, preview);
             this.$previewImage(e, "dumpProductImage");
+            this.$previewImage(e, preview);
+
+            let imageCanvas = document.getElementById('dumpProductImage');
+            imageCanvas.style.height = `${this.screenWidth}px`;
             
             document.querySelector("body").classList.add("overflow-hidden");
             target.classList.add('show-modal', 'display-block')
@@ -344,7 +350,8 @@ export default {
 
             
             imageContainer.style.width = `${width}px`;
-            imageContainer.style.height = `${height}px`;
+            // imageContainer.style.height = `${height}px`;
+            
 
             imageCanvas.classList.add('select-crop-image');
 

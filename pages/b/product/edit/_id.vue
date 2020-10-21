@@ -164,7 +164,7 @@
                                                         </div>
 
                                                         <div class="drag-drop-upload-panel" v-bind:class="{'is-loading': isUploading}">
-                                                            <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile">
+                                                            <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile" accept="image/png,image/jpg,image/jpeg">
                                                             Tap/click here to select image
                                                             <div class="loader-action"><span class="loader"></span></div>
                                                         </div>
@@ -681,8 +681,9 @@ export default {
             let target = document.getElementById('formatProductImage')
 
             // scroll to top of the page
-            document.body.scrollTop = 0; // For Safari
-            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            if (process.browser) {
+                window.scrollTo(0, 0);
+            }
            
             this.$previewImage(e, preview);
             this.$previewImage(e, "dumpProductImage");

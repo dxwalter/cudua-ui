@@ -375,6 +375,7 @@
         <BUSINESSCONTACT></BUSINESSCONTACT>
         <LoginComponent></LoginComponent>
         <BUSINESSSEARCH></BUSINESSSEARCH>
+        <!-- <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL> -->
     </div>
 
     <div class="filter-btn-container" v-show="!pageLoader">
@@ -397,6 +398,8 @@ import {
     ANONYMOUS_ADD_ITEM_TO_CART
 } from '~/graphql/product';
 
+import { GET_BUSINESS_DETAILS_BY_USERNAME } from '~/graphql/business'
+
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import StarRating from '~/plugins/vue-star-rating.client.vue'
@@ -412,6 +415,7 @@ import PRODUCTREVIEW from '~/components/product/product-review.vue'
 import PAGELOADER from '~/components/loader/loader.vue';
 import LoginComponent from '~/components/login/login.vue'
 import BUSINESSNAV from '~/layouts/customer/business/business-nav.vue';
+import ABOUTBUSINESSMODAL from '~/layouts/customer/business/about-modal.vue';
 
 async function fetchProductDetailsFromApi (app, params) {
     try {
@@ -489,7 +493,8 @@ export default {
       LoginComponent,
       BUSINESSCONTACT,
       BUSINESSNAV,
-      BUSINESSSEARCH
+      BUSINESSSEARCH,
+      ABOUTBUSINESSMODAL
     },
     data: function () {
         return {
@@ -629,6 +634,9 @@ export default {
         },
         formatBigSizeImage: function (image) {
             return this.$formatProductImageUrl(this.businessId, image, "bigSize")
+        },
+        getBusinessDetails: async function () {
+
         },
         formatProductDetails: function () {
 
@@ -887,7 +895,8 @@ export default {
             this.pageLoader = false
 
             this.timeout = setTimeout(() => {
-                this.formatProductDetails()
+                this.formatProductDetails();
+                this.getBusinessDetails()
             }, 1000);
         }
     },

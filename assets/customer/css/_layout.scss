@@ -462,6 +462,27 @@
 .product-image-container {
     position: relative;
 
+    .cursor-control {
+        position: absolute;
+        width: auto;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .cursor-control.to-left {
+        position: absolute;
+        left: 0;
+        padding-right: 24px;
+    }
+
+    .cursor-control.to-right {
+        position: absolute;
+        right: 0;
+        padding-left: 24px;
+    }
+
     button {
         width: 25px;
         height: 25px;
@@ -476,18 +497,6 @@
             margin-left: -1px;
         }
     }
-
-    button[data-direction='right'] {
-        position: absolute;
-        right: 0;
-        top: 50%
-    }
-
-    button[data-direction='left'] {
-        position: absolute;
-        top: 50%;
-        left: 0
-    }
 }
 
 @media($mq-mb) {
@@ -499,6 +508,9 @@
     .product-card-image {
         display: block;
         overflow: hidden;
+        a {
+            display: block;
+        }
         img {
             object-fit: contain;
             -o-object-fit: contain;
