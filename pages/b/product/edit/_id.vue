@@ -138,7 +138,7 @@
                                                         <label for="businessType" class="form-label"><span>Tap image to remove image or set as primary</span></label>
 
                                                         <div class="selected-img-preview mg-bottom-24">
-                                                            <div id="moreImages" class="preview-image">
+                                                            <div id="previewPrimaryImage" class="preview-image" v-show="uploadLoadedFile">
                                                                 
                                                             </div>
 
@@ -164,7 +164,7 @@
                                                         </div>
 
                                                         <div class="drag-drop-upload-panel" v-bind:class="{'is-loading': isUploading}">
-                                                            <input type="file" id="selectimage" @change="uploadProductImage($event, 'moreImages')">
+                                                            <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile">
                                                             Tap/click here to select image
                                                             <div class="loader-action"><span class="loader"></span></div>
                                                         </div>
@@ -363,6 +363,63 @@
                         <ADDCATEGORIESMODAL></ADDCATEGORIESMODAL>
                         <nuxt />
                     </div>
+
+                    <!-- Format image modal -->
+                    <div class="modal-container mobile-search-modal-container" id="formatProductImage">
+                        <div class="modal-dialog-box business-details-modal">
+                        
+                            <div class="card close-business-modal">
+                                <!-- close search modal -->
+                                <button class="modal-search-close-btn" data-target="formatProductImage" data-dismiss="modal" @click="resetSelectedImage()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.512 18.341">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#modalArrowLeft"></use>
+                                </svg>
+                                </button>
+                                <div class="about-biz-header">
+                                <h4>Select product image</h4>
+                                </div>
+                                <!-- end of search input area -->
+                            </div>
+                    
+                            <!-- beginning of mobile search container -->
+                            <div class="mobile-search-container no-padding white-bg-color">
+                                
+                                <div class="layout-container">
+                                    <div class="format-image-container" id="dumpProductImageContainer">
+                                        <!-- make this 100%-->
+                                        <div class="business-cover-photo" id="dumpProductImage" data-rotate="0" ref="imageToPrint">
+                                            <!-- make this 100%-->
+                                            <img src="~/assets/business/image/all-svg.svg#expandImage" alt="">
+                                        </div>
+                                    </div>
+                                    <button class="image-formatter-button" @click="adjustImage()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                            <use xlink:href="~/assets/business/image/all-svg.svg#expandImage"></use>
+                                        </svg>
+                                    </button>
+                                    <button class="image-formatter-button" @click="rotateImage()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <use xlink:href="~/assets/business/image/all-svg.svg#rotateImage"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="mg-top-32 d-flex-center">
+                                    <button class="btn btn-primary btn-md" @click="cropImageForUpload()" id="cropImageForUpload">
+                                        Crop and continue
+                                        <div class="loader-action"><span class="loader"></span></div>    
+                                    </button>
+                                </div>
+                    
+                            
+                    
+                            </div>
+                            <!-- end of mobile search container -->
+                    
+                        </div>
+                    </div>
+                    <!-- End of format image modal -->
+
             </div>
         </div>
     </div>
@@ -439,7 +496,9 @@ export default {
 
             // for picture upload
             isUploading: 0,
+            uploadLoadedFile: "",
 
+            setTimeoutCount: null
             
 
         }
@@ -606,8 +665,89 @@ export default {
             
         },
         previewImage: function (e, preview) {
-            this.$previewImage(e, preview)
+            let file = e.target.files[0];
+            let uploadFile = e.target.files[0];
 
+            if (uploadFile == undefined) return
+
+            let fileValidation = this.$checkFileExtension(uploadFile.name);
+            if (fileValidation == false) {
+                this.$showToast('Choose a valid image file', "error", 3500)
+                return
+            } 
+
+            this.targetImageFile = e
+
+            let target = document.getElementById('formatProductImage')
+
+            // scroll to top of the page
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+           
+            this.$previewImage(e, preview);
+            this.$previewImage(e, "dumpProductImage");
+            
+            document.querySelector("body").classList.add("overflow-hidden");
+            target.classList.add('show-modal', 'display-block')
+            
+        },
+        cropImageForUpload: async function () {
+            let imageContainer = document.getElementById('dumpProductImageContainer');
+            let imageCanvas = document.getElementById('dumpProductImage');
+
+            let width = imageContainer.offsetWidth 
+            let height = imageContainer.offsetHeight 
+
+            
+            imageContainer.style.width = `${width}px`;
+            imageContainer.style.height = `${height}px`;
+
+            imageCanvas.classList.add('select-crop-image');
+
+            clearTimeout(this.setTimeoutCount)
+
+            let actionBtn = document.getElementById('cropImageForUpload');
+            actionBtn.disabled = true;
+
+            this.setTimeoutCount = setTimeout(async () => {
+
+                const el = this.$refs.imageToPrint
+
+                const options = {
+                    type: 'dataURL',
+                    allowTaint: true
+                }
+
+                actionBtn.disabled = false;
+                
+                let img = await this.$htmlToCanvas(el, options);
+
+                this.uploadLoadedFile = img
+
+                imageCanvas.classList.remove('select-crop-image');
+
+                let previewImage = document.querySelectorAll('#previewPrimaryImage img');
+                previewImage[0].setAttribute('src', img)
+
+            }, 100);
+        },
+        resetSelectedImage: function () {
+            this.$refs.primaryImageFile.value=null;
+            this.targetImageFile = ""
+        },
+        adjustImage: function () {
+            let target = document.getElementById('dumpProductImage');
+            target.classList.toggle('toggleHeight');
+        },
+        rotateImage: function () {
+            let target = document.getElementById('dumpProductImage');
+            let currentDegree = parseInt(target.getAttribute('data-rotate'), 10);
+            let newDegree = currentDegree + 90
+            if (newDegree > 270) {
+                newDegree = 0
+            }
+            target.setAttribute('data-rotate', newDegree)
+            target.style.transform = `rotate(${newDegree}deg)`
         },
         ...mapGetters({
             'GetCustomerData': 'customer/GetCustomerDetails',
@@ -952,22 +1092,10 @@ export default {
         formatProductImage: function (image) {
            return this.$formatProductImageUrl(this.businessId, image, "iconSize")
         },
-        uploadProductImage: async function (e, preview) {
-            let file = e.target.files[0];
-            let uploadFile = e.target.files[0];
-
-            if (uploadFile == undefined) return
-
-            let fileValidation = this.$checkFileExtension(uploadFile.name);
-            if (fileValidation == false) {
-                this.$showToast('Choose a valid image file', "error", 3500)
-                return
-            } 
-
-            this.$previewImage(e, preview);
+        uploadProductImage: async function () {
 
             let variables = {
-                file: uploadFile,
+                file: this.uploadLoadedFile,
                 productId: this.productId,
                 businessId: this.businessId
             }
@@ -998,7 +1126,7 @@ export default {
 
             this.$initiateNotification("success", "Image uploaded", result.message)
 
-            let imagePreview = document.getElementById('moreImages');
+            let imagePreview = document.getElementById('previewPrimaryImage');
             imagePreview.innerHTML = "";
             imagePreview.style.display = "none";
 
@@ -1282,7 +1410,27 @@ export default {
                     break
                 }
             }
+        },
+        uploadLoadedFile: function () {
+            if (this.uploadLoadedFile.length > 0) {
+                let modal = document.getElementById('formatProductImage');
+                modal.classList.remove('show-modal', 'display-block');
+
+                // remove style
+                let imageContainer = document.getElementById('dumpProductImageContainer');
+                imageContainer.style.width = null
+                imageContainer.style.height = null
+
+                let innerContainer = document.getElementById('dumpProductImageContainer');
+                innerContainer.style.display = 'flex';
+                document.querySelector("body").classList.remove("overflow-hidden");
+
+                this.uploadProductImage()
+            }
         }
+    },
+    beforeDestroy() {
+        clearTimeout(this.setTimeoutCount)
     }
 }
 </script>

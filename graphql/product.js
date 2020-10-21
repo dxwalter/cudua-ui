@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const CREATE_NEW_PRODUCT = gql`
-mutation CreateProduct($file: Upload!, $name: String!, $price: Int!, $category: String!, $subcategory: String!, $businessId: String!) {
+mutation CreateProduct($file: String!, $name: String!, $price: Int!, $category: String!, $subcategory: String!, $businessId: String!) {
   CreateProduct(input:{
     name: $name,
     price: $price,
@@ -377,7 +377,7 @@ mutation create ($description: String!, $productId: String!, $businessId: String
 `
 
 export const ADD_MORE_PRODUCT_PHOTO = gql`
-mutation ($file: Upload!, $productId: String!, $businessId: String!) {
+mutation ($file: String!, $productId: String!, $businessId: String!) {
     AddmorePhotos(input:{
       file: $file
       productId: $productId,

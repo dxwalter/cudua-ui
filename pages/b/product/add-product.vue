@@ -17,7 +17,7 @@
                         </div>
                     </div>
 
-                    <div class="main-content">
+                    <div class="main-content" v-show="!pageLoader">
 
                         <div class="page-header">
                             <h4>Add product</h4>
@@ -180,9 +180,9 @@
                     <div class="mobile-search-container no-padding white-bg-color">
                         
                         <div class="layout-container">
-                            <div class="format-image-container" id="dumpProductImageContainer" ref="imageToPrint">
+                            <div class="format-image-container" id="dumpProductImageContainer">
                                 <!-- make this 100%-->
-                                <div class="business-cover-photo" id="dumpProductImage" data-rotate="0">
+                                <div class="business-cover-photo" id="dumpProductImage" data-rotate="0" ref="imageToPrint">
                                     <!-- make this 100%-->
                                     <img src="~/assets/business/image/all-svg.svg#expandImage" alt="">
                                 </div>
@@ -199,10 +199,11 @@
                             </button>
                         </div>
 
-                        <canvas id="imageCanvas" class=""></canvas>
-
                         <div class="mg-top-32 d-flex-center">
-                            <button class="btn btn-primary btn-md" @click="cropImageForUpload()">Crop and continue</button>
+                            <button class="btn btn-primary btn-md" @click="cropImageForUpload()" id="cropImageForUpload">
+                                Crop and continue
+                                <div class="loader-action"><span class="loader"></span></div>    
+                            </button>
                         </div>
             
                     
@@ -278,7 +279,10 @@ export default {
             formatterHeight: "",
 
             // crop image
-            targetImageFile: ""
+            targetImageFile: "",
+
+
+            setTimeoutCount: null
             
         }
     },
@@ -319,6 +323,10 @@ export default {
             this.targetImageFile = e
 
             let target = document.getElementById('formatProductImage')
+
+            // scroll to top of the page
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
            
             this.$previewImage(e, preview);
             this.$previewImage(e, "dumpProductImage");
@@ -329,25 +337,43 @@ export default {
         },
         cropImageForUpload: async function () {
             let imageContainer = document.getElementById('dumpProductImageContainer');
+            let imageCanvas = document.getElementById('dumpProductImage');
+
             let width = imageContainer.offsetWidth 
             let height = imageContainer.offsetHeight 
+
             
-            imageContainer.style.width = `${width}px`
+            imageContainer.style.width = `${width}px`;
             imageContainer.style.height = `${height}px`;
 
-            const el = this.$refs.imageToPrint
+            imageCanvas.classList.add('select-crop-image');
 
-            const options = {
-                type: 'dataURL',
-                allowTaint: true
-            }
-            
-            let img = await this.$htmlToCanvas(el, options);
+            clearTimeout(this.setTimeoutCount)
 
-            this.uploadLoadedFile = img
+            let actionBtn = document.getElementById('cropImageForUpload');
+            actionBtn.disabled = true;
 
-            let previewImage = document.querySelectorAll('#previewPrimaryImage img');
-            previewImage[0].setAttribute('src', img)
+            this.setTimeoutCount = setTimeout(async () => {
+
+                const el = this.$refs.imageToPrint
+
+                const options = {
+                    type: 'dataURL',
+                    allowTaint: true
+                }
+
+                actionBtn.disabled = false;
+                
+                let img = await this.$htmlToCanvas(el, options);
+
+                this.uploadLoadedFile = img
+
+                imageCanvas.classList.remove('select-crop-image');
+
+                let previewImage = document.querySelectorAll('#previewPrimaryImage img');
+                previewImage[0].setAttribute('src', img)
+
+            }, 100);
         },
         resetSelectedImage: function () {
             this.$refs.primaryImageFile.value=null;
@@ -592,11 +618,29 @@ export default {
                     break
                 }
             }
+        },
+        uploadLoadedFile: function () {
+            if (this.uploadLoadedFile.length > 0) {
+                let modal = document.getElementById('formatProductImage');
+                modal.classList.remove('show-modal', 'display-block');
+
+                // remove style
+                let imageContainer = document.getElementById('dumpProductImageContainer');
+                imageContainer.style.width = null
+                imageContainer.style.height = null
+
+                let innerContainer = document.getElementById('dumpProductImageContainer');
+                innerContainer.style.display = 'flex';
+                document.querySelector("body").classList.remove("overflow-hidden");
+            }
         }
     },
     mounted() {
         this.pageLoader = false
         
+    },
+    beforeDestroy() {
+        clearTimeout(this.setTimeoutCount)
     }
 }
 </script>
@@ -629,9 +673,5 @@ export default {
 }
 .dd-block {
     display: block;
-}
-canvas {
-    width: 0;
-    height: 0;
 }
 </style>

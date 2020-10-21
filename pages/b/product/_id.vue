@@ -541,7 +541,7 @@ export default {
 }
 .product-img-thumbnail {
     width: 66px;
-    height: 57px;
+    height: 66px;
     padding: 4px;
     border-radius: 4px;
     background-color: #fff;

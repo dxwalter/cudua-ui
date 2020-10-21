@@ -432,7 +432,7 @@
 
 .product-card-image {
     width: 100%;
-    height: 144px;
+    height: auto;
     border-bottom: $border;
     display: flex;
     align-items: center;
@@ -2407,7 +2407,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
 .product-details-img-container {
     width: 100%;
-    height: 315px;
+    height: auto;
     box-shadow: $btn-box-shadow;
     border-radius: 4px;
     margin-bottom: 32px;
