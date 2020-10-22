@@ -147,18 +147,19 @@
 
 
 .bookmark-card {
-    padding: 16px;
+    padding: 12px 16px;
     display: flex;
-    width: 277px;
+    min-width: 277px;
     margin-right: 16px;
 
     .bookmark-logo {
-        width: 75px;
-        height: 75px;
+        width: 60px;
+        height: 60px;
         overflow: hidden;
-        border-radius: 4px;
+        border-radius: 50%;
         margin-right: 12px;
         flex-shrink: 0;
+        align-self: center;
     }
 }
 
@@ -166,8 +167,8 @@
     .bookmark-card {
         width: 320px;
         .bookmark-logo {
-            width: 91px;
-            height: 91px;
+            width: 60px;
+            height: 60px;
         }
     }
 }
@@ -176,6 +177,7 @@
     flex-basis: 100%;
     flex-shrink: 1;
     min-width: 0;
+    align-self: center;
 
     .bookmark-comp-name {
         overflow: hidden;
@@ -537,10 +539,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 18px;
 }
 
 .product-price {
-    font-size: 14px;
+    font-size: 16px;
     color: $black-color-06;
 }
 
@@ -718,7 +721,7 @@
     }
 
     .content-container {
-        padding: 24px 72px;
+        padding: 32px 72px 72px 72px;
     }
     
     .bottom-ads-container {
@@ -759,7 +762,7 @@
 
     .content-container,
     .content-container-second {
-        padding: 24px 120px;
+        padding: 32px 120px 72px 120px;
     }
 
     .home-search-suggestion {
@@ -4986,5 +4989,21 @@ h4.order-details-business-name {
     .rejected-order-content {
         width: 600px;
         margin: 0 auto;
+    }
+}
+
+.no-order-list {
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    text-align: center;
+    line-height: 21px;
+    font-weight: 700;
+    color: $dark-color;
+}
+
+@media(min-width: 1024px) {
+    .no-order-list {
+        text-align: left;
     }
 }

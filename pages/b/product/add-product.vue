@@ -183,9 +183,9 @@
                     <div class="mobile-search-container no-padding white-bg-color">
                         
                         <div class="layout-container">
-                            <div class="format-image-container" id="dumpProductImageContainer">
+                            <div class="format-image-container" id="dumpProductImageContainer" ref="imageToPrint">
                                 <!-- make this 100%-->
-                                <div class="business-cover-photo" id="dumpProductImage" data-rotate="0" ref="imageToPrint">
+                                <div class="business-cover-photo" id="dumpProductImage" data-rotate="0">
                                     <!-- make this 100%-->
                                     <img src="~/assets/business/image/all-svg.svg#expandImage" alt="">
                                 </div>
@@ -285,7 +285,7 @@ export default {
             targetImageFile: "",
 
 
-            setTimeoutCount: null
+            setTimeoutCount: null,
             
         }
     },
@@ -298,6 +298,9 @@ export default {
         },
         handleResize() {
             this.screenWidth = window.innerWidth;
+            if (this.screenWidth >= 466) {
+                this.screenWidth = 370
+            }
         },
     },
     methods: {
@@ -312,6 +315,9 @@ export default {
             this.accessToken = customerData.userToken
 		},
         previewImage: function (e, preview) {
+
+            this.uploadLoadedFile = ""
+
             let file = e.target.files[0];
             let uploadFile = e.target.files[0];
 
@@ -335,7 +341,7 @@ export default {
             this.$previewImage(e, preview);
 
             let imageCanvas = document.getElementById('dumpProductImage');
-            imageCanvas.style.height = `${this.screenWidth}px`;
+            // imageCanvas.style.height = `${this.screenWidth}px`;
             
             document.querySelector("body").classList.add("overflow-hidden");
             target.classList.add('show-modal', 'display-block')
@@ -353,12 +359,16 @@ export default {
             // imageContainer.style.height = `${height}px`;
             
 
-            imageCanvas.classList.add('select-crop-image');
+            imageContainer.classList.add('select-crop-image');
 
             clearTimeout(this.setTimeoutCount)
 
             let actionBtn = document.getElementById('cropImageForUpload');
             actionBtn.disabled = true;
+
+            if (process.browser) {
+                window.scrollTo(0, 0);
+            }
 
             this.setTimeoutCount = setTimeout(async () => {
 
@@ -375,7 +385,8 @@ export default {
 
                 this.uploadLoadedFile = img
 
-                imageCanvas.classList.remove('select-crop-image');
+                imageContainer.classList.remove('select-crop-image');
+                imageCanvas.classList.remove('toggleHeight')
 
                 let previewImage = document.querySelectorAll('#previewPrimaryImage img');
                 previewImage[0].setAttribute('src', img)
@@ -389,6 +400,8 @@ export default {
         adjustImage: function () {
             let target = document.getElementById('dumpProductImage');
             target.classList.toggle('toggleHeight');
+
+            
         },
         rotateImage: function () {
             let target = document.getElementById('dumpProductImage');

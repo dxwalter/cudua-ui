@@ -1,4 +1,3 @@
-import { concatAST } from 'graphql';
 import gql from 'graphql-tag'
 
 export const CREATE_USER_MUTATION = gql`

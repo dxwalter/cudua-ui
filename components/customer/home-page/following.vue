@@ -1,7 +1,7 @@
 <template>
   <div class="row order-control">
               <!-- bookmark area -->
-              <div class="col-md-12 col-lg-4 follow-area">
+              <div class="col-md-12 col-lg-4 follow-area" v-show="returnHomePageFollowing.length > 0">
                 <div class="home-bookmark-listing">
                   <div class="section-heading mg-bottom-16">
                     <h3>Following</h3>
@@ -31,67 +31,16 @@
 
                     <div class="bookmark-scroll-container" id="desktopBookmark">
 
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
+                      <n-link :to="`/${business.username}`" class="card bookmark-card carousel-item" v-for="(business, index) in returnHomePageFollowing" :key="index">
                         <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
+                            <div class="temporal-logo" v-show="business.logo.length == 0">
+                                {{getNameLogo(business.name)}}
+                            </div>
+                            <img :data-src="getBusinessLogo(business.businessId, business.logo)" :alt="`${business.name}'s logo`"  v-show="business.logo.length > 1" v-lazy-load>
                         </div>
                         <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
-                        </div>
-                      </n-link>
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
-                        <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                        </div>
-                        <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
-                        </div>
-                      </n-link>
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
-                        <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                        </div>
-                        <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
-                        </div>
-                      </n-link>
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
-                        <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                        </div>
-                        <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
-                        </div>
-                      </n-link>
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
-                        <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                        </div>
-                        <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
-                        </div>
-                      </n-link>
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
-                        <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                        </div>
-                        <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
-                        </div>
-                      </n-link>
-                      <n-link to="/bubbieklassiq" class="card bookmark-card carousel-item">
-                        <div class="bookmark-logo">
-                          <img src="~/assets/customer/image/daniel chigisoft.jpg" alt="">
-                        </div>
-                        <div class="bookmark-card-details">
-                          <h4 class="bookmark-comp-name">Bubbies international business school</h4>
-                          <div class="bookmark-comp-addr">10 Mini-woji road Woji, Rivers state, Nigeria</div>
+                          <h4 class="bookmark-comp-name">{{business.name}}</h4>
+                          <div class="bookmark-comp-addr">{{business.address}}</div>
                         </div>
                       </n-link>
 
@@ -239,8 +188,92 @@
 </template>
 
 <script>
-export default {
+import {
+  GET_FOLLOWING_FOR_HOME_PAGE
+} from '~/graphql/homePage'
 
+import { mapActions, mapGetters } from 'vuex'
+
+export default {
+	name: "HOMEPAGEFOLLOWING",
+	components: {
+	  
+	},
+	data: function() {
+	  return {
+		anonymousId: "",
+		accessToken: "",
+		homePageFollowing: [],
+	  }
+	},
+	computed: {
+	  ...mapGetters({
+		'GetAnonymousId': 'customer/GetAnonymousId',
+		'GetCustomerData': 'customer/GetCustomerDetails'
+	  }),
+	  returnHomePageFollowing: function () {
+		  return this.homePageFollowing
+	  }
+	},
+	methods: {
+		...mapActions({
+			'GetAnonymousIdFromApi': 'customer/GetAnonymousIdFromApi'
+    }),
+    getBusinessLogo: function (businessId, logo) {
+        return this.$getBusinessLogoUrl(businessId, logo)
+    },
+    getNameLogo: function(name) {
+			if (process.browser) {
+				return this.$convertNameToLogo(name)
+			}
+    },
+		GetCustomerDataFromStore: function () {
+			let customerData = this.GetCustomerData;
+			this.accessToken = customerData.userToken
+		},
+		formatFollowingAddress: function (address) {
+			return `${address.number} ${address.street} ${address.community}, ${address.state}`
+		},
+		getFollowingForHomePage: async function () {
+
+			if (this.accessToken.length == 0) return
+			
+			let context = {
+				hasUpload: true,
+				headers: {
+					'accessToken': this.accessToken
+				}
+			}
+
+			let request = await this.$performGraphQlQuery(this.$apollo, GET_FOLLOWING_FOR_HOME_PAGE, {}, context);
+
+			if (request.error) return
+
+			let result = request.result.data.getHomePageFollowing
+
+			if (result.success == false) return
+
+			let data = result.following
+
+			for (let x of data) {
+				this.homePageFollowing.push({
+					logo: x.logo,
+					name: x.businessName,
+					username: x.username,
+          address: x.address == null ? "" : this.formatFollowingAddress(x.address),
+          businessId: x.businessId
+				})
+			};
+
+		}
+	},
+	created: function () {
+	  this.GetCustomerDataFromStore();
+	  this.getFollowingForHomePage()
+	},
+	mounted () {
+		this.anonymousId = this.GetAnonymousId
+	}
 }
 </script>
 

@@ -1134,6 +1134,7 @@ export default {
                     formatStart = startDay+"st"
                 } else {
                     formatStart = startDay[1] == '3' ? startDay+"rd" : startDay+"th";  
+                    formatStart = startDay[1] == '2' || startDay[1] == '22' ? startDay+"nd" : startDay+"th";  
                 }
             } else {
                 if (startDay == '1') {
@@ -1157,7 +1158,8 @@ export default {
                 if (endDay == "21") {
                     formatEnd = endDay+"st"
                 } else {
-                    formatEnd = endDay[1] == '3' ? endDay+"rd" : endDay+"th";   
+                    formatEnd = endDay[1] == '3' ? endDay+"rd" : endDay+"th";  
+                    formatEnd = endDay[1] == '2' || endDay[1] == '22' ? endDay+"nd" : endDay+"th";   
                 }
                 
             } else {

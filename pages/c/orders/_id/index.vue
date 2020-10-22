@@ -11,7 +11,6 @@
 
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
-
         <div class="content-container" v-show="!pageLoader">
             <!-- header area -->
             <div class="section-header"  v-show="!isNetworkError && !pageLoader">
@@ -382,8 +381,6 @@ export default {
 
             
             this.allOrders = result.orderDetails
-
-            this.$initiateNotification('success', '', result.message);
 
         },
 		getNameLogo: function (businessName) {

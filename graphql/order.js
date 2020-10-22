@@ -260,3 +260,27 @@ mutation cancel($businessId: String!, $orderId: String!, $reason: String) {
   }
 }
 `
+
+export const GET_ALL_ORDERS_BY_CUSTOMER = gql`
+query {
+  GetCustomerOrderIds{
+    orders {
+      new{
+        orderId
+        timeStamp
+      }
+      pending{
+        orderId
+        timeStamp
+      }
+      cleared {
+        orderId
+        timeStamp
+      }
+    }
+    code
+    success
+    message
+  }
+}
+`
