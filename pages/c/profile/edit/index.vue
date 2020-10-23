@@ -161,7 +161,7 @@
                                     </a>
                                 </div>
                                 
-                                 <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my home location? <span class="action-span">Add it</span></a>
+                                 <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation" v-show="(customerStreet.length > 1 && noStreetSuggestionResult == 1) && customerStreet.length > 0">Add your home street. <span class="action-span">Add it</span></a>
                             </div>
                             <div class="">
                                 <!-- <label for="businessType" class="form-label">Type the name of your street</label> -->

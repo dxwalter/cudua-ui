@@ -118,6 +118,9 @@ export default {
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     }
+  },
+  beforeDestroy() {
+    this.onTimesUp()
   }
 };
 </script>

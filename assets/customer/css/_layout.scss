@@ -293,14 +293,19 @@
     }
     .business-name {
         font-size: 18px;
-        margin-bottom: 8px;
+        margin-bottom: 16px;
         font-weight: 500;
         color: $header-color;
     }
     .reviews {
         display: flex;
         margin-bottom: 14px;
+
+        .vue-star-rating {
+            height: 0;
+        }
         svg {
+            width: 16px;
             fill: $gold-color;
         }
     }
@@ -3191,7 +3196,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 900;
     border-radius: 50%;
     flex-shrink: 0;
@@ -5005,5 +5010,20 @@ h4.order-details-business-name {
 @media(min-width: 1024px) {
     .no-order-list {
         text-align: left;
+    }
+}
+
+.network-error-area {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    .description {
+        text-align: center;
+        font-size: 14px;
+        margin-bottom: 16px;
     }
 }

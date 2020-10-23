@@ -500,6 +500,8 @@ export default {
         },
         setNewlyEditedData: function (data) {
 
+            console.log(data)
+
             if (data.size.length > 0) {
                 let sizeData = document.getElementById(`size${this.itemId}`);
                 sizeData.innerHTML = ""
