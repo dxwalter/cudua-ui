@@ -17,7 +17,7 @@
                 
                 <div class="sign-up-content">
                         <div class="instruction-area">
-                            <div class="intent-bg-text">Create an online store for your business</div>
+                            <div class="intent-bg-text">Create an online shop for your business</div>
                             <div class="sign-up-banner">
                                 <img src="~/assets/customer/image/banner-image.jpg" alt="">
                             </div>
@@ -28,7 +28,7 @@
                                 <div class="create-business-signup">
 
                                     <div class="d-flex-between mg-bottom-32 personal-acct-action" v-if="!isLoggedIn">
-                                        <div class="action-text"> I already have a personal account. Sign in before creating your online store</div>
+                                        <div class="action-text"> I already have a personal account. Sign in before creating your online shop</div>
                                         <button class="btn btn-md btn-white" @click="showSignInBox">Sign in</button>
                                     </div>
 
@@ -492,7 +492,7 @@ export default {
 
                 // set customer data to store
                 this.setCustomerData(result)
-                this.$initiateNotification('success', 'Sign in successful', `${result.message}. You can now create your online store`);
+                this.$initiateNotification('success', 'Sign in successful', `${result.message}. You can now create your online shop`);
 
                 this.hideSignInBox()
 

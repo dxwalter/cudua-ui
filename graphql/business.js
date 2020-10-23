@@ -3,7 +3,11 @@ import gql from 'graphql-tag'
 export const CREATE_BUSINESS = gql`
 mutation CreateBusinessAccount($name: String!, $username: String!) {
     # remember to pass accessToken in request header
-    CreateBusinessAccount(input:{ name: $name, username: $username }) {
+    CreateBusinessAccount(input:
+    { 
+      name: $name, 
+      username: $username
+    }) {
         businessDetails{
             businessname
             username

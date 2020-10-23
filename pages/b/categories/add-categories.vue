@@ -8,7 +8,7 @@
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader" />
                         <nuxt />
-                        <div class="main-content">
+                        <div class="main-content" v-show="!isNetworkError && !pageLoader">
 
                             <div class="page-header">
                                 <h4>Add product categories</h4>
@@ -90,6 +90,7 @@
                                 </div>
                             </div>
 
+                            <div class="industry-layout"></div>
 
                         </div>
                         <BOTTOMNAV />
@@ -132,6 +133,8 @@ export default {
             // This is the name of the category selected by the business owner
             selectedCategoryName: "",
             vendorSelectedSubcategories: "",
+
+            isNetworkError: 0
         }
     },
     computed: {
@@ -160,8 +163,12 @@ export default {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
             if (query.error) {
                 this.$initiateNotification('error', 'Failed request', query.message);
+                this.isNetworkError = 1
                 return
+            } else {
+                this.isNetworkError = 0
             }
+
             let result = query.result.data.GetAllCategories;
             if (result.success == false) {
                 this.$initiateNotification('error', 'Failed request', result.message);
