@@ -2,16 +2,18 @@
     <div class="business" :key="componentKey">
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV></SIDENAV>
-                <nuxt />
+                <Nuxt />
                 <div class="content-area">
 
                     <!-- pageLoader -->
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                    <Nuxt />
                     <!-- subscription -->
                     <SUBSCRIPTION></SUBSCRIPTION>
+                    <Nuxt />
                 
                     <div class="main-content">
 
@@ -132,7 +134,7 @@
 
                     </div>
                     <BOTTOMNAV />
-                    <nuxt/>
+                    <Nuxt />
                 </div>
             </div>
         </div>

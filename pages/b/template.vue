@@ -1,10 +1,10 @@
 <template>
     <div class="body-container">
         <TOPHEADER />
-        <nuxt/>
+        <Nuxt />
         <div class="content-container">
             <SIDENAV />
-            <nuxt />
+            <Nuxt />
                 <div class="content-area">
                     <div class="main-content">
 
@@ -12,7 +12,7 @@
 
                     </div>
                     <BOTTOMNAV />
-                    <nuxt/>
+                    <Nuxt />
                 </div>
         </div>
     </div>

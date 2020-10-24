@@ -123,6 +123,7 @@
                     
                       <div class="reviews">
                           <StarRating :score=business.reviewScore></StarRating>
+                          <Nuxt />
                       </div>
 
                       <div class="categories height-20">{{business.categoryString}}</div>

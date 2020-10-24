@@ -149,6 +149,7 @@
 
       </div>
       <NOTIFICATION></NOTIFICATION>
+      <Nuxt />
     </div>
     <!-- end of desktop nav -->
 </template>

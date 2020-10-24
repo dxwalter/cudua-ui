@@ -2,11 +2,14 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV></SIDENAV>
+                <Nuxt />
                     <div class="content-area grey-bg-color">
                     <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                        <Nuxt />
 
                     <div v-show="!subcategoryId">
                         <div class="alert alert-danger notification-alert">
@@ -69,7 +72,7 @@
 
                         </div>
                         <BOTTOMNAV />
-                        <nuxt/>
+                        <Nuxt />
                     </div>
             </div>
         </div>

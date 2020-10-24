@@ -26,6 +26,7 @@
                                         </a>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
                                             <StarRating :score=reviewScore></StarRating>
+                                            <Nuxt />
                                         </a>
                                     </div>
                             </div>
@@ -128,7 +129,9 @@
                         
                     </div>
                     <BUSINESSREVIEWSIDEBAR></BUSINESSREVIEWSIDEBAR>
+                    <Nuxt />
                     <USERNAMEMODALSIDEBAR></USERNAMEMODALSIDEBAR>
+                    <Nuxt />
             </div>
 
 </template>

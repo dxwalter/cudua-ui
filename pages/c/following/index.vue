@@ -6,12 +6,16 @@
             <!-- beginning of navigation container -->
                 <div class="nav-container">
                     <MOBILESEARCH></MOBILESEARCH>
+                    <Nuxt />
                     <DESKTOPNAVGATION></DESKTOPNAVGATION>
+                    <Nuxt />
                     <MOBILENAVIGATION></MOBILENAVIGATION>
+                    <Nuxt />
                 </div>
 
                 <!-- pageLoader -->
                 <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                <Nuxt />
 
                 <div class="content-container">
                     <!-- bookmark area -->
@@ -83,9 +87,10 @@
                 <!-- end of content container -->
 
                 <BOTTOMADS></BOTTOMADS>
+                <Nuxt />
 
                 <CUSTOMERFOOTER></CUSTOMERFOOTER>
-
+                <Nuxt />
             </div>
         </div>
     </client-only>

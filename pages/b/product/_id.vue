@@ -2,14 +2,14 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER />
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV />
-                <nuxt />
+                <Nuxt />
                     <div class="content-area white-bg-color">
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader" />
-                        <nuxt />
+                        <Nuxt />
                         <div class="alert alert-danger notification-alert" v-show="hide">
                             <div>This product is hidden. Customers will not be able to find it in your shop and in search result.</div>
                             <button class="btn btn-small btn-white" @click="showProduct()" id="showProduct">
@@ -84,6 +84,7 @@
                                         <div class="product-details-price"><h3>₦ {{productPrice}}</h3></div>
                                         <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
                                             <StarRating :score=reviewScore></StarRating>
+                                            <Nuxt />
                                         </a>
                                     </div>
 
@@ -186,11 +187,11 @@
                             </div>
                         </div>
                         <BOTTOMNAV />
-                        <nuxt/>
+                        <Nuxt />
                     </div>
             </div>
             <PRODUCTREVIEW />
-            <nuxt />
+            <Nuxt />
         </div>
         <!-- delete product modal -->
         <div class="modal-container-2" id="confirmedOrderModal" v-show="productToDelete">

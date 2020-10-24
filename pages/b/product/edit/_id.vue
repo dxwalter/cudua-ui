@@ -2,14 +2,14 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV></SIDENAV>
-                <nuxt />
+                <Nuxt />
                     <div class="content-area grey-bg-color">
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
-                        <nuxt />
+                        <Nuxt />
                         <div class="alert alert-danger notification-alert" v-show="hide">
                             <div>This product is hidden. Customers will not be able to find it in your shop and in search result.</div>
                             <button class="btn btn-small btn-white" @click="showProduct()" id="showProduct">
@@ -359,9 +359,9 @@
                             </div>
                         </div>
                         <BOTTOMNAV></BOTTOMNAV>
-                        <nuxt/>
+                        <Nuxt />
                         <ADDCATEGORIESMODAL></ADDCATEGORIESMODAL>
-                        <nuxt />
+                        <Nuxt />
                     </div>
 
                     <!-- Format image modal -->

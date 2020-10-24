@@ -170,6 +170,7 @@
 			</div>
 			<!-- end of desktop nav -->
 			<NOTIFICATION></NOTIFICATION>
+			<Nuxt />
 		</div>
 </template>
 

@@ -6,6 +6,7 @@ query {
     category{
       id
       categoryName
+      industry
       subcategories {
         subcategoryId
         subcategoryName

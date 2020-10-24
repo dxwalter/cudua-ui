@@ -2,14 +2,14 @@
 	<div class="business">
 		<div class="body-container">
 			<TOPHEADER />
-			<nuxt/>
+			<Nuxt />
 			<div class="content-container">
 				<SIDENAV />
-				<nuxt />
+				<Nuxt />
 					<div class="content-area grey-bg-color">
 						<!-- pageLoader -->
 						<PAGELOADER v-show="pageLoader" />
-						<nuxt />
+						<Nuxt />
 
 						<div class="main-content">
 
@@ -55,7 +55,7 @@
 
 						</div>
 						<BOTTOMNAV />
-						<nuxt/>
+						<Nuxt />
 					</div>
 			</div>
 		</div>

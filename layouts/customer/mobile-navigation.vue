@@ -76,6 +76,7 @@
 		  </div>
 
 		  <INITCOMPONENT></INITCOMPONENT>
+		  <Nuxt />
         </div>
         <!-- end of mobile side nav -->
 </template>

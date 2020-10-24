@@ -2,14 +2,14 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV></SIDENAV>
-                <nuxt />
+                <Nuxt />
                 <div class="content-area grey-bg-color">
                     <!-- pageLoader -->
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
-                    <nuxt />
+                    <Nuxt />
                     <!-- content goes in here -->
                     <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader">
                         <div>We strongly recommed that you call this customer before adding delivery price and confirming this order.</div>
@@ -89,6 +89,7 @@
                                 <div class="customer-review-area" data-trigger="modal" data-target="customerReviewModal">
                                     <a href="javasscript:;" class="navbar-review-icon">
                                         <StarRating :score=ratingScore></StarRating>
+                                        <Nuxt />
                                     </a>
                                     <a href="#">Read customer review</a>
                                 </div>
@@ -256,12 +257,14 @@
 
                     </div>
                     <BOTTOMNAV />
-                    <nuxt/>
+                    <Nuxt />
                 </div>
             </div>
         </div>
         <CUSTOMERREVIEW></CUSTOMERREVIEW>
+        <Nuxt />
         <CREATECUSTOMERREVIEW></CREATECUSTOMERREVIEW>
+        <Nuxt />
     </div>
 </template>
 

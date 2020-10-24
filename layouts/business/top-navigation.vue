@@ -65,8 +65,11 @@
         </div>
 
         <BUSINESSREVIEW></BUSINESSREVIEW>
+        <Nuxt />
         <USERNAMEMODAL></USERNAMEMODAL>
+        <Nuxt />
         <NOTIFICATION></NOTIFICATION>
+        <Nuxt />
 
   </div>
 </template>

@@ -8,6 +8,7 @@
                     <div class="review-text nav-rating-result" v-show="reviewScore">
                         <a href="javasscript:;" class="navbar-review-icon">
                             <StarRating :score=reviewScore></StarRating>
+                            <Nuxt />
                         </a>
                         <div class="rating-score">
                             {{reviewScore}}/5
@@ -44,6 +45,7 @@
                                 <div class="review-star-icon">
                                     <div class="modal-review-icon">
                                         <StarRating :score=review.rating></StarRating>
+                                        <Nuxt />
                                     </div>
                                 </div>
                                 <div class="review-date">- {{formatNotificationTimer(review.timeStamp)}}</div>

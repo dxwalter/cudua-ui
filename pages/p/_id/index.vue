@@ -5,16 +5,18 @@
       <!-- beginning of navigation container -->
         <div class="nav-container">
             <MOBILESEARCH :cartTrigger=cartTrigger></MOBILESEARCH>
-
+            <Nuxt />
             <BUSINESSNAV v-show="!pageLoader && !serverError" :cartTrigger=cartTrigger></BUSINESSNAV>
-
+            <Nuxt />
             <DESKTOPNAVGATION v-show="pageLoader || serverError" :cartTrigger=cartTrigger></DESKTOPNAVGATION>
-
+            <Nuxt />
             <MOBILENAVIGATION :cartTrigger=cartTrigger></MOBILENAVIGATION>
+            <Nuxt />
         </div>
 
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+        <Nuxt />
 
         <div class="content-container mg-bottom-32">
           <!-- bookmark area -->
@@ -65,6 +67,7 @@
                         <div class="product-details-price"><h3>₦ {{productPrice}}</h3></div>
                         <a href="javascript:;" data-trigger="modal" data-target="productReview" class="navbar-review-icon">
                             <StarRating :score=reviewScore></StarRating>
+                            <Nuxt />
                         </a>
                     </div>
                     <!-- description -->
@@ -367,14 +370,20 @@
 
       <div class="mobile-hide-nav-bottom-add">
         <BOTTOMADS></BOTTOMADS>
+        <Nuxt />
         <CUSTOMERFOOTER></CUSTOMERFOOTER>
+        <Nuxt />
       </div>
 
 
         <PRODUCTREVIEW></PRODUCTREVIEW>
+        <Nuxt />
         <BUSINESSCONTACT></BUSINESSCONTACT>
+        <Nuxt />
         <LoginComponent></LoginComponent>
+        <Nuxt />
         <BUSINESSSEARCH></BUSINESSSEARCH>
+        <Nuxt />
         <!-- <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL> -->
     </div>
 

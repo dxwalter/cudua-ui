@@ -4,8 +4,11 @@
 
             <div class="nav-container">
                 <MOBILESEARCH></MOBILESEARCH>
+                <Nuxt />
                 <DESKTOPNAVGATION></DESKTOPNAVGATION>
+                <Nuxt />
                 <MOBILENAVIGATION></MOBILENAVIGATION>
+                <Nuxt />
             </div>
 
             <div class="content-container">

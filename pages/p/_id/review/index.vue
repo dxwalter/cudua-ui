@@ -6,12 +6,16 @@
       <!-- beginning of navigation container -->
         <div class="nav-container">
             <MOBILESEARCH></MOBILESEARCH>
+            <Nuxt />
             <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <Nuxt />
             <MOBILENAVIGATION></MOBILENAVIGATION>
+            <Nuxt />
         </div>
 
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+        <Nuxt />
 
         <div class="content-container" v-show="!pageLoader">
           <!-- bookmark area -->
@@ -57,6 +61,7 @@
                     <div class="product-details-price"><h3>₦ {{price}}</h3></div>
                     <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="productReview">
                         <StarRating :score=reviewScore></StarRating>
+                        <Nuxt />
                     </a>
                     </div>
                     <!-- sizes -->
@@ -149,8 +154,11 @@
         <!-- footer area -->
 
         <BOTTOMADS></BOTTOMADS>
+        <Nuxt />
         <CUSTOMERFOOTER></CUSTOMERFOOTER>
+        <Nuxt />
         <PRODUCTREVIEW></PRODUCTREVIEW>
+        <Nuxt />
 
     </div>
   </div>

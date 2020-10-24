@@ -6,11 +6,13 @@
       <div class="nav-container">
 
         <MOBILESEARCHMODAL :showMobileSearch=showMobileSearch></MOBILESEARCHMODAL>
+        <Nuxt />
         <DESKTOPNAVGATION v-on:retrieveSearchKeyword="setSearchKeyword"></DESKTOPNAVGATION>
-      
+        <Nuxt />
         <MOBILESEARCH></MOBILESEARCH>
+        <Nuxt />
         <MOBILENAVIGATION></MOBILENAVIGATION>
-        
+        <Nuxt />
       </div>
 
       <div class="content-container-second">
@@ -153,7 +155,9 @@
       <!-- footer area -->
 
       <BOTTOMADS></BOTTOMADS>
+      <Nuxt />
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
+      <Nuxt />
 
     </div>
   </div>

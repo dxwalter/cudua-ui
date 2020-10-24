@@ -2,12 +2,14 @@
 	<div class="business">
 		<div class="body-container">
 			<TOPHEADER></TOPHEADER>
+			<Nuxt />
 			<div class="content-container">
 				<SIDENAV></SIDENAV>
+				<Nuxt />
 				<div class="content-area grey-bg-color">
 					<!-- pageLoader -->
 					<PAGELOADER v-show="pageLoader"></PAGELOADER>
-
+					<Nuxt />
 					<div class="main-content">
 
 						<div class="page-header">
@@ -33,6 +35,7 @@
 											</div>
 											<div class="navbar-review-icon">
 												<STARRATING :rating=follower.reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+												<Nuxt />
 											</div>
 										</div>
 									</div>
@@ -57,6 +60,7 @@
 						</div>
 					</div>
 					<BOTTOMNAV></BOTTOMNAV>
+					<Nuxt />
 				</div>
 			</div>
 		</div>

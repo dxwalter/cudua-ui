@@ -5,12 +5,16 @@
       <!-- beginning of navigation container -->
       <div class="nav-container">
         <MOBILESEARCH></MOBILESEARCH>
+        <Nuxt />
         <DESKTOPNAVGATION></DESKTOPNAVGATION>
+        <Nuxt />
         <MOBILENAVIGATION></MOBILENAVIGATION>
+        <Nuxt />
       </div>
 
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+        <Nuxt />
         <div class="content-container" v-show="!pageLoader">
             <!-- header area -->
             <div class="section-header"  v-show="!isNetworkError && !pageLoader">
@@ -213,8 +217,9 @@
         <!-- footer area -->
 
       <BOTTOMADS></BOTTOMADS>
+      <Nuxt />
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
-
+      <Nuxt />
 
       <!-- confirm delivery -->
         <div class="modal-container" id="confirmedOrderModal">

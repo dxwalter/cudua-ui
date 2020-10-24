@@ -2,10 +2,13 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV></SIDENAV>
+                <Nuxt />
                     <div class="content-area grey-bg-color">
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                        <Nuxt />
 
                         <div class="main-content" v-show="!pageLoader">
                             <div class="page-header with-action">
@@ -40,7 +43,10 @@
                                                 <button class="btn btn-white btn-small">Select logo</button>
                                             </div>
                                             
-                                            <div v-show="LogoProgressProps"><PROGRESS :count-down-time=LogoProgressProps></PROGRESS></div>
+                                            <div v-show="LogoProgressProps">
+                                                <PROGRESS :count-down-time=LogoProgressProps></PROGRESS>
+                                                <Nuxt />    
+                                            </div>
                                         </div>
 
                                         <div class="edit-logo-container">
@@ -381,10 +387,12 @@
                             </div> <!-- main content ends here -->
                         </div>
                         <BOTTOMNAV></BOTTOMNAV>
+                        <Nuxt />
                     </div>
             </div>
 
             <ADDLOCATION></ADDLOCATION>
+            <Nuxt />
         </div>
     </div>
 </template>

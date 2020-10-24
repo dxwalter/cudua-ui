@@ -2,11 +2,14 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER></TOPHEADER>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV></SIDENAV>
+                <Nuxt />
                     <div class="content-area grey-bg-color">
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader" />
+                        <Nuxt />
                         <nuxt />
                         <div class="main-content" v-show="!isNetworkError && !pageLoader">
 
@@ -23,7 +26,14 @@
                                     </div> -->
 
                                     <div class="form-control mg-bottom-0" v-bind:class="{'mg-bottom-24': clickedCategory}">
-                                        <!-- <label for="businessCategory" class="form-label">Select a category</label> -->
+                                        
+                                        <div class="d-flex-between-query mg-bottom-16">
+                                            <div class="upload-tab-category">
+                                                <span>{{industry}}</span>
+                                            </div>
+                                            <button class="btn btn-white btn-small" @click="SetIndustry('')">Change</button>
+                                        </div>
+
                                         <select class="input-form" id="selectCategoryDropDown"  @change="onSelectCategory($event)" @click="clickedCategory = 1">
                                             <option selected>Select a product category</option>
                                             <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
@@ -90,15 +100,44 @@
                                 </div>
                             </div>
 
-                            <div class="industry-layout"></div>
+                            <div class="industry-layout" v-show="!industry.length && !pageLoader && !isNetworkError">
+                                <div class="header">Choose your industry...</div>
+                                <div class="industry-card-container">
+
+                                    <div class="card industry-card" @click="SetIndustry('Fashion')">
+                                        <div class="image-area">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 640 512">
+                                                <use xlink:href="~/assets/business/image/all-svg.svg#industryFashion"></use>
+                                            </svg>
+                                        </div>
+                                        <div class="industry-details">
+                                            <div class="name">Fashion</div>
+                                            <div class="categories">{{highLightFashionIndustry}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card industry-card" @click="SetIndustry('Beauty')">
+                                        <div class="image-area">
+                                            <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="smile-wink" class="svg-inline--fa fa-smile-wink fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                                <use xlink:href="~/assets/business/image/all-svg.svg#industryBeauty"></use>
+                                            </svg>
+                                        </div>
+                                        <div class="industry-details">
+                                            <div class="name">Beauty</div>
+                                            <div class="categories">{{highLightBeautyIndustry}}</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
 
                         </div>
                         <BOTTOMNAV />
-                        <nuxt/>
+                        <Nuxt />
                     </div>
             </div>
             <ADDCATEGORIESMODAL/>
-            <nuxt/>
+            <Nuxt />
         </div>
     </div>
 </template>
@@ -134,12 +173,19 @@ export default {
             selectedCategoryName: "",
             vendorSelectedSubcategories: "",
 
-            isNetworkError: 0
+            isNetworkError: 0,
+
+            industry: "",
+            highLightFashionIndustry: "",
+            highLightBeautyIndustry: "",
+
+            categoriesInIndustry: []
+
         }
     },
     computed: {
         returnCategories: function () {
-            return this.allCategories;
+            return this.categoriesInIndustry;
         },
         returnSubcategoriesOfCategory: function () {
             return this.subcategoriesUnderCategories
@@ -158,7 +204,62 @@ export default {
 			this.businessId = businessData.businessId
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
-		},
+        },
+        SetIndustry: function (industry) {
+            this.industry = industry
+            this.selectedCategoryId = ""
+            this.subcategoriesUnderCategories = ""
+            this.vendorSelectedSubcategories = ""
+        },
+        industryHighLightText: function (categories) {
+            
+            let fashionHighLight = []
+            let beautyHighLight = []
+
+            for (const [index, category] of categories.entries()) {
+
+                if (category.industry == "Fashion") {
+                    fashionHighLight.push(category.categoryName)
+                }
+
+                if (category.industry == "Beauty") {
+                    beautyHighLight.push(category.categoryName)
+                }
+            }
+
+            for(const [index, fashion] of fashionHighLight.entries()) {
+
+                if(index == 0) {
+                    this.highLightFashionIndustry = `${fashion}`
+                }
+
+                if (index > 0) {
+                    this.highLightFashionIndustry = this.highLightFashionIndustry + `, ${fashion}`
+                }
+
+                if (index == 4 ) {
+                    this.highLightFashionIndustry = `${this.highLightFashionIndustry}, etc.`;
+                    break;
+                }
+            }
+
+            for(const [index, beauty] of beautyHighLight.entries()) {
+
+                if(index == 0) {
+                    this.highLightBeautyIndustry = `${beauty}`
+                }
+
+                if (index > 0) {
+                    this.highLightBeautyIndustry = this.highLightBeautyIndustry + `, ${beauty}`
+                }
+
+                if (index == 3 ) {
+                    this.highLightBeautyIndustry = `${this.highLightBeautyIndustry}, etc.`;
+                    break;
+                }
+            }
+
+        },
         GetAllCategories: async function () {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
             if (query.error) {
@@ -176,11 +277,14 @@ export default {
             }
             let categorylisting = [];
             for (const [index, category] of result.category.entries()) {
+
                 categorylisting[index] = {
                     categoryId: category.id,
                     categoryName: category.categoryName,
+                    industry: category.industry,
                     subcategory: []
                 }
+
                 for (const [subcategoryIndex, subcategory] of category.subcategories.entries()) {
                     categorylisting[index].subcategory.push({
                         subcategoryId: subcategory.subcategoryId,
@@ -188,6 +292,7 @@ export default {
                     })
                 }
             }
+            this.industryHighLightText(categorylisting)
             this.allCategories = categorylisting;
 
             // emit to add category component
@@ -275,13 +380,28 @@ export default {
     watch: {
         selectedCategoryId: function () {
             let catId = this.selectedCategoryId;
-            for (let x of this.returnCategories) {
+            for (let x of this.allCategories) {
                 if (x.categoryId == catId) {
                     this.subcategoriesUnderCategories = '';
                     this.subcategoriesUnderCategories = x.subcategory
                     break
                 }
             }
+        },
+        industry: function () {
+            if (this.industry.length == 0) return
+            let newCategories = [];
+
+            for (let x of this.allCategories) {
+                if (x.industry == this.industry) {
+                    newCategories.push({
+                        categoryId: x.categoryId,
+                        categoryName: x.categoryName,
+                    })
+                }
+            }
+
+            this.categoriesInIndustry = newCategories
         }
     },
     created () {
@@ -302,5 +422,9 @@ export default {
     }
     .mg-bottom-24 {
         margin-bottom: 24px !important;
+    }
+    .d-flex-between-query {
+        display: flex;
+        justify-content: space-between;
     }
 </style>

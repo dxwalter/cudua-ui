@@ -2,10 +2,10 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER />
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV />
-                <nuxt />
+                <Nuxt />
                     <div class="content-area grey-bg-colot">
                         <div class="main-content position-relative">
 
@@ -97,7 +97,7 @@
 
                         </div>
                         <BOTTOMNAV />
-                        <nuxt/>
+                        <Nuxt />
                     </div>
             </div>
         </div>

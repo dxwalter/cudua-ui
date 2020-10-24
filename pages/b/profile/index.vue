@@ -2,12 +2,16 @@
 		<div class="business">
 			<div class="body-container">
 					<TOPHEADER></TOPHEADER>
+					<Nuxt />
 					<div class="content-container">
 							<SIDENAV></SIDENAV>
+							<Nuxt />
 							<div class="content-area grey-bg-color">
 								<!-- pageLoader -->
 								<PAGELOADER v-show="pageLoader"></PAGELOADER>
+								<Nuxt />
 								<SUBSCRIPTION></SUBSCRIPTION>
+								<Nuxt />
 								<!-- content goes in here -->
 								<div class="main-content">
 
@@ -54,6 +58,7 @@
 												<div class="business-review">
 													<a href="javasscript:;" class="navbar-review-icon d-flex-between"  data-trigger="modal" data-target="reviewModal">
 														<StarRating :score=reviewScore></StarRating>
+														<Nuxt />
 														<div class="review-action">read all reviews</div>
 													</a>
 												</div>
@@ -111,6 +116,7 @@
 									</div>
 								</div>
 								<BOTTOMNAV></BOTTOMNAV>
+								<Nuxt />
 							</div>
 					</div>
 			</div>

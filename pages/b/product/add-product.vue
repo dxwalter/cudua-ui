@@ -2,13 +2,14 @@
     <div class="business">
         <div class="body-container">
             <TOPHEADER />
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV />
-                <nuxt />
+                <Nuxt />
                 <div class="content-area grey-bg-color">
                     <!-- pageLoader -->
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                    <Nuxt />
 
                     <div class="display-none">
                         <div class="alert alert-secondary notification-alert">
@@ -38,6 +39,12 @@
                             
                             <div class="form-control" id="singleTabContainer">
                                 <!-- show this div if cat and subcat is in url query -->
+                                <div class="d-flex-between-query mg-bottom-16" v-show="industry">
+                                    <div class="upload-tab-category">
+                                        <span>{{industry}}</span>
+                                    </div>
+                                    <button class="btn btn-white btn-small" @click="SetIndustry('')">Change</button>
+                                </div>
                                 <div v-show="!catAndSubcatFromUrl">
                                     <div class="mg-bottom-16">
                                         <!-- <label for="businessType" class="form-label">Select category</label> -->
@@ -61,7 +68,7 @@
                                             </span>
                                             <span>{{selectedSubcategoryName}}</span>
                                         </div>
-                                        <button class="btn btn-white btn-small" @click="selectedSubcategoryId = ''">Change</button>
+                                        <button class="btn btn-white btn-small" @click="resetUrlData()">Change</button>
                                     </div>
                                     <!-- After the user has selected a category, show the list of subcategories to be selected -->
                                     <!-- show this when selected category ID has been set -->
@@ -128,13 +135,45 @@
                                 </button>
                             </div>
                         </div>
+
+                            <div class="industry-layout" v-show="industry.length == 0 && !pageLoader && !isNetworkError && selectedCategoryId.length == 0">
+                                <div class="header">Choose your industry...</div>
+                                <div class="industry-card-container">
+
+                                    <div class="card industry-card" @click="SetIndustry('Fashion')">
+                                        <div class="image-area">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 640 512">
+                                                <use xlink:href="~/assets/business/image/all-svg.svg#industryFashion"></use>
+                                            </svg>
+                                        </div>
+                                        <div class="industry-details">
+                                            <div class="name">Fashion</div>
+                                            <div class="categories">{{highLightFashionIndustry}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card industry-card" @click="SetIndustry('Beauty')">
+                                        <div class="image-area">
+                                            <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="smile-wink" class="svg-inline--fa fa-smile-wink fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                                                <use xlink:href="~/assets/business/image/all-svg.svg#industryBeauty"></use>
+                                            </svg>
+                                        </div>
+                                        <div class="industry-details">
+                                            <div class="name">Beauty</div>
+                                            <div class="categories">{{highLightBeautyIndustry}}</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                     </div>
                     <BOTTOMNAV></BOTTOMNAV>
+                    <Nuxt />
                 </div>
             </div>
 
             <ADDCATEGORIESMODAL></ADDCATEGORIESMODAL>
-
+            <Nuxt />
 
 
             <!-- place order modal -->
@@ -256,7 +295,7 @@ export default {
 
             // product basic 
             productName: "",
-            productPrice: 0,
+            productPrice: "",
 
             // product category
             selectedCategoryId: "",
@@ -284,14 +323,22 @@ export default {
             // crop image
             targetImageFile: "",
 
+            isNetworkError: 0,
+
 
             setTimeoutCount: null,
+
+            industry: "",
+            highLightFashionIndustry: "",
+            highLightBeautyIndustry: "",
+            allCategories: [],
+            categoriesInIndustry: []
             
         }
     },
     computed: {
         returnCategories: function () {
-            return this.allCategories;
+            return this.categoriesInIndustry;
         },
         returnSubcategoriesOfCategory: function () {
             return this.subcategoriesUnderCategories
@@ -400,8 +447,11 @@ export default {
         adjustImage: function () {
             let target = document.getElementById('dumpProductImage');
             target.classList.toggle('toggleHeight');
-
-            
+        },
+        resetUrlData: function () {
+            this.selectedSubcategoryId = '';
+            this.selectedCategoryId = this.selectedCategoryId
+            this.selectedSubcategoryName = ""
         },
         rotateImage: function () {
             let target = document.getElementById('dumpProductImage');
@@ -413,22 +463,87 @@ export default {
             target.setAttribute('data-rotate', newDegree)
             target.style.transform = `rotate(${newDegree}deg)`
         },
+        SetIndustry: function (industry) {
+            this.industry = industry
+            this.selectedCategoryId = ""
+            this.selectedSubcategoryId = ""
+            this.subcategoriesUnderCategories = ""
+            this.selectedSubcategoryName = ""
+            this.selectedCategoryName = ""
+            this.catAndSubcatFromUrl = 0
+        },
+        industryHighLightText: function (categories) {
+        
+            let fashionHighLight = []   
+            let beautyHighLight = []
+
+            for (const [index, category] of categories.entries()) {
+                if (category.industry == "Fashion") {
+                    fashionHighLight.push(category.categoryName)
+                }
+
+                if (category.industry == "Beauty") {
+                    beautyHighLight.push(category.categoryName)
+                }
+            }
+
+            for(const [index, fashion] of fashionHighLight.entries()) {
+
+                if(index == 0) {
+                    this.highLightFashionIndustry = `${fashion}`
+                }
+
+                if (index > 0) {
+                    this.highLightFashionIndustry = this.highLightFashionIndustry + `, ${fashion}`
+                }
+
+                if (index == 4 ) {
+                    this.highLightFashionIndustry = `${this.highLightFashionIndustry}, etc.`;
+                    break;
+                }
+
+                
+            }
+
+            for(const [index, beauty] of beautyHighLight.entries()) {
+
+                if(index == 0) {
+                    this.highLightBeautyIndustry = `${beauty}`
+                }
+
+                if (index > 0) {
+                    this.highLightBeautyIndustry = this.highLightBeautyIndustry + `, ${beauty}`
+                }
+
+                if (index == 3 ) {
+                    this.highLightBeautyIndustry = `${this.highLightBeautyIndustry}, etc.`;
+                    break;
+                }
+            }
+
+        },
         GetAllCategories: async function () {
             let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
             if (query.error) {
                 this.$initiateNotification('error', 'Failed request', query.message);
+                this.isNetworkError = 1
                 return
+            } else {
+                this.isNetworkError = 0
             }
+
             let result = query.result.data.GetAllCategories;
             if (result.success == false) {
                 this.$initiateNotification('error', 'Failed request', result.message);
                 return
             }
+
             let categorylisting = [];
             for (const [index, category] of result.category.entries()) {
                 categorylisting[index] = {
                     categoryId: category.id,
                     categoryName: category.categoryName,
+                    industry: category.industry,
                     subcategory: []
                 }
                 for (const [subcategoryIndex, subcategory] of category.subcategories.entries()) {
@@ -438,10 +553,12 @@ export default {
                     })
                 }
             }
+
+            this.industryHighLightText(categorylisting)
             this.allCategories = categorylisting;
 
             // emit to add category component
-            $nuxt.$emit('categoryListing', this.returnCategories)
+            $nuxt.$emit('categoryListing', this.allCategories)
         },
         onSelectCategory: function(e) {
             let selectedCategory = e.target.options
@@ -467,6 +584,7 @@ export default {
                 
                 let id = action.getAttribute('data-subcat-key');
                 if (id === subcatId) {
+
                     // update subcategory name
                     this.selectedSubcategoryName = action.innerHTML.trim()
                     // add is-active class
@@ -482,14 +600,15 @@ export default {
             let sub = queryString.sub;
 
             if ((sub != undefined && cat != undefined) && (cat && sub)) {
+
                     this.selectedCategoryId = cat;
                     this.selectedSubcategoryId = sub;
 
                     // get category data;
-                    for (let x of this.returnCategories) {
+                    for (let x of this.allCategories) {
                         if (x.categoryId == cat) {
                             this.selectedCategoryName = x.categoryName;
-
+                            this.industry = x.industry
                             for (let y of x.subcategory) {
                                 if (y.subcategoryId == sub) {
                                     this.selectedSubcategoryName = y.subcategoryName
@@ -630,8 +749,9 @@ export default {
     },
     watch: {
         selectedCategoryId: function () {
+            if (this.selectedCategoryId.length == 0) return
             let catId = this.selectedCategoryId;
-            for (let x of this.returnCategories) {
+            for (let x of this.allCategories) {
                 if (x.categoryId == catId) {
                     this.subcategoriesUnderCategories = '';
                     this.subcategoriesUnderCategories = x.subcategory
@@ -653,6 +773,21 @@ export default {
                 innerContainer.style.display = 'flex';
                 document.querySelector("body").classList.remove("overflow-hidden");
             }
+        },
+        industry: function () {
+            if (this.industry.length == 0) return
+            let newCategories = [];
+
+            for (let x of this.allCategories) {
+                if (x.industry == this.industry) {
+                    newCategories.push({
+                        categoryId: x.categoryId,
+                        categoryName: x.categoryName,
+                    })
+                }
+            }
+
+            this.categoriesInIndustry = newCategories
         }
     },
     mounted() {

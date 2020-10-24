@@ -4,13 +4,17 @@
 
       <!-- beginning of navigation container -->
         <div class="nav-container">
-                <MOBILESEARCH></MOBILESEARCH>
-                <DESKTOPNAVGATION></DESKTOPNAVGATION>
-                <MOBILENAVIGATION></MOBILENAVIGATION>
+            <MOBILESEARCH></MOBILESEARCH>
+            <Nuxt />
+            <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <Nuxt />
+            <MOBILENAVIGATION></MOBILENAVIGATION>
+            <Nuxt />
         </div>
         
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+        <Nuxt />
 
         <div class="content-container" v-show="!pageLoader">
             <!-- header area -->
@@ -112,7 +116,11 @@
 
         <!-- footer area -->
         <BOTTOMADS></BOTTOMADS>
+        <Nuxt />
+
         <CUSTOMERFOOTER></CUSTOMERFOOTER>
+        <Nuxt />
+        
     </div>
   </div>
 </template>

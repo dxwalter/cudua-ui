@@ -2,14 +2,14 @@
     <div class="business" :key="componentKey">
         <div class="body-container">
             <TOPHEADER />
-            <nuxt/>
+            <Nuxt />
             <div class="content-container">
                 <SIDENAV />
-                <nuxt />
+                <Nuxt />
                     <div class="content-area">
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader" />
-                        <nuxt />
+                        <Nuxt />
 
                         <div class="main-content">
 
@@ -277,7 +277,7 @@
 
                         </div>
                         <BOTTOMNAV />
-                        <nuxt/>
+                        <Nuxt />
                     </div>
             </div>
             <div class="filter-btn-container"  v-show="categoryListCount > 0">

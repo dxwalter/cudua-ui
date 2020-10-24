@@ -5,12 +5,16 @@
       <!-- beginning of navigation container -->
         <div class="nav-container">
             <MOBILESEARCH></MOBILESEARCH>
+            <Nuxt />
             <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <Nuxt />
             <MOBILENAVIGATION></MOBILENAVIGATION>
+            <Nuxt />
         </div>
 
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+        <Nuxt />
 
         <div class="content-container">
             <!-- bookmark area -->
@@ -30,6 +34,7 @@
                                 <div class="saved-product-price">₦ {{product.price}}</div>
                                 <div class="saved-item-review">
                                     <StarRating :score=product.reviewScore></StarRating>
+                                    <Nuxt />
                                 </div>
                             </div>
                             </n-link>
@@ -80,8 +85,9 @@
       <!-- footer area -->
 
       <BOTTOMADS></BOTTOMADS>
-
+      <Nuxt />
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
+      <Nuxt />
 
     </div>
   </div>

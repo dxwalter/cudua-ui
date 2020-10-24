@@ -6,9 +6,11 @@
 	  <div class="nav-container">
 
 		<MOBILENAVIGATION></MOBILENAVIGATION>
+		<Nuxt />
 		<MOBILESEARCH></MOBILESEARCH>
-
+		<Nuxt />
 		<DESKTOPNAVGATION></DESKTOPNAVGATION>
+		<Nuxt />
 		
 	  </div>
 	  <!-- end of navigation container -->
@@ -18,10 +20,11 @@
 	
 	  <!-- big search area -->
 	  <ADVANCEDSEARCH></ADVANCEDSEARCH>
+	  <Nuxt />
 	  <div class="content-container">
 		  
 			<FOLLOWING />
-			<nuxt />
+			<Nuxt />
 
 			<!-- beginning of search suggestions -->
 			<div class="home-search-suggestion display-none">
@@ -100,8 +103,9 @@
 	  <!-- footer area -->
 
 	  <BOTTOMADS></BOTTOMADS>
-
+	  <Nuxt />
 	  <CUSTOMERFOOTER></CUSTOMERFOOTER>
+	  <Nuxt />
 
 	  <div class='onesignal-customlink-container'></div>
 	</div>

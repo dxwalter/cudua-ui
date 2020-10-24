@@ -5,12 +5,16 @@
             <!-- beginning of navigation container -->
             <div class="nav-container">
                 <MOBILESEARCH :cartTrigger=cartTrigger></MOBILESEARCH>
+                <Nuxt />
                 <DESKTOPNAVGATION :cartTrigger=cartTrigger></DESKTOPNAVGATION>
+                <Nuxt />
                 <MOBILENAVIGATION :cartTrigger=cartTrigger></MOBILENAVIGATION>
+                <Nuxt />
             </div>
 
             <!-- pageLoader -->
             <PAGELOADER v-show="pageLoader"></PAGELOADER>
+            <Nuxt />
             <div class="alert alert-info global-notification-alert" v-show="returnAllBusinessInCart.length > 1 && !pageLoader">
                 <div>Your cart contains products from more than one business</div>
                 <button class="btn btn-white btn-small"  data-trigger="modal" data-target="allBusinessInCart" >Learn more</button>
@@ -33,6 +37,7 @@
                                 <div class="price">₦ {{item.price}}</div>
                                 <div class="reviews">
                                     <StarRating :score=item.reviewScore></StarRating>
+                                    <Nuxt />
                                 </div>
                             </div>
                         </div>
@@ -268,11 +273,17 @@
         <!-- footer area -->
 
         <BOTTOMADS></BOTTOMADS>
+        <Nuxt />
 
         <CUSTOMERFOOTER></CUSTOMERFOOTER>
+        <Nuxt />
 
         <CHECKOUTMODAL></CHECKOUTMODAL>
+        <Nuxt />
+
         <CONFIRMORDER></CONFIRMORDER>
+        <Nuxt />
+        
         <EDITCARTITEM 
             :productId="productId"
             :itemId="itemId"
@@ -280,8 +291,10 @@
 
             v-on:editModalToCart="setNewlyEditedData"
         ></EDITCARTITEM>
+        <Nuxt />
 
         <LoginComponent></LoginComponent>
+        <Nuxt />
 
     </div>
   </div>
