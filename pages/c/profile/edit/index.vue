@@ -5,12 +5,16 @@
         <!-- beginning of navigation container -->
         <div class="nav-container">
             <MOBILESEARCH></MOBILESEARCH>
+            <Nuxt />
             <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <Nuxt />
             <MOBILENAVIGATION></MOBILENAVIGATION>
+            <Nuxt />
         </div>
 
         <!-- pageLoader -->
         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+        <Nuxt />
 
         <div class="content-container">
             <!-- bookmark area -->
@@ -47,7 +51,10 @@
 
                                     <button class="btn btn-white btn-small">Select picture</button>
                                 </div>
-                                <div v-show="LogoProgressProps"><PROGRESS :count-down-time=LogoProgressProps></PROGRESS></div>
+                                <div v-show="LogoProgressProps">
+                                    <PROGRESS :count-down-time=LogoProgressProps></PROGRESS>
+                                    <Nuxt />    
+                                </div>
                             </div>
 
                             <div class="form-control">
@@ -253,9 +260,11 @@
       <!-- footer area -->
 
       <BOTTOMADS></BOTTOMADS>
-
+      <Nuxt />
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
+      <Nuxt />
       <ADDLOCATION></ADDLOCATION>
+      <Nuxt />
     </div>
   </div>
 </template>
