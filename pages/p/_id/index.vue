@@ -195,150 +195,44 @@
             <!-- end of error area -->
 
             <!-- product suggesstion -->
-            <div class="product-suggestion-container display-none" v-show="!pageLoader && !subscription">
+            <div class="product-suggestion-container" v-show="!pageLoader && !subscription && returnProductSuggestions.length > 0">
                 <div class="section-header"><h4>Customers also viewed</h4></div>
-                <div class="product-suggestion-listing">
-                    <div class="swiper-action-container">
-                    <button class="close-modal-btn slider-control">
-                        <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="productSuggestion"></div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
-                        </svg>
-                    </button>
+                <div class="product-suggestion-listing position-relative">
+                    <div class="no-z-index swiper-action-container">
+                        <button class="close-modal-btn slider-control">
+                            <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="productSuggestion"></div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
+                            </svg>
+                        </button>
                     </div>
 
                     
-                    <div class="swiper-action-container">
-                    <button class="close-modal-btn slider-control">
-                        <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="productSuggestion"></div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
-                            <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
-                        </svg>
-                    </button>
+                    <div class="no-z-index swiper-action-container">
+                        <button class="close-modal-btn slider-control">
+                            <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="productSuggestion"></div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" class="margin-unset">
+                                <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
+                            </svg>
+                        </button>
                     </div>
 
                     <div class="row" id="productSuggestion">
                                 
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
+                        <n-link :to="`/p/${product.productId}`" class="col-xs-6 col-sm-6 col-md-4 col-lg-2 carousel-item" v-for="(product, index) in returnProductSuggestions" :key="index">
+                            <div class="product-card">
+                                <div class="product-card-image">
+                                    <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
                                 </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
+                                <div class="product-card-details">
+                                    <div class="product-name">
+                                        {{product.name}}
+                                    </div>
+                                    <div class="product-price">₦ {{product.price}}</div>
                                 </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
                             </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
-                                </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
-                                </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
-                                </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
-                                </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
-                                </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
-                    <n-link to="/p/23432" class="col-xs-6 col-sm-6 col-md-4 col-lg-3 carousel-item">
-                        <div class="product-card">
-                            <div class="product-card-image">
-                                <img src="~/assets/customer/image/zenfone.jpg" alt="">
-                            </div>
-                            <div class="product-card-details">
-                                <div class="product-name">
-                                    Asus Zenfone
-                                </div>
-                                <div class="product-price">₦ 1,200</div>
-                                <div class="search-product-location">Apamini, Woji</div>
-                            </div>
-                        </div>
-                    </n-link>
-        
+                        </n-link>
+    
                     </div>
                 </div>
             </div>
@@ -407,7 +301,8 @@
 
     <div v-show="!pageLoader && !subscription">
         <div class="filter-btn-container">
-            <button class="close-modal-btn btn-icon btn-white advn-search-filter" >
+            <!-- <button class="close-modal-btn btn-icon btn-white advn-search-filter " > -->
+            <button class="scroll-top-btn close-modal-btn btn-icon btn-white advn-search-filter">
                 <div class="dropdownCheckBox" data-target="BusinessMobileSearchModal" data-trigger="modal"> </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
@@ -424,7 +319,8 @@ import {
     GET_ALL_DETAILS_FROM_PRODUCT_WITH_ID,
     SAVE_PRODUCT_FOR_LATER,
     SIGNED_IN_USER_ADD_ITEM_TO_CART,
-    ANONYMOUS_ADD_ITEM_TO_CART
+    ANONYMOUS_ADD_ITEM_TO_CART,
+    GET_PRODUCT_SUGGESTIONS
 } from '~/graphql/product';
 
 import { GET_BUSINESS_DETAILS_BY_USERNAME } from '~/graphql/business'
@@ -498,7 +394,8 @@ async function fetchProductDetailsFromApi (app, params) {
             logo: businessData.logo.length > 0 ? app.$getBusinessLogoUrl(businessData.id, businessData.logo) : "",
             businessId: businessData.id,
             contact: businessData.contact,
-            subscription: businessData.subscriptionStatus
+            subscription: businessData.subscriptionStatus,
+            productSuggestions: []
             
         }
 
@@ -575,7 +472,10 @@ export default {
             colorCode: "",
             selectedSize: "",
             sizeNumber: "",
-            subscription: 0, // 0 means active, 1 means expired
+            subscription: 0, // 0 means active, 1 means expired,
+
+            // product suggestions
+            productSuggestions: []
         }
     },
     head() {
@@ -629,6 +529,9 @@ export default {
         },
         returnImages () {
             return this.productImages
+        },
+        returnProductSuggestions () {
+            return this.productSuggestions
         }
     },
     methods : {
@@ -668,7 +571,41 @@ export default {
         formatBigSizeImage: function (image) {
             return this.$formatProductImageUrl(this.businessId, image, "bigSize")
         },
-        getBusinessDetails: async function () {
+        getProductSuggestion: async function () {
+
+            let variables = {
+                productId: this.productId,
+                businessId: this.businessId
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCT_SUGGESTIONS, variables, {});
+
+            if (request.error) {
+                return
+            }
+
+            let result = request.result.data.GetProductSuggestion;
+
+            if (result.success == false) {
+                return
+            }
+
+            let suggestions = result.products
+
+            if (suggestions.length < 3) return
+
+            let suggestionArray = [];
+
+            for (let x of suggestions) {
+                suggestionArray.push({
+                    image: this.$formatProductImageUrl(x.businessId, x.primaryImage, "thumbnail"),
+                    name: x.name,
+                    price: this.$numberNotation(x.price),
+                    productId: x.id,
+                })
+            }
+
+            this.productSuggestions = suggestionArray
 
         },
         formatProductDetails: function () {
@@ -908,7 +845,18 @@ export default {
 
             this.selectedSize = "";
             this.sizeNumber = "";
-        }
+        },
+        handleScroll: function () {
+            // Do something on scroll
+            let scrollTotal = this.rootElement.scrollHeight - this.rootElement.clientHeight
+            if ((this.rootElement.scrollTop / scrollTotal ) > 0.80) {
+                // Show button
+                this.scrollToTopBtn.classList.add("show-scroll-top-btn")
+            } else {
+                // Hide button
+                this.scrollToTopBtn.classList.remove("show-scroll-top-btn")
+            }
+        },
     },  
     created () {
         if (process.client) {
@@ -927,9 +875,13 @@ export default {
             this.$productImageSlides(this.currentSlide, this.slider);
             this.pageLoader = false
 
+            this.rootElement = document.documentElement
+            this.scrollToTopBtn = document.querySelector(".scroll-top-btn")
+            document.addEventListener("scroll", this.handleScroll)
+
             this.timeout = setTimeout(() => {
                 this.formatProductDetails();
-                this.getBusinessDetails();
+                this.getProductSuggestion();
             }, 1000);
         }
     },
@@ -1016,5 +968,16 @@ export default {
 }
 .filter-btn-container .close-modal-btn {
     opacity: .5;
+}
+.alert {
+    font-size: 14px !important;
+}
+@media(min-width: 1024px) {
+    .filter-btn-container {
+        display: none !important;
+    }
+}
+.no-z-index {
+    z-index: 0 !important;
 }
 </style>

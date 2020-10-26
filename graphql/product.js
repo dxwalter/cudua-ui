@@ -600,3 +600,23 @@ mutation create ($productId: String!, $message: String!, $score: Int!) {
   }
 }
 `
+
+export const GET_PRODUCT_SUGGESTIONS = gql`
+query getSuggesstion ($productId: String!, $businessId: String!) {
+  GetProductSuggestion(input:{
+    productId: $productId,
+    businessId: $businessId
+  }) {
+    products{
+      id
+      name
+      price
+      businessId
+      primaryImage
+    }
+    code
+    success
+    message
+  }
+}
+`

@@ -966,4 +966,7 @@ export default {
     .adjust-name h2 {
         margin-bottom: 8px;
     }
+    .alert {
+        font-size: 14px !important;
+    }
 </style>
