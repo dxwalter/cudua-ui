@@ -318,7 +318,7 @@ export default {
             }, 500);
         },
         readySearch: function () {
-            if (this.productName.length > 0 && this.communityName.length > 2) {
+            if (this.productName.length > 1 && this.communityName.length > 2) {
                 document.querySelector("body").classList.add('overflow-hidden')
                 document.getElementById('advancedSearchContainer').classList.add('is-active')
                 // remove show effect
@@ -335,7 +335,8 @@ export default {
                 this.initiateAdvancedSearch();
 
             } else {
-                if (this.productName.length == 0) {
+                if (this.productName.length < 2) {
+                    this.$showToast("Your search must be greater that 1 character", "info", 4000)
                     this.$addRedBorder('productName')
                 }
                 if (this.communityName.length == 0) {
