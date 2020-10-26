@@ -239,7 +239,7 @@ export default {
 
         if (request.error) {
             this.isProductError = 1
-            this.isProductErrorReason = "Your connection seems to brokens."
+            this.isProductErrorReason = "Your connection seems to broken."
             return
         } else {
             this.isProductError = 0

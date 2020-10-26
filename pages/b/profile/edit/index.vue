@@ -68,12 +68,12 @@
 
                                         <div class="form-control">
                                             <!-- <label for="businessType" class="form-label">Business name <span>- optional</span></label> -->
-                                            <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Business name" v-model="businessName">
+                                            <input type="text" name="" id="businessName" class="input-form white-bg-color" placeholder="Business name" v-model="businessName">
                                         </div>
 
                                         <div class="form-control">
                                             <!-- <label for="businessType" class="form-label">Change your business username <span>- optional</span></label> -->
-                                            <input type="text" name="" id="businessType" class="input-form white-bg-color" placeholder="Username" v-model="username">
+                                            <input type="text" name="" id="businessUsername" class="input-form white-bg-color" placeholder="Username" v-model="username">
                                         </div>
 
                                         <div class="form-control">

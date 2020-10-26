@@ -372,7 +372,7 @@ export default {
                         
                     } else {
                         this.noStreetSuggestionResult = 1
-                        document.getElementById('streetSearchSuggestionAnimation').style.displayPicture = 'none'
+                        document.getElementById('streetSearchSuggestionAnimation').style.display = 'none'
                     }
                 }
 

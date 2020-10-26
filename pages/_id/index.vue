@@ -82,7 +82,8 @@
                             </div>
                             <!-- end of mobile category listing -->
                             
-                            <div class="product-area"  v-show="!pageError">
+                            <div class="product-area"  v-show="!pageError && !subscription">
+
                                 <div class="business-product-container">
                                     <div class="business-product-listing">
 
@@ -164,7 +165,7 @@
 
 
                                         <!-- business name and details for desktop -->
-                                        <div class="desktop-business-bottom-details card">
+                                        <div class="desktop-business-bottom-details card" v-show="!subscription">
                                             <div class="d-flex">
                                                 <div class="business-bottom-logo">
                                                     <div class="temporal-logo" v-show="!logo">
@@ -174,7 +175,7 @@
                                                 </div>
                                                 <div class="bottom-business-details">
                                                     <div class="business-name">{{businessName}}</div>
-                                                    <div class="more-business-details mg-bottom-32">
+                                                    <div class="more-business-details mg-bottom-24">
                                                         <div class="business-address">{{getBusinessAddress}}.</div>
                                                     </div>
                                                     <div>
@@ -190,6 +191,7 @@
                                     </div>
 
                                 </div>
+
                             </div>
 
                             <!-- when an error occurs, show this -->
@@ -202,11 +204,31 @@
                                 </div>
                             </div>
                             <!-- end of error area -->
+
+                            <div class="industry-layout" v-show="!pageLoader && !pageError && subscription">
+
+                                    <div class="expired-sub-container">
+                                        <div class="mg-bottom-16">
+                                            <div class="business-logo-cover">
+                                                <div class="temporal-logo" v-show="!logo">
+                                                    {{getNameLogo(businessName)}}
+                                                </div>
+                                                <img :data-src="logo" :alt="`${businessName}'s logo`"  v-show="logo" v-lazy-load>
+                                            </div>
+                                        </div>
+                                        <div class="business-name adjust-name mg-bottom-32">
+                                            <h2>{{businessName}}</h2>
+                                            <div class="profile-username">@{{username}}</div>
+                                        </div>
+                                        <div class="alert alert-dark text-center">This shop is currently not accessible.</div>
+                                    </div>
+
+                            </div>
                             
                         </div>
                         <!-- end of content container -->
 
-                        <div class="bottom-nav" v-show="!pageLoader && !pageError">
+                        <div class="bottom-nav" v-show="!pageLoader && !pageError && !subscription">
                             <!-- footer -->
                             <a href="#" class="bottom-nav-item" data-target="businessDetailsModal" data-trigger="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -299,6 +321,7 @@ async function getBusinessDetails (app, params) {
             query: GET_BUSINESS_DETAILS_BY_USERNAME,
             variables: variables
         })  
+
         let data = result.data.GetSingleBusinessDetailsByUsername;
 
         let returnData = {}
@@ -333,7 +356,8 @@ async function getBusinessDetails (app, params) {
             coverPhoto: data.coverPhoto.length > 0  ? app.$getBusinessCoverPhotoUrl(data.id, data.coverPhoto): "",
             reviewScore: data.review,
             categories: data.businessCategories,
-            reviews: data.reviews
+            reviews: data.reviews,
+            subscription: data.subscriptionStatus
         }
 
 
@@ -402,6 +426,8 @@ export default {
 
         screenWidth: 0,
         contentHeight: "",
+
+        subscription: 0, // 0 means active, 1 means expired
       }
     },
     head() {
@@ -451,7 +477,7 @@ export default {
             this.screenWidth = window.innerWidth;
         },
 		getBusinessAddress: function() {
-			if (this.address == null) return "Not available";
+			if (this.address == null) return "Address has not been added.";
 
 			return `${this.address.number} ${this.address.street}, ${this.address.community}, ${this.address.state} ${this.address.country}`
         },
@@ -923,5 +949,21 @@ export default {
     .product-card-details {
         display: block;
         padding-top: 16px !important;
+    }
+    .text-center {
+        text-align: center !important;
+    }
+    .business-logo-cover {
+        position: relative !important;
+        margin: 0 auto;
+        left: unset;
+        padding: 0;
+        bottom: unset;
+    }
+    .adjust-name *{
+        text-align: center;
+    }
+    .adjust-name h2 {
+        margin-bottom: 8px;
     }
 </style>

@@ -5,12 +5,16 @@
       <!-- beginning of navigation container -->
         <div class="nav-container">
             <MOBILESEARCH></MOBILESEARCH>
+            <Nuxt />
             <DESKTOPNAVGATION></DESKTOPNAVGATION>
+            <Nuxt />
             <MOBILENAVIGATION></MOBILENAVIGATION>
+            <Nuxt />
         </div>
 
         <!-- pageLoader -->
         <PAGELOADER v-if="pageLoader"></PAGELOADER>
+        <Nuxt />
 
         <div class="content-container" v-show="!pageLoader">
             <!-- bookmark area -->
@@ -61,6 +65,7 @@
                     <div class="product-price-container">
                     <a href="javasscript:;" class="navbar-review-icon" data-trigger="modal" data-target="reviewModal">
                         <StarRating :score=reviewScore></StarRating>
+                        <Nuxt />
                     </a>
                     </div>
                     <!-- sizes -->
@@ -155,8 +160,11 @@
       <!-- footer area -->
 
       <BOTTOMADS></BOTTOMADS>
+      <Nuxt />
       <CUSTOMERFOOTER></CUSTOMERFOOTER>
+      <Nuxt />
       <BUSINESSREVIEW></BUSINESSREVIEW>
+      <Nuxt />
 
     </div>
   </div>

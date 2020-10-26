@@ -130,12 +130,12 @@ export default ({app}, inject) => {
 		inject('deleteAnonymousIdFromStorage', deleteAnonymousIdFromStorage)
 
 		let addRedBorder = (target) => {
-            document.getElementById(target).style.border = '1px solid #B82E24';
+            document.getElementById(target).classList.add('add-red-border');
 		}
 		inject('addRedBorder', addRedBorder);
 
         let removeRedBorder = (target) => {
-            document.getElementById(target).style.border = '0px';
+            document.getElementById(target).classList.remove('add-red-border');
 		}
 		inject('removeRedBorder', removeRedBorder);
 

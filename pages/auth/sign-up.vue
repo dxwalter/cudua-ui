@@ -57,7 +57,8 @@
 
         </div>
     </div>
-    <NOTIFICATION></NOTIFICATION>
+        <NOTIFICATION></NOTIFICATION>
+        <Nuxt />
     </div>
 </template>
 

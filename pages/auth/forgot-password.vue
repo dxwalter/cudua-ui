@@ -25,19 +25,7 @@
                             </div>
             
                         </div>
-                        <div class="display-none">
-                            <div class="form-control">
-                                <label for="businessType" class="form-label">Business name</label>
-                                <input type="text" name="" id="" class="input-form">
-                            </div>
-                            <div class="form-control">
-                                <label for="businessType" class="form-label">Business username</label>
-                                <input type="text" name="" id="" class="input-form">
-                            </div>
-                            <div class="form-control">
-                                <button class="btn btn-block btn-primary" type="button">Continue to dashboard</button>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
         </div>

@@ -22,7 +22,7 @@
           <!-- bookmark area -->
             <div class="section-header"><h4>Product details</h4></div>
             <!-- content start here -->
-            <div class="all-product-details-container" v-show="!productNotFound && !pageLoader">
+            <div class="all-product-details-container" v-show="!productNotFound && !pageLoader && !subscription">
                 <!-- product image area -->
                 <div class="image-area">
                     <!-- image area -->
@@ -182,7 +182,6 @@
 
                 </div> 
                 <!-- end of product info-->
-
             </div> <!-- End of product-details-content-info -->
 
             <!-- when no product is found, show this -->
@@ -196,7 +195,7 @@
             <!-- end of error area -->
 
             <!-- product suggesstion -->
-            <div class="product-suggestion-container display-none" v-show="!pageLoader">
+            <div class="product-suggestion-container display-none" v-show="!pageLoader && !subscription">
                 <div class="section-header"><h4>Customers also viewed</h4></div>
                 <div class="product-suggestion-listing">
                     <div class="swiper-action-container">
@@ -344,11 +343,30 @@
                 </div>
             </div>
             <!-- end of product suggestion area -->
+
+
+            <div class="industry-layout" v-show="!pageLoader && !serverError && subscription">
+                <div class="expired-sub-container">
+                    <div class="mg-bottom-16">
+                        <div class="business-logo-cover">
+                            <img :data-src="primaryImage" :alt="`${productName}'s picture`" v-lazy-load>
+                        </div>
+                    </div>
+                    <div class="business-name adjust-name mg-bottom-24">
+                        <h2>{{productName}}</h2>
+                    </div>
+                    <div class="alert alert-dark text-center mg-bottom-16">This product is currently not accessible.</div>
+                    <div class="d-flex-center">
+                        <n-link :to="`/${username}`" class="btn btn-white btn-md">Visit shop</n-link>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- end of content container -->
 
         <!-- mobile action area -->
-        <div class="product-bottom-action-area" v-show="!pageLoader && !productNotFound">
+        <div class="product-bottom-action-area" v-show="!pageLoader && !productNotFound && !subscription">
             <button type="button" class="btn btn-white" data-target="contactBusiness" data-trigger="modal">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                     <use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
@@ -387,13 +405,15 @@
         <!-- <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL> -->
     </div>
 
-    <div class="filter-btn-container" v-show="!pageLoader">
-        <button class="close-modal-btn btn-icon btn-primary advn-search-filter" >
-            <div class="dropdownCheckBox" data-target="BusinessMobileSearchModal" data-trigger="modal"> </div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <use xlink:href="~/assets/customer/image/all-svg.svg#advancedSearch"></use>
-            </svg>
-        </button>
+    <div v-show="!pageLoader && !subscription">
+        <div class="filter-btn-container">
+            <button class="close-modal-btn btn-icon btn-white advn-search-filter" >
+                <div class="dropdownCheckBox" data-target="BusinessMobileSearchModal" data-trigger="modal"> </div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#searchIcon"></use>
+                </svg>
+            </button>
+        </div>
     </div>
     
   </div>
@@ -452,6 +472,7 @@ async function fetchProductDetailsFromApi (app, params) {
 
         data = data.product
 
+
         return {
             productNotFound: 0,
             serverError: 0,
@@ -476,7 +497,9 @@ async function fetchProductDetailsFromApi (app, params) {
             username: businessData.username,
             logo: businessData.logo.length > 0 ? app.$getBusinessLogoUrl(businessData.id, businessData.logo) : "",
             businessId: businessData.id,
-            contact: businessData.contact
+            contact: businessData.contact,
+            subscription: businessData.subscriptionStatus
+            
         }
 
     } catch (error) {
@@ -551,7 +574,8 @@ export default {
             selectedColor: "",
             colorCode: "",
             selectedSize: "",
-            sizeNumber: ""
+            sizeNumber: "",
+            subscription: 0, // 0 means active, 1 means expired
         }
     },
     head() {
@@ -905,7 +929,7 @@ export default {
 
             this.timeout = setTimeout(() => {
                 this.formatProductDetails();
-                this.getBusinessDetails()
+                this.getBusinessDetails();
             }, 1000);
         }
     },
@@ -967,5 +991,30 @@ export default {
 }
 .advn-search-filter svg:last-child {
     display: unset;
+}
+.content-container {
+    min-height: 100vh;
+}    
+.text-center {
+    text-align: center !important;
+}
+.business-logo-cover {
+    position: relative !important;
+    margin: 0 auto;
+    left: unset;
+    bottom: unset;
+    padding: 0
+}
+.adjust-name *{
+    text-align: center;
+}
+.adjust-name h2 {
+    margin-bottom: 8px;
+}
+.filter-btn-container {
+    top: calc(100vh - 133px);
+}
+.filter-btn-container .close-modal-btn {
+    opacity: .5;
 }
 </style>

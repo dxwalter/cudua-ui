@@ -51,6 +51,10 @@ query FindCommunity($keyword: String!){
         name
         lgaId
       }
+      state {
+        name
+        stateId
+      }
     }
     code
     success

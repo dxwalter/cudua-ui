@@ -137,13 +137,6 @@
 					</div>
 					<!-- end of error area -->
 
-					<!-- when no string has been typed into search box -->
-					<div class="link-error-area" v-show="pageError && searchKeyword.length > 0 && !isLoading">
-						<img src="~/static/images/server-error.svg" alt="">
-						<div class="error-cause">{{reasonForError}}</div>
-					</div>
-					<!-- end of error area -->
-
         </div>
         
       </div>

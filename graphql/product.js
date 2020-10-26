@@ -217,6 +217,7 @@ query getproduct($productId: String!) {
       id,
       username,
       logo
+      subscriptionStatus
       contact {
         phone,
         whatsapp {

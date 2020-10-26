@@ -73,6 +73,7 @@
                     <a href="#">Privacy | Terms</a>
                 </div>
                 <NOTIFICATION></NOTIFICATION>
+                <Nuxt />
             </div>
         </div>
 

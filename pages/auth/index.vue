@@ -69,7 +69,9 @@
             </div>
         </div>
         <NOTIFICATION></NOTIFICATION>
+        <Nuxt />
         <INITCOMPONENT></INITCOMPONENT>
+        <Nuxt />
     </div>
 </template>
 

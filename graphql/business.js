@@ -413,6 +413,7 @@ query getdata($username: String!){
       businessname
       username
       description
+      subscriptionStatus
       address {
         number
         street
