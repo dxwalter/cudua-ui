@@ -23,7 +23,6 @@ const _974f01a6 = () => interopDefault(import('..\\pages\\b\\orders\\index.vue' 
 const _4dc5095a = () => interopDefault(import('..\\pages\\b\\product\\index.vue' /* webpackChunkName: "pages/b/product/index" */))
 const _34bd334e = () => interopDefault(import('..\\pages\\b\\profile\\index.vue' /* webpackChunkName: "pages/b/profile/index" */))
 const _089bf8ca = () => interopDefault(import('..\\pages\\b\\template.vue' /* webpackChunkName: "pages/b/template" */))
-const _a5fe28b4 = () => interopDefault(import('..\\pages\\b\\test-slider\\index.vue' /* webpackChunkName: "pages/b/test-slider/index" */))
 const _2b5bd831 = () => interopDefault(import('..\\pages\\c\\cart\\index.vue' /* webpackChunkName: "pages/c/cart/index" */))
 const _408327b2 = () => interopDefault(import('..\\pages\\c\\following\\index.vue' /* webpackChunkName: "pages/c/following/index" */))
 const _8e840c72 = () => interopDefault(import('..\\pages\\c\\logout\\index.vue' /* webpackChunkName: "pages/c/logout/index" */))
@@ -143,10 +142,6 @@ export const routerOptions = {
     path: "/b/template",
     component: _089bf8ca,
     name: "b-template"
-  }, {
-    path: "/b/test-slider",
-    component: _a5fe28b4,
-    name: "b-test-slider"
   }, {
     path: "/c/cart",
     component: _2b5bd831,

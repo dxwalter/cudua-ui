@@ -438,6 +438,7 @@
     border-radius: 4px;
     background-color: $white-color;
     margin-bottom: 16px;
+    overflow: hidden;
 }
 
 
@@ -2924,7 +2925,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     justify-content: center;
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
 
     button {
         flex: 1;

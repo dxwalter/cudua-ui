@@ -59,7 +59,7 @@
                                     </div>
                                     <div class="form-control">
                                         <div>
-                                            By clicking "Create your shop", you agree to Cudua's 
+                                            By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy. You may receive SMS notifications from us and can opt out at any time.
                                         </div>
                                         <button class="btn btn-block btn-primary" type="button" @click="validateBusiness" :disabled="isDisabled">
                                             Create your shop
