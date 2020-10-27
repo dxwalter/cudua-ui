@@ -796,6 +796,8 @@ export default {
         },
         getAllProducts: async function (page = 1, e) {
 
+
+
             this.productsType = 'all'
             this.page = page
 

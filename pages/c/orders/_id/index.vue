@@ -62,20 +62,20 @@
                             </div>
                         </div>
 
-                        <div class="md-flex">
+                        <div class="md-flex" :class="[details.orderProduct.length == 0 ? 'remove-display-flex' : '']">
                             <!-- products -->
                             <div class="col-md-12" :class="[details.orderInfo.orderStatus ? 'col-lg-9' : 'col-lg-12']" v-show="details.orderInfo.orderStatus != -1">
                                 <div class="order-details-notification">
-                                    <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0">
+                                    <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0">
                                         <div class="info-text">This order has been placed but yet to be confirmed. </div>
                                         <!-- <button class="btn btn-small btn-white">confirm</button> -->
                                     </div>
-                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0">
+                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0">
                                         <div class="info-text">This order has been confirmed. </div>
                                         <button class="btn btn-small btn-white"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery</button>
                                     </div>
                                 </div>
-                                <div class="order-details-product-container">
+                                <div class="order-details-product-container" v-show="details.orderProduct.length > 0">
                                     <div class="swiper-action-container" v-show="details.orderProduct.length > 1">
                                         <button class="close-modal-btn slider-control small-slider-btn">
                                             <div class="dropdownCheckBox" @click="moveCarousel(`carousel${details.businessData.businessId}`, 'left')"></div>
@@ -144,6 +144,7 @@
 
 
                                     </div>
+
                                 </div>
                             </div>
 
@@ -174,6 +175,25 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- when no product is found in the order -->
+                            <div v-show="details.orderProduct.length == 0" class="rejected-order-layout">
+                                <div class="rejected-order-content">
+                                    <div class="header">No product was found in this order.</div>
+                                    <div class="message-by mg-bottom-32">The products in this order was either moved or deleted.</div>
+                                    
+                                    <div class="action-area">
+                                        <button class="btn btn-primary" id="deleteOrder" @click="deleteOrder(details.businessData.businessId)">
+                                            Delete order
+                                            <div class="loader-action"><span class="loader"></span></div>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- when no product is found -->
+                            
+                            <!-- when order is rejected -->
                             <div v-show="details.orderInfo.orderStatus == -1" class="rejected-order-layout">
                                 <div class="rejected-order-content">
                                     <div class="header">This order was rejected </div>
@@ -189,6 +209,8 @@
 
                                 </div>
                             </div>
+                            <!-- When order is rejected -->
+
                         </div>
                     </div>
 
@@ -598,5 +620,8 @@ export default {
     .d-flex-btw {
         display: flex;
         justify-content: space-between;
+    }
+    .remove-display-flex {
+        display: block !important
     }
 </style>

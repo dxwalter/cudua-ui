@@ -11,16 +11,20 @@
                     <PAGELOADER v-show="pageLoader"></PAGELOADER>
                     <Nuxt />
                     <!-- content goes in here -->
-                    <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader">
+                    <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader && returnAllProducts.length > 0">
                         <div>We strongly recommed that you call this customer before adding delivery price and confirming this order.</div>
                         <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
+                    </div>
+
+                    <div class="alert alert-danger notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader && returnAllProducts.length == 0">
+                        <div>This order does not contain any product.</div>
                     </div>
 
                     <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder">
                         <div>You have confirmed this order but yet to deliver order.</div>
                     </div>
 
-                    <div class="alert alert-danger notification-alert" v-show="orderStatus && deliveryStatus == -1 && !pageLoader">
+                    <div class="alert alert-danger notification-alert" v-show="orderStatus && deliveryStatus == -1 && !pageLoader && returnAllProducts.length > 0">
                         <div>The delivery of this order was rejected. Kindly call the customer to know why.</div>
                         <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
@@ -100,7 +104,7 @@
                             <div class="item-details-listing">
                                 <div class="order-menu">Ordered products</div>
                                 
-                                <div class="card" v-for="(product, index) in returnAllProducts" :key="index">
+                                <div class="card" v-for="(product, index) in returnAllProducts" :key="index" v-show="returnAllProducts.length > 0">
                                     <div class="order-card">
                                         <div class="order-card-img">
                                             <img :data-src="`${product.image}`" :alt="`${product.name}'s  picture`" v-lazy-load>
@@ -121,7 +125,11 @@
                                     </div>
                                 </div>
 
-                                <div class="card" id="orderInfoDiv" v-show="!deliveryStatus">
+                                <div class="card mg-bottom-32" v-show="returnAllProducts.length == 0">
+                                    <div class="alert alert-info">The product(s) in this order were deleted after the order had been placed.</div>
+                                </div>
+
+                                <div class="card" id="orderInfoDiv" v-show="!deliveryStatus && returnAllProducts.length > 0">
                                     <div class="order-action-container">
                                         <div class="delivery-charge-area">
                                             <span>Delivery charge & time</span>
@@ -148,35 +156,35 @@
                                     </div>
                                 </div>
 
-                                <div class="card">
+                                <div class="card" v-show=" returnAllProducts.length > 0">
                                     <div class="order-action-container">
-                                        <div class="final-delivery-charge">
+                                        <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
                                             <div>Delivery time span</div>
                                             <div v-show="deliveryTime.start || deliveryTime.end">{{deliveryTime.start}} to {{deliveryTime.end}}</div>
                                             <div v-show="!deliveryTime.start && !deliveryTime.end">- to -</div>
                                         </div>
-                                        <div class="final-delivery-charge">
+                                        <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
                                             <div>Delivery charge</div>
                                             <span v-show="deliveryCharge">₦ {{formatNumber(deliveryCharge)}}</span>
                                             <span v-show="!deliveryCharge">₦ 0</span>
                                         </div>
 
-                                        <div class="final-delivery-charge">
+                                        <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
                                             <div>Total product price</div>
                                             <span>₦ {{formatNumber(totalProductPrice)}}</span>
                                         </div>
 
-                                        <div class="total-price">
+                                        <div class="total-price" v-show="returnAllProducts.length > 0">
                                             <div>Total price</div>
                                             <div>₦ {{formatNumber(paymentPrice)}}</div>
                                         </div>
 
                                         <div class="order-items-action" v-show="!deliveryStatus">
-                                            <button class="btn btn-primary btn-block" id="acceptOrder" @click="acceptOrder()" v-show="orderStatus == 0">
+                                            <button class="btn btn-primary btn-block" id="acceptOrder" @click="acceptOrder()" v-show="orderStatus == 0 && returnAllProducts.length > 0">
                                                 Accept order
                                                 <div class="loader-action"><span class="loader"></span></div>
                                             </button>
-                                            <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder" v-show="orderStatus == 0">Reject order</button>
+                                            <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder" v-show="orderStatus == 0 && returnAllProducts.length > 0" @click="stateRejectOrderReason()">Reject order</button>
 
                                             <button class="btn btn-primary btn-block" id="updateDeliveryData" @click="updateDeliveryData()" v-show="orderStatus == 1">
                                                 Update delivery charge and time
@@ -210,7 +218,7 @@
 
                                     <div id="createCategory">
                                         
-                                        <div class="form-control">
+                                        <div class="form-control" v-show="returnAllProducts.length > 0">
                                             <label for="businessType" class="form-label">Tell the customer the reason His/Her order is being rejected</label>
                                             <textarea name="" cols="30" rows="5" class="input-form" id="rejectOrderForm" v-model="rejectOrderMessage"></textarea>
                                         </div>
@@ -351,6 +359,11 @@ export default {
         }
     },
     methods:{
+        stateRejectOrderReason: function () {
+            if (this.returnAllProducts.length == 0) {
+                this.rejectOrderMessage = "The product(s) in this order were deleted by the business";
+            }
+        },
         ...mapGetters({
             'GetCustomerData': 'customer/GetCustomerDetails',
             'GetBusinessData': 'business/GetBusinessDetails'

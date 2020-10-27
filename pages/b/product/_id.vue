@@ -11,7 +11,7 @@
                         <PAGELOADER v-show="pageLoader" />
                         <Nuxt />
                         <div class="alert alert-danger notification-alert" v-show="hide">
-                            <div>This product is hidden. Customers will not be able to find it in your shop and in search result.</div>
+                            <div>This product is hidden. Customers will not be able to find it in your shop and in search results.</div>
                             <button class="btn btn-small btn-white" @click="showProduct()" id="showProduct">
                                 Show product
                                 <div class="loader-action"><span class="loader"></span></div>
@@ -486,6 +486,8 @@ export default {
             let request = await this.$performGraphQlMutation(this.$apollo, DELETE_PRODUCT, variables, context);
 
             target.disabled = false;
+
+            this.productToDelete = 0
         
 
             if (request.error) {
@@ -503,7 +505,6 @@ export default {
             this.$initiateNotification("success", "Product deleted", result.message);
 
             this.productNotFound = 1
-            this.productToDelete = 0
             this.hide = 0
         },
     },

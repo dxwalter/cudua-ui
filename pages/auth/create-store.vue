@@ -58,8 +58,11 @@
                                         <div class="validation-error-design" id="passwordValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control">
+                                        <div>
+                                            By clicking "Create your shop", you agree to Cudua's 
+                                        </div>
                                         <button class="btn btn-block btn-primary" type="button" @click="validateBusiness" :disabled="isDisabled">
-                                            Create online shop
+                                            Create your shop
                                             <div class="loader-action"><span class="loader"></span></div>    
                                         </button>
                                     </div>
