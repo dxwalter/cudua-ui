@@ -437,8 +437,26 @@
     box-shadow: $btn-box-shadow;
     border-radius: 4px;
     background-color: $white-color;
-    overflow: hidden;
     margin-bottom: 16px;
+}
+
+
+.product-image-item.is-active {
+    display: block !important;
+}
+
+
+
+.product-image-item.is-active.slide-left {
+    animation-name: slideImageLeft;
+}
+
+.product-image-item.is-active.slide-right {
+    animation-name: slideImageRight;
+}
+
+.product-image-item {
+    display: none;
 }
 
 .product-card-image {
@@ -447,9 +465,7 @@
     border-bottom: $border;
     display: flex;
     align-items: center;
-    overflow: hidden;
-    white-space: nowrap;
-    display: flex;
+    display: block;
     overflow: hidden;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
@@ -480,6 +496,7 @@
         display: flex;
         justify-content: center;
         align-content: center;
+        z-index: 1;
     }
 
     .cursor-control.to-left {
@@ -2907,7 +2924,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     justify-content: center;
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 1000;
 
     button {
         flex: 1;

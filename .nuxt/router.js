@@ -10,6 +10,7 @@ const _4671bc11 = () => interopDefault(import('..\\pages\\c\\index.vue' /* webpa
 const _ab11bc38 = () => interopDefault(import('..\\pages\\p\\index.vue' /* webpackChunkName: "pages/p/index" */))
 const _0a509918 = () => interopDefault(import('..\\pages\\search\\index.vue' /* webpackChunkName: "pages/search/index" */))
 const _6d849140 = () => interopDefault(import('..\\pages\\t\\index.vue' /* webpackChunkName: "pages/t/index" */))
+const _b839d1c2 = () => interopDefault(import('..\\pages\\auth\\create-new-password.vue' /* webpackChunkName: "pages/auth/create-new-password" */))
 const _adcbc10c = () => interopDefault(import('..\\pages\\auth\\create-store.vue' /* webpackChunkName: "pages/auth/create-store" */))
 const _f668966a = () => interopDefault(import('..\\pages\\auth\\forgot-password.vue' /* webpackChunkName: "pages/auth/forgot-password" */))
 const _69521b1e = () => interopDefault(import('..\\pages\\auth\\sign-up.vue' /* webpackChunkName: "pages/auth/sign-up" */))
@@ -22,6 +23,7 @@ const _974f01a6 = () => interopDefault(import('..\\pages\\b\\orders\\index.vue' 
 const _4dc5095a = () => interopDefault(import('..\\pages\\b\\product\\index.vue' /* webpackChunkName: "pages/b/product/index" */))
 const _34bd334e = () => interopDefault(import('..\\pages\\b\\profile\\index.vue' /* webpackChunkName: "pages/b/profile/index" */))
 const _089bf8ca = () => interopDefault(import('..\\pages\\b\\template.vue' /* webpackChunkName: "pages/b/template" */))
+const _a5fe28b4 = () => interopDefault(import('..\\pages\\b\\test-slider\\index.vue' /* webpackChunkName: "pages/b/test-slider/index" */))
 const _2b5bd831 = () => interopDefault(import('..\\pages\\c\\cart\\index.vue' /* webpackChunkName: "pages/c/cart/index" */))
 const _408327b2 = () => interopDefault(import('..\\pages\\c\\following\\index.vue' /* webpackChunkName: "pages/c/following/index" */))
 const _8e840c72 = () => interopDefault(import('..\\pages\\c\\logout\\index.vue' /* webpackChunkName: "pages/c/logout/index" */))
@@ -90,6 +92,10 @@ export const routerOptions = {
     component: _6d849140,
     name: "t"
   }, {
+    path: "/auth/create-new-password",
+    component: _b839d1c2,
+    name: "auth-create-new-password"
+  }, {
     path: "/auth/create-store",
     component: _adcbc10c,
     name: "auth-create-store"
@@ -137,6 +143,10 @@ export const routerOptions = {
     path: "/b/template",
     component: _089bf8ca,
     name: "b-template"
+  }, {
+    path: "/b/test-slider",
+    component: _a5fe28b4,
+    name: "b-test-slider"
   }, {
     path: "/c/cart",
     component: _2b5bd831,

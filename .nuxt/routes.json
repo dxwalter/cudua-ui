@@ -49,6 +49,13 @@
     "_name": "_6d849140"
   },
   {
+    "name": "auth-create-new-password",
+    "path": "/auth/create-new-password",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\create-new-password.vue",
+    "chunkName": "pages/auth/create-new-password",
+    "_name": "_b839d1c2"
+  },
+  {
     "name": "auth-create-store",
     "path": "/auth/create-store",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\create-store.vue",
@@ -131,6 +138,13 @@
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\template.vue",
     "chunkName": "pages/b/template",
     "_name": "_089bf8ca"
+  },
+  {
+    "name": "b-test-slider",
+    "path": "/b/test-slider",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\test-slider\\\\index.vue",
+    "chunkName": "pages/b/test-slider/index",
+    "_name": "_a5fe28b4"
   },
   {
     "name": "c-cart",

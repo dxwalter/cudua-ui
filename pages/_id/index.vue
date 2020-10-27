@@ -134,8 +134,9 @@
                                                             </div>
 
                                                             <n-link :to="`/p/${x.productId}`" class="product-card-image" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
-                                                                <img class="carousel-item" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-lazy-load v-bind:class="[imageIndex ? '' : 'is-active']">
+                                                                <img class="product-image-item" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-lazy-load v-bind:class="[imageIndex ? '' : 'is-active']">
                                                             </n-link>
+
                                                         </div>
                                                         
                                                         <n-link :to="`/p/${x.productId}`" class="product-card-details display-block">
@@ -495,15 +496,46 @@ export default {
         }
     },
     methods: {
-        moveCarousel: function (target, direction) {
-            let carouselItems = document.querySelectorAll(`#${target} .carousel-item`);
-            let size = carouselItems[0].clientWidth;
-            let carouselSlide = document.getElementById(target)
+        showSlideImage: function(slideToShow, images, direction) {
+            
+            let move = "";
 
+            if (direction == 'left') move = 'slide-left'
+            if (direction == 'right') move = 'slide-right'
+            
+
+            for (let image of images) {
+                image.classList.remove('is-active', 'slide-left', 'slide-right')
+            }
+
+            console.log(move)
+            console.log(direction)
+
+            images[slideToShow - 1].classList.add('is-active', move)
+        },
+        moveCarousel: function (target, direction) {
+            let slideContainer = document.getElementById(target)
+            let currentSlide = parseInt(slideContainer.getAttribute('data-current-image'), 10);
+
+            let allImages = document.querySelectorAll(`#${target} > img`);
+
+            let slideToShow = 0
+            
             if (direction == 'left') {
-                this.$carouselActionSlider(carouselSlide, 'left', 10, size, size);
-            } else {
-                this.$carouselActionSlider(carouselSlide, 'right', 10, size, size);
+                if (currentSlide == 1) return
+
+                slideToShow = currentSlide - 1;
+                this.showSlideImage(slideToShow, allImages, direction)
+
+                slideContainer.setAttribute('data-current-image', slideToShow)
+            }
+
+            if (direction == 'right') {
+                if (currentSlide == allImages.length) return
+
+                slideToShow = currentSlide + 1;
+                this.showSlideImage(slideToShow, allImages, direction)
+                slideContainer.setAttribute('data-current-image', slideToShow)
             }
         },
         showMobileCategory: function () {

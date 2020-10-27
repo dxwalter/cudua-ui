@@ -337,6 +337,9 @@ export default {
                     }
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);
+
+                    clearTimeout(this.timeOutHolder)
+
                     this.timeOutHolder = setTimeout(() => {
 
                         this.$router.push('/b')
@@ -410,6 +413,9 @@ export default {
                 this.$store.commit('customer/setAnonymousId', '');
 
                 this.$initiateNotification('success', 'Online shop created', result.message);
+
+                clearTimeout(this.timeOutHolder)
+
                 this.timeOutHolder = setTimeout(() => {
                     // window.location.assign('/b')
                     return this.$router.push('/b')
@@ -486,6 +492,8 @@ export default {
                     this.setBusinessData(result)
 
                     this.$initiateNotification('success', 'Sign in successful', result.message);
+
+                    clearTimeout(this.timeOutHolder)
 
                     this.timeOutHolder = setTimeout(() => {
                         this.$router.push('/b') 

@@ -80,6 +80,7 @@ export default {
             password: "",
             error: 0,
             isDisabled: false,
+            timer: null
 		}
     },
     created () {
@@ -192,7 +193,7 @@ export default {
                     this.$store.commit('customer/setAnonymousId', '');
 
                     this.$initiateNotification('success', 'Registration successful', result.message);
-                    setTimeout(() => {
+                    this.timer = setTimeout(() => {
                         this.$router.push('/')
                     }, 1000);
                 }
@@ -204,7 +205,12 @@ export default {
 
         }
     },
+    beforeDestroy () {
+        clearTimeout(this.timer)
+    },
     mounted () {
+        
+        console.log(this.timer)
         document.querySelector("body").classList.remove("overflow-hidden");
         this.anonymousId = this.GetAnonymousId
     }

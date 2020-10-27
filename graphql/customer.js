@@ -323,3 +323,29 @@ export const GET_CUSTOMER_UNREAD_NOTIFICATION_COUNT = gql`
       }
   }
 `
+
+export const RECOVER_PASSWORD = gql `
+mutation recover($email: String!) {
+  recoverPassword(input:{
+    email: $email
+  }){
+    code
+    success
+    message
+  }
+}
+`
+
+export const RESET_PASSWORD = gql`
+mutation resetPassword ($password: String!, $secret: String!, $userId: String!) {
+  resetPassword(input:{
+    password: $password,
+    secret: $secret,
+    userId: $userId
+  }){
+    code
+    success
+    message
+  }
+}
+`

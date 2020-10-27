@@ -167,6 +167,9 @@ export default {
                 this.$store.dispatch('customer/setAnonymousId', '');
 
                 this.$initiateNotification('success', 'Sign in successful', `${result.message}`);
+
+                clearTimeout(this.timeOutHolder)
+
                 this.timeOutHolder = setTimeout(() => {
                     // window.location.assign('/')
                     this.$router.push('/')
