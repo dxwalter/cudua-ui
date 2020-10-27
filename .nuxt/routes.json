@@ -3,252 +3,322 @@
     "name": "404",
     "path": "/404",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\404.vue",
-    "chunkName": "pages/404"
+    "chunkName": "pages/404",
+    "_name": "_2b76a426"
   },
   {
     "name": "auth",
     "path": "/auth",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\index.vue",
-    "chunkName": "pages/auth/index"
+    "chunkName": "pages/auth/index",
+    "_name": "_df0742d0"
   },
   {
     "name": "b",
     "path": "/b",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\index.vue",
-    "chunkName": "pages/b/index"
+    "chunkName": "pages/b/index",
+    "_name": "_3ec016b2"
   },
   {
     "name": "c",
     "path": "/c",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\index.vue",
-    "chunkName": "pages/c/index"
+    "chunkName": "pages/c/index",
+    "_name": "_4671bc11"
   },
   {
     "name": "p",
     "path": "/p",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\p\\\\index.vue",
-    "chunkName": "pages/p/index"
+    "chunkName": "pages/p/index",
+    "_name": "_ab11bc38"
   },
   {
     "name": "search",
     "path": "/search",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\search\\\\index.vue",
-    "chunkName": "pages/search/index"
+    "chunkName": "pages/search/index",
+    "_name": "_0a509918"
   },
   {
     "name": "t",
     "path": "/t",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\t\\\\index.vue",
-    "chunkName": "pages/t/index"
+    "chunkName": "pages/t/index",
+    "_name": "_6d849140"
   },
   {
     "name": "auth-create-new-password",
     "path": "/auth/create-new-password",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\create-new-password.vue",
-    "chunkName": "pages/auth/create-new-password"
+    "chunkName": "pages/auth/create-new-password",
+    "_name": "_b839d1c2"
   },
   {
     "name": "auth-create-store",
     "path": "/auth/create-store",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\create-store.vue",
-    "chunkName": "pages/auth/create-store"
+    "chunkName": "pages/auth/create-store",
+    "_name": "_adcbc10c"
   },
   {
     "name": "auth-forgot-password",
     "path": "/auth/forgot-password",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\forgot-password.vue",
-    "chunkName": "pages/auth/forgot-password"
+    "chunkName": "pages/auth/forgot-password",
+    "_name": "_f668966a"
   },
   {
     "name": "auth-sign-up",
     "path": "/auth/sign-up",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\auth\\\\sign-up.vue",
-    "chunkName": "pages/auth/sign-up"
+    "chunkName": "pages/auth/sign-up",
+    "_name": "_69521b1e"
   },
   {
     "name": "b-categories",
     "path": "/b/categories",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\categories\\\\index.vue",
-    "chunkName": "pages/b/categories/index"
+    "chunkName": "pages/b/categories/index",
+    "_name": "_fb4040d4"
   },
   {
     "name": "b-dashboard",
     "path": "/b/dashboard",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\dashboard\\\\index.vue",
-    "chunkName": "pages/b/dashboard/index"
+    "chunkName": "pages/b/dashboard/index",
+    "_name": "_55d7868e"
   },
   {
     "name": "b-followers",
     "path": "/b/followers",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\followers\\\\index.vue",
-    "chunkName": "pages/b/followers/index"
+    "chunkName": "pages/b/followers/index",
+    "_name": "_f58b7b26"
   },
   {
     "name": "b-invite",
     "path": "/b/invite",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\invite\\\\index.vue",
-    "chunkName": "pages/b/invite/index"
+    "chunkName": "pages/b/invite/index",
+    "_name": "_d76d16ee"
   },
   {
     "name": "b-notification",
     "path": "/b/notification",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\notification\\\\index.vue",
-    "chunkName": "pages/b/notification/index"
+    "chunkName": "pages/b/notification/index",
+    "_name": "_1f032367"
   },
   {
     "name": "b-orders",
     "path": "/b/orders",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\orders\\\\index.vue",
-    "chunkName": "pages/b/orders/index"
+    "chunkName": "pages/b/orders/index",
+    "_name": "_974f01a6"
   },
   {
     "name": "b-product",
     "path": "/b/product",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\product\\\\index.vue",
-    "chunkName": "pages/b/product/index"
+    "chunkName": "pages/b/product/index",
+    "_name": "_4dc5095a"
   },
   {
     "name": "b-profile",
     "path": "/b/profile",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\profile\\\\index.vue",
-    "chunkName": "pages/b/profile/index"
+    "chunkName": "pages/b/profile/index",
+    "_name": "_34bd334e"
   },
   {
     "name": "b-template",
     "path": "/b/template",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\template.vue",
-    "chunkName": "pages/b/template"
+    "chunkName": "pages/b/template",
+    "_name": "_089bf8ca"
   },
   {
     "name": "c-cart",
     "path": "/c/cart",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\cart\\\\index.vue",
-    "chunkName": "pages/c/cart/index"
+    "chunkName": "pages/c/cart/index",
+    "_name": "_2b5bd831"
   },
   {
     "name": "c-following",
     "path": "/c/following",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\following\\\\index.vue",
-    "chunkName": "pages/c/following/index"
+    "chunkName": "pages/c/following/index",
+    "_name": "_408327b2"
   },
   {
     "name": "c-logout",
     "path": "/c/logout",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\logout\\\\index.vue",
-    "chunkName": "pages/c/logout/index"
+    "chunkName": "pages/c/logout/index",
+    "_name": "_8e840c72"
   },
   {
     "name": "c-notification",
     "path": "/c/notification",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\notification\\\\index.vue",
-    "chunkName": "pages/c/notification/index"
+    "chunkName": "pages/c/notification/index",
+    "_name": "_20dc7686"
   },
   {
     "name": "c-orders",
     "path": "/c/orders",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\orders\\\\index.vue",
-    "chunkName": "pages/c/orders/index"
+    "chunkName": "pages/c/orders/index",
+    "_name": "_c80b54e8"
   },
   {
     "name": "c-profile",
     "path": "/c/profile",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\profile\\\\index.vue",
-    "chunkName": "pages/c/profile/index"
+    "chunkName": "pages/c/profile/index",
+    "_name": "_1b8b484c"
   },
   {
     "name": "c-saved-items",
     "path": "/c/saved-items",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\saved-items\\\\index.vue",
-    "chunkName": "pages/c/saved-items/index"
+    "chunkName": "pages/c/saved-items/index",
+    "_name": "_3714292e"
+  },
+  {
+    "name": "info-about",
+    "path": "/info/about",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\info\\\\about.vue",
+    "chunkName": "pages/info/about",
+    "_name": "_3d407d0d"
+  },
+  {
+    "name": "info-contact",
+    "path": "/info/contact",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\info\\\\contact.vue",
+    "chunkName": "pages/info/contact",
+    "_name": "_1cdb7bc0"
+  },
+  {
+    "name": "info-privacy-and-cookey",
+    "path": "/info/privacy-and-cookey",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\info\\\\privacy-and-cookey.vue",
+    "chunkName": "pages/info/privacy-and-cookey",
+    "_name": "_538870c7"
+  },
+  {
+    "name": "info-terms-and-condition",
+    "path": "/info/terms-and-condition",
+    "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\info\\\\terms-and-condition.vue",
+    "chunkName": "pages/info/terms-and-condition",
+    "_name": "_0ef8755f"
   },
   {
     "name": "b-categories-add-categories",
     "path": "/b/categories/add-categories",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\categories\\\\add-categories.vue",
-    "chunkName": "pages/b/categories/add-categories"
+    "chunkName": "pages/b/categories/add-categories",
+    "_name": "_5ad49db4"
   },
   {
     "name": "b-product-add-product",
     "path": "/b/product/add-product",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\product\\\\add-product.vue",
-    "chunkName": "pages/b/product/add-product"
+    "chunkName": "pages/b/product/add-product",
+    "_name": "_eb2151f8"
   },
   {
     "name": "b-profile-edit",
     "path": "/b/profile/edit",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\profile\\\\edit\\\\index.vue",
-    "chunkName": "pages/b/profile/edit/index"
+    "chunkName": "pages/b/profile/edit/index",
+    "_name": "_2619a34f"
   },
   {
     "name": "c-profile-edit",
     "path": "/c/profile/edit",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\profile\\\\edit\\\\index.vue",
-    "chunkName": "pages/c/profile/edit/index"
+    "chunkName": "pages/c/profile/edit/index",
+    "_name": "_5f6ab410"
   },
   {
     "name": "b-product-edit-id",
     "path": "/b/product/edit/:id?",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\product\\\\edit\\\\_id.vue",
-    "chunkName": "pages/b/product/edit/_id"
+    "chunkName": "pages/b/product/edit/_id",
+    "_name": "_c7c9951e"
   },
   {
     "name": "b-product-subcategory-id",
     "path": "/b/product/subcategory/:id?",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\product\\\\subcategory\\\\_id.vue",
-    "chunkName": "pages/b/product/subcategory/_id"
+    "chunkName": "pages/b/product/subcategory/_id",
+    "_name": "_2ceb1c6a"
   },
   {
     "name": "c-orders-cleared-id",
     "path": "/c/orders/cleared/:id?",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\orders\\\\cleared\\\\_id.vue",
-    "chunkName": "pages/c/orders/cleared/_id"
+    "chunkName": "pages/c/orders/cleared/_id",
+    "_name": "_6eea1c44"
   },
   {
     "name": "b-orders-id",
     "path": "/b/orders/:id",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\orders\\\\_id\\\\index.vue",
-    "chunkName": "pages/b/orders/_id/index"
+    "chunkName": "pages/b/orders/_id/index",
+    "_name": "_47c1420d"
   },
   {
     "name": "b-product-id",
     "path": "/b/product/:id",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\b\\\\product\\\\_id.vue",
-    "chunkName": "pages/b/product/_id"
+    "chunkName": "pages/b/product/_id",
+    "_name": "_bb2f930a"
   },
   {
     "name": "c-orders-id",
     "path": "/c/orders/:id",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\c\\\\orders\\\\_id\\\\index.vue",
-    "chunkName": "pages/c/orders/_id/index"
+    "chunkName": "pages/c/orders/_id/index",
+    "_name": "_681ce1e4"
   },
   {
     "name": "p-id",
     "path": "/p/:id",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\p\\\\_id\\\\index.vue",
-    "chunkName": "pages/p/_id/index"
+    "chunkName": "pages/p/_id/index",
+    "_name": "_1dbeb9b6"
   },
   {
     "name": "p-id-review",
     "path": "/p/:id/review",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\p\\\\_id\\\\review\\\\index.vue",
-    "chunkName": "pages/p/_id/review/index"
+    "chunkName": "pages/p/_id/review/index",
+    "_name": "_1ca1d844"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_4c13e940"
   },
   {
     "name": "id",
     "path": "/:id",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\_id\\\\index.vue",
-    "chunkName": "pages/_id/index"
+    "chunkName": "pages/_id/index",
+    "_name": "_4f042bda"
   },
   {
     "name": "id-review",
     "path": "/:id/review",
     "component": "C:\\\\Users\\\\Daniel Walter\\\\Desktop\\\\cudua-ui\\\\pages\\\\_id\\\\review\\\\index.vue",
-    "chunkName": "pages/_id/review/index"
+    "chunkName": "pages/_id/review/index",
+    "_name": "_61022202"
   }
 ]

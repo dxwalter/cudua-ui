@@ -3735,6 +3735,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
         font-size: 16px;
         font-weight: 500;
         display: block;
+        margin-right: 16px;
     }
     a:first-child {
         margin-right: 16px;
@@ -5153,5 +5154,14 @@ h4.order-details-business-name {
     .expired-sub-container {
         width: 400px;
         margin: 0 auto;
+    }
+}
+
+
+.acknowledgement-sign-up {
+    margin-bottom: 16px;
+    font-size: 12px;
+    a {
+        color: #385898;
     }
 }

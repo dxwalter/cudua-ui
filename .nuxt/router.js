@@ -30,6 +30,10 @@ const _20dc7686 = () => interopDefault(import('..\\pages\\c\\notification\\index
 const _c80b54e8 = () => interopDefault(import('..\\pages\\c\\orders\\index.vue' /* webpackChunkName: "pages/c/orders/index" */))
 const _1b8b484c = () => interopDefault(import('..\\pages\\c\\profile\\index.vue' /* webpackChunkName: "pages/c/profile/index" */))
 const _3714292e = () => interopDefault(import('..\\pages\\c\\saved-items\\index.vue' /* webpackChunkName: "pages/c/saved-items/index" */))
+const _3d407d0d = () => interopDefault(import('..\\pages\\info\\about.vue' /* webpackChunkName: "pages/info/about" */))
+const _1cdb7bc0 = () => interopDefault(import('..\\pages\\info\\contact.vue' /* webpackChunkName: "pages/info/contact" */))
+const _538870c7 = () => interopDefault(import('..\\pages\\info\\privacy-and-cookey.vue' /* webpackChunkName: "pages/info/privacy-and-cookey" */))
+const _0ef8755f = () => interopDefault(import('..\\pages\\info\\terms-and-condition.vue' /* webpackChunkName: "pages/info/terms-and-condition" */))
 const _5ad49db4 = () => interopDefault(import('..\\pages\\b\\categories\\add-categories.vue' /* webpackChunkName: "pages/b/categories/add-categories" */))
 const _eb2151f8 = () => interopDefault(import('..\\pages\\b\\product\\add-product.vue' /* webpackChunkName: "pages/b/product/add-product" */))
 const _2619a34f = () => interopDefault(import('..\\pages\\b\\profile\\edit\\index.vue' /* webpackChunkName: "pages/b/profile/edit/index" */))
@@ -170,6 +174,22 @@ export const routerOptions = {
     path: "/c/saved-items",
     component: _3714292e,
     name: "c-saved-items"
+  }, {
+    path: "/info/about",
+    component: _3d407d0d,
+    name: "info-about"
+  }, {
+    path: "/info/contact",
+    component: _1cdb7bc0,
+    name: "info-contact"
+  }, {
+    path: "/info/privacy-and-cookey",
+    component: _538870c7,
+    name: "info-privacy-and-cookey"
+  }, {
+    path: "/info/terms-and-condition",
+    component: _0ef8755f,
+    name: "info-terms-and-condition"
   }, {
     path: "/b/categories/add-categories",
     component: _5ad49db4,

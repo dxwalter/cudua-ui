@@ -36,6 +36,12 @@
                                 <div class="validation-error-design" id="passwordValidationError" data-error="error"></div>
                             </div>
                             <div class="form-control ">
+                                <div class="acknowledgement-sign-up">
+                                    By clicking Create your account, 
+                                    <n-link to="/info/terms-and-condition">Terms of service</n-link>,
+                                    <n-link to="/info/privacy-and-cookey">Privacy policy</n-link>, and 
+                                    <n-link to="/info/privacy-and-cookey#cookie">Cookie Policy</n-link>.
+                                </div>
                                 <button class="btn btn-primary btn-block" type="button" @click="validateUser" :disabled="isDisabled">
                                     Create your account
                                     <div class="loader-action"><span class="loader"></span></div>
@@ -209,8 +215,6 @@ export default {
         clearTimeout(this.timer)
     },
     mounted () {
-        
-        console.log(this.timer)
         document.querySelector("body").classList.remove("overflow-hidden");
         this.anonymousId = this.GetAnonymousId
     }

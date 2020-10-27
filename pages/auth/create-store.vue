@@ -58,8 +58,11 @@
                                         <div class="validation-error-design" id="passwordValidationError" data-error="error"></div>
                                     </div>
                                     <div class="form-control">
-                                        <div>
-                                            By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy. You may receive SMS notifications from us and can opt out at any time.
+                                        <div class="acknowledgement-sign-up">
+                                            By clicking Create your shop, you agree to our 
+                                            <n-link to="/info/terms-and-condition">Terms of service</n-link>,
+                                            <n-link to="/info/privacy-and-cookey">Privacy policy</n-link>, and 
+                                            <n-link to="/info/privacy-and-cookey#cookie">Cookie Policy</n-link>.
                                         </div>
                                         <button class="btn btn-block btn-primary" type="button" @click="validateBusiness" :disabled="isDisabled">
                                             Create your shop
@@ -71,10 +74,12 @@
                         </div>
                 </div>
                 <!-- bottom links -->
-                <div class="sign-up-bottom-links">
-                    <a href="#">Contact support</a>
-                    <a href="#">Privacy | Terms</a>
-                </div>
+                    <div class="sign-up-bottom-links">
+                        <n-link to="/info/about.vue">About Cudua</n-link>
+                        <n-link to="/info/contact.vue">Contact support</n-link>
+                        <n-link to="/info/terms-and-condition">Terms and condition</n-link>
+                        <n-link to="/info/privacy-and-cookey">Privacy and Cookey policy</n-link>
+                    </div>
                 <NOTIFICATION></NOTIFICATION>
                 <Nuxt />
             </div>
