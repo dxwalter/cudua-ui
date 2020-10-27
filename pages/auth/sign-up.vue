@@ -57,8 +57,10 @@
            </div>
             <!-- bottom links -->
             <div class="sign-up-bottom-links">
-                <n-link to="/">Contact support</n-link>
-                <n-link to="/">Privacy | Terms</n-link>
+                <n-link to="/info/about.vue">About Cudua</n-link>
+                <n-link to="/info/contact.vue">Contact support</n-link>
+                <n-link to="/info/terms-and-condition">Terms and condition</n-link>
+                <n-link to="/info/privacy-and-cookey">Privacy and Cookey policy</n-link>
             </div>
 
         </div>

@@ -10,13 +10,23 @@
           </div>
           <div class="col-xs-6 col-sm-6  col-md-2">
             <div class="footer-links">
-              <a href="#">About Us</a>
-              <a href="#">Contact</a>
-              <a href="#">Terms & Conditions</a>
+              <n-link to="/info/about.vue">About Cudua</n-link>
+              <n-link to="/info/contact.vue">Contact</n-link>
+              <n-link to="/info/terms-and-condition">Terms & condition</n-link>
+              <n-link to="/info/privacy-and-cookey">Privacy & Cookey policy</n-link>
             </div>
           </div>
           <div class="col-xs-6 col-sm-6 mg-top--6 col-md-2">
             <div class="footer-links">
+              <a href="#">
+                <div class="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="7.311" height="14" viewBox="0 0 7.311 14">
+                    <use xlink:href="~/assets/customer/image/all-svg.svg#facebook"></use>
+                  </svg>
+                </div>
+                <span>Blog</span>
+              </a>
+
               <a href="#">
                 <div class="">
                   <svg xmlns="http://www.w3.org/2000/svg" width="7.311" height="14" viewBox="0 0 7.311 14">
@@ -57,7 +67,7 @@
           <div class="col-xs-12  col-sm-12 col-md-6 col-lg-4">
             <div class="footer-office-address regular-text mg-bottom-24">
               <div class="subcribe-text">Address</div>
-              497 Evergreen Rd. Roseville, CA 95673 +44 345 678 903 adobexd@mail.com</div>
+              59 Igbogo road Choba, Rivers state, Nigeria
           </div>
 
           <div class="col-xs-12 mg-bottom-24">
@@ -73,6 +83,7 @@
           </div>
 
 
+        </div>
         </div>
       </div>
       <!-- end of site footer -->
