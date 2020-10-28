@@ -49,36 +49,36 @@ export default ({app}, inject) => {
 
     inject("showToast", showToast);
 
-    let businessNotificationTitle = (type) => {
+    let businessNotificationTitle = (type, title) => {
         type = type.toLowerCase().trim();
         let header;
         switch (type) {
             case "follow":
-                header = "New Follower";
+                header = title;
                 break;
 
             case "order":
-                header = "New Order";
+                header = title;
                 break;
 
             case "business_profile":
-                header = "Business Profile";
+                header = title;
                 break;
 
             case "businessreview":
-                header = "Business review";
+                header = title;
                 break;
 
             case "subscription":
-                header = "Business subscription";
+                header = title;
                 break;
 
             case "invite":
-                header = "New Invite";
+                header = title;
                 break;
         
             default:
-                header = "Notification"
+                header = "New notification"
         }
 
         return header

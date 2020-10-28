@@ -31,7 +31,7 @@
 											</div>
 											<div class="last-chat-details">
 												<div class="chat-time-recipient">
-													<span>{{getNotificationHeader(notification.type)}}</span>
+													<span>{{getNotificationHeader(notification.type, notification.header)}}</span>
 													<span>{{formatNotificationTimer(notification.timeStamp)}}</span>
 												</div>
 												<div class="last-chat-preview">{{notification.message}}</div>
@@ -173,8 +173,8 @@ export default {
 		getNotificationLink: function (type, id) {
 			return this.$businessNotificationLink(type, id)
 		},
-		getNotificationHeader: function (type) {
-			return this.$businessNotificationTitle(type)
+		getNotificationHeader: function (type, header) {
+			return this.$businessNotificationTitle(type, header)
 		},
 		markAsRead: async function (type, actionId, notificationId, status, e) {
 			let url = this.getNotificationLink(type, actionId);

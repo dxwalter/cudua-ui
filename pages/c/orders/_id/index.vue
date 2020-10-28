@@ -66,13 +66,35 @@
                             <!-- products -->
                             <div class="col-md-12" :class="[details.orderInfo.orderStatus ? 'col-lg-9' : 'col-lg-12']" v-show="details.orderInfo.orderStatus != -1">
                                 <div class="order-details-notification">
+
+                                    <!-- When the order is yet to be confirmed -->
+
                                     <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0">
                                         <div class="info-text">This order has been placed but yet to be confirmed. </div>
                                         <!-- <button class="btn btn-small btn-white">confirm</button> -->
                                     </div>
-                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0">
+
+                                    <!-- when the payment method is pay on delivery and you are yet to get the order to be delivered to you -->
+
+                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0 && details.orderInfo.paymentMethod == 'Pay on delivery'">
                                         <div class="info-text">This order has been confirmed. </div>
-                                        <button class="btn btn-small btn-white"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery</button>
+                                        <button class="btn btn-small btn-white"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery & payment</button>
+                                    </div>
+
+                                    <!-- when the payment method is pay online and you have not paid -->
+                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0 && details.orderInfo.paymentMethod == 'Pay online' && details.orderInfo.paymentStatus == 0">
+                                        <div class="info-text">This order has been confirmed but you are yet to pay online. </div>
+                                    </div>
+
+                                    <!-- when the payment method is pay online and you have paid but the order is yet to be delivered to you -->
+
+                                    <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0 && details.orderInfo.paymentMethod == 'Pay online' && details.orderInfo.paymentStatus == 1">
+                                        <div class="info-text">You have successfully paid for this order.</div>
+                                    </div>
+ 
+                                    <!-- when you have paid for the order and it has been delivered to you -->
+                                    <div class="alert alert-success order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1 && details.orderProduct.length > 0 && details.orderInfo.paymentStatus == 1">
+                                        <div class="info-text">This order has completed.</div>
                                     </div>
                                 </div>
                                 <div class="order-details-product-container" v-show="details.orderProduct.length > 0">
@@ -152,8 +174,8 @@
                             <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus == 1">
                                 <div class="order-price-area position-relative">
                                     <div class="d-flex-between option-container">
-                                        <div class="option">Delivery time</div>
-                                        <div class="result">{{details.orderInfo.deliveryTime.start}} - {{details.orderInfo.deliveryTime.end}}</div>
+                                        <div class="option">Order price</div>
+                                        <div class="result">₦ {{formatNumber(calculateTotalProductPrice(details.orderProduct))}}</div>
                                     </div>
                                     <div class="d-flex-between option-container">
                                         <div class="option">Delivery price</div>
@@ -161,13 +183,42 @@
                                     </div>
                                     <div class="d-flex-between option-container">
                                         <div class="option">Total price</div>
-                                        <div class="result">₦ {{calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge)}}</div>
+                                        <div class="result">₦ {{formatNumber(calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge))}}</div>
+                                    </div>
+                                    <div class="d-flex-between option-container">
+                                        <div class="option">Payment method</div>
+                                        <div class="result">{{details.orderInfo.paymentMethod}}</div>
+                                    </div>
+                                    <div class="d-flex-between option-container">
+                                        <div class="option">Delivery time</div>
+                                        <div class="result">{{details.orderInfo.deliveryTime.start}} - {{details.orderInfo.deliveryTime.end}}</div>
                                     </div>
                                     <div class="option-container order-action-area move-bottom">
                                         <!-- <button class="btn btn-white">Write business review</button> -->
                                         <div v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0">
-                                            <button class="btn btn-primary btn-block"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery</button>
-                                            <button class="btn btn-white btn-block" @click="cancelOrderBusinessId = details.businessData.businessId">Cancel order</button>
+                                            
+                                            <!-- when the payment method is pay on delivery -->
+                                            <button class="btn btn-primary btn-block"  @click="confirmOrderBusinessId = details.businessData.businessId" v-show="details.orderInfo.paymentMethod == 'Pay on delivery' ">Confirm delivery & payment</button>
+
+                                            <!-- when the payment method is pay online and the customer is yet to pay -->
+                                            <paystack class="btn btn-primary btn-block mg-bottom-8" v-show="details.orderInfo.paymentMethod == 'Pay online' && !details.orderInfo.paymentStatus " :data-business-id="`${details.businessData.businessId}`"
+                                                :amount="calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge) * 100"
+                                                :email="email"
+                                                :paystackkey="details.businessData.paystackPublicKey"
+                                                :callback="confirmPayment"
+                                                :close="cancelTransaction"
+                                                :embed="false"
+                                                id="payWithPaystack"
+                                            >
+                                                Pay ₦ {{formatNumber(calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge))}} online
+                                                <div class="loader-action"><span class="loader"></span></div>
+                                            </paystack>
+                                            <Nuxt />
+
+                                            <!-- when the payment method is pay online and the customer has paid -->
+                                            <button class="btn btn-primary btn-block mg-bottom-8"  @click="confirmOrderBusinessId = details.businessData.businessId" v-show="details.orderInfo.paymentMethod == 'Pay online' && details.orderInfo.paymentStatus ">Confirm delivery</button>
+
+                                            <button class="btn btn-white btn-block" v-show="!transactionId" @click="cancelOrderBusinessId = details.businessData.businessId">Cancel order</button>
                                         </div>
                                         <div v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1">
                                             <n-link :to="`/c/orders/cleared/${orderId}`" class="btn btn-primary btn-block">Write a review</n-link>
@@ -325,26 +376,30 @@ import BOTTOMADS from '~/layouts/customer/buttom-ads.vue'
 import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import PAGELOADER from '~/components/loader/loader.vue';
 
-import StarRating from '~/plugins/vue-star-rating.client.vue'
+import StarRating from '~/plugins/vue-star-rating.client.vue';
+import paystack from '~/plugins/vue-paystack.client.vue'
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
+
 import { 
     CUSTOMER_GET_ORDER_DETAILS,
-    CONFIRM_ORDER_DELIVERY,
+    CONFIRM_ORDER_PAYMENT_AND_DELIVERY,
     DELETE_ORDER,
-    CUSTOMER_CANCEL_ORDER
+    CUSTOMER_CANCEL_ORDER,
+    CONFIRM_ONLINE_PAYMENT
 } from '~/graphql/order'
 
 export default {
     name: "CUSTOMERORDERDETAILSCOMPONENT",
     components: {
-      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER, StarRating
+      DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, BOTTOMADS, CUSTOMERFOOTER, PAGELOADER, StarRating, paystack
     },
     data: function() {
         return {
             pageLoader: true,
             accessToken: "",
+            email: "",
             userId: "",
             orderId: "",
             isNetworkError: 0,
@@ -354,7 +409,8 @@ export default {
             confirmOrderBusinessId: "",
             timeOut: null,
             cancelOrderReason: "",
-            cancelOrderBusinessId: ""
+            cancelOrderBusinessId: "",
+            transactionId: "",
         }
     },
     computed: {
@@ -374,6 +430,7 @@ export default {
         getUserData: function () {
             this.accessToken = this.GetCustomerDetails.userToken
             this.userId = this.GetCustomerDetails.userId
+            this.email = this.GetCustomerDetails.email
         },
         getOrderDetails: async function () {
             this.orderId = this.orderId.toUpperCase();
@@ -437,7 +494,16 @@ export default {
                 price = price + (parseInt(x.quantity, 10) * parseInt(x.price, 10));
             }
 
-            return this.formatNumber((price + deliveryCharge))
+            return price + deliveryCharge
+        },
+        calculateTotalProductPrice: function (allProducts) {
+            let price = 0
+
+            for (let x of allProducts) {
+                price = price + (parseInt(x.quantity, 10) * parseInt(x.price, 10));
+            }
+
+            return price
         },
         confirmOrder: async function () {
             
@@ -564,6 +630,60 @@ export default {
             this.timeOut = setTimeout(() => {
                 window.location.reload(true)
             }, 1500);
+        },
+        cancelTransaction: function () {
+            this.$initiateNotification('info', "", "The payment for your order was cancelled")
+        },
+        confirmPayment: async function (transaction) {
+
+            if (transaction.status == 'success' && transaction.message == 'Approved') {
+
+                this.transactionId = transaction.reference;
+
+                let target = document.getElementById('payWithPaystack');
+
+                let businessId = target.getAttribute('data-business-id')
+                
+                target.disabled = true
+
+                let variables = {
+                    referenceId: this.transactionId,
+                    businessId: businessId,
+                    orderId: this.orderId
+                }
+
+                let context = {
+                    headers: {
+                        'accessToken': this.accessToken
+                    }
+                }
+
+                let request = await this.$performGraphQlMutation(this.$apollo, CONFIRM_ONLINE_PAYMENT, variables, context);
+
+                target.disabled = false
+
+                if (request.error) {
+                    this.$initiateNotification('error', "Network Error", request.message)
+                    return
+                }
+
+                let result = request.result.data.ConfirmOnlinePayment;
+
+                if (result.success == false) {
+                    this.$initiateNotification('error', "Oops!", result.message)
+                    return
+                }
+
+                this.$initiateNotification('success', 'Payment successful', result.message);
+                clearTimeout(this.timeOut)
+                this.timeOut = setTimeout(() => {
+                    window.location.reload(true)
+                }, 1500);
+
+
+            } else {
+                this.$initiateNotification('error', "Payment error", "An error occurred paying for your order")
+            }
         }
     },
     created: async function () {

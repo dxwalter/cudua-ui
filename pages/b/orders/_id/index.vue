@@ -20,8 +20,16 @@
                         <div>This order does not contain any product.</div>
                     </div>
 
-                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder">
-                        <div>You have confirmed this order but yet to deliver order.</div>
+                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder && !paymentMethodId">
+                        <div>You have confirmed this order but yet to deliver the order.</div>
+                    </div>
+
+                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder && paymentMethodId && !paymentStatus">
+                        <div>You have confirmed this order but the customer is yet to pay so you can deliver the order.</div>
+                    </div>
+
+                    <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder && paymentMethodId && paymentStatus">
+                        <div>The customer has paid for this order online. You can deliver the order.</div>
                     </div>
 
                     <div class="alert alert-danger notification-alert" v-show="orderStatus && deliveryStatus == -1 && !pageLoader && returnAllProducts.length > 0">
@@ -34,7 +42,7 @@
                         <button class="btn btn-white btn-small" @click="showDeleteModal = 1">Learn more</button>
                     </div>
 
-                    <div class="alert alert-success notification-alert" v-show="orderStatus && deliveryStatus == 1 && !pageLoader">
+                    <div class="alert alert-success notification-alert" v-show="orderStatus && deliveryStatus == 1 && !pageLoader && paymentStatus">
                         <div>The delivery of this order was confirmed by this customer. Write a review about this customer</div>
                         <button class="btn btn-white btn-small" data-trigger="modal" data-target="createCustomerReview">Write review</button>
                     </div>
@@ -145,12 +153,24 @@
                                             <div class="form-control">
                                                 <label for="businessType" class="form-label">Delivery time span</label>
                                                 <div class="delivery-time-input-area">
-                                                    <input type="text" class="input-form white-bg-color" placeholder="3 hours" v-model="deliveryTime.start" id="startTime">
+                                                    <input type="text" class="input-form white-bg-color" placeholder="2 hours" v-model="deliveryTime.start" id="startTime">
                                                     <div>TO</div>
-                                                    <input type="text" class="input-form white-bg-color" placeholder="3 days" v-model="deliveryTime.end" id="endTime">
+                                                    <input type="text" class="input-form white-bg-color" placeholder="2 days" v-model="deliveryTime.end" id="endTime">
                                                 </div>
                                             </div>
-                                            <button class="btn btn-white btn-block" data-single-tab="singleTab" data-target="deliveryPrice">Add delivery charge</button>
+
+                                            <div class="form-control">
+                                                <label for="businessType" class="form-label">Choose a payment method for this order</label>
+                                                <div class="">
+                                                    <select class="input-form white-bg-color" v-model="paymentMethod" id="paymentMethod">
+                                                        <option selected value="">Payment method</option>
+                                                        <option value="Pay on delivery">Pay on delivery</option>
+                                                        <option value="Pay online" v-show="paystackPublicKey">Pay online</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn btn-white btn-block" data-single-tab="singleTab" data-target="deliveryPrice">Submit info</button>
                                         </div>
 
                                     </div>
@@ -167,6 +187,12 @@
                                             <div>Delivery charge</div>
                                             <span v-show="deliveryCharge">₦ {{formatNumber(deliveryCharge)}}</span>
                                             <span v-show="!deliveryCharge">₦ 0</span>
+                                        </div>
+
+                                        <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
+                                            <div>Payment method</div>
+                                            <span v-show="paymentMethod">{{paymentMethod}}</span>
+                                            <span v-show="!paymentMethod">-</span>
                                         </div>
 
                                         <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
@@ -342,6 +368,11 @@ export default {
             customerCancelOrder: 0,
             customerCancelOrderReason: "",
             showDeleteModal: 0,
+            paystackPublicKey: "",
+            paymentMethod: "",
+            paymentStatus: 0,
+
+            paymentMethodId: 0,
         }
     },
     computed: {
@@ -370,7 +401,8 @@ export default {
         }),
         GetBusinessDataFromStore: function () {
             let businessData = this.GetBusinessData();
-			this.businessId = businessData.businessId
+            this.businessId = businessData.businessId
+            this.paystackPublicKey = businessData.paystackPublicKey
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
         },
@@ -435,6 +467,14 @@ export default {
 
             this.customerCancelOrder = data.orderInfo.customerCancelOrder
             this.customerCancelOrderReason = data.orderInfo.cancelOrderReason
+            this.paymentMethod = data.orderInfo.paymentMethod
+            this.paymentStatus = data.orderInfo.paymentStatus
+
+            if (this.paymentMethod == "Pay online") {
+                this.paymentMethodId = 1
+            } else {
+                this.paymentMethodId = 0
+            }
 
             // when order status is -1 it means the order was rejected by the business owner
             // when order status is 0 it means it has not been confirmed
@@ -529,6 +569,10 @@ export default {
         },
         acceptOrder: async function () {
 
+            if (this.paystackPublicKey.length == 0) {
+                this.paymentMethod = 'Pay on delivery'
+            }
+
             if (this.deliveryTime.start.length == 0 || this.deliveryTime.end.length == 0) {
                 this.$showToast("Add the delivery time span for this order", 'error', 7000);
                 this.$addRedBorder('orderInfoDiv')
@@ -541,15 +585,26 @@ export default {
                 this.$removeRedBorder('endTime')
             }
 
+            if (this.paymentMethod.length == 0) {
+                this.$showToast("Choose a payment method for this order", 'error', 7000);
+                this.$addRedBorder('orderInfoDiv');
+                this.$addRedBorder('paymentMethod');
+                return
+            } else {
+                this.$removeRedBorder('orderInfoDiv')
+                this.$removeRedBorder('paymentMethod')
+            }
+
             let target = document.getElementById("acceptOrder")
 
             let variables = {
                 businessId: this.businessId,
                 customerId: this.customerId,
                 orderId: this.orderId,
-                deliveryCharge: parseInt(this.deliveryCharge, 10),
+                deliveryCharge: parseInt(this.deliveryCharge == 0 ? 0 : this.deliveryCharge, 10),
                 startTime: this.deliveryTime.start,
-                endTime: this.deliveryTime.end
+                endTime: this.deliveryTime.end,
+                paymentMethod: this.paymentMethod
             }
             
 
@@ -581,6 +636,10 @@ export default {
         },
         updateDeliveryData: async function () {
 
+            if (this.paystackPublicKey.length == 0) {
+                this.paymentMethod = 'Pay on delivery'
+            }
+
             if (this.deliveryTime.start.length == 0 || this.deliveryTime.end.length == 0) {
                 this.$showToast("Add the delivery time span for this order", 'error', 7000);
                 this.$addRedBorder('orderInfoDiv')
@@ -593,6 +652,16 @@ export default {
                 this.$removeRedBorder('endTime')
             }
 
+            if (this.paymentMethod.length == 0) {
+                this.$showToast("Choose a payment method for this order", 'error', 7000);
+                this.$addRedBorder('orderInfoDiv');
+                this.$addRedBorder('paymentMethod');
+                return
+            } else {
+                this.$removeRedBorder('orderInfoDiv')
+                this.$removeRedBorder('paymentMethod')
+            }
+
             let target = document.getElementById("updateDeliveryData")
 
             let variables = {
@@ -601,7 +670,8 @@ export default {
                 orderId: this.orderId,
                 deliveryCharge: parseInt(this.deliveryCharge, 10),
                 startTime: this.deliveryTime.start,
-                endTime: this.deliveryTime.end
+                endTime: this.deliveryTime.end,
+                paymentMethod: this.paymentMethod
             }
             
 

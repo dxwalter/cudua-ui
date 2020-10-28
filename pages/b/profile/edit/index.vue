@@ -302,18 +302,26 @@
                                             
                                         </div>
 
-                                        <!-- <div v-show="currentPaystackPublicKey">{{currentPaystackPublicKey}}</div> -->
-                                        <div class="subscription-list invite">
+                                        <div class="subscription-list invite" v-show="currentPaystackPublicKey">
                                             <div class="subcription-info">
                                                 <div class="invite-link">
                                                     <div class="form-label">Live public key</div>
-                                                    <div class="mg-bottom-16">{{currentPaystackPublicKey}} </div>
+                                                    <div class="mg-bottom-16">pk_live_*****************</div>
                                                 </div>
                                             </div>
                                             <div class="align-self-center">
-                                                <button class="btn btn-white btn-small">Test payment</button>
-                                                <button class="btn btn-default btn-small">Change key</button>
+                                                <paystack class="btn btn-white btn-small" id="payWithPaystack"
+                                                    :amount="200 * 100"
+                                                    :email="businessEmail"
+                                                    :paystackkey="currentPaystackPublicKey"
+                                                    :callback="testSuccessfulPayment"
+                                                    :close="cancelTransaction"
+                                                    :embed="false"
+                                                >Test payment</paystack>
+                                                <Nuxt />
+                                                <button class="btn btn-default btn-small" data-trigger="modal" data-target="customerSignInModal">Change key</button>
                                             </div>
+                                            <div class="alert mg-top-16 display-none" id="testPaymentTestResult"></div>
                                         </div>
                                         
                                     </div>
@@ -391,6 +399,7 @@
                                                             :close="cancelTransaction"
                                                             :embed="false"
                                                         >Subscribe</paystack>
+                                                        <Nuxt />
                                                     </div>
                                                 </div>
                                             </div>
@@ -408,6 +417,43 @@
 
             <ADDLOCATION></ADDLOCATION>
             <Nuxt />
+
+            <!-- sign in modal -->
+            <div class="modal-container mobile-search-modal-container" id="customerSignInModal">
+                <div class="modal-dialog-box white-bg-color">
+                    <div class="mobile-login-container white-bg-color ">
+                        <div class="sign-in-modal-logo">
+                            <img src="~/assets/customer/image/cudua-logo-icon.svg" alt="">
+                        </div>
+
+                        <div class="sign-in-modal-welcome">
+                            <div class="instruction-text">Sign into your account to change a sensitive data</div>
+                        </div>
+                        <div class="modal-login-form-container">
+
+                            <div class="form-control">
+                                <input type="email" id="userLoginEmail" name="email" class="input-form" v-model="loginEmail" placeholder="Email address" autocomplete="off">
+                            </div>
+                            <div class="form-control">
+                                <input type="password" id="userLoginPassword" name="password" class="input-form" v-model="loginPassword" placeholder="Password">
+                            </div>
+                            <div class="form-control ">
+                                <button class="btn btn-primary btn-block" type="button" @click="validateUserLogin" id="validateUserLogin">
+                                    Sign in
+                                    <div class="loader-action"><span class="loader"></span></div>
+                                </button>
+                            </div>
+
+                            <div class="d-flex-center">
+                                <button class="btn btn-small btn-white" data-target="customerSignInModal" data-dismiss="modal">Cancel Sign in</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of sign in modal -->
+
         </div>
     </div>
 </template>
@@ -435,6 +481,8 @@ import {
     ACTIVATE_VIRAL_INVITATION_GIFT,
     UPDATE_PAYSTACK_PUBLIC_ID
 } from '~/graphql/business';
+
+import { LOGIN_USER } from '~/graphql/customer';
 
 import { SEARCH_FOR_STREET } from '~/graphql/location'
 
@@ -500,7 +548,12 @@ export default {
             PUBLIC_KEY: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4',
 
             customerPayStackPublicKey: "",
-            currentPaystackPublicKey: ""
+            currentPaystackPublicKey: "",
+
+            // sign in
+            loginEmail: "",
+            loginPassword: "",
+            failedLoginCount: 0
         }
 	},
 	computed: {
@@ -536,6 +589,71 @@ export default {
         }
 	},
     methods: {
+        validateUserLogin: async function () {
+
+            if (this.loginEmail.length < 2 || this.loginPassword.length < 2) {
+                this.$showToast('Enter your email and password credentials to sign in', 'error')
+                return
+            } 
+
+            let target = document.getElementById('validateUserLogin');
+
+            target.disabled = true
+
+            let variables = {
+                email: this.loginEmail,
+                password: this.loginPassword,
+                anonymousId: ""
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, LOGIN_USER, variables, {});
+
+            target.disabled = false
+
+            if (request.error) {
+                this.$showToast('A network error occurred', 'error', 6000);
+                return
+            }
+
+            let result = request.result.data.userLogin;
+
+            if (result.success == false) {
+                
+                this.failedLoginCount = this.failedLoginCount + 1
+
+                this.$showToast('Failed login', 'error', 6000);
+                if (this.failedLoginCount == 3) {
+                    return this.$router.push('/c/logout')
+                }
+                return
+            }
+
+            
+            let businessId = result.businessDetails.id
+
+            if (this.businessId === businessId) {
+
+                // set access token
+                this.accessToken = result.accessToken;
+
+                await this.$store.dispatch('customer/setCustomerData', {
+                    userToken: result.accessToken
+                });
+
+
+                this.$showToast('Login successful', 'success', 6000);
+
+                this.currentPaystackPublicKey = "";
+                this.customerPayStackPublicKey = "";
+
+                document.querySelector("body").classList.remove("overflow-hidden");
+                document.getElementById('customerSignInModal').classList.remove('display-block', 'show-modal')
+
+            } else {
+                return this.$router.push('/c/logout')
+            }
+
+        },
         updatePublicKey: async function () {
 
             if (this.customerPayStackPublicKey.length == 0) {
@@ -1276,6 +1394,26 @@ export default {
         },
         cancelTransaction: function () {
             this.$initiateNotification('info', "", "Your transaction was cancelled")
+        },
+        testSuccessfulPayment: function (transaction) {
+
+            let target = document.getElementById('testPaymentTestResult')
+
+            if (transaction.status == 'success' && transaction.message == 'Approved') {
+                this.$initiateNotification('success', "Payment successful", "Your test payment was successful.")
+                target.classList.remove('display-none')
+                target.classList.add('alert-success')
+
+                target.innerHTML = ""
+                target.innerHTML = "Your test payment was successful. Customers will be able to pay for your products online."
+            } else {
+                this.$initiateNotification('error', "Payment error", "Your test payment failed.")
+                target.classList.remove('display-none')
+                target.classList.add('alert-danger')
+
+                target.innerHTML = ""
+                target.innerHTML = "Your test payment failed. Customers will not be able to pay for your service online. Make sure you are using your LIVE PUBLIC KEY not a TEST PUBLIC KEY."
+            }
         },
         successfulPayment: async function (transaction) {
 

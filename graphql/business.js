@@ -213,6 +213,7 @@ query GetBusinessNotification ($businessId: String!, $page: Int!) {
       actionId
       type
       message
+      header
       timeStamp
     }
     code

@@ -73,6 +73,8 @@ query getProduct($businessId: String!, $orderId: String!){
       orderTime
       cancelOrderReason
       customerCancelOrder
+      paymentMethod
+      paymentStatus
     }
     customerDetails {
       fullname
@@ -123,14 +125,15 @@ mutation reject($businessId: String!, $customerId: String!, $orderId: String!, $
 `
 
 export const BUSINESS_CONFIRM_ORDER = gql`
-mutation ConfirmOrder($startTime: String!, $endTime: String!, $businessId: String!, $customerId: String!, $orderId: String!, $deliveryCharge: Int!){
+mutation ConfirmOrder($startTime: String!, $endTime: String!, $businessId: String!, $customerId: String!, $orderId: String!, $deliveryCharge: Int!, $paymentMethod: String!){
   ConfirmOrder(input:{
     startTime: $startTime,
     endTime: $endTime,
   	businessId: $businessId,
     customerId: $customerId,
     orderId: $orderId,
-    deliveryCharge: $deliveryCharge
+    deliveryCharge: $deliveryCharge,
+    paymentMethod: $paymentMethod
   }) {
     code
     success
@@ -140,7 +143,7 @@ mutation ConfirmOrder($startTime: String!, $endTime: String!, $businessId: Strin
 `
 
 export const UPDATE_DELIVERY_CHARGE_AND_TIME = gql`
-mutation update ($startTime: String!, $endTime: String!, $businessId: String!, $customerId: String!, $orderId: String!, $deliveryCharge: Int!) {
+mutation update ($startTime: String!, $endTime: String!, $businessId: String!, $customerId: String!, $orderId: String!, $deliveryCharge: Int!, $paymentMethod : String!) {
   UpdateDeliveryCharge(input:{
     startTime: $startTime,
     endTime: $endTime,
@@ -148,6 +151,7 @@ mutation update ($startTime: String!, $endTime: String!, $businessId: String!, $
     customerId: $customerId,
     orderId: $orderId,
     deliveryCharge: $deliveryCharge
+    paymentMethod: $paymentMethod
   }) {
     code
     success
@@ -219,12 +223,15 @@ query getDetails($orderId: String!){
         cancelOrderReason
         customerCancelOrder
         BusinessRejectOrderReason
+        paymentMethod
+        paymentStatus
       }
  			businessData {
         businessName
         username
         businessId
         logo
+        paystackPublicKey
       }
     }
     code
@@ -234,7 +241,7 @@ query getDetails($orderId: String!){
 }
 `
 
-export const CONFIRM_ORDER_DELIVERY = gql`
+export const CONFIRM_ORDER_PAYMENT_AND_DELIVERY = gql`
 mutation ($businessId: String!, $orderId: String!) {
   ConfirmDelivery(input:{
     businessId: $businessId,
@@ -278,6 +285,20 @@ query {
         timeStamp
       }
     }
+    code
+    success
+    message
+  }
+}
+`
+
+export const CONFIRM_ONLINE_PAYMENT = gql`
+mutation confirm($orderId: String!, $businessId: String!, $referenceId: String!){
+  ConfirmOnlinePayment(input:{
+    orderId: $orderId,
+    businessId: $businessId,
+    referenceId: $referenceId,
+  }) {
     code
     success
     message

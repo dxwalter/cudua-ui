@@ -76,13 +76,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 import INITCOMPONENT from '~/components/init.component.vue';
 import { LOGIN_USER } from '~/graphql/customer';
 
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+
+
 export default {
-    name: "LOGIN",
+    name: "MAINLOGINCOMPONENT",
     components: {NOTIFICATION, INITCOMPONENT},
     data: function() {
 		return {
