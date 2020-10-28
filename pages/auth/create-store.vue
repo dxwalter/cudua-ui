@@ -527,6 +527,7 @@ export default {
                 username: result.businessDetails.username != null ? result.businessDetails.username : "",
                 logo: result.businessDetails.logo != null ? result.businessDetails.logo : "",
                 coverPhoto: result.businessDetails.coverPhoto != null ? result.businessDetails.coverPhoto : "",
+                paystackPublicKey: result.businessDetails.paystackPublicKey != null ? result.businessDetails.paystackPublicKey : "",
                 description: result.businessDetails.description != null ? result.businessDetails.description : "",
                 reviewScore: result.userDetails.review != null ? result.userDetails.review : 0
             });

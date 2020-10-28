@@ -47,6 +47,7 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                 coverPhoto
                 description
                 review
+                paystackPublicKey
                 address {
                     number
                     street

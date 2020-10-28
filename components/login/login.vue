@@ -124,7 +124,7 @@ export default {
             }
 
             // change login status
-            this.$store.dispatch('customer/changeLoginStatus', true);
+            await this.$store.dispatch('customer/changeLoginStatus', true);
             // set access token
             this.accessToken = result.accessToken;
             this.customerFullname = result.userDetails.fullname;
@@ -132,13 +132,13 @@ export default {
 
             // delete anonymous id
             localStorage.removeItem('CUDUA_ANONYMOUS_ID');
-            this.$store.dispatch('customer/setAnonymousId', '');
+            await this.$store.dispatch('customer/setAnonymousId', '');
 
 
             if (result.businessDetails != null) {
                 
-                this.setCustomerData(result)
-                this.setBusinessData(result)
+                await this.setCustomerData(result)
+                await this.setBusinessData(result)
 
                 this.$initiateNotification('success', 'Sign in successful', result.message);
 
@@ -148,7 +148,7 @@ export default {
             }
 
             // set customer data to store
-            this.setCustomerData(result)
+            await this.setCustomerData(result)
             this.updateAccessToken()
             this.$initiateNotification('success', 'Sign in successful', `${result.message}.`);
 
@@ -162,13 +162,14 @@ export default {
         updateAccessToken: function () {
             this.$emit('updateAccessToken', this.accessToken)
         },
-        setBusinessData: function (result) {
+        setBusinessData: async function (result) {
             // set business data
-            this.$store.dispatch('business/setBusinessData', {
+            await this.$store.dispatch('business/setBusinessData', {
                 businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
                 businessName: result.businessDetails.businessname != null ? result.businessDetails.businessname : "",
                 username: result.businessDetails.username != null ? result.businessDetails.username : "",
                 logo: result.businessDetails.logo != null ? result.businessDetails.logo : "",
+                paystackPublicKey: result.businessDetails.paystackPublicKey != null ? result.businessDetails.paystackPublicKey : "",
                 coverPhoto: result.businessDetails.coverPhoto != null ? result.businessDetails.coverPhoto : "",
                 description: result.businessDetails.description != null ? result.businessDetails.description : "",
                 reviewScore: result.userDetails.review != null ? result.userDetails.review : 0
@@ -176,7 +177,7 @@ export default {
                             
             // set business contact
             if (result.businessDetails.contact != null) {
-                this.$store.dispatch('business/setBusinessContact', {
+                await this.$store.dispatch('business/setBusinessContact', {
                     email: result.businessDetails.contact.email != null ?  result.businessDetails.contact.email : "",
                     phone:  result.businessDetails.contact.phone != null ?  result.businessDetails.contact.phone : [],
                     whatsapp: {
@@ -189,7 +190,7 @@ export default {
 
             if (result.businessDetails.address != null) {
                 // set business address
-                this.$store.dispatch('business/setBusinessAddress', {
+                await this.$store.dispatch('business/setBusinessAddress', {
                     number: result.businessDetails.address.number != null ? result.businessDetails.address.number : "",
                     busStop: result.businessDetails.address.busStop != null ? result.businessDetails.address.busStop : "",
                     street: result.businessDetails.address.street != null ? result.businessDetails.address.street : "",
@@ -202,13 +203,13 @@ export default {
 
             if (result.businessDetails.businessCategories != null) {
                 // set business categories and subcategories
-                this.$store.dispatch('business/setBusinessCategories', result.businessDetails.businessCategories);
+                await this.$store.dispatch('business/setBusinessCategories', result.businessDetails.businessCategories);
             }
 
             // set business subscription
             if (result.businessDetails.subscription != null) {
                 let sub = result.businessDetails.subscription;
-                this.$store.dispatch('business/setSubscription', {
+                await this.$store.dispatch('business/setSubscription', {
                     id: sub.subscriptionId,
                     start: sub.subscriptionDate,
                     end: sub.expiryDate,
@@ -216,9 +217,9 @@ export default {
                 })
             }
         },
-        setCustomerData: function (result) {
+        setCustomerData: async function (result) {
             // set customer data
-            this.$store.dispatch('customer/setCustomerData', {
+            await this.$store.dispatch('customer/setCustomerData', {
                 fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
                 email: result.userDetails.email != null ? result.userDetails.email : "",
                 userId: result.userDetails.userId != null ? result.userDetails.userId : "",

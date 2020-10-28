@@ -34,7 +34,8 @@ export const state = () => ({
 		end: "",
 		type: ""
 	},
-	inviteId: ""
+	inviteId: "",
+	paystackPublicKey: ""
 });
 
 const getDefaultState = () => {
@@ -73,7 +74,8 @@ const getDefaultState = () => {
 			end: "",
 			type: ""
 		},
-		inviteId: ""
+		inviteId: "",
+		paystackPublicKey: ""
 	}
 }
 
@@ -107,6 +109,7 @@ export const mutations = {
 		if (dataObject.coverPhoto != undefined) state.coverPhoto = dataObject.coverPhoto
 		if (dataObject.description != undefined) state.description = dataObject.description
 		if (dataObject.reviewScore != undefined) state.reviewScore = dataObject.reviewScore
+		if (dataObject.paystackPublicKey != undefined) state.paystackPublicKey = dataObject.paystackPublicKey
 	},
 	setBusinessAddress: (state, dataObject) => {
 		if (dataObject.number != undefined) state.address.number = dataObject.number
@@ -122,9 +125,12 @@ export const mutations = {
 		if (dataObject.phone != undefined) {
 			if (dataObject.phone.length > 0) {
 				state.contact.phone = []
+				let newPhoneArray = [];
 				dataObject.phone.forEach(element => {
-					state.contact.phone.push(element.trim())
+					newPhoneArray.push(element.trim())
 				});
+
+				state.contact.phone = newPhoneArray
 			}
 		}
 		
@@ -137,9 +143,11 @@ export const mutations = {
 	},
 	setBusinessCategories: (state, dataObject) => {
 		if (dataObject.length > 0) {
+			
+			let categories = []
 
 			for (const [index, data] of dataObject.entries()) {
-				state.businessCategories[index] = {
+				categories[index] = {
 					categoryId: data.categoryId,
 					categoryName: data.categoryName,
 					hide: data.hide,
@@ -148,15 +156,17 @@ export const mutations = {
 				};
 
 				for (let subcategoryData of data.subcategories) {
-					state.businessCategories[index].subcategories.push({
+					categories[index].subcategories.push({
 						hide: subcategoryData.hide,
 						itemId: subcategoryData.itemId,
 						subcategoryId: subcategoryData.subcategoryId,
 						subcategoryName: subcategoryData.subcategoryName,
 					});				
 				}
-
 			}
+
+			state.businessCategories = categories
+
 		}
 	},
 	setNotificationCount: (state, dataObject) => {

@@ -246,7 +246,7 @@
                                                         <div class="email-noti-switcher">
                                                             <span class="form-label">Activate whatsapp chat</span>
                                                             <label class="switch">
-                                                                <input type="checkbox" v-model="whatsappStatus">
+                                                                <input type="checkbox" v-model="whatsappStatus" @change="triggerWhatsappActionButton">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -254,10 +254,10 @@
 
                                                     <div class="form-control">
                                                         <label for="businessType" class="form-label">Let customers chat with you</label>
-                                                        <input type="number" name="" id="whatsappPhoneForm" class="input-form" placeholder="Type your whatsapp number" v-model="whatsappNumber">
+                                                        <input type="number" name="" id="whatsappPhoneForm" class="input-form" placeholder="Type your whatsapp number" v-model="whatsappNumber" @keyup="triggerWhatsappActionButton">
                                                     </div>
                                                     <div class="form-control">
-                                                        <button class="btn btn-primary btn-block" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
+                                                        <button class="btn btn-primary btn-block display-none" @click="updateBusinessWhatsappContact($event)" id="updateBusinessWhatsapp">
                                                             Update whatsapp contact
                                                             <div class="loader-action"><span class="loader"></span></div>    
                                                         </button>
@@ -273,10 +273,10 @@
 
                                     <!-- online payments -->
                                     <div class="tab-content-area" id="onlinePayment">
-                                        <div class="unavailable-feature">We are currently working on this feature</div>
-                                        <div class="mg-bottom-32">We strongly advice you create an account with any of the payment gateways below.</div>
+                                        <div class="unavailable-feature" v-show="!currentPaystackPublicKey">Receive payments online with Paystack</div>
 
-                                        <div>
+                                        <div v-show="!currentPaystackPublicKey">
+
                                             <div class="payment-gateway">
                                                 <a href="https://paystack.com/" target="_blank" class="gateway">
                                                     <div class="gateway-img"><img src="~/assets/business/image/gateways/paystack.jpg" alt=""></div>
@@ -285,22 +285,37 @@
                                                 <a href="https://paystack.com/blog/product/paystack-starter-businesses" target="_blank" class="btn btn-white btn-small">Create account</a>
                                             </div>
 
-                                            <div class="payment-gateway">
-                                                <a href="https://flutterwave.com/ng/" target="_blank" class="gateway">
-                                                    <div class="gateway-img"><img src="~/assets/business/image/gateways/flutterwave.jpg" alt=""></div>
-                                                    <div class="gateway-name">Flutterwave</div>
-                                                </a>
-                                                <a href="https://support.flutterwave.com/en/articles/3632714-creating-a-flutterwave-account" target="_blank" class="btn btn-white btn-small">Create account</a>
-                                            </div>
 
-                                            <div class="payment-gateway">
-                                                <a href="https://dusupay.com/" target="_blank" class="gateway">
-                                                    <div class="gateway-img"><img src="~/assets/business/image/gateways/dusupay.jpg" alt=""></div>
-                                                    <div class="gateway-name">Dusu pay</div>
-                                                </a>
-                                                <a href="https://guide.accounteer.com/en/accept-online-payments-with-dusupay" target="_blank" class="btn btn-white btn-small">Create account</a>
+                                            <div class="form-control">
+                                                <label for="businessType" class="form-label">Your Paystack's live public key</label>
+                                                <input type="text" name="" id="customerPayStackPublicKey" class="input-form white-bg-color" placeholder="Live public key" v-model="customerPayStackPublicKey">
+                                            </div>
+                                            <div class="alert alert-light font-14 mg-bottom-24 display-none" id="pk_test_info">
+                                                Your Paystack's public key contains 'pk_test' which means it is a test public key. You can not receive payment with a test public key. What you need is a live public key.
+                                            </div>
+                                            <div class="form-control">
+                                                <button class="btn btn-primary btn-block" id="updatePublicKey" @click="updatePublicKey()">
+                                                    Save public key
+                                                    <div class="loader-action"><span class="loader"></span></div>    
+                                                </button>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <!-- <div v-show="currentPaystackPublicKey">{{currentPaystackPublicKey}}</div> -->
+                                        <div class="subscription-list invite">
+                                            <div class="subcription-info">
+                                                <div class="invite-link">
+                                                    <div class="form-label">Live public key</div>
+                                                    <div class="mg-bottom-16">{{currentPaystackPublicKey}} </div>
+                                                </div>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <button class="btn btn-white btn-small">Test payment</button>
+                                                <button class="btn btn-default btn-small">Change key</button>
                                             </div>
                                         </div>
+                                        
                                     </div>
 
                                     <!-- subscription -->
@@ -318,7 +333,7 @@
                                                     </div>
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Price</div>
-                                                        <div class="subcription-data">₦2,000</div>
+                                                        <div class="subcription-data">₦700</div>
                                                     </div>
                                                 </div>
                                                 <div class="flex-control">
@@ -358,7 +373,7 @@
                                                     </div>
                                                     <div class="subcription-info">
                                                         <div class="subcription-header">Price</div>
-                                                        <div class="subcription-data">₦2,000</div>
+                                                        <div class="subcription-data">₦700</div>
                                                     </div>
                                                 </div>
                                                 <div class="flex-control">
@@ -367,7 +382,7 @@
                                                         <div class="subcription-data">1 month</div> 
                                                     </div>
                                                     <div>
-                                                        <button class="btn btn-default btn-small">Details</button>
+                                                        <!-- <button class="btn btn-default btn-small">Details</button> -->
                                                         <paystack class="btn btn-primary btn-small" v-show="subscriptionStatus" id="payWithPaystack"
                                                             :amount="amount * 100"
                                                             :email="businessEmail"
@@ -417,7 +432,8 @@ import {
     EDIT_BUSINESS_WHATSAPP_CONTACT,
     ACTIVATE_SUBSCRIPTION,
     GET_VIRAL_REDEMPTION,
-    ACTIVATE_VIRAL_INVITATION_GIFT
+    ACTIVATE_VIRAL_INVITATION_GIFT,
+    UPDATE_PAYSTACK_PUBLIC_ID
 } from '~/graphql/business';
 
 import { SEARCH_FOR_STREET } from '~/graphql/location'
@@ -480,8 +496,11 @@ export default {
 
             noStreetSuggestionResult: "",
 
-            amount: 2000,
+            amount: 700,
             PUBLIC_KEY: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4',
+
+            customerPayStackPublicKey: "",
+            currentPaystackPublicKey: ""
         }
 	},
 	computed: {
@@ -517,6 +536,65 @@ export default {
         }
 	},
     methods: {
+        updatePublicKey: async function () {
+
+            if (this.customerPayStackPublicKey.length == 0) {
+                this.$addRedBorder('customerPayStackPublicKey')
+                return this.$showToast("Enter a valid public key", 'error', 6000)
+            } else {
+                this.$removeRedBorder('customerPayStackPublicKey')
+            }
+
+            let infoDiv = document.getElementById('pk_test_info')
+
+            if (this.customerPayStackPublicKey.search('pk_test') == 0) {
+                infoDiv.classList.remove('display-none');
+                this.$addRedBorder('customerPayStackPublicKey')
+                return this.$showToast("You entered a public key", 'error', 6000)
+            } else {
+                infoDiv.classList.add('display-none');
+                this.$removeRedBorder('customerPayStackPublicKey')
+            }
+
+            let target = document.getElementById('updatePublicKey');
+
+
+            let variables = { 
+                key: this.customerPayStackPublicKey,
+                businessId: this.businessId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            target.disabled = true
+
+            let request = await this.$performGraphQlMutation(this.$apollo, UPDATE_PAYSTACK_PUBLIC_ID, variables, context);
+
+            target.disabled = false
+
+            if (request.error) {
+                return this.$initiateNotification('error', "Network Error", request.message);
+            }
+
+            let result = request.result.data.UpdatePaystackPublicKey;
+
+            if (result.success == false) {
+                return this.$initiateNotification('error', "Oops!", result.message);
+            }
+
+            this.$initiateNotification('success', "Profile updated", result.message);
+
+            this.$store.dispatch('business/setBusinessData', {
+                paystackPublicKey: this.customerPayStackPublicKey
+            });
+
+            this.currentPaystackPublicKey = this.customerPayStackPublicKey
+
+        },
         imageFileProgress: function (size) {
             let count = 0;
 
@@ -709,7 +787,8 @@ export default {
             // coverPhoto
             this.formatCoverPhoto(data.coverPhoto)
 
-			this.username = data.username
+            this.username = data.username
+            this.currentPaystackPublicKey = data.paystackPublicKey
 			this.categories = data.businessCategories.length < 1 ? [] : this.formatBusinessCategories(data.businessCategories)
 			this.businessPhone = data.contact.phone.length < 1 ? [] : this.formatBusinessPhoneList(data.contact.phone) 
 			this.businessAddress = this.formatAddress(data.address);
@@ -1342,6 +1421,10 @@ export default {
 
             this.inviteRedemptionStatus = false
 
+        },
+        triggerWhatsappActionButton: function () {
+            let target = document.getElementById('updateBusinessWhatsapp');
+            target.classList.remove('display-none')
         }
     },
     created: function () {
@@ -1357,7 +1440,7 @@ export default {
         this.pageLoader = false;
     },
     beforeDestroy () {
-        
+        clearTimeout(this.setTimeoutForStreet);
     },
     destroyed () {
         clearTimeout(this.setTimeoutForStreet);
@@ -1367,7 +1450,7 @@ export default {
 
 <style scoped>
 .font-14 {
-font-size: 14px;
+    font-size: 14px;
 }
 .action-span {
     color: rgb(238 100 37);
@@ -1403,5 +1486,9 @@ font-size: 14px;
 
 .plan-status.expired {
     color: rgba(223, 84, 56, 1) !important
+}
+
+.align-self-center {
+    align-self: center !important;
 }
 </style>

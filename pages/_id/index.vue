@@ -22,7 +22,7 @@
                         <div class="content-container-second business-page-container" v-show="!pageLoader">
 
                             <!-- mobile category navigation -->
-                            <div class="mobile-shop-cat-listing" v-show="!pageError">
+                            <div class="mobile-shop-cat-listing" v-show="!pageError && !subscription">
                                 <button class="bis-nav-btn" id="showBusinessCategory" @click="showMobileCategory">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
                                         <use xlink:href="~/assets/customer/image/all-svg.svg#categories"></use>

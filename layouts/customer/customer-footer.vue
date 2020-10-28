@@ -10,8 +10,8 @@
           </div>
           <div class="col-xs-6 col-sm-6  col-md-2">
             <div class="footer-links">
-              <n-link to="/info/about.vue">About Cudua</n-link>
-              <n-link to="/info/contact.vue">Contact</n-link>
+              <n-link to="/info/about">About Cudua</n-link>
+              <n-link to="/info/contact">Contact</n-link>
               <n-link to="/info/terms-and-condition">Terms & condition</n-link>
               <n-link to="/info/privacy-and-cookey">Privacy & Cookey policy</n-link>
             </div>
@@ -20,8 +20,8 @@
             <div class="footer-links">
               <a href="#">
                 <div class="">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="7.311" height="14" viewBox="0 0 7.311 14">
-                    <use xlink:href="~/assets/customer/image/all-svg.svg#facebook"></use>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 7.311 14">
+                    <use xlink:href="~/assets/business/image/all-svg.svg#pencil"></use>
                   </svg>
                 </div>
                 <span>Blog</span>
@@ -75,7 +75,7 @@
           </div>
 
           <div class="col-xs-12">
-            <button class="btn btn-white">
+            <button class="btn btn-white" @click="scrollToTop()">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                   <use xlink:href="~/assets/customer/image/all-svg.svg#upArrow"></use>
               </svg>
@@ -91,7 +91,14 @@
 
 <script>
 export default {
-  name: 'CUSTOMERFOOTERCOMPONENT'
+  name: 'CUSTOMERFOOTERCOMPONENT',
+  methods: {
+    scrollToTop: function () {
+        if (process.browser) {
+            window.scrollTo(0, 0);
+        }
+    }
+  }
 }
 </script>
 

@@ -507,3 +507,16 @@ mutation create ($description: String, $score: Int!, $businessId: String!) {
   }
 }
 `
+
+export const UPDATE_PAYSTACK_PUBLIC_ID = gql`
+mutation publicKey ($key: String!, $businessId: String!) {
+  UpdatePaystackPublicKey(input:{
+    key: $key,
+    businessId: $businessId
+  }) {
+    code
+    success
+    message
+  }
+}
+`

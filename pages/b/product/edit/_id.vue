@@ -1442,7 +1442,11 @@ export default {
                 innerContainer.style.display = 'flex';
                 document.querySelector("body").classList.remove("overflow-hidden");
 
-                this.uploadProductImage()
+                clearTimeout(this.setTimeoutCount)
+
+                this.setTimeoutCount = setTimeout(() => {
+                    this.uploadProductImage()
+                }, 1500);
             }
         }
     },
