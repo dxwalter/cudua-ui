@@ -39,7 +39,7 @@
                                     </div>
                                
                                     <h4 class="order-details-business-name">
-                                        <a href="#" class="">{{details.businessData.businessName}}</a>
+                                        <n-link :to="`/${details.businessData.username}`" class="">{{details.businessData.businessName}}</n-link>
                                         <div class="order-details-status">
                                             <div class="order-dot cleared"></div>
                                             <div class="stat">Cleared order</div>
@@ -63,13 +63,13 @@
                                     <!-- start -->
                                     <div class="order-details-product-list flex-column">
 
-                                        <div class="card cart-card" v-for="(productListing, productIndex) in details.orderProduct" :key="productIndex">
+                                        <div class="white-bg-color border-radius-4 cart-card" v-for="(productListing, productIndex) in details.orderProduct" :key="productIndex">
                                             <div class="item-basic-info">
-                                                <a href="#" class="cart-avatar">
+                                                <n-link :to="`/p/${productListing.productId}`" class="cart-avatar">
                                                     <img :data-src="`${formatproductImage(productListing.businessId, productListing.image)}`" :alt="`${productListing.name}'s  picture`" v-lazy-load>
-                                                </a>
+                                                </n-link>
                                                 <div class="price-and-name">
-                                                    <a href="#">{{productListing.name}}</a>
+                                                    <n-link :to="`/p/${productListing.productId}`">{{productListing.name}}</n-link>
                                                     <div class="price">₦ {{formatNumber(productListing.price)}}</div>
                                                     <div class="reviews">
                                                         <StarRating :score=productListing.ratingScore></StarRating>
@@ -264,3 +264,8 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .border-radius-4 {
+        border-radius: 4px !important;
+    }
+</style>

@@ -164,6 +164,10 @@ export default ({app}, inject) => {
 					url = `/c/orders/${id}`;
 					break;
 
+				case "payment":
+					url = `/c/orders/${id}`;
+					break;
+
 				case "customer_profile":
 					url = "/c/profile/";
                     break;

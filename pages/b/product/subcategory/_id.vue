@@ -64,7 +64,7 @@
                                     <!-- when no category has been added to the account -->
                                     <h2>No product has been added to this subcategory</h2>
                                     <p>Start uploading the products that you want to sell</p>
-                                    <n-link to="/b/product/add-product" class="btn btn-primary btn-lg">Upload a product</n-link>
+                                    <n-link :to="`/b/product/add-product?sub=${subcategoryId}&cat=${categoryId}`" class="btn btn-primary btn-lg">Upload a product</n-link>
                                 </div>
                                 
                             </div>
@@ -76,6 +76,14 @@
                     </div>
             </div>
         </div>
+
+            <div class="filter-btn-container"  v-show="returnAllproducts.length > 0">
+                <nuxt-link :to="`/b/product/add-product?sub=${subcategoryId}&cat=${categoryId}`" class="close-modal-btn btn-icon btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <use xlink:href="~/assets/business/image/all-svg.svg#plusSign"></use>
+                </svg>
+                </nuxt-link>
+            </div>
     </div>
 </template>
 
@@ -102,6 +110,7 @@ export default {
             accessToken: "",
             allProducts: "",
             subcategoryId: "",
+            categoryId: "",
             subcategoryName: "",
             page: 1,
             lazyLoad: false
@@ -210,6 +219,10 @@ export default {
     created () {
         if (process.client) {
             this.subcategoryId = this.$route.params.id;
+            let catId = this.$route.query.cat
+            if (catId.length > 0 ) {
+                this.categoryId = catId
+            }
             this.GetBusinessDataFromStore();
         }
     },

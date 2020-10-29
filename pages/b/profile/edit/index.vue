@@ -317,6 +317,7 @@
                                                     :callback="testSuccessfulPayment"
                                                     :close="cancelTransaction"
                                                     :embed="false"
+                                                    :firstname="businessName"
                                                 >Test payment</paystack>
                                                 <Nuxt />
                                                 <button class="btn btn-default btn-small" data-trigger="modal" data-target="customerSignInModal">Change key</button>
@@ -391,13 +392,14 @@
                                                     </div>
                                                     <div>
                                                         <!-- <button class="btn btn-default btn-small">Details</button> -->
-                                                        <paystack class="btn btn-primary btn-small" v-show="subscriptionStatus" id="payWithPaystack"
+                                                        <paystack class="btn btn-primary btn-small" v-show="subscriptionStatus"
                                                             :amount="amount * 100"
                                                             :email="businessEmail"
                                                             :paystackkey="PUBLIC_KEY"
                                                             :callback="successfulPayment"
                                                             :close="cancelTransaction"
                                                             :embed="false"
+                                                            :firstname="businessName"
                                                         >Subscribe</paystack>
                                                         <Nuxt />
                                                     </div>
@@ -894,6 +896,7 @@ export default {
             this.businessName = data.businessName;
 
             this.inviteId = data.inviteId
+            
 
             // logo
             if (data.logo) {

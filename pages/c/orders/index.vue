@@ -24,9 +24,9 @@
             <div class="order-listing-container">
 
                 <div class="chip-tabs mg-bottom-32" id="tabList">
-                    <a href="#" class="chip-tab-item is-active" id="tabLink" data-tab="allOrders">New orders</a>
-                    <a href="#" class="chip-tab-item" id="tabLink" data-tab="pendingOrders">Pending orders</a>
-                    <a href="#" class="chip-tab-item" id="tabLink" data-tab="clearedOrders">Cleared orders</a>
+                    <a href="#" class="chip-tab-item is-active" id="tabLink" data-tab="allOrders">New orders ({{returnNewOrders.length}})</a>
+                    <a href="#" class="chip-tab-item" id="tabLink" data-tab="pendingOrders">Pending orders ({{returnPendingOrders.length}})</a>
+                    <a href="#" class="chip-tab-item" id="tabLink" data-tab="clearedOrders">Cleared orders ({{returnClearedOrders.length}})</a>
                 </div>
 
                 <div class="tab-content" id="tabContent">

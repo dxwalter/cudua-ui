@@ -19,6 +19,11 @@ export default {
             type: Boolean,
             default: false
         },
+        businessId: {
+            type: String,
+            required: false,
+            default: ""
+        },
         paystackkey: {
             type: String,
             required: true
@@ -154,7 +159,7 @@ export default {
                 access_code: this.accessCode,
                 ref: this.reference,
                 callback: response => {
-                    this.callback(response);
+                    this.callback(response, this.businessId);
                 },
                 onClose: () => {
                     this.close();

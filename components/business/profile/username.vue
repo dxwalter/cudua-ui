@@ -22,19 +22,19 @@
                     <label for="businessType" class="form-label">Share your business link</label>                    
                     <div class="share-action-container d-flex justify-content-between">
                 
-                        <a :href="`whatsapp://send?text=Visit my online store to find quality products https://cudua.com/${username}`" target="_blank" class="close-modal-btn hide-whatsapp" data-action="share/whatsapp/share" data-brand="whatsapp">
+                        <a :href="`whatsapp://send?text= ${whatsappText}`" target="_blank" class="close-modal-btn hide-whatsapp" data-action="share/whatsapp/share" data-brand="whatsapp">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#whatsappIcon2"></use>
                             </svg>
                         </a>
 
-                        <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://www.cudua.com/${username}`" class="close-modal-btn btn-white" data-brand="facebook">
+                        <a :href="`https://www.facebook.com/sharer/sharer.php?u=https://www.cudua.com/${username}`" class="close-modal-btn btn-white" data-brand="facebook" target="_blank">
                             <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#facebookRoundIcon"></use>
                             </svg>
                         </a>
 
-                        <a :href="`https://twitter.com/home?status=https://www.cudua.com/${username}`" class="close-modal-btn" data-brand="twitter">
+                        <a :href="`https://twitter.com/home?status=https://www.cudua.com/${username}`" class="close-modal-btn" data-brand="twitter" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#twitterIcon2"></use>
                             </svg>
@@ -75,6 +75,7 @@ export default {
     data: function () {
         return {
             username: "",
+            whatsappText: ""
         }
     },
     created () {
@@ -89,13 +90,51 @@ export default {
         copyLink: function (target) {
             this.$copyToClipBoard(target)
         },
+        createWhatsappString: function (categories) {
+            let categoryArray = [];
+
+            for (let x of categories) {
+                if (x.hide == 0) {
+                    categoryArray.push(x.categoryName);
+
+                    if (categoryArray.length == 5) break
+                }
+            }
+
+            let newString = ''
+
+            for (let [index, y] of categoryArray.entries()) {
+
+                if (index == 0) {
+                    newString = `${y}`
+                }
+
+                if (index > 0) {
+                    newString = `${newString}, ${y}`
+                }
+            }
+
+            if (categoryArray.length == 0) {
+                this.whatsappText = `Visit my online store to find quality products https://cudua.com/${this.username}`
+            } else {
+
+                if (categoryArray.length == 1) {
+                    newString = `${newString} category`
+                } else if (categoryArray.length > 1) {
+                    newString = `${newString} categories`
+                }
+
+                this.whatsappText = `You will find quality products in ${newString} when you visit my online shop https://cudua.com/${this.username}`
+            }
+        },
         GetBusinessDataFromStore: function () {
             let businessData = this.GetBusinessData();
             this.username = businessData.username
+            this.categories = businessData.businessCategories
         }
     },
     mounted () {
-
+        this.createWhatsappString(this.categories)
     }
 }
 </script>

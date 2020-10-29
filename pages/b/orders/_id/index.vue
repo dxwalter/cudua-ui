@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="alert alert-success notification-alert" v-show="orderStatus && deliveryStatus == 1 && !pageLoader && paymentStatus">
-                        <div>The delivery of this order was confirmed by this customer. Write a review about this customer</div>
+                        <div>The delivery of this order was confirmed by this customer. Write a review about this customer.</div>
                         <button class="btn btn-white btn-small" data-trigger="modal" data-target="createCustomerReview">Write review</button>
                     </div>
 
@@ -137,7 +137,7 @@
                                     <div class="alert alert-info">The product(s) in this order were deleted after the order had been placed.</div>
                                 </div>
 
-                                <div class="card" id="orderInfoDiv" v-show="!deliveryStatus && returnAllProducts.length > 0">
+                                <div class="card" id="orderInfoDiv" v-show="!deliveryStatus && returnAllProducts.length > 0 && !paymentStatus">
                                     <div class="order-action-container">
                                         <div class="delivery-charge-area">
                                             <span>Delivery charge & time</span>
@@ -159,13 +159,23 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-control">
+                                            <div class="form-control" v-show="paystackPublicKey">
                                                 <label for="businessType" class="form-label">Choose a payment method for this order</label>
                                                 <div class="">
                                                     <select class="input-form white-bg-color" v-model="paymentMethod" id="paymentMethod">
                                                         <option selected value="">Payment method</option>
                                                         <option value="Pay on delivery">Pay on delivery</option>
-                                                        <option value="Pay online" v-show="paystackPublicKey">Pay online</option>
+                                                        <option value="Pay online" >Pay online</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-control" v-show="!paystackPublicKey">
+                                                <label for="businessType" class="form-label">Choose a payment method for this order</label>
+                                                <div class="">
+                                                    <select class="input-form white-bg-color" v-model="paymentMethod" id="paymentMethod">
+                                                        <option selected value="">Payment method</option>
+                                                        <option value="Pay on delivery">Pay on delivery</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -178,11 +188,12 @@
 
                                 <div class="card" v-show=" returnAllProducts.length > 0">
                                     <div class="order-action-container">
+
                                         <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
-                                            <div>Delivery time span</div>
-                                            <div v-show="deliveryTime.start || deliveryTime.end">{{deliveryTime.start}} to {{deliveryTime.end}}</div>
-                                            <div v-show="!deliveryTime.start && !deliveryTime.end">- to -</div>
+                                            <div>Total product price</div>
+                                            <span>₦ {{formatNumber(totalProductPrice)}}</span>
                                         </div>
+
                                         <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
                                             <div>Delivery charge</div>
                                             <span v-show="deliveryCharge">₦ {{formatNumber(deliveryCharge)}}</span>
@@ -190,19 +201,15 @@
                                         </div>
 
                                         <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
-                                            <div>Payment method</div>
-                                            <span v-show="paymentMethod">{{paymentMethod}}</span>
-                                            <span v-show="!paymentMethod">-</span>
+                                            <div>Delivery time span</div>
+                                            <div v-show="deliveryTime.start || deliveryTime.end">{{deliveryTime.start}} to {{deliveryTime.end}}</div>
+                                            <div v-show="!deliveryTime.start && !deliveryTime.end">- to -</div>
                                         </div>
 
                                         <div class="final-delivery-charge" v-show="returnAllProducts.length > 0">
-                                            <div>Total product price</div>
-                                            <span>₦ {{formatNumber(totalProductPrice)}}</span>
-                                        </div>
-
-                                        <div class="total-price" v-show="returnAllProducts.length > 0">
-                                            <div>Total price</div>
-                                            <div>₦ {{formatNumber(paymentPrice)}}</div>
+                                            <div>Payment method</div>
+                                            <span v-show="paymentMethod">{{paymentMethod}}</span>
+                                            <span v-show="paymentMethod.length == 0">-</span>
                                         </div>
 
                                         <div class="order-items-action" v-show="!deliveryStatus">
@@ -212,7 +219,7 @@
                                             </button>
                                             <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder" v-show="orderStatus == 0 && returnAllProducts.length > 0" @click="stateRejectOrderReason()">Reject order</button>
 
-                                            <button class="btn btn-primary btn-block" id="updateDeliveryData" @click="updateDeliveryData()" v-show="orderStatus == 1">
+                                            <button class="btn btn-primary btn-block" id="updateDeliveryData" @click="updateDeliveryData()" v-show="orderStatus == 1 && !paymentStatus">
                                                 Update delivery charge and time
                                                 <div class="loader-action"><span class="loader"></span></div>
                                             </button>

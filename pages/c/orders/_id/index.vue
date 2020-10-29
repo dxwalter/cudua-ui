@@ -94,7 +94,7 @@
  
                                     <!-- when you have paid for the order and it has been delivered to you -->
                                     <div class="alert alert-success order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1 && details.orderProduct.length > 0 && details.orderInfo.paymentStatus == 1">
-                                        <div class="info-text">This order has completed.</div>
+                                        <div class="info-text">This order has been completed.</div>
                                     </div>
                                 </div>
                                 <div class="order-details-product-container" v-show="details.orderProduct.length > 0">
@@ -201,14 +201,16 @@
                                             <button class="btn btn-primary btn-block"  @click="confirmOrderBusinessId = details.businessData.businessId" v-show="details.orderInfo.paymentMethod == 'Pay on delivery' ">Confirm delivery & payment</button>
 
                                             <!-- when the payment method is pay online and the customer is yet to pay -->
-                                            <paystack class="btn btn-primary btn-block mg-bottom-8" v-show="details.orderInfo.paymentMethod == 'Pay online' && !details.orderInfo.paymentStatus " :data-business-id="`${details.businessData.businessId}`"
+                                            <paystack class="btn btn-primary btn-block mg-bottom-8" v-show="details.orderInfo.paymentMethod == 'Pay online' && !details.orderInfo.paymentStatus " :id="`payWithPaystack${details.businessData.businessId}`"
                                                 :amount="calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge) * 100"
                                                 :email="email"
                                                 :paystackkey="details.businessData.paystackPublicKey"
                                                 :callback="confirmPayment"
                                                 :close="cancelTransaction"
                                                 :embed="false"
-                                                id="payWithPaystack"
+                                                :businessId="details.businessData.businessId"
+                                                :firstname="firstName"
+                                                :lastname="lastName"
                                             >
                                                 Pay ₦ {{formatNumber(calculateTotalPrice(details.orderProduct, details.orderInfo.deliveryCharge))}} online
                                                 <div class="loader-action"><span class="loader"></span></div>
@@ -217,11 +219,11 @@
 
                                             <!-- when the payment method is pay online and the customer has paid -->
                                             <button class="btn btn-primary btn-block mg-bottom-8"  @click="confirmOrderBusinessId = details.businessData.businessId" v-show="details.orderInfo.paymentMethod == 'Pay online' && details.orderInfo.paymentStatus ">Confirm delivery</button>
-
-                                            <button class="btn btn-white btn-block" v-show="!transactionId" @click="cancelOrderBusinessId = details.businessData.businessId">Cancel order</button>
+                                            
+                                            <button class="btn btn-white btn-block" :id="`cancelOrder${details.businessData.businessId}`" v-show="!details.orderInfo.paymentStatus" @click="cancelOrderBusinessId = details.businessData.businessId">Cancel order</button>
                                         </div>
                                         <div v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 1">
-                                            <n-link :to="`/c/orders/cleared/${orderId}`" class="btn btn-primary btn-block">Write a review</n-link>
+                                            <n-link :to="`/c/orders/cleared/${orderId}`" class="btn btn-primary btn-block">Want to write a review?</n-link>
                                         </div>
                                     </div>
                                 </div>
@@ -385,6 +387,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { 
     CUSTOMER_GET_ORDER_DETAILS,
     CONFIRM_ORDER_PAYMENT_AND_DELIVERY,
+
     DELETE_ORDER,
     CUSTOMER_CANCEL_ORDER,
     CONFIRM_ONLINE_PAYMENT
@@ -400,6 +403,8 @@ export default {
             pageLoader: true,
             accessToken: "",
             email: "",
+            lastName: "",
+            firstName: "",
             userId: "",
             orderId: "",
             isNetworkError: 0,
@@ -431,6 +436,16 @@ export default {
             this.accessToken = this.GetCustomerDetails.userToken
             this.userId = this.GetCustomerDetails.userId
             this.email = this.GetCustomerDetails.email
+            let fullname = this.GetCustomerDetails.fullname
+
+            let splitName = fullname.split(' ');
+            if (splitName.length == 1) {
+                this.firstName = splitName[0];
+                this.lastName = " "
+            } else if (splitName.length > 1) {
+                this.firstName = splitName[0]
+                this.lastName = splitName[1]
+            }
         },
         getOrderDetails: async function () {
             this.orderId = this.orderId.toUpperCase();
@@ -522,7 +537,7 @@ export default {
 
             target.disabled = true
 
-            let request = await this.$performGraphQlMutation(this.$apollo, CONFIRM_ORDER_DELIVERY, variables, context);
+            let request = await this.$performGraphQlMutation(this.$apollo, CONFIRM_ORDER_PAYMENT_AND_DELIVERY, variables, context);
             
             target.disabled = false
 
@@ -588,6 +603,9 @@ export default {
                 window.location.reload(true)
             }, 1500);
         },
+        setId: function (id) {
+            console.log(id)
+        },
         cancelOrder: async function () {
             
             let variables = {
@@ -634,15 +652,17 @@ export default {
         cancelTransaction: function () {
             this.$initiateNotification('info', "", "The payment for your order was cancelled")
         },
-        confirmPayment: async function (transaction) {
+        confirmPayment: async function (transaction, businessId) {
+
 
             if (transaction.status == 'success' && transaction.message == 'Approved') {
 
                 this.transactionId = transaction.reference;
 
-                let target = document.getElementById('payWithPaystack');
+                // hide cancel order button
+                document.getElementById(`cancelOrder${businessId}`).classList.add('display-none')
 
-                let businessId = target.getAttribute('data-business-id')
+                let target = document.getElementById(`payWithPaystack${businessId}`);
                 
                 target.disabled = true
 

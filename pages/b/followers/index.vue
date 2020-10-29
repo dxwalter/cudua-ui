@@ -197,4 +197,7 @@ export default {
 	.notification-alert {
 		border-radius: 4px;
 	}
+	.product-card-image {
+		height: 130px;
+	}
 </style>

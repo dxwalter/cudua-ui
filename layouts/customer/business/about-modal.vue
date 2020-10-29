@@ -39,7 +39,7 @@
 						<div class="loader-action"><span class="loader"></span></div>	
 					</button>
 
-					<button class="btn btn-light-grey btn-md" @click="unFollowBusiness()" v-show="accessToken && checkFollowStatus == 1" id="unfollowBusiness">
+					<button class="btn btn-white btn-md" @click="unFollowBusiness()" v-show="accessToken && checkFollowStatus == 1" id="unfollowBusiness">
 						unfollow
 						<div class="loader-action"><span class="loader"></span></div>	
 					</button>

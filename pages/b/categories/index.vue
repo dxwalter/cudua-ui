@@ -97,7 +97,7 @@
 
                                                     <div class="product-card">
 
-                                                        <n-link v-bind:to="`/b/product/subcategory/${subcategory.subcategoryId}`" class="category-name-area">
+                                                        <n-link :to="`/b/product/subcategory/${subcategory.subcategoryId}`" class="category-name-area">
                                                             
                                                             <div class="visibility-status" 
                                                             v-bind:class="{'display-none': !subcategory.hide}"
@@ -206,7 +206,7 @@
 
                                                     <div class="product-card">
 
-                                                        <n-link v-bind:to="`/b/product/subcategory/${subcategory.subcategoryId}`" class="category-name-area">
+                                                        <n-link v-bind:to="`/b/product/subcategory/${subcategory.subcategoryId}?cat=${item.categoryId}`" class="category-name-area">
                                                             
                                                             <div class="visibility-status" 
                                                             v-bind:class="{'display-none': !subcategory.hide}"

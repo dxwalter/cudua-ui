@@ -228,7 +228,16 @@ export default ({app}, inject) => {
 		inject ('timeStampModifier', timeStampModifier)
 
 		let convertNameToLogo = (name) => {
-			name = name.toUpperCase();
+			name = name.toUpperCase().trim();
+
+
+			if (name.length == 0 || name == undefined){
+				return "!!"
+			}
+
+			if (name.length == 1) {
+				return `${name}!`
+			}
 
 			let splitName = name.split(' ');
 			let newLogo;
