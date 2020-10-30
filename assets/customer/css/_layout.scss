@@ -5165,3 +5165,27 @@ h4.order-details-business-name {
         color: #385898;
     }
 }
+
+.product-name-tweak {
+    min-height: fit-content;
+    max-height: 40px;
+    width: 100%;
+    font-weight: 500;
+    color: $dark-color;
+    margin-bottom: 8px;
+    line-height: 21px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+@media($mq-mb) {
+    .product-name-tweak {
+        min-height: unset;
+        max-height: unset;
+        height: 40px;
+    }
+}

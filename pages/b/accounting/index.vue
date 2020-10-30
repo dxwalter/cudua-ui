@@ -227,7 +227,9 @@ export default {
             allFollowers: 0,
             totalAmountSold: 0,
 
-            transactionData: []
+            transactionData: [],
+            pageError: 0,
+            errorReason: ""
         }
     },
     computed: {

@@ -732,12 +732,12 @@ export default {
                     type: 'dataURL',
                     allowTaint: true
                 }
-
-                actionBtn.disabled = false;
                 
                 let img = await this.$htmlToCanvas(el, options);
 
                 this.uploadLoadedFile = img
+
+                actionBtn.disabled = false;
 
                 imageContainer.classList.remove('select-crop-image');
                 imageCanvas.classList.remove('toggleHeight')
