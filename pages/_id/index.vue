@@ -670,7 +670,7 @@ export default {
 			}
         },
         formatProductImageUrl: function (imagePath) {
-            return this.$formatProductImageUrl(this.businessId, imagePath, "thumbnail")
+            return this.$formatProductImageUrl(this.businessId, imagePath, "medium")
         },
         triggerSearch: function () {
             document.getElementById("mobilePrimarySearchInput").focus()
@@ -741,7 +741,7 @@ export default {
                     productName: x.name,
                     productId: x.id,
                     price: this.$numberNotation(x.price),
-                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "medium"),
                     hide: x.hide,
                     imageArray: x.images,
                 })
@@ -819,7 +819,7 @@ export default {
                     productName: x.name,
                     productId: x.id,
                     price: this.$numberNotation(x.price),
-                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "medium"),
                     hide: x.hide,
                     imageArray: x.images,
                 })
@@ -882,7 +882,7 @@ export default {
                     productName: x.name,
                     productId: x.id,
                     price: this.$numberNotation(x.price),
-                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "thumbnail"),
+                    image: this.$formatProductImageUrl(this.businessId, x.primaryImage, "medium"),
                     imageArray: x.images,
                     hide: x.hide
                 })
