@@ -227,6 +227,49 @@ export default ({app}, inject) => {
 
 		inject ('timeStampModifier', timeStampModifier)
 
+		let convertTodate =  (dateString) => {
+            let month = [
+                'January',
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+            ];
+
+            let startDay = new Date(dateString).getDate().toString();
+            let formatStart = "";
+
+            if (startDay.length > 1) {
+                if (startDay == "21") {
+                    formatStart = startDay+"st"
+                } else {
+                    formatStart = startDay[1] == '3' ? startDay+"rd" : startDay+"th";  
+                    formatStart = startDay[1] == '2' || startDay[1] == '22' ? startDay+"nd" : startDay+"th";  
+                }
+            } else {
+                if (startDay == '1') {
+                    formatStart = startDay+"st";
+                } else {
+                    formatStart = startDay == "3" ? startDay+"rd" : startDay+"th";
+                }
+            }
+            
+            let startMonth = month[new Date(dateString).getMonth()]
+            let startYear = new Date(dateString).getFullYear()
+
+            return `${formatStart} ${startMonth}, ${startYear}`;
+
+		}
+		
+		inject('convertTodate', convertTodate)
+
 		let convertNameToLogo = (name) => {
 			name = name.toUpperCase().trim();
 

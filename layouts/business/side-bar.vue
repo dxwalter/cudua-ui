@@ -82,12 +82,12 @@
                         </n-link>
 
 
-                        <n-link  :prefetch="true"  to="/b/dashboard" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
+                        <n-link  :prefetch="true"  to="/b/accounting" :class="[currentPage.includes('dashboard') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#dashboard"></use>
                                 </svg>
-                                <span>Analytics</span>
+                                <span>Accounting</span>
                             </div>
                         </n-link>
 
@@ -210,8 +210,29 @@ export default {
 				return name
 			}
         },
+		carouselSlider: function () {
+			let carouselNavigation = document.querySelectorAll('[data-carousel]');
+			for (const action of carouselNavigation) {
+				action.addEventListener('click', (e) => {
+					e.stopPropagation();
+					let getDataAttribute = e.target;
+					let targetCarousel = getDataAttribute.getAttribute('data-target');
+					let carouselSlide = document.getElementById(targetCarousel)
+					let carouselDirection = getDataAttribute.getAttribute('data-direction');
+					let carouselItems = document.querySelectorAll(`#${targetCarousel} .carousel-item`);
+					let size = carouselItems[0].clientWidth + 16;
+					
+					if (carouselDirection == 'left') {
+						this.$carouselActionSlider(carouselSlide, 'left', 30, size, 10);
+					} else {
+						this.$carouselActionSlider(carouselSlide, 'right', 30, size, 10);
+					}
+				})
+			}
+		},
         _initMethod: function () {
             // open modal
+            this.carouselSlider()
             let openModalAction = document.querySelectorAll("[data-trigger]");
             for (const action of openModalAction) {
                 action.addEventListener('click', (e) => {

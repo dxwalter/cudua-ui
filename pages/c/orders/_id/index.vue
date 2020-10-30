@@ -83,7 +83,7 @@
 
                                     <!-- when the payment method is pay online and you have not paid -->
                                     <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0 && details.orderInfo.paymentMethod == 'Pay online' && details.orderInfo.paymentStatus == 0">
-                                        <div class="info-text">This order has been confirmed but you are yet to pay online. </div>
+                                        <div class="info-text">This order has been confirmed but you are yet to make payment online. </div>
                                     </div>
 
                                     <!-- when the payment method is pay online and you have paid but the order is yet to be delivered to you -->

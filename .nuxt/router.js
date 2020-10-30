@@ -14,8 +14,8 @@ const _b839d1c2 = () => interopDefault(import('..\\pages\\auth\\create-new-passw
 const _adcbc10c = () => interopDefault(import('..\\pages\\auth\\create-store.vue' /* webpackChunkName: "pages/auth/create-store" */))
 const _f668966a = () => interopDefault(import('..\\pages\\auth\\forgot-password.vue' /* webpackChunkName: "pages/auth/forgot-password" */))
 const _69521b1e = () => interopDefault(import('..\\pages\\auth\\sign-up.vue' /* webpackChunkName: "pages/auth/sign-up" */))
+const _7f8a8d7d = () => interopDefault(import('..\\pages\\b\\accounting\\index.vue' /* webpackChunkName: "pages/b/accounting/index" */))
 const _fb4040d4 = () => interopDefault(import('..\\pages\\b\\categories\\index.vue' /* webpackChunkName: "pages/b/categories/index" */))
-const _55d7868e = () => interopDefault(import('..\\pages\\b\\dashboard\\index.vue' /* webpackChunkName: "pages/b/dashboard/index" */))
 const _f58b7b26 = () => interopDefault(import('..\\pages\\b\\followers\\index.vue' /* webpackChunkName: "pages/b/followers/index" */))
 const _d76d16ee = () => interopDefault(import('..\\pages\\b\\invite\\index.vue' /* webpackChunkName: "pages/b/invite/index" */))
 const _1f032367 = () => interopDefault(import('..\\pages\\b\\notification\\index.vue' /* webpackChunkName: "pages/b/notification/index" */))
@@ -111,13 +111,13 @@ export const routerOptions = {
     component: _69521b1e,
     name: "auth-sign-up"
   }, {
+    path: "/b/accounting",
+    component: _7f8a8d7d,
+    name: "b-accounting"
+  }, {
     path: "/b/categories",
     component: _fb4040d4,
     name: "b-categories"
-  }, {
-    path: "/b/dashboard",
-    component: _55d7868e,
-    name: "b-dashboard"
   }, {
     path: "/b/followers",
     component: _f58b7b26,
