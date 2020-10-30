@@ -30,7 +30,7 @@
                         <div class="product-details-img-container">
 
                             <div class="slide-container white-bg-color" id="productImageSlideShow">
-                                <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}">
+                                <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}" v-bind:style="{height: contentHeight}">
                                     <img :data-src="formatBigSizeImage(item)" alt="" v-lazy-load>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                                     <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
                                 </div>
                                 <div class="product-card-details">
-                                    <div class="product-name">
+                                    <div class="product-name-tweak">
                                         {{product.name}}
                                     </div>
                                     <div class="product-price">₦ {{product.price}}</div>
@@ -475,7 +475,9 @@ export default {
             subscription: 0, // 0 means active, 1 means expired,
 
             // product suggestions
-            productSuggestions: []
+            productSuggestions: [],
+
+            contentHeight: "",
         }
     },
     head() {
@@ -539,6 +541,11 @@ export default {
             'GetCustomerData': 'customer/GetCustomerDetails',
             "GetCartItems": "cart/GetCartItems"
         }),
+        setContentHeight: function () {
+            if (this.screenWidth < 599) {
+                this.contentHeight = `${this.screenWidth - 32}px`;
+            }
+        },
         GetCustomerDataFromStore: function () {
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
@@ -863,6 +870,7 @@ export default {
             this.productId = this.$route.params.id;
             window.addEventListener('resize', this.handleResize);
             this.GetCustomerDataFromStore()
+            this.setContentHeight()
         }
     },
     async asyncData({ app, params }) {

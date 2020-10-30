@@ -434,11 +434,10 @@
 
 .product-card {
     height: auto;
-    box-shadow: $btn-box-shadow;
     border-radius: 4px;
-    background-color: $white-color;
-    margin-bottom: 16px;
     overflow: hidden;
+    background-color: transparent;
+    margin-bottom: 24px;
 }
 
 
@@ -463,13 +462,16 @@
 .product-card-image {
     width: 100%;
     height: auto;
-    border-bottom: $border;
+    
     display: flex;
     align-items: center;
     display: block;
     overflow: hidden;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
+
+    border: $border;
+    border-radius: 4px;
     
     img {
         width: 100%;
@@ -555,7 +557,7 @@
 
 .product-card-details {
     width: 100%;
-    padding: 9px 16px 24px 16px;
+    padding: 12px 0px;
 }
 
 .product-name {

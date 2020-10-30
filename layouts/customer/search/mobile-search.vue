@@ -57,7 +57,7 @@
 											<img :data-src="formatProductImage(product.businessId, product.primaryImage)"  :alt="`${product.name}'s image`" v-lazy-load>
 										</div>
 										<div class="product-card-details">
-											<div class="product-name">
+											<div class="product-name-tweak">
 												{{product.name}}
 											</div>
 											<div class="product-price">₦ {{formatPrice(product.price)}}</div>

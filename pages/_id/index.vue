@@ -140,7 +140,7 @@
                                                         </div>
                                                         
                                                         <n-link :to="`/p/${x.productId}`" class="product-card-details display-block">
-                                                            <div class="product-name">
+                                                            <div class="product-name-tweak">
                                                                 {{x.productName}}
                                                             </div>
                                                             <div class="product-price">₦ {{x.price}}</div>
@@ -907,7 +907,7 @@ export default {
         },
         setContentHeight: function () {
             if (this.screenWidth < 599) {
-                this.contentHeight = `auto`;
+                this.contentHeight = `${this.screenWidth - 32}px`;
             }
         }
     },

@@ -74,7 +74,7 @@
                           <img :data-src="product.image"  :alt="`${product.name}'s image`" v-lazy-load>
                       </div>
                       <div class="product-card-details">
-                          <div class="product-name">
+                          <div class="product-name-tweak">
                               {{product.name}}
                           </div>
                           <div class="product-price">₦ {{product.price}}</div>
