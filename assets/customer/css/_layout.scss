@@ -531,11 +531,6 @@
 }
 
 @media($mq-mb) {
-    .product-image-container {
-        button {
-            display: none
-        }
-    }
     .product-card-image {
         display: flex;
         overflow: hidden;

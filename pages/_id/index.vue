@@ -112,6 +112,7 @@
 
                                         <div  v-show="!isLoading">
 
+
                                             <div class="row">  
                                                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
