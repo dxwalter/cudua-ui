@@ -2461,7 +2461,8 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
     button {
         position: absolute;
-        top: 42%;
+        width: 50px;
+        height: 50px;
     }
     button:last-child {
         right: 0;
@@ -5186,15 +5187,4 @@ h4.order-details-business-name {
         max-height: unset;
         height: 40px;
     }
-}
-
-.slick-next {
-    right: 0 !important;
-}
-.slick-prev {
-    left: 0 !important;
-}
-
-.slick-prev, .slick-next {
-    z-index: 10 !important;
 }

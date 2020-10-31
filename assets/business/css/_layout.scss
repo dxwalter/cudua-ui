@@ -1219,7 +1219,19 @@
     -webkit-box-orient: vertical;
 }
 
+.product-name-limiter {
+    width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
 @media($mq-mb) {
+    .product-name-limiter {
+        width: 250px;
+    }
     .product-name-tweak {
         min-height: unset;
         max-height: unset;
@@ -2301,8 +2313,8 @@
     }
     button {
         position: absolute;
-        top: 42%;
-       
+        width: 50px;
+        height: 50px;
     }
     button:last-child {
         right: 0;

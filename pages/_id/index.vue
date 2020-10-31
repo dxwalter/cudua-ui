@@ -117,29 +117,11 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
                                                         <div class="product-image-container">
-                                                            
-                                                            <div class="to-left cursor-control" v-show="x.imageArray.length > 1">
-                                                                <button class="close-modal-btn btn-light-grey" @click="moveCarousel(`imageContainer${x.productId}`, 'right')" data-direction="left">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-                                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#leftSlider"></use>
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                            
-                                                            <div class="to-right cursor-control" v-show="x.imageArray.length > 1">
-                                                                <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="moveCarousel(`imageContainer${x.productId}`, 'left')" data-direction="right">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-                                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#rightSlider"></use>
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-
-                                                            
-                                                                <VueSlickCarousel :arrows="true">
-                                                                    <n-link :to="`/p/${x.productId}`" class="product-card-image" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
-                                                                        <img class="product-image-item" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-bind:class="[imageIndex ? '' : 'is-active']">
-                                                                    </n-link>
-                                                                </VueSlickCarousel>
+                                                            <VueSlickCarousel :arrows="true">
+                                                                <n-link :to="`/p/${x.productId}`" class="product-card-image" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
+                                                                    <img class="product-image-item" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-bind:class="[imageIndex ? '' : 'is-active']" v-lazy-load>
+                                                                </n-link>
+                                                            </VueSlickCarousel>
                                                         </div>
                                                         
                                                         <n-link :to="`/p/${x.productId}`" class="product-card-details display-block">

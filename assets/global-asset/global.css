@@ -53,6 +53,10 @@
    font-size: 16px;
    color: rgba(0, 0, 0, 0.6);
  }
+
+ :focus {
+    outline-color: transparent !important;
+ }
  
  /**
   * Render the `main` element consistently in IE.
@@ -750,6 +754,7 @@ button:disabled .loader-action {
   margin-bottom: 32px;
 }
 
+
 .sign-in-modal-welcome {
   margin-bottom: 32px;
 }
@@ -767,3 +772,19 @@ button:disabled .loader-action {
     font-size: 18px;
 }
 
+
+
+.slick-prev:before, .slick-next:before {
+  opacity: unset
+}
+
+.slick-next {
+  right: 0 !important;
+}
+.slick-prev {
+  left: 0 !important;
+}
+
+.slick-prev, .slick-next {
+  z-index: 10 !important;
+}
