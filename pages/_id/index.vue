@@ -134,10 +134,12 @@
                                                                 </button>
                                                             </div>
 
-                                                            <n-link :to="`/p/${x.productId}`" class="product-card-image" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
-                                                                <img class="product-image-item" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-lazy-load v-bind:class="[imageIndex ? '' : 'is-active']">
-                                                            </n-link>
-
+                                                            
+                                                                <VueSlickCarousel :arrows="true">
+                                                                    <n-link :to="`/p/${x.productId}`" class="product-card-image" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
+                                                                        <img class="product-image-item" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-bind:class="[imageIndex ? '' : 'is-active']">
+                                                                    </n-link>
+                                                                </VueSlickCarousel>
                                                         </div>
                                                         
                                                         <n-link :to="`/p/${x.productId}`" class="product-card-details display-block">
@@ -303,6 +305,11 @@ import BUSINESSCONTACT from '~/layouts/customer/business/contact-business.vue';
 import REPORTBUSINESS from '~/layouts/customer/business/report-modal.vue';
 import LoginComponent from '~/components/login/login.vue'
 
+// carousel
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+
 import { mapActions, mapGetters } from 'vuex';
 
 import { GET_BUSINESS_DETAILS_BY_USERNAME } from '~/graphql/business'
@@ -386,7 +393,8 @@ export default {
         BUSINESSCONTACT,
         REPORTBUSINESS,
         DESKTOPNAVGATION,
-        LoginComponent
+        LoginComponent,
+        VueSlickCarousel 
     },
     data: function() {
       return {
@@ -1001,5 +1009,11 @@ export default {
     }
     .alert {
         font-size: 14px !important;
+    }
+    .slick-next {
+        right: 0 !important;
+    }
+    .slick-prev {
+        left: 0 !important;
     }
 </style>
