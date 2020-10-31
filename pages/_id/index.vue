@@ -509,9 +509,6 @@ export default {
                 image.classList.remove('is-active', 'slide-left', 'slide-right')
             }
 
-            console.log(move)
-            console.log(direction)
-
             images[slideToShow - 1].classList.add('is-active', move)
         },
         moveCarousel: function (target, direction) {
