@@ -1,5 +1,7 @@
 <template>
-	<div></div>
+	<div>
+
+	</div>
 </template>
 
 <script>
@@ -14,7 +16,7 @@ export default {
 		anonymousId: "",
 		isLoggedIn: false
       }
-    },
+	},
     computed: {
 		...mapGetters({
 			'GetLoginStatus': 'customer/GetLoginStatus',

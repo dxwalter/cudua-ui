@@ -38,6 +38,7 @@ export default {
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
 	],
+	
 	modules: [
 		'@nuxtjs/toast',
 		'@nuxtjs/onesignal',
@@ -99,11 +100,11 @@ export default {
 			nativeUI: true,
 		},
 		manifest: {
-			name: "The online market for beautiful & handsome people",
+			name: "The online market for beautiful people",
 			lang: 'en',
 			useWebmanifestExtension: false,
 			display: 'standalone',
-			background_color: "#ffffff",
+			background_color: "#ee6425",
 			theme_color: '#ee6425',
 		},
 		workbox: {
@@ -112,6 +113,15 @@ export default {
 			offlineAnalytics: true,
 			offlinePage: '/offline.html',
 			cachingExtensions: '~/plugins/pwa/workbox-range-request.js'
+		}
+	},
+	buildModules: [
+		'@nuxtjs/google-analytics'
+	],
+	googleAnalytics: {
+		id: 'UA-181767171-1',
+		autoTracking: {
+			screenview: true
 		}
 	},
 	apollo: {
