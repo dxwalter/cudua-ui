@@ -37,6 +37,7 @@ export default {
 		{ src: '~/plugins/imagePlugin.js', ssr: true },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
+		{ src: '~/plugins/pwa/sw.client.js', ssr: false },
 	],
 	modules: [
 		'@nuxtjs/toast',
@@ -65,8 +66,7 @@ export default {
 	},
 	pwa: {
 		icon: {
-			iconSrc: '/pwa/512.png',
-			iconFileName: '512.png',
+			iconSrc: 'static/pwa/',
 			sizes: [64, 120, 144, 152, 192, 384, 512],
 			targetDir: 'pwa-icons',
 			accessibleIcons: true,
@@ -97,7 +97,8 @@ export default {
 			/* workbox options */
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
 			offlineAnalytics: true,
-			offlinePage: '/offline.html'
+			offlinePage: '/offline.html',
+			cachingExtensions: '@/plugins/pwa/workbox-range-request.js'
 		}
 	},
 	apollo: {
