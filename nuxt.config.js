@@ -37,7 +37,6 @@ export default {
 		{ src: '~/plugins/imagePlugin.js', ssr: true },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
-		{ src: '~/plugins/pwa/sw.client.js', ssr: false },
 	],
 	modules: [
 		'@nuxtjs/toast',
@@ -66,13 +65,27 @@ export default {
 	},
 	pwa: {
 		icon: {
-			iconSrc: 'static/pwa/',
+			source: '/pwa',
 			sizes: [64, 120, 144, 152, 192, 384, 512],
 			targetDir: 'pwa-icons',
 			accessibleIcons: true,
 			iconProperty: '$icon',
 			purpose: [ 'badge', 'maskable' ]
 		},
+		runtimeCaching: [
+			{
+				urlPattern: 'https://fonts.googleapis.com/.*',
+				handler: 'cacheFirst',
+				method: 'GET',
+				strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+			},
+			{
+				urlPattern: 'https://fonts.gstatic.com/.*',
+				handler: 'cacheFirst',
+				method: 'GET',
+				strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
+			},
+		],
 		meta: {
 			viewport: 'user-scalable=no, initial-scale=1, maximum-scale=1',
 			mobileApp: 'mobile-web-app-capable',
@@ -98,7 +111,7 @@ export default {
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
 			offlineAnalytics: true,
 			offlinePage: '/offline.html',
-			cachingExtensions: '@/plugins/pwa/workbox-range-request.js'
+			cachingExtensions: '~/plugins/pwa/workbox-range-request.js'
 		}
 	},
 	apollo: {
