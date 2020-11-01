@@ -31,7 +31,7 @@
 
                             <div class="slide-container white-bg-color" id="productImageSlideShow">
                                 <VueSlickCarousel :arrows="true">
-                                    <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}" v-bind:style="{height: contentHeight}">
+                                    <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:style="{height: contentHeight}">
                                         <img :data-src="formatBigSizeImage(item)" alt="" v-lazy-load>
                                     </div>
                                 </VueSlickCarousel>
@@ -187,7 +187,7 @@
                     <div class="no-z-index swiper-action-container">
                         <button class="close-modal-btn slider-control">
                             <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="productSuggestion"></div>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                 <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
                             </svg>
                         </button>
@@ -870,9 +870,6 @@ export default {
     },
     mounted () {
         if (process.browser) {
-            this.slider = document.getElementsByClassName("product-image-slide");
-            this.$productImageSlides(this.currentSlide, this.slider);
-            this.pageLoader = false
 
             this.rootElement = document.documentElement
             this.scrollToTopBtn = document.querySelector(".scroll-top-btn")
@@ -882,6 +879,8 @@ export default {
                 this.formatProductDetails();
                 this.getProductSuggestion();
             }, 1000);
+
+            this.pageLoader = false
         }
     },
     beforeDestroy() {

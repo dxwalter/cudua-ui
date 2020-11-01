@@ -50,16 +50,31 @@
                                     <div class="product-details-img-container">
 
                                         <div class="slide-container" id="productImageSlideShow">
-                                            <VueSlickCarousel :arrows="true">
-                                                <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}">
-                                                    <img :data-src="formatBigSizeImage(item)" alt="" v-lazy-load>
-                                                </div>
-                                            </VueSlickCarousel>
+                                            
+                                            <div class="product-image-slide" v-for="(item, index) in returnImages" :key="index" v-bind:class="{'is-active' : index == 0}">
+                                                <img :data-src="formatBigSizeImage(item)" alt="" v-lazy-load>
+                                            </div>
 
                                         </div>
+
+                                        <button class="close-modal-btn btn-light-grey" @click="previousImage"  v-show="returnImages.length > 1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="7.41" height="12" viewBox="0 0 7.41 12">
+                                                <use xlink:href="~/assets/business/image/all-svg.svg#leftArrow"></use>
+                                            </svg>
+                                        </button>
+                                        <button class="close-modal-btn btn-light-grey" id="nextSlide" @click="nextImage"  v-show="returnImages.length > 1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="8.375" height="13.562" viewBox="0 0 8.375 13.562">
+                                                <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
+                                            </svg>
+                                        </button>
                                     
                                     </div>
-                                    
+                                    <div class="selected-img-preview mg-bottom-32" v-show="returnImages.length > 1">
+                                        <div class="product-img-thumbnail" :data-slide="index + 1" @click="thumbSlide($event)" v-for="(item, index) in returnImages" :key="index"> 
+                                            <img :data-src="iconSizeImage(item)" alt="" :data-slide="index + 1" @click="thumbSlide($event)" v-lazy-load>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
 
 
@@ -225,16 +240,12 @@ import {
 } from '~/graphql/product';
 
 import StarRating from '~/plugins/vue-star-rating.client.vue'
-// carousel
-import VueSlickCarousel from 'vue-slick-carousel'
-import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 
 
 export default {
     name: "BUSINESSPRODUCTPAGE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW, PAGELOADER, StarRating, VueSlickCarousel
+        TOPHEADER, SIDENAV, BOTTOMNAV, PRODUCTREVIEW, PAGELOADER, StarRating
     },
     data: function () {
         return {
