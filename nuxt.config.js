@@ -65,8 +65,8 @@ export default {
 	},
 	pwa: {
 		icon: {
-			iconSrc: '/pwa/',
-			iconFileName: '144.png',
+			iconSrc: '/pwa/512.png',
+			iconFileName: '512.png',
 			sizes: [64, 120, 144, 152, 192, 384, 512],
 			targetDir: 'pwa-icons',
 			accessibleIcons: true,
