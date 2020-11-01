@@ -100,6 +100,9 @@ export default {
       
             const workbox = await window.$workbox;
              workbox.addEventListener('installed', (event) => {
+
+                console.log("This is from update")
+                console.log(event)
                 // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
                 if (event.isUpdate) {
 
@@ -119,6 +122,8 @@ export default {
                 event.prevenDefault();
 
                 this.installPrompt = event
+                console.log("This is from install")
+                console.log(event)
 
                 if (this.currenTimeStamp > this.timeToInstall) {
                     this.installPwaActionArea = 1
