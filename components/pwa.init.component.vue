@@ -19,15 +19,15 @@
 
 
         <!-- install pwa app -->
-        <div class="pwa-app-update-container display-none" v-show="installPwaActionArea"  data-action="install">
+        <div class="pwa-app-update-container display-none"  data-action="install" id="installAppContainer">
             <div class="d-flex">
                 <div class="pwa-logo">
                     <img src="~/assets/global-asset/image/icon.png" alt="">
                 </div>
                 <div>
-                    <div class="pwa-info-text-area">Install this app in 3 seconds for easy access.</div>
+                    <div class="pwa-info-text-area">Install this app in 3 seconds to enjoy easy access.</div>
                     <div class="pwa-action-area">
-                        <button class="btn btn-primary btn-md" @click="installUserPwa()">Install app</button>
+                        <button class="btn btn-primary btn-md" id="installUserPwa">Install app</button>
                         <button class="btn btn-white btn-md" @click="cancelInstallation()">Cancel</button>
                     </div>
                 </div>
@@ -70,27 +70,10 @@ export default {
         },
         updateAppsLatestVersion: async function () {
 
-            await this.$store.dispatch('pwa/setTimeToUpdate', 0)
+            await this.$store.dispatch('pwa/setTimeToUpdate', new Date().getTime() + (86400  * 14))
             window.location.reload(true)
         },
-        installUserPwa: async function () {
-            
-            // hideMyInstallPromotion();
-            // Show the install prompt
-            this.installPrompt.prompt();
-            // Wait for the user to respond to the prompt
-            this.installPrompt.userChoice.then(async (choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    await this.$store.dispatch('pwa/setTimeToInstall', 0)
-                    this.$initiateNotification('success', '', "App installation was successful");
-                }
-            });
-        },
         initPwa: async function () {
-
-            self.addEventListener('fetch', function(event){
-                console.log("here");
-            })
 
             let timeStamps = this.GetPwaTimeStamp
             this.timeToUpdate = timeStamps.timeToUpdate
@@ -98,7 +81,6 @@ export default {
             this.timeToInstall = timeStamps.timeToInstall
 
             this.checkPwaUpdate();
-            this.installApp()
         },
         checkPwaUpdate: async function() {
       
@@ -114,26 +96,16 @@ export default {
             });
         
         },
-        installApp: async function() {
-            
-            const workbox = await window.$workbox;
-             workbox.addEventListener('beforeinstallprompt ', (event) => {
-                 
-                event.prevenDefault();
-
-                this.installPrompt = event
-
-                if (this.currenTimeStamp > this.timeToInstall) {
-                    this.installPwaActionArea = 1
-                }
-            });
-        
-        },
         cancelInstallation: async function () {
             let newUpdateTime = new Date().getTime() + (86400  * 14);
-            this.installPwaActionArea = 0;
 
-            await this.$store.dispatch('pwa/setTimeToInstall', newUpdateTime)
+            let installApp = document.getElementById('installAppContainer');
+            installApp.classList.add('display-none');
+
+            if (process.browser) {
+                localStorage.setItem('cudua_retry_installation', newUpdateTime)
+            }
+
         },
         setActions: function () {
             let allActions = document.querySelectorAll("[data-action]");
@@ -143,12 +115,12 @@ export default {
         }
     },
     created () {
+
+    },
+    mounted () {
         if (process.client) {
             this.initPwa();
         }
-    },
-    mounted () {
-        this.setActions();
     }
 }
 </script>
