@@ -37,6 +37,7 @@ export default {
 		{ src: '~/plugins/imagePlugin.js', ssr: true },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
+		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false }
 	],
 	
 	modules: [
@@ -66,12 +67,7 @@ export default {
 	},
 	pwa: {
 		icon: {
-			source: '/pwa',
-			sizes: [64, 120, 144, 152, 192, 384, 512],
-			targetDir: 'pwa-icons',
-			accessibleIcons: true,
-			iconProperty: '$icon',
-			purpose: [ 'badge', 'maskable' ]
+
 		},
 		runtimeCaching: [
 			{
@@ -104,15 +100,15 @@ export default {
 			lang: 'en',
 			useWebmanifestExtension: false,
 			display: 'standalone',
-			background_color: "#ee6425",
-			theme_color: '#ee6425',
+			background_color: "#fff",
+			theme_color: '#fff',
 		},
 		workbox: {
 			/* workbox options */
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
 			offlineAnalytics: true,
 			offlinePage: '/offline.html',
-			cachingExtensions: '~/plugins/pwa/workbox-range-request.js'
+			cachingExtensions: '~/plugins/pwa/workbox-range-request.js',
 		}
 	},
 	buildModules: [

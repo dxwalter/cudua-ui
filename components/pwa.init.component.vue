@@ -69,9 +69,8 @@ export default {
             await this.$store.dispatch('pwa/setTimeToUpdate', newUpdateTime)
         },
         updateAppsLatestVersion: async function () {
-    
-            await this.$store.dispatch('pwa/setTimeToUpdate', 0)
 
+            await this.$store.dispatch('pwa/setTimeToUpdate', 0)
             window.location.reload(true)
         },
         installUserPwa: async function () {
@@ -88,6 +87,11 @@ export default {
             });
         },
         initPwa: async function () {
+
+            self.addEventListener('fetch', function(event){
+                console.log("here");
+            })
+
             let timeStamps = this.GetPwaTimeStamp
             this.timeToUpdate = timeStamps.timeToUpdate
             this.currenTimeStamp =  new Date().getTime();
@@ -100,12 +104,8 @@ export default {
       
             const workbox = await window.$workbox;
              workbox.addEventListener('installed', (event) => {
-
-                console.log("This is from update")
-                console.log(event)
                 // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
                 if (event.isUpdate) {
-
                     if (this.currenTimeStamp > this.timeToUpdate) {
                         this.updatePwaActionArea = 1
                     }
@@ -122,8 +122,6 @@ export default {
                 event.prevenDefault();
 
                 this.installPrompt = event
-                console.log("This is from install")
-                console.log(event)
 
                 if (this.currenTimeStamp > this.timeToInstall) {
                     this.installPwaActionArea = 1
@@ -145,7 +143,7 @@ export default {
         }
     },
     created () {
-        if (process.browser) {
+        if (process.client) {
             this.initPwa();
         }
     },
