@@ -1,5 +1,5 @@
 
-function initPwa (hasInstalled) {
+function initPwaAction () {
 
     setTimeout(() => {
     
@@ -22,7 +22,7 @@ function initPwa (hasInstalled) {
           let currentTime = new Date().getTime();
           let timeToRetry = localStorage.getItem('cudua_retry_installation') == null ? 0 : localStorage.getItem('cudua_retry_installation');
 
-          if (currentTime >= timeToRetry && hasInstalled == 0) {
+          if (currentTime >= timeToRetry) {
               let installApp = document.getElementById('installAppContainer');
               installApp.classList.remove('display-none');
           }
@@ -32,18 +32,13 @@ function initPwa (hasInstalled) {
 }
 
 let deferredPrompt;
-let hasInstalled = 1
-
 
 window.addEventListener('beforeinstallprompt', function(e) {
     e.preventDefault()
     deferredPrompt = e;
-    hasInstalled = 0
+    initPwaAction()
 })
 
-
-
-document.addEventListener("DOMContentLoaded", initPwa(hasInstalled))
 
 let installBtn = document.getElementById('installUserPwa');
 installBtn.addEventListener('click', (e) => {
@@ -57,7 +52,7 @@ installBtn.addEventListener('click', (e) => {
   deferredPrompt.userChoice
     .then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
-
+        localStorage.setItem('cudua_retry_installation', 0)
       } else {
         
       }

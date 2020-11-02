@@ -25,7 +25,7 @@
                     <img src="~/assets/global-asset/image/icon.png" alt="">
                 </div>
                 <div>
-                    <div class="pwa-info-text-area">Install this app in 3 seconds to enjoy easy access.</div>
+                    <div class="pwa-info-text-area">Install this app now to enjoy easy access.</div>
                     <div class="pwa-action-area">
                         <button class="btn btn-primary btn-md" id="installUserPwa">Install app</button>
                         <button class="btn btn-white btn-md" @click="cancelInstallation()">Cancel</button>
