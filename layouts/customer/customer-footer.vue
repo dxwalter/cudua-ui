@@ -12,7 +12,7 @@
             <div class="footer-links">
               <n-link to="/info/about">About Cudua</n-link>
               <n-link to="/info/contact">Contact</n-link>
-              <n-link to="/info/terms-and-condition">Terms & condition</n-link>
+              <n-link to="/info/terms-and-condition">Terms & conditions</n-link>
               <n-link to="/info/privacy-and-cookey">Privacy & Cookey policy</n-link>
             </div>
           </div>

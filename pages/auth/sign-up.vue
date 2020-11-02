@@ -59,7 +59,7 @@
             <div class="sign-up-bottom-links">
                 <n-link to="/info/about">About Cudua</n-link>
                 <n-link to="/info/contact">Contact support</n-link>
-                <n-link to="/info/terms-and-condition">Terms and condition</n-link>
+                <n-link to="/info/terms-and-condition">Terms and conditions</n-link>
                 <n-link to="/info/privacy-and-cookey">Privacy and Cookey policy</n-link>
             </div>
 

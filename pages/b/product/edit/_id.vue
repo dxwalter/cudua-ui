@@ -376,7 +376,7 @@
                                 </svg>
                                 </button>
                                 <div class="about-biz-header">
-                                <h4>Select product image</h4>
+                                <h4>Crop product image</h4>
                                 </div>
                                 <!-- end of search input area -->
                             </div>
@@ -406,7 +406,7 @@
 
                                 <div class="mg-top-32 d-flex-center">
                                     <button class="btn btn-primary btn-md" @click="cropImageForUpload()" id="cropImageForUpload">
-                                        Crop and continue
+                                        Continue
                                         <div class="loader-action"><span class="loader"></span></div>    
                                     </button>
                                 </div>

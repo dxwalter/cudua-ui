@@ -107,12 +107,7 @@ export default {
             }
 
         },
-        setActions: function () {
-            let allActions = document.querySelectorAll("[data-action]");
-            for (let x of allActions) {
-                x.classList.remove("display-none");
-            }
-        }
+
     },
     created () {
 

@@ -62,21 +62,12 @@
                             </div>
                         </n-link>
 
-                        <n-link  :prefetch="true"  to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
-                            <div class="nav-icon-text">
-                                <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
-                                </svg>                          
-                                <span>Followers</span>
-                            </div>
-                        </n-link>
-
                         <n-link  :prefetch="true"  to="/b/notification" :class="[currentPage.includes('notification') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#globe"></use>
                                 </svg>                          
-                                <span>Notification</span>
+                                <span>Notifications</span>
                             </div>
                             <div class="notif-point" v-show="getNotificationCount > 0">{{getNotificationCount}}</div>
                         </n-link>
@@ -91,11 +82,29 @@
                             </div>
                         </n-link>
 
+                        <n-link  :prefetch="true"  to="/b/followers" :class="[currentPage.includes('followers') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg height="512pt" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#followers"></use>
+                                </svg>                          
+                                <span>Followers</span>
+                            </div>
+                        </n-link>
+
+                        <n-link  :prefetch="true"  to="/b/invite" :class="[currentPage.includes('invite') ? activeClass : '', 'nav-link-items']">
+                            <div class="nav-icon-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <use xlink:href="~/assets/business/image/all-svg.svg#inviteBusiness"></use>
+                                </svg>
+                                <span>Win a gift</span>
+                            </div>
+                        </n-link>
+
                         <n-link  :prefetch="true"  to="/b/profile" :class="[currentPage.includes('profile') && !currentPage.includes('profile/edit') ? activeClass : '', 'nav-link-items']">
                             <div class="nav-icon-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#person"></use>
-                                </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24.706" height="21" viewBox="0 0 24.706 21">
+                                <use xlink:href="~/assets/business/image/all-svg.svg#homeIcon"></use>
+                            </svg> 
                                 <span>Business Profile</span>
                             </div>
                         </n-link>
@@ -106,15 +115,6 @@
                                     <use xlink:href="~/assets/business/image/all-svg.svg#profile"></use>
                                 </svg>
                                 <span>Account settings</span>
-                            </div>
-                        </n-link>
-
-                        <n-link  :prefetch="true"  to="/b/invite" :class="[currentPage.includes('invite') ? activeClass : '', 'nav-link-items']">
-                            <div class="nav-icon-text">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <use xlink:href="~/assets/business/image/all-svg.svg#inviteBusiness"></use>
-                                </svg>
-                                <span>Invite</span> <span class="small-invite-tip"> - (Win a gift)</span>
                             </div>
                         </n-link>
 

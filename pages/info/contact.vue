@@ -1,29 +1,31 @@
 <template>
-        <div class="customer">
-              <div class="body-container">
-                <div class="sign-up-container">
+    <div class="customer">
+        <div class="info-page-banner">
+            <div class="sign-up-logo-container">
+                <n-link to="/" class="site-footer-logo">
+                    <img src="~/assets/customer/image/cudua-white.svg">
+                </n-link>
 
-                    <div class="sign-up-logo-container">
-                        <div class="sign-up-logo">
-                            <img src="~/assets/customer/image/cudua-logo-icon.svg">
-                        </div>
+                <n-link to="/" class="btn btn-primary btn-md">Home</n-link>
+            </div>
 
-                        <n-link to="/" class="btn btn-primary">Home</n-link>
-                    </div>
-                    
-                    <div class="sign-up-content terms-contdion">
-                        <div class="intent-bg-text">About cudua</div>
+            <div class="info-banner-header">Contact us</div>
 
-                    </div>
-                    <div class="sign-up-bottom-links">
-                        <n-link to="/info/about">About Cudua</n-link>
-                        <n-link to="/info/contact">Contact support</n-link>
-                        <n-link to="/info/terms-and-condition">Terms and condition</n-link>
-                        <n-link to="/info/privacy-and-cookey">Privacy and Cookey policy</n-link>
-                    </div>
+        </div>    
+
+        <div class="info-content-area">
+            <div class="mg-bottom-32">
+                <div class="header-area">We would love to hear from you...</div>
+                
+
+                <div class="sign-up-bottom-links mg-top-32">
+                    <a href="mailto: contact@cudua.com" class="btn btn-primary btn-md">Send us a message</a>
                 </div>
-              </div>
+
+            </div>
         </div>
+
+    </div>
 </template>
 
 <script>
@@ -32,16 +34,6 @@ export default {
 }
 </script>
 
-<style scoped>
-    .sign-up-content {
-        display: block !important;
-    }
-    .terms-contdion {
-        line-height: 21px;
-    }
+<style>
 
-    .terms-contdion p {
-        font-size: 14px;
-        margin-bottom: 16px;
-    }
 </style>

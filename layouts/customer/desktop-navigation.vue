@@ -9,7 +9,9 @@
 
       <div class="desktop-search-container">
         <div class="position-relative">
-          <input type="text" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business" v-model="desktopSearchKeyword">
+            <form>
+              <input type="search" name="" id="customerDesktopSearch" class="desktop-search" placeholder="Search for a product or business" v-model="desktopSearchKeyword">
+            </form>
 						<div class="recent-search-list-container" v-show="!resultCount && searchIndex == -1">
 							
 							<a href="#" v-show="!doneSearching && desktopSearchKeyword.length >= 2">

@@ -1,15 +1,17 @@
 <template>
       <div class="big-search-banner" id="">
-      <h1 class="banner-big-text">Buy products from shops around you.</h1>
+      <h1 class="banner-big-text">Find <span class="underline-text">fashion</span> & <span class="underline-text">beauty</span> products from shops around you.</h1>
       
       <div class="advanced-search" id="advancedSearchContainer">
         <div class="big-search-banner-search" id="homeAdvancedSearch">
             <div class="search-form-manager">
               <div class="form-control">
-                <input type="text" name="" id="productName" placeholder="What do you want to buy?" class="advanced-search-product input-form grey-bg-color add-border" v-model="productName">
+                <input type="text" name="" id="productName" placeholder="What are you looking for?" class="advanced-search-product input-form grey-bg-color add-border" v-model="productName">
               </div>
               <div class="form-control position-relative">
-                <input type="text" name="" id="communityName" placeholder="Type the community" class="advanced-search-location input-form grey-bg-color add-border" v-model="communityName" @keyup="initiateCommunitySearch()">
+                <form>
+                    <input type="search" name="" id="communityName" placeholder="Type the community location" class="advanced-search-location input-form grey-bg-color add-border" v-model="communityName" @keyup="initiateCommunitySearch()">
+                </form>
 
                 <div class="recent-search-list-container" v-show="communityName.length > 1 && noCommunitySuggestionResult == 0" id="communitySearchSuggestion">
                     <div v-for="(suggestion, index) in returnCommunitySuggestion" :key="index">

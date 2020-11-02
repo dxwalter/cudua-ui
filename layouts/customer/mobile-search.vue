@@ -31,7 +31,9 @@
           </div>
 
           <div class="mobile-nav-search">
-            <input type="text" id="mobilePrimarySearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="anyrandomstring!`">
+            <form>
+              <input type="search" id="mobilePrimarySearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="anyrandomstring!`">
+            </form>
           </div>
           <NOTIFICATION></NOTIFICATION>
           <Nuxt />

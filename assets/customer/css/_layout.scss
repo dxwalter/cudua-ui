@@ -3762,7 +3762,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     width: 100%;
     height: 350px;
     background-color: rgba(11, 11, 26, 1);
-    background: url(../image/home-banner.jpg) rgba(0, 0, 0, .5);
+    background: url(../image/home-banner.jpg) rgba(11, 11, 26, .9);
     background-blend-mode: overlay;
     background-position: center center;
     background-size: cover;
@@ -3776,12 +3776,21 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     }
 }
 
+.banner-indicator {
+    position: relative;
+    svg {
+        position: absolute;
+        width: 87px;
+        top: 13px;
+    }
+}
+
 .banner-big-text {
     text-align: center;
     color: $white-color;
     font-weight: 700;
-    font-size: 27px;
-    line-height: 36px;
+    font-size: 24px;
+    line-height: 29px;
     text-transform: uppercase;
 }
 
@@ -3813,6 +3822,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 @media($mq-mb) {
     .banner-big-text {
         font-size: 35px;
+        line-height: 37px;
     }
     .big-search-banner-search {
         padding: 32px;
@@ -3897,7 +3907,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     }   
     .banner-big-text {
         margin-bottom: unset;
-        width: 70%;
+        width: 80%;
         font-size: 56px;
         line-height: 55px;
     }
@@ -3906,6 +3916,12 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 @media(min-width: 1439px) {
     .big-search-banner-search {
         width: calc(100% - 240px);
+    }
+}
+
+@media($mq-xl) {
+    .big-search-banner-search {
+        width: 1200px;
     }
 }
 
@@ -4603,6 +4619,17 @@ h4.order-details-business-name {
     }
 }
 
+@media($mq-xl) {
+    .advanced-search.is-active {
+        width: 1440px;
+        right: 0;
+        left: 0;
+        .big-search-banner-search {
+            width: 1440px;
+        }
+    }
+}
+
 .mobile-close-search {
     display: none;
 }
@@ -5187,4 +5214,116 @@ h4.order-details-business-name {
         max-height: unset;
         height: 40px;
     }
+}
+
+.underline-text {
+    position: relative;
+    color: rgba(238, 100, 37, 1)
+}
+
+.info-page-banner {
+    width: 100%;
+    height: 350px;
+    background-color: rgba(11, 11, 26, 1);
+    background: url(../image/info-page-banner.jpg) rgba(15, 15, 49, 0.9);
+    background-blend-mode: overlay;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 16px;
+    position: relative;
+
+    .sign-up-logo-container {
+        width: 100%;
+        padding: 0;
+        margin-bottom: 82px;
+
+        .site-footer-logo  {
+            margin-bottom: 0 !important;
+        }
+    }
+
+    .info-banner-header {
+        color: $bg-color;
+        font-weight: 900;
+        font-size: 40px;
+        text-align: center;
+    }
+}
+
+.info-content-area {
+    width: 90%;
+    background-color: $white-color;
+    border-radius: 4px;
+    padding: 32px 16px;
+    box-shadow: $btn-box-shadow;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: -100px;
+    margin-bottom: 100px;
+
+    .header-area {
+        font-size: 18px;
+        color: $dark-color;
+        margin-bottom: 32px;
+        font-weight: 500;
+    }
+
+    .content-body {
+        font-size: 14px;
+        line-height: 21px;
+    }
+}
+
+@media($mq-mb) {
+    .info-page-banner {
+        padding: 24px 30px;
+    }
+
+    .info-content-area {
+        padding: 32px;
+    }
+}
+
+@media($mq-md) {
+    .info-page-banner {
+        padding: 24px 72px;
+        height: 400px;
+
+        .info-banner-header {
+            font-size: 60px;
+        }
+    }
+
+    .info-content-area {
+        width: 800px;
+        margin-top: -50px;
+    }
+}
+
+@media(min-width: 1024px) {
+    .info-content-area {
+        width: 900px;
+        padding: 32px;
+    }
+}
+
+.rock-star {
+    margin-bottom: 32px;
+}
+
+.rock-star .profile-dp {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 16px;
+}
+
+.rock-star .rock-star-name {
+    font-size: 16px;
+    color: $dark-color;
+    text-align: center;
+    font-weight: bold;
 }

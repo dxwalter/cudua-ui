@@ -61,9 +61,6 @@ export default {
 			  disable: true
 		  }
 		},
-		cdn: true,
-		// Use any custom URL
-		OneSignalSDK: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js'
 	},
 	pwa: {
 		icon: {
