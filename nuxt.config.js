@@ -22,6 +22,7 @@ export default {
 	},
 	css: [
 		
+		'@/assets/global-asset/advert.css',
 		'@/assets/global-asset/global.css',
 		'@/assets/business/css/app.css',
 		'@/assets/customer/css/app.css'

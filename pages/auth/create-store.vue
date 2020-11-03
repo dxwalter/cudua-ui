@@ -296,140 +296,144 @@ export default {
         
         createBusinessForSignedUser: async function () {
 
-            try {
+            let variables = {
+                name: this.businessName,
+                username: this.username
+            }
 
-                    let result = await this.$apollo.mutate({
-                        mutation: CREATE_BUSINESS,
-                        variables: {
-                            name: this.businessName,
-                            username: this.username
-                        },
-                        context: {
-                            headers: {
-                                'accessToken': this.accessToken
-                            }
-                        }
-                    })
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+            
+            this.isDisabled = true
 
-                    result = result.data.CreateBusinessAccount;
+            let query = await this.$performGraphQlMutation(this.$apollo, CREATE_BUSINESS, variables, context);
+            
+            this.isDisabled = false
 
-                    if (result.success ==  false) {
-                        this.isDisabled = false
-                        this.$initiateNotification('error', 'An error occurred', result.message);
-                        return
-                    }
+            if (query.error) {
+                return this.$initiateNotification('error', 'Failed request', `A network error occurred. ${query.message}`);
+            }
+                
 
-                    // update business data
-                    if (result.businessDetails != null) {
-                        // set business data
-                        this.$store.commit('business/setBusinessData', {
-                            businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
-                            businessName: result.businessDetails.businessname != null ? result.businessDetails.businessname : "",
-                            username: result.businessDetails.username != null ? result.businessDetails.username : ""
-                        });
-                    }
+            let result = query.result.data.CreateBusinessAccount;
 
-
-                    // set business subscription
-                    if (result.businessDetails.subscription != null) {
-                        let sub = result.businessDetails.subscription;
-                        this.$store.dispatch('business/setSubscription', {
-                            id: sub.subscriptionId,
-                            start: sub.subscriptionDate,
-                            end: sub.expiryDate,
-                            type: sub.subscriptionType
-                        })
-                    }
-
-                    this.$initiateNotification('success', 'Sign in successful', result.message);
-
-                    clearTimeout(this.timeOutHolder)
-
-                    this.timeOutHolder = setTimeout(() => {
-
-                        this.$router.push('/b')
-                    }, 1000);   
-
-            } catch (error) {
-                this.isDisabled = false
-                this.$initiateNotification('error', 'Failed request', "A network error occurred");
+            if (result.success ==  false) {
+                this.$initiateNotification('error', 'An error occurred', result.message);
                 return
             }
+
+            // update business data
+            if (result.businessDetails != null) {
+                // set business data
+                await this.$store.commit('business/setBusinessData', {
+                    businessId: result.businessDetails.id != null ? result.businessDetails.id : "",
+                    businessName: result.businessDetails.businessname != null ? result.businessDetails.businessname : "",
+                    username: result.businessDetails.username != null ? result.businessDetails.username : ""
+                });
+            }
+
+
+            // set business subscription
+            if (result.businessDetails.subscription != null) {
+                let sub = result.businessDetails.subscription;
+                await this.$store.dispatch('business/setSubscription', {
+                    id: sub.subscriptionId,
+                    start: sub.subscriptionDate,
+                    end: sub.expiryDate,
+                    type: sub.subscriptionType
+                })
+            }
+
+            this.$initiateNotification('success', 'Sign in successful', result.message);
+
+            clearTimeout(this.timeOutHolder)
+
+            this.timeOutHolder = setTimeout(() => {
+
+                this.$router.push('/b')
+            }, 1000);   
 
         },
         
         createBusinessForUnsignedUser: async function () {
-                
-             try {
-                let result = await this.$apollo.mutate({
-                    mutation: CREATE_USER_AND_BUSINESS_MUTATION,
-                    variables: {
-                        fullname: this.fullname,
-                        email: this.email,
-                        password: this.password,
-                        anonymousId: this.anonymousId,
-                        name: this.businessName,
-                        username: this.username,
-                        inviteId: this.inviteId
-                    },
-                    context: {
-                        headers: {
-                            'accessToken': this.accessToken
-                        }
-                    }
-                })
 
-                result = result.data.createUserAndBusiness;
-
-                if (result.success == false) {
-                    this.isDisabled = false
-                    this.$initiateNotification('error', 'An error occurred', result.message);
-                    return
+            let variables = {
+                fullname: this.fullname,
+                email: this.email,
+                password: this.password,
+                anonymousId: this.anonymousId,
+                name: this.businessName,
+                username: this.username,
+                inviteId: this.inviteId
+            }
+            
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
                 }
+            }
 
-                // change login status
-                this.$store.commit('customer/changeLoginStatus', true);
+            // add disable to button
+            this.isDisabled = true
 
-                this.$store.commit('customer/setCustomerData', {
-                    fullname: result.userData.fullname,
-                    email: result.userData.email,
-                    userId: result.userData.userId,
-                    userToken: result.userData.accessToken
-                });
+            let query = await this.$performGraphQlMutation(this.$apollo, CREATE_USER_AND_BUSINESS_MUTATION, variables, context);
 
-                this.$store.commit('business/setBusinessData', {
-                    businessId: result.businessDetails.id,
-                    businessName: result.businessDetails.businessname,
-                    username: result.businessDetails.username
-                });
+            this.isDisabled = false;
 
-                if (result.businessDetails.subscription != null) {
-                    let sub = result.businessDetails.subscription;
-                    this.$store.dispatch('business/setSubscription', {
-                        id: sub.subscriptionId,
-                        start: sub.subscriptionDate,
-                        end: sub.expiryDate,
-                        type: sub.subscriptionType
-                    })
-                }
+            if (query.error) {
+                return this.$initiateNotification('error', 'Failed request', `A network error occurred. ${query.message}`);
+            }
 
-                // delete anonymous id
-                localStorage.removeItem('CUDUA_ANONYMOUS_ID');
-                this.$store.commit('customer/setAnonymousId', '');
+            let result = query.result.data.createUserAndBusiness;
 
-                this.$initiateNotification('success', 'Online shop created', result.message);
-
-                clearTimeout(this.timeOutHolder)
-
-                this.timeOutHolder = setTimeout(() => {
-                    // window.location.assign('/b')
-                    return this.$router.push('/b')
-                }, 1000);
-             } catch (error) {
+            if (result.success == false) {
                 this.isDisabled = false
-                this.$initiateNotification('error', 'Failed request', "A network error occurred");
+                this.$initiateNotification('error', 'An error occurred', result.message);
                 return
-             }   
+            }
+
+            // change login status
+            await this.$store.commit('customer/changeLoginStatus', true);
+
+            await this.$store.commit('customer/setCustomerData', {
+                fullname: result.userData.fullname,
+                email: result.userData.email,
+                userId: result.userData.userId,
+                userToken: result.userData.accessToken
+            });
+
+            await this.$store.commit('business/setBusinessData', {
+                businessId: result.businessDetails.id,
+                businessName: result.businessDetails.businessname,
+                username: result.businessDetails.username
+            });
+
+            if (result.businessDetails.subscription != null) {
+                let sub = result.businessDetails.subscription;
+                await this.$store.dispatch('business/setSubscription', {
+                    id: sub.subscriptionId,
+                    start: sub.subscriptionDate,
+                    end: sub.expiryDate,
+                    type: sub.subscriptionType
+                })
+            }
+
+            // delete anonymous id
+            localStorage.removeItem('CUDUA_ANONYMOUS_ID');
+            await this.$store.commit('customer/setAnonymousId', '');
+
+            await this.$initiateNotification('success', 'Online shop created', result.message);
+
+            clearTimeout(this.timeOutHolder)
+
+            this.timeOutHolder = setTimeout(() => {
+                // window.location.assign('/b')
+                return this.$router.push('/b')
+            }, 1000);
+    
             
         },
         showUsernameUrlMethod: function(state) {

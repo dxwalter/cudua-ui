@@ -860,4 +860,8 @@ export default {
     .page-header {
         margin-bottom: 32px !important;
     }
+    .product-card {
+        background-color: #fff !important;
+        box-shadow: 0px 1px 3px rgba(0,0,0,.2) !important;
+    }
 </style>

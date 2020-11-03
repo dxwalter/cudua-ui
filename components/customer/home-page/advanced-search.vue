@@ -9,9 +9,8 @@
                 <input type="text" name="" id="productName" placeholder="What are you looking for?" class="advanced-search-product input-form grey-bg-color add-border" v-model="productName">
               </div>
               <div class="form-control position-relative">
-                <form>
-                    <input type="search" name="" id="communityName" placeholder="Type the community location" class="advanced-search-location input-form grey-bg-color add-border" v-model="communityName" @keyup="initiateCommunitySearch()">
-                </form>
+                  
+                <input type="search" name="" id="communityName" placeholder="Type the community location" class="advanced-search-location input-form grey-bg-color add-border" v-model="communityName" @keyup="initiateCommunitySearch()">
 
                 <div class="recent-search-list-container" v-show="communityName.length > 1 && noCommunitySuggestionResult == 0" id="communitySearchSuggestion">
                     <div v-for="(suggestion, index) in returnCommunitySuggestion" :key="index">

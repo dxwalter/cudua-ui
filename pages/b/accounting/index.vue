@@ -48,7 +48,7 @@
                                                     </svg>
                                                 </div>
                                                 <div class="card-info">
-                                                    <div class="details">All Products</div>
+                                                    <div class="details">All Products in my shop</div>
                                                     <div class="numbers">{{allProducts}}</div>
                                                 </div>
                                             </div>
@@ -80,7 +80,7 @@
                                                     </svg>
                                                 </div>
                                                 <div class="card-info">
-                                                    <div class="details">Products in cart</div>
+                                                    <div class="details">My products added to cart</div>
                                                     <div class="numbers">{{allProductsInCart}}</div>
                                                 </div>
                                             </div>

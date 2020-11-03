@@ -53,7 +53,9 @@ if (installBtn) {
     deferredPrompt.userChoice
       .then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          localStorage.setItem('cudua_retry_installation', 0)
+            let currentTime = new Date().getTime();
+            let nextInstall = currentTime + (86400  * 30)
+            localStorage.setItem('cudua_retry_installation', nextInstall);
         } else {
           
         }

@@ -99,7 +99,7 @@
 								<div class="chip-tab-item is-active" id="tabLink" data-tab="newOrders">New orders
 									<div class="notif-point">{{returnNewOrders.length}}</div>
 								</div>
-								<div class="chip-tab-item" id="tabLink" data-tab="pendingOrders">Pending deliveries
+								<div class="chip-tab-item" id="tabLink" data-tab="pendingOrders">Confirmed deliveries
 									<div class="notif-point">{{returnPendingOrders.length}}</div>
 								</div>
 								<div class="chip-tab-item" id="tabLink" data-tab="clearedOrders">Cleared orders
@@ -152,7 +152,7 @@
 									<div class="tab-content-area" id="pendingOrders">
 										<div class="no-account-category" v-show="returnPendingOrders.length == 0">
 											<!-- when no category has been added to the account -->
-											<h2>You do not have any pending deliveries</h2>
+											<h2>You do not have any confirmed order with a pending delivery</h2>
 										</div>
 										<div class="row" v-show="returnPendingOrders.length > 0">
 											<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" v-for="(order, index) in returnPendingOrders" :key="index">
