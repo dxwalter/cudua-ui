@@ -80,6 +80,9 @@ import USERNAMEMODAL from '~/components/business/profile/username.vue';
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 
 import { GET_BUSINESS_NOTIFICATION, MARK_BUSINESS_NOTIFICATION_AS_READ, GET_NEW_NOTIFICATION_COUNT, GET_NEW_ORDER_COUNT } from '~/graphql/business';
+
+import { UPDATE_ONE_SIGNAL_ID } from '~/graphql/customer';
+
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -100,7 +103,8 @@ export default {
             getCount: 1,
             isLoggedIn: '',
             isBusiness: '',
-            newBusinessOrderCount: ''
+            newBusinessOrderCount: '',
+            oneSignalId: ""
         }
     },
     head() {
@@ -177,6 +181,7 @@ export default {
             this.username = data.username;
             let customerData = this.GetUserData();
             this.accessToken = customerData.userToken
+            this.oneSignalId = customerData.oneSignalId
 		},
 		getNotification: async function () {
 			
@@ -266,6 +271,48 @@ export default {
             }
             this.getCount = 1
         },
+        saveOneSignalUserId: async function (userOneSignalId) {
+
+            if (this.oneSignalId == userOneSignalId || userOneSignalId.length < 1) return
+
+            let variables = {
+                oneSignalId: userOneSignalId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, UPDATE_ONE_SIGNAL_ID, variables, context);
+
+            if (request.error) return
+
+            let result = request.result.data.editUsersOneSignalId;
+
+            if (result.success == false) return
+
+            this.oneSignalId = userOneSignalId
+            await this.$store.dispatch('customer/setCustomerData', userOneSignalId)
+
+        },
+        getOneSignalId: async function () {
+
+            // window.OneSignal = window.OneSignal || [];
+            this.$OneSignal.push(async () => {
+                let oneSignalId = localStorage.getItem('cudua-onesignal-user');
+                if(oneSignalId === null) {
+                    this.$OneSignal.getUserId((userId) => {
+                        if (userId == null) return
+                        this.saveOneSignalUserId(userId)
+                        localStorage.setItem('cudua-onesignal-user', userId);
+                    });
+                } else {
+                    this.saveOneSignalUserId(oneSignalId);
+                }
+            });
+        },
         getNewOrderCount: async function () {
 
             let variables = {
@@ -303,7 +350,10 @@ export default {
             this.$options.intervalId = setInterval(() => {
                 this.newNotifier()
                 this.getNewOrderCount()
-            }, 600000);
+            }, 120000);
+
+            // 60000
+            this.getOneSignalId()
         }
     },
     beforeDestroy () {

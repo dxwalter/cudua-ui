@@ -224,7 +224,7 @@
 
 
 
-                    <div class="edit-profile-section display-none">
+                    <div class="edit-profile-section">
                         <a href="#" class="header-area">
                             <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editNotification">
                             <div class="edit-action-description accord-chip-name">
@@ -240,10 +240,15 @@
                         <div class="edit-profile-content" id="editNotification">
                             <!-- content here -->
                             <div class="form-control">
-                            <div class="email-noti-switcher d-flex-between">
-                                <span class="form-label" v-show="notificationStatus == 0">Activate email notification</span>
-                                <span class="form-label" v-show="notificationStatus == 1">Deactivate email notification</span>
-                                <label class="switch">
+                            <div class="email-noti-switcher">
+                                <span class="form-label">Turn on notification to receive products with great prices</span>
+                                <div class="mg-top-8">
+                                    <div class='onesignal-customlink-container'></div>
+                                </div>
+
+
+                                <span class="form-label display-none" v-show="notificationStatus == 1">Deactivate email notification</span>
+                                <label class="switch display-none">
                                     <input type="checkbox" v-model="notificationStatus" @change="editEmailNotification()">
                                     <span class="slider round"></span>
                                 </label>

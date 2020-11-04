@@ -73,6 +73,14 @@
     background-size: 100%;
     align-self: center;
     cursor: pointer;
+    position: relative;
+    
+    .notif-point {
+        position: absolute;
+        top: 0px;
+        z-index: 1;
+        right: -3px;
+    }
 }
 
 
@@ -106,7 +114,7 @@
 }
 
 .search-form {
-    padding: 16px 16px 16px 44px;
+    padding: 16px 0px 16px 44px;
     font-weight: 500;
     color: $dark-color;
     width: 100%;

@@ -84,7 +84,8 @@ export default {
         },
         checkPwaUpdate: async function() {
       
-            const workbox = await window.$workbox;
+            const workbox = await this.$workbox;
+            if (workbox == undefined) return
              workbox.addEventListener('installed', (event) => {
                 // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
                 if (event.isUpdate) {

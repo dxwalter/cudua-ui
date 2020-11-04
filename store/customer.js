@@ -17,7 +17,8 @@ const state = () => ({
     anonymousId: "",
     isLoggedIn: false,
     emailNotification: 1,
-    newNotificationCount: 0
+    newNotificationCount: 0,
+    oneSignalId: ""
 
 });
 
@@ -41,7 +42,8 @@ const getDefaultState = () => {
         anonymousId: "",
         isLoggedIn: false,
         emailNotification: 1,
-        newNotificationCount: 0
+        newNotificationCount: 0,
+        oneSignalId: ""
 	}
 }
 

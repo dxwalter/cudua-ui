@@ -224,6 +224,35 @@
                                                 </div>
                                             </div>
 
+                                            <!-- Business notification -->
+
+                                            <div class="edit-profile-section">
+                                                <a href="#" class="header-area">
+                                                    <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editBusinessNotification">
+                                                    <div class="edit-action-description accord-chip-name">
+                                                    <svg aria-hidden="true" viewBox="0 0 512 512">
+                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#globe"></use>
+                                                        </svg>
+                                                        <span>Business notification</span>
+                                                    </div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.05 13.616">
+                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#arrowDown"></use>
+                                                    </svg>
+                                                </a>
+                                                <div class="edit-profile-content" id="editBusinessNotification">
+                                                    <!-- content here -->
+                                                    <div class="form-control">
+                                                    <div class="">
+                                                        <span class="form-label">Receive notification on your phone when there is a new order</span>
+                                                        <div class="mg-top-8">
+                                                            <div class='onesignal-customlink-container'></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                </div>
+                                            </div>
+
                                             <!-- business support with whatsapp -->
 
                                             <div class="edit-profile-section">

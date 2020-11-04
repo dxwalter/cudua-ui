@@ -191,6 +191,7 @@ export default {
 
             // commit user data
             await this.$store.commit('customer/changeLoginStatus', true);
+            await this.$store.dispatch('customer/setNotificationCount', 2)
             await this.$store.commit('customer/setCustomerData', {
                 fullname: result.userData.fullname,
                 email: result.userData.email,

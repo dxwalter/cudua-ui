@@ -491,7 +491,9 @@ export default {
             this.$store.dispatch('customer/setCustomerData', {
                 phone: this.inputPhoneNumber,
                 email: this.email,
-            })
+            });
+
+            this.placeOrder()
         },
         clearTimeout: function (time) {
             clearTimeout(time)

@@ -3,7 +3,9 @@
         <div class="mobile-nav-container card">
           <div class="mobile-nav-links">
             <div class="mobile-toggle-area">
+              
               <button class="nav-toggle-btn hamburger hamburger--spring" id="navToggleButton" data-toggle-status="0" v-on:click="toggleCustomerNavBar($event)">
+                <div class="notif-point md-display-none" v-show="unreadNotificationCount > 0">{{unreadNotificationCount}}</div>
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
                 </span>
@@ -53,7 +55,8 @@ export default {
 		return {
 			isLoggedIn: false,
       isBusinessOwner: false,
-      numberOfItemsInCart: 0
+      numberOfItemsInCart: 0,
+      unreadNotificationCount: 0
 		}
   },
   props: {
@@ -78,7 +81,8 @@ export default {
         'GetAnonymousId': 'customer/GetAnonymousId',
         'GetLoginStatus': 'customer/GetLoginStatus',
         'GetBusinessStatus': 'business/GetBusinessStatus',
-        "GetCartItems": "cart/GetCartItems"
+        "GetCartItems": "cart/GetCartItems",
+        'GetCustomerData': 'customer/GetCustomerDetails',
       }),
       toggleCustomerNavBar: function (e) {
           e.preventDefault();
@@ -96,8 +100,10 @@ export default {
       },
       statusChecker () {
         this.isLoggedIn = this.GetLoginStatus();
-        this.numberOfItemsInCart = this.GetCartItems()
+        let customerData = this.GetCustomerData();
+        this.numberOfItemsInCart = this.GetCartItems();
         this.isBusinessOwner = this.GetBusinessStatus().length > 0 ? true :  false
+        this.unreadNotificationCount = customerData.newNotificationCount
       }
     },
     watch: {

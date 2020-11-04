@@ -154,6 +154,7 @@ export default {
                 // set customer data
                 await this.$store.dispatch('customer/setCustomerData', {
                     fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
+                    oneSignalId: result.userDetails.oneSignalId != null ? result.userDetails.oneSignalId : "",
                     email: result.userDetails.email != null ? result.userDetails.email : "",
                     userId: result.userDetails.userId != null ? result.userDetails.userId : "",
                     phone: result.userDetails.phone != null ? result.userDetails.phone : "",

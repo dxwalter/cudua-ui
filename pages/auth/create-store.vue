@@ -398,6 +398,8 @@ export default {
             // change login status
             await this.$store.commit('customer/changeLoginStatus', true);
 
+            await this.$store.dispatch('customer/setNotificationCount', 2)
+
             await this.$store.commit('customer/setCustomerData', {
                 fullname: result.userData.fullname,
                 email: result.userData.email,
@@ -583,6 +585,7 @@ export default {
             this.$store.dispatch('customer/setCustomerData', {
                 fullname: result.userDetails.fullname != null ? result.userDetails.fullname : "",
                 email: result.userDetails.email != null ? result.userDetails.email : "",
+                oneSignalId: result.userDetails.oneSignalId != null ? result.userDetails.oneSignalId : "",
                 userId: result.userDetails.userId != null ? result.userDetails.userId : "",
                 phone: result.userDetails.phone != null ? result.userDetails.phone : "",
                 reviewScore: result.userDetails.review != null ? result.userDetails.review : 0,

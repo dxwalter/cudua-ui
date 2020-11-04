@@ -28,6 +28,7 @@ query Login ($email: String!, $password: String!, $anonymousId: String) {
                 displayPicture
                 review
                 email_notification
+                oneSignalId
                 address {
                     number
                     street
@@ -344,6 +345,18 @@ mutation resetPassword ($password: String!, $secret: String!, $userId: String!) 
     secret: $secret,
     userId: $userId
   }){
+    code
+    success
+    message
+  }
+}
+`
+
+export const UPDATE_ONE_SIGNAL_ID = gql`
+mutation updateId($oneSignalId: String!) {
+  editUsersOneSignalId(input:{
+    oneSignalId: $oneSignalId
+  }) {
     code
     success
     message

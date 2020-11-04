@@ -16,8 +16,7 @@ export default {
         resetCustomerState: async function() {
             await this.$store.dispatch('customer/resetCustomerState');  
             await this.$store.dispatch('business/resetBusinessState');  
-            await this.$store.dispatch('business/resetBusinessState');  
-            await this.$store.dispatch('customer/resetPwaState');  
+            await this.$store.dispatch('pwa/resetPwaState');  
             return this.$router.push('/')
         } 
     },

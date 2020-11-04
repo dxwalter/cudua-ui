@@ -28,7 +28,7 @@ function initPwaAction () {
           }
       }
 
-    }, 5000);
+    }, 60000);
 }
 
 let deferredPrompt;

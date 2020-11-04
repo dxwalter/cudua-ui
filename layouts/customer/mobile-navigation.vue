@@ -84,6 +84,9 @@
 <script>
 
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+
+import { UPDATE_ONE_SIGNAL_ID } from '~/graphql/customer';
+
 import INITCOMPONENT from '~/components/init.component.vue';
 
 export default {
@@ -97,7 +100,8 @@ export default {
 			isBusinessOwner: false,
 			username: "",
 			numberOfItemsInCart: 0,
-			unreadNotificationCount: 0
+			unreadNotificationCount: 0,
+			oneSignalId: ""
 		}
 	},
 	props: {
@@ -135,6 +139,7 @@ export default {
 		statusChecker () {
 			let customerData = this.GetCustomerData();
 			this.accessToken = customerData.userToken
+			this.oneSignalId = customerData.oneSignalId
 			this.unreadNotificationCount = customerData.newNotificationCount
 		},
 		LoginStatus () {
@@ -142,6 +147,47 @@ export default {
 			this.isBusinessOwner = this.GetBusinessStatus();
 			this.username = this.GetBusinessDetails().username
 		},
+        saveOneSignalUserId: async function (userOneSignalId) {
+
+            if (this.oneSignalId == userOneSignalId || userOneSignalId.length < 1) return
+
+            let variables = {
+                oneSignalId: userOneSignalId
+            }
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+            let request = await this.$performGraphQlMutation(this.$apollo, UPDATE_ONE_SIGNAL_ID, variables, context);
+
+            if (request.error) return
+
+            let result = request.result.data.editUsersOneSignalId;
+
+            if (result.success == false) return
+
+            this.oneSignalId = userOneSignalId
+            await this.$store.dispatch('customer/setCustomerData', userOneSignalId)
+
+        },
+        getOneSignalId: async function () {
+
+            this.$OneSignal.push(async () => {
+				let oneSignalId = localStorage.getItem('cudua-onesignal-user');
+                if(oneSignalId === null) {
+                    this.$OneSignal.getUserId((userId) => {
+						if (userId == null) return
+						this.saveOneSignalUserId(userId)
+                        localStorage.setItem('cudua-onesignal-user', userId);
+                    });
+                } else {
+                    this.saveOneSignalUserId(oneSignalId);
+                }
+            });
+        },
 		clearFormInput: function() {
 			let formInput = document.querySelectorAll('[data-clear-form]');
 			if (formInput.length) this.$clearFormInput(formInput)
@@ -271,6 +317,7 @@ export default {
 		this.customerTabs()
 		this.rangeSlider()
 		this.carouselSlider()
+		this.getOneSignalId()
 
 	}
 }

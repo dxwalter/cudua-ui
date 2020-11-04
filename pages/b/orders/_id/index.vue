@@ -12,7 +12,7 @@
                     <Nuxt />
                     <!-- content goes in here -->
                     <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader && returnAllProducts.length > 0">
-                        <div>We strongly recommed that you call this customer before adding delivery price and confirming this order.</div>
+                        <div>We strongly recommed that you call this customer to discuss delivery charge and payment method before cofirming order.</div>
                         <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
 
@@ -22,14 +22,17 @@
 
                     <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder && !paymentMethodId">
                         <div>You have confirmed this order but yet to deliver the order.</div>
+                        <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
 
                     <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder && paymentMethodId && !paymentStatus">
                         <div>You have confirmed this order but the customer is yet to pay so you can deliver the order.</div>
+                        <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
 
                     <div class="alert alert-info notification-alert" v-show="orderStatus && !deliveryStatus && !pageLoader && !customerCancelOrder && paymentMethodId && paymentStatus">
-                        <div>The customer has paid for this order online. You can deliver the order.</div>
+                        <div>The customer has paid for this order online. You can go ahead to deliver this order.</div>
+                        <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
                     </div>
 
                     <div class="alert alert-danger notification-alert" v-show="orderStatus && deliveryStatus == -1 && !pageLoader && returnAllProducts.length > 0">

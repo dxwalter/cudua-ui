@@ -70,15 +70,14 @@
                                     <!-- When the order is yet to be confirmed -->
 
                                     <div class="alert alert-secondary order-details-alert" v-show="details.orderInfo.orderStatus == 0 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0">
-                                        <div class="info-text">This order has been placed but yet to be confirmed. </div>
+                                        <div class="info-text">This order has been placed but yet to be confirmed. Expect a call from this business.</div>
                                         <!-- <button class="btn btn-small btn-white">confirm</button> -->
                                     </div>
 
                                     <!-- when the payment method is pay on delivery and you are yet to get the order to be delivered to you -->
 
                                     <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0 && details.orderInfo.paymentMethod == 'Pay on delivery'">
-                                        <div class="info-text">This order has been confirmed. </div>
-                                        <button class="btn btn-small btn-white"  @click="confirmOrderBusinessId = details.businessData.businessId">Confirm delivery & payment</button>
+                                        <div class="info-text">This order has been confirmed. Confirm delivery and payment of the order. The payment method for this order is pay on delivery.</div>
                                     </div>
 
                                     <!-- when the payment method is pay online and you have not paid -->

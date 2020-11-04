@@ -4399,6 +4399,7 @@ h4.order-details-business-name {
         margin-bottom: 8px;
         font-size: 14px;
         font-weight: unset !important;
+        line-height: 21px;
     }
 }
 
@@ -5327,3 +5328,9 @@ h4.order-details-business-name {
     text-align: center;
     font-weight: bold;
 }
+
+@media(min-width: 1024px) {
+    .md-display-none {
+        display: none;
+    } 
+ }

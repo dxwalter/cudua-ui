@@ -55,11 +55,16 @@ export default {
 	],
 	loading: false,
 	oneSignal: {
+		cdn: true,
+		OneSignalSDK: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js',
+		autoRegister: true,
 		init: {
-		  appId: '9210ca94-b19b-4bda-8379-03c07765eabf',
+		  appId: '4077e6c3-299e-4bef-8fcd-7eeec9e2b284',
 		  allowLocalhostAsSecureOrigin: true,
 		  welcomeNotification: {
-			  disable: true
+			"title": "Welcome to Cudua!",
+			"message": "You look cute but we want to take it a little bit further",
+			// "url": "" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
 		  }
 		},
 	},
@@ -94,7 +99,7 @@ export default {
 			nativeUI: true,
 		},
 		manifest: {
-			name: "The online market for beautiful people",
+			name: "The online market for admirable people",
 			lang: 'en',
 			useWebmanifestExtension: false,
 			display: 'standalone',

@@ -107,7 +107,6 @@
 	  <CUSTOMERFOOTER></CUSTOMERFOOTER>
 	  <Nuxt />
 
-	  <div class='onesignal-customlink-container'></div>
 	</div>
   </div>
 </template>

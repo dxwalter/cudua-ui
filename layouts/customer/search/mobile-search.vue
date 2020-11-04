@@ -14,9 +14,7 @@
 					<div class="modal-search-input-area">
 					<div class="position-relative">
 						<div class="input-container">
-						<form>
-							<input type="search" name="" id="mobileSearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="234rtvnt78564v 5t5 32vt54t c" v-model="searchKeyword">
-						</form>
+						<input type="search" name="" id="mobileSearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="234rtvnt78564v 5t5 32vt54t c" v-model="searchKeyword">
 						<button class="clear-form-btn">
 							<input type="checkbox" class="dropdownCheckBox" data-clear-form="clear" data-target="mobileSearchInput">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
