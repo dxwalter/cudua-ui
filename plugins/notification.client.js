@@ -69,6 +69,10 @@ export default ({app}, inject) => {
                 header = title;
                 break;
 
+            case "product_review":
+                header = title;
+                break;
+
             case "subscription":
                 header = title;
                 break;
@@ -135,6 +139,10 @@ export default ({app}, inject) => {
                     
                 case "businessreview":
                     url = "/b/profile/?newReview";
+                    break;
+                    
+                case "product_review":
+                    url = `/b/product/${id}`;
                     break;
 
                 case "subscription":

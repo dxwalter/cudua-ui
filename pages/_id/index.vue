@@ -89,19 +89,31 @@
 
                                         <div class="section-header d-flex-between business-page-action">
                                             <h4>{{productHeader}}</h4>
-                                            <div>
-                                                <button class="btn btn-svg btn-white btn-md" @click="showMobileCategory">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#categories"></use>
-                                                    </svg>
-                                                    <span>All categories</span>
-                                                </button>
-                                                <button class="btn btn-white btn-svg btn-md" @click="getAllProducts(1);">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
-                                                        <use xlink:href="~/assets/customer/image/all-svg.svg#productIcon"></use>
-                                                    </svg>
-                                                    <span>All products</span>
-                                                </button>
+                                            <div class="d-flex">
+                                                <div>
+                                                    <button class="btn btn-svg btn-white btn-md bg-action" @click="showMobileCategory">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
+                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#categories"></use>
+                                                        </svg>
+                                                        <span>All categories</span>
+                                                    </button>
+                                                    <button class="btn btn-white btn-svg btn-md bg-action" @click="getAllProducts(1);">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="21" viewBox="0 0 22 21">
+                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#productIcon"></use>
+                                                        </svg>
+                                                        <span>All products</span>
+                                                    </button>
+                                                </div>
+                                                <div class="">
+                                                    <button class="btn btn-icon btn-small make-list-icon layout-button" @click="toggleProductListLayout()" id="toggleProductListLayout" data-layout="grid">
+                                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="list-icon">
+                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#verticalEllipsis"></use>
+                                                        </svg>
+                                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="grid-icon">
+                                                            <use xlink:href="~/assets/customer/image/all-svg.svg#gridLayout"></use>
+                                                        </svg>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -113,12 +125,12 @@
                                         <div  v-show="!isLoading">
 
 
-                                            <div class="row">  
-                                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
+                                            <div class="row default-grid" id="productListingArea">  
+                                                <div class="col-xs-6 col-sm-12 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
                                                         <div class="product-image-container">
                                                             <VueSlickCarousel :arrows="true">
-                                                                <n-link :to="`/p/${x.productId}`" class="product-card-image" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" v-bind:style="{height: contentHeight}" :id="`imageContainer${x.productId}`" data-current-image="1">
+                                                                <n-link :to="`/p/${x.productId}`" class="product-card-image" v-for="(images, imageIndex) in x.imageArray" :key="imageIndex" :id="`imageContainer${x.productId}`" data-current-image="1">
                                                                     <img class="product-image-item" :src="formatProductImageUrl(images)"  :alt="`${x.productName}'s image`" v-bind:class="[imageIndex ? '' : 'is-active']" v-lazy-load>
                                                                 </n-link>
                                                             </VueSlickCarousel>
@@ -487,6 +499,22 @@ export default {
         }
     },
     methods: {
+        toggleProductListLayout: function () {
+            let targetContainer = document.getElementById('productListingArea')
+            let actionButton = document.getElementById('toggleProductListLayout')
+
+            let getLayoutType = actionButton.getAttribute('data-layout');
+
+            if (getLayoutType == "grid") {
+                targetContainer.classList.remove('default-grid');
+                targetContainer.classList.add('make-layout-list');
+                actionButton.setAttribute('data-layout', 'list');
+            } else {
+                targetContainer.classList.remove('make-layout-list');
+                targetContainer.classList.add('default-grid');
+                actionButton.setAttribute('data-layout', 'grid');
+            }
+        },
         showSlideImage: function(slideToShow, images, direction) {
             
             let move = "";
