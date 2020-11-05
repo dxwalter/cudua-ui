@@ -74,10 +74,13 @@ export default {
 		},
 		runtimeCaching: [
 			{
-				urlPattern: 'https://fonts.googleapis.com/css?family=Work+Sans:400,500,700&display=swap',
-				handler: 'CacheFirst',
+				urlPattern: 'https://fonts.googleapis.com/.*',
+				handler: 'networkFirst',
 				method: 'GET',
-				strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+				strategyOptions: {
+				  cacheName: 'cudua-ui-cache',
+				  cacheableResponse: {statuses: [0, 200]}
+				}
 			},
 		],
 		meta: {

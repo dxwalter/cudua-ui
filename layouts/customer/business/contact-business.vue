@@ -21,15 +21,23 @@
 				<div class="contact-details d-flex-between-move" v-for="(x, index) in getPhoneNumber" :key="index">
 					<span>{{x}}</span>
 					<a :href="`tel: ${x}`" class="close-modal-btn">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" class="margin-unset">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17">
 							<use xlink:href="~/assets/customer/image/all-svg.svg#phone"></use>
+						</svg>
+					</a>
+				</div>
+				<div class="contact-details d-flex-between-move" v-show="whatsappNumber">
+					<span>{{whatsappNumber}}</span>
+					<a :href="`https://wa.me/${whatsappNumber}?text=Hello`" class="close-modal-btn">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+							<use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
 						</svg>
 					</a>
 				</div>
 				<div class="contact-details d-flex-between-move" v-show="getEmail !== undefined">
 					<span>{{getEmail}}</span>
 					<a :href="`mailto: ${getEmail}`" class="close-modal-btn">
-						<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" class="margin-unset">
+						<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19">
 							<use xlink:href="~/assets/customer/image/all-svg.svg#email"></use>
 						</svg>
 					</a>
@@ -53,7 +61,8 @@ export default {
 	data() {
 		return {
 			businessName: "",
-			contact: ""
+			contact: "",
+			whatsappNumber: ""
 		}
 	},
 	computed: {
@@ -68,6 +77,7 @@ export default {
 			
 			if (this.contact.whatsapp.status == 1) {
 				if (this.contact.whatsapp.number != null) newPhoneArray.push(this.contact.whatsapp.number)
+				this.whatsappNumber = this.contact.whatsapp.number
 			}
 
 			for (let x of this.contact.phone) {
@@ -101,5 +111,9 @@ export default {
 	.d-flex-between-move {
 		justify-content: space-between;
 		display: flex;
+	}
+	.close-modal-btn svg {
+		width: 18px;
+		height: 18px;
 	}
 </style>

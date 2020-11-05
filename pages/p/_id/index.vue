@@ -72,7 +72,7 @@
 
 
                     <!-- sizes -->
-                    <div class="product-details-container">
+                    <div class="product-details-container mg-bottom-32">
                         <div class="product-details-label">
                             Available sizes
                             <span>- choose a size</span>
@@ -88,7 +88,7 @@
                     </div>
 
                     <!-- color -->
-                    <div class="product-details-container">
+                    <div class="product-details-container mg-bottom-32">
                         <div class="product-details-label">
                             Available colors
                             <span>- choose a color</span>
@@ -103,7 +103,7 @@
                     </div>
 
                     <!-- share -->
-                    <div class="product-details-container">
+                    <div class="product-details-container mg-bottom-32">
                         <div class="product-details-label">
                             Share
                         </div>
@@ -186,7 +186,7 @@
                 <div class="product-suggestion-listing position-relative">
                     <div class="no-z-index swiper-action-container">
                         <button class="close-modal-btn slider-control">
-                            <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="productSuggestion"></div>
+                            <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="productSuggestion"></div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                 <use xlink:href="~/assets/customer/image/all-svg.svg#leftArrow"></use>
                             </svg>
@@ -196,7 +196,7 @@
                     
                     <div class="no-z-index swiper-action-container">
                         <button class="close-modal-btn slider-control">
-                            <div class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="productSuggestion"></div>
+                            <div class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="productSuggestion"></div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                 <use xlink:href="~/assets/customer/image/all-svg.svg#rightArrow"></use>
                             </svg>
