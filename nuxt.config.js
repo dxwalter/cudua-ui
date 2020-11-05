@@ -21,11 +21,10 @@ export default {
 		],
 	},
 	css: [
-		
+		'@/assets/business/css/app.css',
+		'@/assets/customer/css/app.css',
 		'@/assets/global-asset/advert.css',
 		'@/assets/global-asset/global.css',
-		'@/assets/business/css/app.css',
-		'@/assets/customer/css/app.css'
 	],
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
@@ -55,16 +54,13 @@ export default {
 	],
 	loading: false,
 	oneSignal: {
-		cdn: true,
-		OneSignalSDK: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js',
 		autoRegister: true,
 		init: {
 		  appId: '4077e6c3-299e-4bef-8fcd-7eeec9e2b284',
 		  allowLocalhostAsSecureOrigin: true,
 		  welcomeNotification: {
 			"title": "Welcome to Cudua!",
-			"message": "You look cute but we want to take it a little bit further",
-			// "url": "" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
+			"message": "You look cute. We just want to take it a little bit further"
 		  }
 		},
 	},
@@ -72,17 +68,6 @@ export default {
 		icon: {
 
 		},
-		runtimeCaching: [
-			{
-				urlPattern: 'https://fonts.googleapis.com/.*',
-				handler: 'networkFirst',
-				method: 'GET',
-				strategyOptions: {
-				  cacheName: 'cudua-ui-cache',
-				  cacheableResponse: {statuses: [0, 200]}
-				}
-			},
-		],
 		meta: {
 			viewport: 'user-scalable=no, initial-scale=1, maximum-scale=1',
 			mobileApp: 'mobile-web-app-capable',
@@ -107,8 +92,7 @@ export default {
 			/* workbox options */
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
 			offlineAnalytics: true,
-			offlinePage: '/offline.html',
-			cachingExtensions: '~/plugins/pwa/workbox-range-request.js',
+			offlinePage: '/offline.html'
 		}
 	},
 	buildModules: [
