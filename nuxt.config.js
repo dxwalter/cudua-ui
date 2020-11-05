@@ -72,20 +72,6 @@ export default {
 		icon: {
 
 		},
-		runtimeCaching: [
-			{
-				urlPattern: 'https://fonts.googleapis.com/.*',
-				handler: 'cacheFirst',
-				method: 'GET',
-				strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
-			},
-			{
-				urlPattern: 'https://fonts.gstatic.com/.*',
-				handler: 'cacheFirst',
-				method: 'GET',
-				strategyOptions: { cacheableResponse: { statuses: [0, 200] } }
-			},
-		],
 		meta: {
 			viewport: 'user-scalable=no, initial-scale=1, maximum-scale=1',
 			mobileApp: 'mobile-web-app-capable',
