@@ -70,9 +70,6 @@
         <Nuxt />
         <NOTIFICATION></NOTIFICATION>
         <Nuxt />
-        <PWAINITCOMPONENT></PWAINITCOMPONENT>
-        <Nuxt />
-
   </div>
 </template>
 
@@ -80,7 +77,6 @@
 import BUSINESSREVIEW from '~/components/business/businessreview/business.review.vue';
 import USERNAMEMODAL from '~/components/business/profile/username.vue'; 
 import NOTIFICATION from '~/components/notification/notification.vue'; 
-import PWAINITCOMPONENT from '~/components/pwa.init.component.vue';
 
 import { GET_BUSINESS_NOTIFICATION, MARK_BUSINESS_NOTIFICATION_AS_READ, GET_NEW_NOTIFICATION_COUNT, GET_NEW_ORDER_COUNT } from '~/graphql/business';
 
@@ -91,7 +87,7 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: "TOPNAVIGATION",
     components: {
-        BUSINESSREVIEW, USERNAMEMODAL, NOTIFICATION, PWAINITCOMPONENT
+        BUSINESSREVIEW, USERNAMEMODAL, NOTIFICATION
     },
     data: function () {
         return {

@@ -135,6 +135,11 @@
                     </div>
                     <BOTTOMNAV />
                     <Nuxt />
+
+                    <PWAINITCOMPONENT></PWAINITCOMPONENT>
+                    <Nuxt />
+
+
                 </div>
             </div>
         </div>
@@ -148,8 +153,9 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import PAGELOADER from '~/components/loader/loader.vue'
-import SUBSCRIPTION from '~/components/business/subscription/subscription.vue'
+import PAGELOADER from '~/components/loader/loader.vue';
+import PWAINITCOMPONENT from '~/components/pwa.init.component.vue';
+import SUBSCRIPTION from '~/components/business/subscription/subscription.vue';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { 
@@ -159,7 +165,7 @@ import {
 export default {
     name: "BUSINESSPRODUCTLISTING",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER, SUBSCRIPTION
+        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER, SUBSCRIPTION, PWAINITCOMPONENT
     },
     data: function() {
         return {

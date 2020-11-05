@@ -10,7 +10,10 @@
                 <div>
                     <div class="pwa-info-text-area">New app update available.</div>
                     <div class="pwa-action-area">
-                        <button class="btn btn-primary btn-md" @click="updateAppsLatestVersion()">Update app</button>
+                        <button class="btn btn-primary btn-md" @click="updateAppsLatestVersion()">
+                            Update app
+                            <div class="loader-action"><span class="loader"></span></div>    
+                        </button>
                         <button class="btn btn-white btn-md" @click="cancelAppUpdate()">Cancel</button>
                     </div>
                 </div>
@@ -27,7 +30,10 @@
                 <div>
                     <div class="pwa-info-text-area">Install this app now to enjoy easy access.</div>
                     <div class="pwa-action-area">
-                        <button class="btn btn-primary btn-md" id="installUserPwa">Install app</button>
+                        <button class="btn btn-primary btn-md" id="installUserPwa">
+                            Install app
+                            <div class="loader-action"><span class="loader"></span></div>    
+                        </button>
                         <button class="btn btn-white btn-md" @click="cancelInstallation()">Cancel</button>
                     </div>
                 </div>
@@ -69,7 +75,6 @@ export default {
             await this.$store.dispatch('pwa/setTimeToUpdate', newUpdateTime)
         },
         updateAppsLatestVersion: async function () {
-
             await this.$store.dispatch('pwa/setTimeToUpdate', new Date().getTime() + (86400  * 14))
             window.location.reload(true)
         },

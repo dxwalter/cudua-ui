@@ -44,6 +44,7 @@ let installBtn = document.getElementById('installUserPwa');
 if (installBtn) {
   installBtn.addEventListener('click', (e) => {
 
+    installBtn.disabled = true;
     // hide our user interface that shows our A2HS button
     let installApp = document.getElementById('installAppContainer');
     installApp.classList.add('display-none');
@@ -56,6 +57,7 @@ if (installBtn) {
             let currentTime = new Date().getTime();
             let nextInstall = currentTime + (86400  * 30)
             localStorage.setItem('cudua_retry_installation', nextInstall);
+            installBtn.disabled = false;
         } else {
           
         }

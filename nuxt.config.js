@@ -74,14 +74,8 @@ export default {
 		},
 		runtimeCaching: [
 			{
-				urlPattern: 'https://fonts.googleapis.com/.*',
-				handler: 'networkFirst',
-				method: 'GET',
-				strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-			},
-			{
-				urlPattern: 'https://fonts.gstatic.com/.*',
-				handler: 'networkFirst',
+				urlPattern: 'https://fonts.googleapis.com/css?family=Work+Sans:400,500,700&display=swap',
+				handler: 'CacheFirst',
 				method: 'GET',
 				strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
 			},

@@ -104,7 +104,7 @@
                                                         <span>All products</span>
                                                     </button>
                                                 </div>
-                                                <div class="">
+                                                <div class="product-layout-container">
                                                     <button class="btn btn-icon btn-small make-list-icon layout-button" @click="toggleProductListLayout()" id="toggleProductListLayout" data-layout="grid">
                                                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="list-icon">
                                                             <use xlink:href="~/assets/customer/image/all-svg.svg#verticalEllipsis"></use>
@@ -126,7 +126,7 @@
 
 
                                             <div class="row default-grid" id="productListingArea">  
-                                                <div class="col-xs-6 col-sm-12 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
+                                                <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" v-for="(x, index) in returnProductList" :key="index"  v-show="!x.hide">
                                                     <div class="product-card">
                                                         <div class="product-image-container">
                                                             <VueSlickCarousel :arrows="true">

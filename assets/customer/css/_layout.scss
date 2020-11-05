@@ -5370,6 +5370,9 @@ h4.order-details-business-name {
         display: none !important;
     }
 }
-// .make-grid-icon .grid-icon {
-//     display: none;
-// }
+
+@media(min-width: 1024px) {
+    .product-layout-container {
+        display: none;
+    }
+}
