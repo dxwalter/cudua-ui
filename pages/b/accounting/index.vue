@@ -22,7 +22,7 @@
 
                                 <div class="swiper-action-container">
                                     <button class="close-modal-btn slider-control reduce-22">
-                                        <input type="checkbox" class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="accountingSlider">
+                                        <input type="checkbox" class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="accountingSlider">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                             <use xlink:href="~/assets/business/image//all-svg.svg#leftArrow"></use>
                                         </svg>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="swiper-action-container">
                                     <button class="close-modal-btn slider-control reduce-22">
-                                        <input type="checkbox" class="dropdownCheckBox" data-direction="right" data-carousel="carousel" data-target="accountingSlider">
+                                        <input type="checkbox" class="dropdownCheckBox" data-direction="left" data-carousel="carousel" data-target="accountingSlider">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                             <use xlink:href="~/assets/business/image//all-svg.svg#rightArrow"></use>
                                         </svg>
