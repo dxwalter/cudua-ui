@@ -17,7 +17,7 @@
                 
                 <div class="sign-up-content">
                         <div class="instruction-area">
-                            <div class="intent-bg-text">Create an online shop for your business</div>
+                            <div class="intent-bg-text">Create an online shop for your <span class="indicator">fashion</span> & <span class="indicator">Beauty</span> business.</div>
                             <div class="sign-up-banner">
                                 <img src="~/assets/customer/image/banner-image.jpg" alt="">
                             </div>
@@ -612,6 +612,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .indicator {
+        color: #ee6425;
+    }
 </style>

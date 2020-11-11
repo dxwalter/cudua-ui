@@ -3491,6 +3491,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     width: 100%;
     min-height: 100vh;
     max-height: max-content;
+    padding-bottom: 40px;
 }
 
 .sign-up-logo {
@@ -3567,13 +3568,26 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 
 .intent-bg-text {
     width: auto;
-    font-size: 28px;
+    font-size: 21px;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 900;
     color: $dark-color;
-    line-height: 33px;
+    line-height: 27px;
     margin-bottom: 24px;
+}
+
+@media(min-width: 500px) {
+    .intent-bg-text {
+        font-size: 24px;
+    }
+}
+
+@media($mq-mb) {
+    .intent-bg-text {
+        font-size: 28px;
+        line-height: 33px;
+    }
 }
 
 .tips-header {
@@ -3640,7 +3654,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
     }
     .instruction-area {
         align-self: center;
-        text-align: center;
+        text-align: left;
         width: 450px;
     }
     .sign-up-form-wrapper {
@@ -4628,6 +4642,7 @@ h4.order-details-business-name {
         width: 1440px;
         right: 0;
         left: 0;
+        margin: 0 auto;
         .big-search-banner-search {
             width: 1440px;
         }
@@ -5374,7 +5389,7 @@ h4.order-details-business-name {
     }
 }
 
-@media(min-width: 1024px) {
+@media(min-width: 599px) {
     .product-layout-container {
         display: none;
     }

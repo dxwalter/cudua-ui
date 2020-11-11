@@ -28,7 +28,7 @@
                                             <use xlink:href="~/assets/business/image/all-svg.svg#rightArrow"></use>
                                         </svg>
                                     </span>
-                                    <span><n-link :to="`/b/product/subcategory/${subcategoryId}`">{{subcategoryName}}</n-link></span>
+                                    <span><n-link :to="`/b/product/subcategory/${subcategoryId}?cat=${categoryId}`">{{subcategoryName}}</n-link></span>
                                 </div>
                             </div>
 
@@ -102,7 +102,7 @@
                                     </div>
 
                                     <!-- sizes -->
-                                    <div class="product-details-container">
+                                    <div class="product-details-container mg-bottom-32">
                                         <div class="product-details-label">
                                             Available sizes
                                         </div>
@@ -115,7 +115,7 @@
                                     </div>
 
                                     <!-- sizes -->
-                                    <div class="product-details-container">
+                                    <div class="product-details-container mg-bottom-32">
                                         <div class="product-details-label">
                                             Available colors
                                         </div>
@@ -129,7 +129,7 @@
 
 
                                     <!-- Share -->
-                                    <div class="product-details-container">
+                                    <div class="product-details-container mg-bottom-32">
                                         <div class="product-details-label">
                                             Share
                                         </div>
@@ -162,7 +162,7 @@
                                     </div>
 
 
-                                    <div class="product-details-container">
+                                    <div class="product-details-container mg-bottom-32">
                                         <div class="product-details-action">
                                             <nuxt-link :to="`/p/${productId}`" class="btn btn-light-grey">View</nuxt-link>
                                             <nuxt-link :to="`/b/product/edit/${productId}`" class="btn btn-light-grey">Edit</nuxt-link>

@@ -100,7 +100,8 @@ export default {
 		}
 	},
 	buildModules: [
-		'@nuxtjs/google-analytics'
+		'@nuxtjs/google-analytics',
+		'@nuxtjs/dotenv'
 	],
 	googleAnalytics: {
 		id: 'UA-181767171-1',
@@ -112,6 +113,9 @@ export default {
 		clientConfigs: {
 			default: '~/apollo/client-configs/default.js',
 		}
+	},
+	env: {
+		API_END_POINT: process.env.API_END_POINT
 	}
 
 }

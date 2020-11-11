@@ -58,7 +58,6 @@
                             <div class="plan-action">
                                 <div class="subcription-area-header">
                                     <div>Registered businesses</div>
-                                    <div class="form-label margin-unset">Businesses that I successfully invited</div>
                                 </div>
                                 <div>
                                     <div class="payment-gateway" v-for="(x, index) in returnDownliners" :key="index">

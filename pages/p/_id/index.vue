@@ -695,7 +695,7 @@ export default {
             target.disabled = false
 
             if (request.error) {
-                this.$initiateNotification('error', 'Failed request', this.errorReason);
+                this.$initiateNotification('error', 'Failed request', request.message);
                 return
             }
 

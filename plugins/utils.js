@@ -2,27 +2,34 @@
 
 export default ({app}, inject) => {
 
+		let initiateCopy = (target, count = 0) => {
+			// Select the email link anchor text
+			let targetLink = document.querySelector('#'+target);
+			let range = document.createRange();
+			range.selectNode(targetLink);
+			window.getSelection().addRange(range);
+
+			try {
+				// Now that we've selected the anchor text, execute the copy command
+				let successful = document.execCommand('copy');
+				if (count > 1) app.$showToast('Link copied', "success");
+
+				// app.$initiateNotification('success', 'Successful', "Link copied successfully")
+			} catch(err) {
+				app.$showToast('An error occurred', "error");
+			}
+
+			// Remove the selections - NOTE: Should use
+			// removeRange(range) when it is supported
+			window.getSelection().removeAllRanges();
+		}
+
+		inject("initiateCopy", initiateCopy);
+
 		let copyToClipBoard = (target) => {
-				// Select the email link anchor text
-				let targetLink = document.querySelector('#'+target);
-				let range = document.createRange();
-				range.selectNode(targetLink);
-				window.getSelection().addRange(range);
-
-				try {
-						// Now that we've selected the anchor text, execute the copy command
-						let successful = document.execCommand('copy');
-						console.log(target)
-						app.$showToast('Link copied', "success");
-
-						// app.$initiateNotification('success', 'Successful', "Link copied successfully")
-				} catch(err) {
-						app.$showToast('An error occurred', "error");
-				}
-
-				// Remove the selections - NOTE: Should use
-				// removeRange(range) when it is supported
-				window.getSelection().removeAllRanges();
+			app.$initiateCopy(target, 0)
+			app.$initiateCopy(target, 1)
+			app.$initiateCopy(target, 2)
 		}
 
 		inject("copyToClipBoard", copyToClipBoard);

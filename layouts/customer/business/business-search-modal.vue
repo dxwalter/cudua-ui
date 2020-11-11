@@ -148,9 +148,7 @@ export default {
 	},
 	watch: {
 		searchKeyword: async function () {
-			if (this.searchKeyword.length <= 1) {
-				return
-			}
+			if (this.searchKeyword.length <= 1) return
 
 			this.resultCount = 0;
 			this.isLoading = 1
@@ -174,6 +172,8 @@ export default {
 			this.isSearchReady = 1
 		},
 		searchForProduct: async function (page) {
+
+			if (this.searchKeyword.trim().length <= 1) return
 			
 			let variables = {
 				businessId: this.businessId,

@@ -77,7 +77,7 @@
                                     <!-- when the payment method is pay on delivery and you are yet to get the order to be delivered to you -->
 
                                     <div class="alert alert-info order-details-alert" v-show="details.orderInfo.orderStatus == 1 && details.orderInfo.deliveryStatus == 0 && details.orderProduct.length > 0 && details.orderInfo.paymentMethod == 'Pay on delivery'">
-                                        <div class="info-text">This order has been confirmed. Confirm delivery and payment of the order. The payment method for this order is pay on delivery.</div>
+                                        <div class="info-text">This order has been confirmed. The payment method for this order is pay on delivery. Confirm delivery and payment of the order.</div>
                                     </div>
 
                                     <!-- when the payment method is pay online and you have not paid -->
@@ -170,7 +170,7 @@
                             </div>
 
                             <!-- actions -->
-                            <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus == 1">
+                            <div class="col-md-12 col-lg-3 white-bg-color" v-show="details.orderInfo.orderStatus == 1 && details.orderProduct.length > 0">
                                 <div class="order-price-area position-relative">
                                     <div class="d-flex-between option-container">
                                         <div class="option">Order price</div>
@@ -280,7 +280,7 @@
                 <img src="~/static/images/server-error.svg" alt="">
                 <div class="error-cause" v-html="errorReason">{{errorReason}}</div>
                 <div class="action-area">
-                    <n-link to="/" class="btn btn-primary">Home page</n-link>
+                    <n-link to="/c/orders/" class="btn btn-primary">My orders</n-link>
                 </div>
             </div>
             <!-- end of error area -->
@@ -461,6 +461,8 @@ export default {
 
             let request = await this.$performGraphQlQuery(this.$apollo, CUSTOMER_GET_ORDER_DETAILS, variables, context);
 
+            this.pageLoader = false
+
             if (request.error) {
                 this.isNetworkError = 1
                 this.errorReason = request.message
@@ -599,7 +601,7 @@ export default {
             clearTimeout(this.timeOut)
 
             this.timeOut = setTimeout(() => {
-                window.location.reload(true)
+                this.$router.push('/c/orders')
             }, 1500);
         },
         setId: function (id) {
@@ -723,7 +725,7 @@ export default {
 
     },
     mounted () {
-        this.pageLoader = false
+        // set this.pageLoader = false after request has been completed in getOrderDetails() method 
     },
     watch: {
         confirmOrderBusinessId: function () {

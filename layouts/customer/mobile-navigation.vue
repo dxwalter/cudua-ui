@@ -49,7 +49,7 @@
               <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16.349 15">
                 <use xlink:href="~/assets/customer/image/all-svg.svg#heart"></use>
               </svg>
-              <span>Saved for later</span>
+              <span>Saved items</span>
             </n-link>
 
             <n-link to="/c/profile" class="mobile-side-nav-link" v-show="isLoggedIn">

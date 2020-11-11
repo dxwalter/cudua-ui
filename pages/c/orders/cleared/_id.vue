@@ -214,6 +214,8 @@ export default {
 
             let request = await this.$performGraphQlQuery(this.$apollo, CUSTOMER_GET_ORDER_DETAILS, variables, context);
 
+            this.pageLoader = false
+
             if (request.error) {
                 this.isNetworkError = 1
                 this.errorReason = request.message
@@ -233,7 +235,7 @@ export default {
             
             this.allOrders = result.orderDetails
 
-            this.$initiateNotification('success', '', result.message);
+            // this.$initiateNotification('success', '', result.message);
 
         }
     },
@@ -260,7 +262,7 @@ export default {
 
     },
     mounted () {
-        this.pageLoader = false
+        // set this.pageLoader = false after request has been completed in getOrderDetails() method 
     }
 }
 </script>

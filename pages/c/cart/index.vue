@@ -158,7 +158,7 @@
                             <div>Learn more</div>
                         </div>
                     <div id="deliveryChargeInfo" class="cart-business-details white-bg-color font-14 price-info">
-                        The shipping price/delivery charge of ordered products is to determined by the business(es) you are buying from. A business will have to see an order, know the location of the customer before providing the delivery charge.
+                        The shipping price/delivery charge of ordered products is to determined by the business(es) you are buying from. A business will have to see an order and know the location of the customer before providing the delivery charge.
                     </div>
                     </div>
                 </div>

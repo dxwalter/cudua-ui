@@ -172,7 +172,7 @@ export default {
         }
     },
     created() {
-        if (process.client) {
+        if (process.browser) {
             window.addEventListener('resize', this.handleResize);
         }
     },

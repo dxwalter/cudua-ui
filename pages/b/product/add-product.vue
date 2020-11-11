@@ -114,7 +114,7 @@
                                 <div class="upload-action margin-unset">
                                     <input type="file" id="selectimage" @change="previewImage($event, 'previewPrimaryImage')" ref="primaryImageFile" accept="image/png,image/jpg,image/jpeg">
                                     
-                                    <button class="btn btn-light-grey btn-block margin-unset" id="productsImage">Upload product's image</button>
+                                    <button class="btn btn-light-grey btn-block margin-unset" id="productsImage">Select product's image</button>
                                 </div>
                                 <!-- <div  class="mg-top-8 font-14">
                                     <span>White background pictures look better</span>

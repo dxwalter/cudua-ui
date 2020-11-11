@@ -296,7 +296,7 @@ export default {
             this.allCategories = categorylisting;
 
             // emit to add category component
-            $nuxt.$emit('categoryListing', this.returnCategories)
+            $nuxt.$emit('categoryListing', this.allCategories)
         },
         onSelectCategory: function(e) {
             let selectedCategory = e.target.options

@@ -332,6 +332,8 @@ export default {
 
             this.setTimeoutForProductSearch = setTimeout( async() => {
 
+                if (this.productSearchString.length <= 1) return
+                
                 let variables = {
                     businessId: this.businessId,
                     keyword: this.productSearchString

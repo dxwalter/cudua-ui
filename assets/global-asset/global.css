@@ -874,3 +874,25 @@ button:disabled .loader-action {
   align-items: center !important;
   position: relative !important;
 }
+
+
+.notification-loader-container {
+  position:  relative;
+}
+
+.notification-loader-container .loader-action{ 
+  display: flex;
+}
+
+.one-signal-container {
+  position: absolute;
+  top: -23px;
+  width: 100%;
+}
+
+.position-relative-notification {
+  position: relative;
+  height: 22px;
+  width: 100%;
+  margin-top: 32px;
+}

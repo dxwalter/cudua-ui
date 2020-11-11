@@ -75,7 +75,7 @@ export default {
             await this.$store.dispatch('pwa/setTimeToUpdate', newUpdateTime)
         },
         updateAppsLatestVersion: async function () {
-            await this.$store.dispatch('pwa/setTimeToUpdate', new Date().getTime() + (86400  * 14))
+            await this.$store.dispatch('pwa/setTimeToUpdate', new Date().getTime() + (86400  * 7))
             window.location.reload(true)
         },
         initPwa: async function () {
@@ -103,7 +103,7 @@ export default {
         
         },
         cancelInstallation: async function () {
-            let newUpdateTime = new Date().getTime() + (86400  * 14);
+            let newUpdateTime = new Date().getTime() + (86400  * 4);
 
             let installApp = document.getElementById('installAppContainer');
             installApp.classList.add('display-none');

@@ -235,6 +235,8 @@ export default {
       },
       makeRegularSearch: async function (page) {
         
+        if (this.searchKeyword.trim().length <= 1) return
+
         let variables = {
           queryString: this.searchKeyword.trim(),
           page: page

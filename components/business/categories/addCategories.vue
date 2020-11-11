@@ -11,11 +11,11 @@
                 <div id="createCategory" class="is-active tab-content-area">
                     <div class="form-control">
                         <label for="businessType" class="form-label">Type the name of the category</label>
-                        <input type="text" name="" id="newCategoryName" class="input-form" v-model="newCategoryName" placeholder="Fashion">
+                        <input type="text" name="" id="newCategoryName" class="input-form" v-model="newCategoryName" placeholder="Bags">
                     </div>
                     <div class="form-control">
                         <label for="businessType" class="form-label">Add one or multiple subcategories seperated by comma</label>
-                        <textarea name="" id="newCategorySubcategories" cols="30" rows="5" class="input-form" v-model="newCategorySubcategories" placeholder="Female shoes, Male shoes,..."></textarea>
+                        <textarea name="" id="newCategorySubcategories" cols="30" rows="5" class="input-form" v-model="newCategorySubcategories" placeholder="Purse, Hand bags,..."></textarea>
                     </div>
                     <div class="form-control">
                         <button class="btn btn-block btn-primary" type="button" @click="submitNewCategory()" id="submitNewCategory">

@@ -140,7 +140,7 @@
                             </div>
                             <div class="mg-bottom-16">
                                 <!-- <label for="businessType" class="form-label">Type the name of your street</label> -->
-                                <input type="text" name="" id="customerStreet" class="input-form" placeholder="Type the name of your street" v-model="customerStreet"  autocomplete="off">
+                                <input type="text" name="" id="customerStreet" class="input-form" placeholder="Type the name of your street" v-model="customerStreet"  autocomplete="off" @keyup="findStreet">
                                 <div class="recent-search-list-container" id="streetSearchSuggestionAnimation" v-show="customerStreet.length > 1 && streetSuggestion.length == 0">
                                     <a href="#">
                                         <div class="info-area">
@@ -241,9 +241,14 @@
                             <!-- content here -->
                             <div class="form-control">
                             <div class="email-noti-switcher">
-                                <span class="form-label">Turn on notification to receive products with great prices</span>
-                                <div class="mg-top-8">
-                                    <div class='onesignal-customlink-container'></div>
+                                <span class="form-label">Turn on notification to receive updates on great products with great prices</span>
+                                <div class="position-relative-notification">
+                                    <div class="notification-loader-container mg-top-16">
+                                        <div class="loader-action"><span class="loader"></span></div>
+                                    </div>
+                                    <div class="mg-top-8 one-signal-container">
+                                        <div class='onesignal-customlink-container'></div>
+                                    </div>
                                 </div>
 
 
@@ -344,15 +349,14 @@ export default {
 			return this.GetLoginStatus
 		}
     },
-    watch: {
-        customerStreet: async function () {
+    methods: {
+        findStreet: async function () {
             if (this.customerStreet.length > 1) {
                 this.noStreetSuggestionResult = 0
-               await this.searchStreetData()
+                this.streetSuggestion = []
+                await this.searchStreetData()
             }
-        }
-    },
-    methods: {
+        },
         searchStreetData: async function () {
 
             this.clearTimeout();

@@ -243,10 +243,16 @@
                                                     <!-- content here -->
                                                     <div class="form-control">
                                                     <div class="">
-                                                        <span class="form-label">Receive notification on your phone when there is a new order</span>
-                                                        <div class="mg-top-8">
-                                                            <div class='onesignal-customlink-container'></div>
+                                                        <span class="form-label">Receive notification on your phone when a new order is placed.</span>
+                                                        <div class="position-relative-notification">
+                                                            <div class="notification-loader-container mg-top-16">
+                                                                <div class="loader-action"><span class="loader"></span></div>
+                                                            </div>
+                                                            <div class="mg-top-8 one-signal-container">
+                                                                <div class='onesignal-customlink-container'></div>
+                                                            </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
 
@@ -1175,6 +1181,7 @@ export default {
             if (this.streetName.length < 2) return
             
             this.noStreetSuggestionResult = 0
+            this.streetSuggestion = []
             document.getElementById('streetSearchSuggestion').style.display = "block"
             
             let variables = {
