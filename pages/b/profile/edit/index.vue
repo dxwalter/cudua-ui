@@ -582,7 +582,7 @@ export default {
             noStreetSuggestionResult: "",
 
             amount: 700,
-            PUBLIC_KEY: 'pk_test_79e353487a385c8f21e93dc8bbb40215359f00b4',
+            PUBLIC_KEY: 'pk_live_b3c44d2eed6e3af959211cf95c7996da523f1bf8',
 
             customerPayStackPublicKey: "",
             currentPaystackPublicKey: "",
