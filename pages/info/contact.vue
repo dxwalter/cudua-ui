@@ -19,7 +19,9 @@
                 
 
                 <div class="sign-up-bottom-links mg-top-32">
-                    <a href="mailto: contact@cudua.com" class="btn btn-primary btn-md">Send us a message</a>
+                    <a href="mailto: contact@cudua.com" class="btn btn-white btn-small">Send a mail</a>
+                    <a href="tel: 2348104686729" class="btn btn-white btn-small">Call us</a>
+                    <a href="https://wa.me/2348104686729?text=Hello Cudua!" class="btn btn-white btn-small">Chat on WhatSapp</a>
                 </div>
 
             </div>

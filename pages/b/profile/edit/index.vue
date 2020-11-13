@@ -918,7 +918,7 @@ export default {
                     coverPhoto = `${extension[0]}.jpeg`
                 }
 
-                this.businessCoverPhoto = `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto,,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1598967937/cudua_commerce/business/${this.businessId}/cover/${coverPhoto}`
+                this.businessCoverPhoto = `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto,,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1598967937/${process.env.CLOUDINARY_FOLDER}/business/${this.businessId}/cover/${coverPhoto}`
                 return
             }
                 
@@ -973,7 +973,14 @@ export default {
             e.preventDefault();
 
             let actionButton = document.getElementById('updateBasicProfile');
-            actionButton.disabled = true;
+
+            if (this.username.length <= 3) {
+                return this.$initiateNotification('error', "", "Your business username must be greater than 3 characters.")
+            }
+
+            if (this.$validateBusinessUsername(this.username) == false) {
+                return this.$initiateNotification('error', "", "Enter a valid username.")
+            }
 
             let variables = { 
                 businessId: this.businessId,
@@ -986,6 +993,8 @@ export default {
                     'accessToken': this.accessToken
                 }
             }
+            
+            actionButton.disabled = true;
 
             let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BASIC_BUSINESS_DETAILS, variables, context);
 
@@ -1129,7 +1138,7 @@ export default {
 
             let target = 'editbusinessEmailAddress';
 
-            if (this.businessEmail.length < 1) {
+            if (this.businessEmail.length < 1 || this.$validateEmailAddress(this.businessEmail) == false) {
                 this.$showToast("Enter an email address for your business", 'error')
                 this.$addRedBorder(target)
                 return

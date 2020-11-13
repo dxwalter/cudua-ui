@@ -85,6 +85,15 @@ export default {
             this.currenTimeStamp =  new Date().getTime();
             this.timeToInstall = timeStamps.timeToInstall
 
+            let localTime = localStorage.getItem('cudua_retry_installation');
+
+            if (localTime == null || localTime == 0) {
+                let currentTime = new Date().getTime();
+                // let nextInstall = currentTime + (86400  * 2)
+                let nextInstall = currentTime + 240
+                localStorage.setItem('cudua_retry_installation', nextInstall);
+            }
+
             this.checkPwaUpdate();
         },
         checkPwaUpdate: async function() {

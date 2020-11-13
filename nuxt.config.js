@@ -96,7 +96,21 @@ export default {
 			/* workbox options */
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
 			offlineAnalytics: true,
-			offlinePage: '/offline.html'
+			offlinePage: '/offline.html',
+			runtimeCaching: [
+				{
+					urlPattern: 'https://fonts.googleapis.com/.*',
+					handler: 'cacheFirst',
+					method: 'GET',
+					strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+				},
+				{
+					urlPattern: 'https://fonts.gstatic.com/.*',
+					handler: 'cacheFirst',
+					method: 'GET',
+					strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+				},
+			]
 		}
 	},
 	buildModules: [
@@ -115,7 +129,8 @@ export default {
 		}
 	},
 	env: {
-		API_END_POINT: process.env.API_END_POINT
+		API_END_POINT: process.env.API_END_POINT,
+		CLOUDINARY_FOLDER:process.env.CLOUDINARY_FOLDER
 	},
 	server: {
 		port: 3333, // default: 3000

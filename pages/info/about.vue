@@ -25,10 +25,10 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="rock-star">
                             <div class="profile-dp">
-                                <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
+                                <img src="~/assets/global-asset/image/rock-stars/ogochukwu.jpeg" alt="">
                             </div>
                             <div class="rock-star-name">
-                                Daniel Walter
+                                Ogochukwu kanayochukwu
                             </div>
                         </div>
                     </div>
@@ -36,10 +36,10 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="rock-star">
                             <div class="profile-dp">
-                                <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
+                                <img src="~/assets/global-asset/image/rock-stars/endwell.jpeg" alt="">
                             </div>
                             <div class="rock-star-name">
-                                Daniel Walter
+                                Endwell Osilem
                             </div>
                         </div>
                     </div>
@@ -47,10 +47,10 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="rock-star">
                             <div class="profile-dp">
-                                <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
+                                <img src="~/assets/global-asset/image/rock-stars/frank.jpg" alt="">
                             </div>
                             <div class="rock-star-name">
-                                Daniel Walter
+                                Frank Peters'
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <div class="rock-star">
                             <div class="profile-dp">
-                                <img src="~/assets/customer/image/daniel-chigisoft.jpg" alt="">
+                                <img src="~/assets/global-asset/image/rock-stars/walter.jpeg" alt="">
                             </div>
                             <div class="rock-star-name">
                                 Daniel Walter
@@ -70,7 +70,9 @@
                 </div>
 
                 <div class="sign-up-bottom-links mg-top-32">
-                    <n-link to="/info/contact" class="btn btn-primary btn-md">Contact us</n-link>
+                    <a href="mailto: contact@cudua.com" class="btn btn-white btn-small">Send a mail</a>
+                    <a href="tel: 2348104686729" class="btn btn-white btn-small">Call us</a>
+                    <a href="https://wa.me/2348104686729?text=Hello Cudua!" class="btn btn-white btn-small">Chat on WhatSapp</a>
                 </div>
 
             </div>
@@ -85,6 +87,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .profile-dp img {
+        object-fit: cover !important;
+    }
 </style>
