@@ -973,7 +973,14 @@ export default {
             e.preventDefault();
 
             let actionButton = document.getElementById('updateBasicProfile');
-            actionButton.disabled = true;
+
+            if (this.username.length <= 3) {
+                return this.$initiateNotification('error', "", "Your business username must be greater than 3 characters.")
+            }
+
+            if (this.$validateBusinessUsername(this.username) == false) {
+                return this.$initiateNotification('error', "", "Enter a valid username.")
+            }
 
             let variables = { 
                 businessId: this.businessId,
@@ -986,6 +993,8 @@ export default {
                     'accessToken': this.accessToken
                 }
             }
+            
+            actionButton.disabled = true;
 
             let request = await this.$performGraphQlMutation(this.$apollo, EDIT_BASIC_BUSINESS_DETAILS, variables, context);
 
@@ -1129,7 +1138,7 @@ export default {
 
             let target = 'editbusinessEmailAddress';
 
-            if (this.businessEmail.length < 1) {
+            if (this.businessEmail.length < 1 || this.$validateEmailAddress(this.businessEmail) == false) {
                 this.$showToast("Enter an email address for your business", 'error')
                 this.$addRedBorder(target)
                 return

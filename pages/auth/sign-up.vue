@@ -48,7 +48,7 @@
                                 </button>
                             </div>
                             <div class="form-control ">
-                                <n-link to="/auth/" class="btn btn-white btn-block" type="button" data-trigger="modal" data-target="createAccountModal">Sign in</n-link>
+                                <n-link to="/auth/" class="btn btn-white btn-block" type="button">Sign in</n-link>
                             </div>
             
                         </div>
@@ -129,13 +129,14 @@ export default {
             }
 
             // validate email
-            if (this.email.length < 5) {
+            if (this.email.length < 5 || this.$validateEmailAddress(this.email) == false) {
                 this.addRedBorder('signUpEmail')
                 this.outputValidationError('emailValidationError', 'Enter a valid email address')
                 this.error = 1
             } else {
                 this.removeRedBorder('signUpEmail')
                 this.removeValidationError('emailValidationError');
+                
             }
 
             // password

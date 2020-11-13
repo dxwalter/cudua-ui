@@ -124,7 +124,7 @@
                                 </svg>
                             </a>
 
-                            <a :href="`https://twitter.com/home?status=https://www.cudua.com/p/${productId}`" target="_blank"  class="close-modal-btn" data-brand="twitter">
+                            <a :href="`https://twitter.com/share?text=You should see this great product.&url=https://www.cudua.com/p/${productId}`" target="_blank"  class="close-modal-btn" data-brand="twitter">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#twitterIcon"></use>
                                 </svg>

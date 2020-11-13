@@ -643,11 +643,11 @@ export default {
 
             this.$store.dispatch('customer/setCustomerData', {
                 fullname: this.fullname
-            })
+            });
         },
         editCustomerContact: async function () {
 
-            if(this.email.length < 5) {
+            if(this.email.length < 5 || this.$validateEmailAddress(this.email) == false) {
                 this.$showToast("Enter a valid email address", 'error');
                 this.$addRedBorder('editProfileEmail')
                 return

@@ -1,7 +1,5 @@
 
 function initPwaAction () {
-
-    setTimeout(() => {
     
       if ('serviceWorker' in navigator) {
 
@@ -27,8 +25,6 @@ function initPwaAction () {
               installApp.classList.remove('display-none');
           }
       }
-
-    }, 60000);
 }
 
 let deferredPrompt;

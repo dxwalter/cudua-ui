@@ -304,4 +304,18 @@ export default ({app}, inject) => {
 
 		inject('firstLetterUpperCase', firstLetterUpperCase)
 
+		let validateEmailAddress = (email) => {
+			const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return re.test(email);
+		}
+		
+		inject('validateEmailAddress', validateEmailAddress);
+
+
+		let validateBusinessUsername = (username) => {
+			let check = new RegExp(/^(?!.*\.\.\s)(?!.*\.$)[^\W][\w.]{0,29}$/ig).test(username);
+			return check;
+		}
+
+		inject('validateBusinessUsername', validateBusinessUsername);
 }

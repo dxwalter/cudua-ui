@@ -34,7 +34,7 @@
                             </svg>
                         </a>
 
-                        <a :href="`https://twitter.com/home?status=https://www.cudua.com/${username}`" class="close-modal-btn" data-brand="twitter" target="_blank">
+                        <a :href="`https://twitter.com/share?text=${twitterText}`" class="close-modal-btn" data-brand="twitter" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="margin-unset">
                                 <use xlink:href="~/assets/business/image/all-svg.svg#twitterIcon2"></use>
                             </svg>
@@ -75,7 +75,8 @@ export default {
     data: function () {
         return {
             username: "",
-            whatsappText: ""
+            whatsappText: "",
+            twitterText: ""
         }
     },
     created () {
@@ -116,6 +117,7 @@ export default {
 
             if (categoryArray.length == 0) {
                 this.whatsappText = `Visit my online store to find quality products https://cudua.com/${this.username}`
+                this.twitterText = `Visit my online store to find quality products&url=https://cudua.com/${this.username}`
             } else {
 
                 if (categoryArray.length == 1) {
@@ -125,6 +127,7 @@ export default {
                 }
 
                 this.whatsappText = `You will find quality products in ${newString} when you visit my online shop https://cudua.com/${this.username}`
+                this.twitterText = `Find great products when you visit my online shop&url=https://cudua.com/${this.username}`
             }
         },
         GetBusinessDataFromStore: function () {

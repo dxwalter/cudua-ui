@@ -363,3 +363,15 @@ mutation updateId($oneSignalId: String!) {
   }
 }
 `
+
+export const CREATE_EMAIL_SUBCRIBER = gql`
+  mutation createNewSubscriber ($email: String!) {
+    CreateNewEmailSubcriber(input:{
+      email: $email
+    }) {
+      code
+      success
+      message
+    }
+  }
+` 

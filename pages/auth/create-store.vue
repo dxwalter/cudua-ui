@@ -217,7 +217,7 @@ export default {
                 }
 
                 // validate email
-                if (this.email.length < 5) {
+                if (this.email.length < 5 || this.$validateEmailAddress(this.email) == false) {
                     this.$addRedBorder('signUpEmail')
                     this.$outputValidationError('emailValidationError', 'Enter a valid email address')
                     this.error = 1
@@ -274,7 +274,7 @@ export default {
                 this.$outputValidationError('usernameValidationError', 'Your business username must be greater than 3 characters');
                 this.error = 1;
             } else {
-                let checkUsername = new RegExp(/^(?!.*\.\.\s)(?!.*\.$)[^\W][\w.]{0,29}$/ig).test(this.username);
+                let checkUsername = this.$validateBusinessUsername(this.username)
 
                 if (checkUsername == false) {
                     this.error = 1;
@@ -597,6 +597,25 @@ export default {
         getUserDataFromStore: function () {
             this.customerFullname = this.GetCustomerDetails.fullname
             this.accessToken = this.GetCustomerDetails.userToken
+        }
+    },
+    watch: {
+        username: function () {
+            if (this.username.length <= 3) return
+
+            let checkUsername = this.$validateBusinessUsername(this.username)
+
+            if (checkUsername == false) {
+                this.error = 1;
+                this.$addRedBorder('signUpUsername');
+                this.$outputValidationError('usernameValidationError', `Your username must not have any space and any character like
+                <span>
+                    /\ " \` @ - | +
+                </span>`);
+            } else {
+                this.$removeRedBorder('signUpUsername');
+                this.$removeValidationError('usernameValidationError');
+            }
         }
     },
     mounted () {
