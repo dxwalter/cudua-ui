@@ -918,7 +918,7 @@ export default {
                     coverPhoto = `${extension[0]}.jpeg`
                 }
 
-                this.businessCoverPhoto = `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto,,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1598967937/cudua_commerce/business/${this.businessId}/cover/${coverPhoto}`
+                this.businessCoverPhoto = `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto,,c_fill,ar_1:1,g_auto,r_max,b_rgb:262c35/v1598967937/${process.env.CLOUDINARY_FOLDER}/business/${this.businessId}/cover/${coverPhoto}`
                 return
             }
                 

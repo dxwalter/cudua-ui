@@ -10,7 +10,7 @@ export default ({app}, inject) => {
             logoPath = `${extension[0]}.jpeg`
         }
 
-        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/cudua_commerce/business/${businessId}/logo/${logoPath}`
+        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/logo/${logoPath}`
     }
 
     inject("getBusinessLogoUrl", getBusinessLogoUrl);
@@ -24,7 +24,7 @@ export default ({app}, inject) => {
             coverPath = `${extension[0]}.jpeg`
         }
 
-        return `https://res.cloudinary.com/cudua-images/image/upload/w_500,ar_16:9,c_fill,g_auto,e_sharpen,f_auto/v1598985984/cudua_commerce/business/${businessId}/cover/${coverPath}`
+        return `https://res.cloudinary.com/cudua-images/image/upload/w_500,ar_16:9,c_fill,g_auto,e_sharpen,f_auto/v1598985984/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/cover/${coverPath}`
     }
 
     inject("getBusinessCoverPhotoUrl", getBusinessCoverPhotoUrl);
@@ -36,19 +36,19 @@ export default ({app}, inject) => {
             imagePath = `${extension[0]}.jpeg`
         }
         if (type == "thumbnail") {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_400,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_400,f_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
 
         if (type == 'iconSize') {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_50,f_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
 
         if (type == 'medium') {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_700,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_700,f_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
 
         if (type == 'bigSize') {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_1000,f_auto/v1599134339/cudua_commerce/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_1000,f_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
     }
 
@@ -62,7 +62,7 @@ export default ({app}, inject) => {
             dpPath = `${extension[0]}.jpeg`
         }
 
-        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/cudua_commerce/customer/${customerId}/profilePicture/${dpPath}`
+        return `https://res.cloudinary.com/cudua-images/image/upload/ar_1:1,c_fill,g_auto,o_100,r_max,w_200,f_auto/v1598971119/${process.env.CLOUDINARY_FOLDER}/customer/${customerId}/profilePicture/${dpPath}`
     }
 
     inject("getCustomerProfilePictureUrl", getCustomerProfilePictureUrl);
