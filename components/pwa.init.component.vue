@@ -97,11 +97,15 @@ export default {
             this.checkPwaUpdate();
         },
         checkPwaUpdate: async function() {
-      
-            if (this.currenTimeStamp > this.timeToUpdate) {
-                this.updatePwaActionArea = 1
-            }
-        
+            const workbox = await window.$workbox;
+            workbox.addEventListener('installed', (event) => {
+                // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
+                if (event.isUpdate) {
+                    if (this.currenTimeStamp > this.timeToUpdate) {
+                        this.updatePwaActionArea = 1
+                    }
+                }
+            });
         },
         cancelInstallation: async function () {
             let newUpdateTime = new Date().getTime() + (86400  * 4);
