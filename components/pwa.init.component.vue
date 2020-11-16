@@ -75,6 +75,7 @@ export default {
             await this.$store.dispatch('pwa/setTimeToUpdate', newUpdateTime)
         },
         updateAppsLatestVersion: async function () {
+            console.log("Here to update")
             await this.$store.dispatch('pwa/setTimeToUpdate', new Date().getTime() + (86400  * 7))
             window.location.reload(true)
         },
