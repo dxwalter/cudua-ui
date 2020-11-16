@@ -39,6 +39,10 @@ window.addEventListener('fetch', function(e) {
   
 });
 
+self.addEventListener('fetch', () => {
+  console.log("fetch")
+});
+
 window.addEventListener('beforeinstallprompt', function(e) {
     e.preventDefault()
     deferredPrompt = e;
