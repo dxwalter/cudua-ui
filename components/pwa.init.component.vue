@@ -89,8 +89,7 @@ export default {
 
             if (localTime == null || localTime == 0) {
                 let currentTime = new Date().getTime();
-                // let nextInstall = currentTime + (86400  * 2)
-                let nextInstall = currentTime + 240
+                let nextInstall = currentTime + 3600
                 localStorage.setItem('cudua_retry_installation', nextInstall);
             }
 
@@ -98,17 +97,9 @@ export default {
         },
         checkPwaUpdate: async function() {
       
-            const workbox = await this.$workbox;
-            if (workbox == undefined) return
-             workbox.addEventListener('installed', (event) => {
-                // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
-                if (event.isUpdate) {
-                    if (this.currenTimeStamp > this.timeToUpdate) {
-                        this.updatePwaActionArea = 1
-                    }
-
-                }
-            });
+            if (this.currenTimeStamp > this.timeToUpdate) {
+                this.updatePwaActionArea = 1
+            }
         
         },
         cancelInstallation: async function () {

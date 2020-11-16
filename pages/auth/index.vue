@@ -1,9 +1,6 @@
 <template>
     <div class="customer">
         
-        <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=1380709488802204&autoLogAppEvents=1" nonce="6lvOLz9q"></script>
-
         <div class="body-container">
             <div class="sign-up-container">
 
@@ -28,16 +25,11 @@
                                 <div class="create-business-signup">
                                     <div class="intent-bg-text">Sign into your account</div>
                                     
-                                    <div class="fb-login-button" data-size="medium" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div>
                                     <form>
-                                        <div class="form-control">
-                                            <button class="facebook-btn btn" type="button">
-                                                <img src="~/assets/global-asset/image/facebookLogo.svg" alt="">
-                                                Sign in with facebook
-                                            </button>
-                                        </div>
 
-                                        <div class="sign-in-option mg-bottom-32">or sign in with</div>
+                                        <FACEBOOKLOGIN></FACEBOOKLOGIN>
+                                        <Nuxt />
+
                                         <div class="form-control">
                                             <input type="email" name="email" class="input-form" v-model="email" placeholder="Email address">
                                         </div>
@@ -82,6 +74,7 @@
 
 import NOTIFICATION from '~/components/notification/notification.vue'; 
 import INITCOMPONENT from '~/components/init.component.vue';
+import FACEBOOKLOGIN from '~/components/auth/facebook-login.vue';
 import { LOGIN_USER } from '~/graphql/customer';
 
 import { mapActions, mapGetters, mapMutations } from 'vuex'
@@ -89,7 +82,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: "MAINLOGINCOMPONENT",
-    components: {NOTIFICATION, INITCOMPONENT},
+    components: {NOTIFICATION, INITCOMPONENT, FACEBOOKLOGIN},
     data: function() {
 		return {
             anonymousId: "",

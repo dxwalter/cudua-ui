@@ -3744,6 +3744,7 @@ input[type=checkbox]:checked.dropdownCheckBox + span + svg{
 .sign-up-bottom-links {
     display: flex;
     justify-content: space-between;
+    padding: 0 16px;
     a {
         font-size: 14px;
         font-weight: 500;

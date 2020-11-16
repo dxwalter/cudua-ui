@@ -41,7 +41,8 @@ export default {
 		{ src: '~/plugins/imagePlugin.js', ssr: true },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
-		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false }
+		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
+		{ src: '~plugins/ga.js', ssr: 'false' }
 	],
 	
 	modules: [
@@ -85,7 +86,7 @@ export default {
 			nativeUI: true,
 		},
 		manifest: {
-			name: "The online market for admirable people",
+			name: "The online market for beautiful people",
 			lang: 'en',
 			useWebmanifestExtension: false,
 			display: 'standalone',
@@ -113,16 +114,19 @@ export default {
 			]
 		}
 	},
-	buildModules: [
-		'@nuxtjs/google-analytics',
-		'@nuxtjs/dotenv'
-	],
-	googleAnalytics: {
-		id: 'UA-181767171-1',
-		autoTracking: {
-			screenview: true
+	auth: {
+		strategies: {
+			facebook: {
+				client_id: '405350337318190',
+				userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+				scope: ['public_profile', 'email', 'name']
+			},
 		}
 	},
+	buildModules: [
+		'@nuxtjs/dotenv',
+		'@nuxtjs/auth'
+	],
 	apollo: {
 		clientConfigs: {
 			default: '~/apollo/client-configs/default.js',

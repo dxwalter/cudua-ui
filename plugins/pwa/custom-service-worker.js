@@ -3,9 +3,9 @@ function initPwaAction () {
     
       if ('serviceWorker' in navigator) {
 
-          navigator.serviceWorker.register('sw.js?v2').then(function(registration) {
+          navigator.serviceWorker.register('sw.js?v2', { scope: '.' }).then(function(registration) {
               // Registration was successful
-              // console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
           }, function(err) {
               // registration failed :(
               // console.log('ServiceWorker registration failed: ', err);
@@ -18,7 +18,13 @@ function initPwaAction () {
           });
 
           let currentTime = new Date().getTime();
-          let timeToRetry = localStorage.getItem('cudua_retry_installation') == null ? 0 : localStorage.getItem('cudua_retry_installation');
+          let timeToRetry = localStorage.getItem('cudua_retry_installation')
+
+          if (timeToRetry == null) {
+              let nextInstall = currentTime + 3600 
+              localStorage.setItem('cudua_retry_installation', nextInstall);
+              return 
+          }
 
           if (currentTime >= timeToRetry) {
               let installApp = document.getElementById('installAppContainer');
@@ -29,11 +35,15 @@ function initPwaAction () {
 
 let deferredPrompt;
 
+window.addEventListener('fetch', function(e) {
+  
+});
+
 window.addEventListener('beforeinstallprompt', function(e) {
     e.preventDefault()
     deferredPrompt = e;
     initPwaAction()
-})
+});
 
 
 let installBtn = document.getElementById('installUserPwa');
