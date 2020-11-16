@@ -26,7 +26,7 @@ coverage
 .nyc_output
 
 
-sw.*
+# sw.*
 
 OneSignalSDK*
 
