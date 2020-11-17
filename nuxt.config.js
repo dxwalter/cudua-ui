@@ -30,9 +30,6 @@ export default {
 		'@/assets/global-asset/advert.css',
 		'@/assets/global-asset/global.css',
 	],
-	script: [
-		{ src: '/js/pwa-install.js'}
-	],
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
