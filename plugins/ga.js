@@ -41,4 +41,5 @@ export default ({ app }) => {
       ga('set', 'page', to.fullPath)
       ga('send', 'pageview')
     })
+    
   }

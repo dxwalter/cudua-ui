@@ -30,6 +30,9 @@ export default {
 		'@/assets/global-asset/advert.css',
 		'@/assets/global-asset/global.css',
 	],
+	script: [
+		{ src: '/js/pwa-install.js'}
+	],
 	plugins: [
 		{src: '~/plugins/business/BusinessUIPlugin.client.js', ssr: false},
 		{src: '~/plugins/customer/customerUIPlugin.client.js', ssr: false},
@@ -96,20 +99,41 @@ export default {
 		workbox: {
 			/* workbox options */
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
+			importScripts: [
+				'/custom-sw.js'
+			],
 			offlineAnalytics: true,
+			autoRegister: false,
 			offlinePage: '/offline.html',
 			runtimeCaching: [
 				{
 					urlPattern: 'https://fonts.googleapis.com/.*',
 					handler: 'cacheFirst',
 					method: 'GET',
-					strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+					strategyOptions: {
+						cacheName: 'cudua-commerce-cache',
+						cacheableResponse: {statuses: [0, 200]}
+					},
+					strategyPlugins: [{
+						use: 'Expiration',
+						config: {
+						maxEntries: 10,
+						maxAgeSeconds: 300
+						}
+					}]
 				},
 				{
 					urlPattern: 'https://fonts.gstatic.com/.*',
 					handler: 'cacheFirst',
 					method: 'GET',
-					strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+					strategyOptions: {cacheableResponse: {statuses: [0, 200]}, cacheName: 'cudua-commerce-cache',},
+					strategyPlugins: [{
+						use: 'Expiration',
+						config: {
+						maxEntries: 10,
+						maxAgeSeconds: 300
+						}
+					}]
 				},
 			]
 		}

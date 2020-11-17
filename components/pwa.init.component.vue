@@ -90,22 +90,25 @@ export default {
 
             if (localTime == null || localTime == 0) {
                 let currentTime = new Date().getTime();
-                let nextInstall = currentTime + 3600
+                let nextInstall = currentTime + 1800
                 localStorage.setItem('cudua_retry_installation', nextInstall);
             }
 
             this.checkPwaUpdate();
         },
         checkPwaUpdate: async function() {
+
             const workbox = await window.$workbox;
-            workbox.addEventListener('installed', (event) => {
-                // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
-                if (event.isUpdate) {
-                    if (this.currenTimeStamp > this.timeToUpdate) {
-                        this.updatePwaActionArea = 1
+            if (workbox) {
+                window.addEventListener('installed', (event) => {
+                    // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
+                    if (event.isUpdate) {
+                        if (this.currenTimeStamp > this.timeToUpdate) {
+                            this.updatePwaActionArea = 1
+                        }
                     }
-                }
-            });
+                });
+            }
         },
         cancelInstallation: async function () {
             let newUpdateTime = new Date().getTime() + (86400  * 4);
