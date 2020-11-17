@@ -42,7 +42,7 @@ export default {
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
 		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
-		{ src: '~/plugins/ga.js', ssr: 'false' }
+		{ src: '~/plugins/ga.client.js', ssr: 'false' }
 	],
 	
 	modules: [
@@ -71,7 +71,7 @@ export default {
 	},
 	pwa: {
 		icon: {
-
+			
 		},
 		meta: {
 			viewport: 'user-scalable=no, initial-scale=1, maximum-scale=1',
@@ -80,15 +80,16 @@ export default {
 			appleStatusBarStyle: 'default',
 			name: "Cudua",
 			author: "Cudua Inc.",
-			description: "Cudua is an ecommerce service that allows fashion and beauty businesses to create and manage their online shops. Customers buy products from these businesses by searching for the business using the business name or location",
+			description: "The online market for Cudua is an ecommerce service that allows fashion and beauty businesses to create and manage their online shops. Customers buy products from these businesses by searching for the business using the business name or location",
 			theme_color: '#ee6425',
 			ogHost: "https://cudua.com",
 			nativeUI: true,
 		},
 		manifest: {
-			name: "The online market for beautiful people",
+			name: "The online market for lovely people",
 			lang: 'en',
 			useWebmanifestExtension: false,
+			short_name: "Cudua",
 			display: 'standalone',
 			background_color: "#fff",
 			theme_color: '#fff',
