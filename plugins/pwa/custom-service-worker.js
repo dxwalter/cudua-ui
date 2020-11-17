@@ -35,6 +35,15 @@ function initPwaAction () {
     }
 }
 
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault()
+    deferredPrompt = e;
+    initPwaAction()
+})
+
+
 let installBtn = document.getElementById('installUserPwa');
 if (installBtn) {
     installBtn.addEventListener('click', (e) => {
@@ -60,11 +69,4 @@ if (installBtn) {
         });
     });
 }
-
-window.addEventListener('beforeinstallprompt', function(e) {
-    e.preventDefault()
-    deferredPrompt = e;
-    initPwaAction()
-})
-
 
