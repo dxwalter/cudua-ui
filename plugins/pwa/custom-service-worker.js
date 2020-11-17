@@ -68,5 +68,7 @@ if (installBtn) {
         installApp.classList.add('display-none');
         });
     });
+} else {
+    console.log("button not found")
 }
 
