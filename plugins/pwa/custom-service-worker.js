@@ -46,16 +46,15 @@ window.addEventListener('beforeinstallprompt', function(e) {
 
 let installBtn = document.getElementById('installUserPwa');
 if (installBtn) {
-    installBtn.addEventListener('click', (e) => {
+    installBtn.addEventListener('click', async (e) => {
 
         installBtn.disabled = true;
         // hide our user interface that shows our A2HS button
         let installApp = document.getElementById('installAppContainer');
-        installApp.classList.add('display-none');
         // Show the prompt
         deferredPrompt.prompt();
         // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice
+        await deferredPrompt.userChoice
         .then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
                 let currentTime = new Date().getTime();
@@ -66,6 +65,7 @@ if (installBtn) {
                 installBtn.disabled = false;
             }
         deferredPrompt = null;
+        installApp.classList.add('display-none');
         });
     });
 }

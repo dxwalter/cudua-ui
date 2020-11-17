@@ -42,7 +42,7 @@ export default {
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
 		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
-		{ src: '~/plugins/ga.client.js', ssr: 'false' }
+		{ src: '~/plugins/ga.client.js', ssr: false }
 	],
 	
 	modules: [

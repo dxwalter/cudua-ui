@@ -246,6 +246,9 @@
                                     <div class="notification-loader-container mg-top-16">
                                         <div class="loader-action"><span class="loader"></span></div>
                                     </div>
+                                    <div class="move-center" id="reloadNotification">
+                                        <a href="/c/profile/edit" class="btn btn-white btn-small">Try again</a>
+                                    </div>
                                     <div class="mg-top-8 one-signal-container">
                                         <div class='onesignal-customlink-container'></div>
                                     </div>
@@ -333,6 +336,7 @@ export default {
             community: "",
             state: "",
             setTimeout: null,
+            setNotificationTimer: null,
             streetSuggestion: "",
             noStreetSuggestionResult: 0
         }
@@ -506,8 +510,14 @@ export default {
 
 
         },
+        reloadNotificationCount: function () {
+            this.setNotificationTimer = setTimeout(() => {
+                document.getElementById('reloadNotification').style.display = 'flex';
+            }, 10000);
+        },
         clearTimeout: function() {
             clearTimeout(this.setTimeout)
+            clearTimeout(this.reloadNotificationCount)
         },
 		getNameLogo: function (businessName) {
 			if (process.browser) {
@@ -781,6 +791,7 @@ export default {
     },
     mounted () {
         this.pageLoader = false
+        this.reloadNotificationCount()
     }
 }
 </script>
@@ -800,5 +811,12 @@ export default {
     color: rgb(238 100 37);
     margin-left: 10px;
     font-weight: 500;
+}
+.move-center {
+    display: none;
+    justify-content: center;
+    margin-top: -19px;
+    position: absolute;
+    width: 100%;
 }
 </style>

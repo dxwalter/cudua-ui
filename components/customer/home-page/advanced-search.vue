@@ -10,9 +10,25 @@
               </div>
               <div class="form-control position-relative">
                   
-                <input type="search" name="" id="communityName" placeholder="Type the community location" class="advanced-search-location input-form grey-bg-color add-border" v-model="communityName" @keyup="initiateCommunitySearch()">
+                <input type="search" name="" id="communityName" placeholder="Type the community location" class="advanced-search-location input-form grey-bg-color add-border" v-model="communityName">
+                
+                <div class="recent-search-list-container" v-show="communityName.length > 1" id="communitySearchSuggestion">
 
-                <div class="recent-search-list-container" v-show="communityName.length > 1 && noCommunitySuggestionResult == 0" id="communitySearchSuggestion">
+                    <a href="#" v-show="!isCommunitySearch && communityName.length > 1">
+                        <div class="info-area">
+                            <span>Searching for</span> {{communityName}}
+                        </div>
+                        <div class="loader-container">
+                            <div class="loader-action"><span class="loader"></span></div>
+                        </div>
+                    </a>
+
+                    <a href="#" v-show="noCommunitySuggestionResult &&  isCommunitySearch && communityName.length > 1">
+                        <div class="info-area">
+                            <span>No result was found for</span> {{communityName}}
+                        </div>
+                    </a>
+
                     <div v-for="(suggestion, index) in returnCommunitySuggestion" :key="index">
                         <div @click="setCommunityID(suggestion.communityId, suggestion.communityName, 'communitySearchSuggestion', $event)" class="action-content">
                             {{suggestion.communityName}} <span>- {{suggestion.stateName}}</span>
@@ -165,6 +181,7 @@ export default {
             reasonForError: "",
             pageError: false,
             searchError: false,
+            isCommunitySearch: 0,
 
 
             // to check if to search with community id or community name
@@ -280,16 +297,21 @@ export default {
             
             this.communitySuggestion = [];
 
-            this.clearTimeout();
+            this.clearTimeout();    
 
             let variables = {
                 keyword: this.communityName
             }
 
+            this.isCommunitySearch = 0
+            document.getElementById('communitySearchSuggestion').style.display = 'block'
+
             this.setTimeout = setTimeout(async () => {
                 
                 let request = await this.$performGraphQlQuery(this.$apollo, FIND_COMMUNITY, variables, {});
                 
+                this.isCommunitySearch = 1
+
                 if (request.error) {
                     this.$showToast("Network error", 'error')
                     return
@@ -315,6 +337,8 @@ export default {
                         this.noCommunitySuggestionResult = 1
                     }
                 }
+
+
 
             }, 500);
         },
@@ -376,12 +400,18 @@ export default {
             }
         },
         initiateCommunitySearch: async function () {
-            if (this.communityName.length > 1) {
-                this.noCommunitySuggestionResult = 0
-                this.tapId = 0
-                await this.findCommunity()
-            }
-        }
+
+        },
+        setCommunitySearchAction: async function () {
+            let communityInput = document.getElementById('communityName')
+            communityInput.addEventListener('keyup', async () => {
+                if (this.communityName.length > 1) {
+                    this.noCommunitySuggestionResult = 0
+                    this.tapId = 0
+                    await this.findCommunity()
+                }
+            })
+        }  
     },
     watch: {
         communityName: async function () {
@@ -404,6 +434,8 @@ export default {
 
         let advancedSearchstickyElement = document.getElementById("homeAdvancedSearch"); 
         if (advancedSearchstickyElement) this.fixedSearchArea(advancedSearchstickyElement)
+
+        this.setCommunitySearchAction()
     },
     beforeDestroy() {
         this.clearTimeout()

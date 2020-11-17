@@ -248,6 +248,9 @@
                                                             <div class="notification-loader-container mg-top-16">
                                                                 <div class="loader-action"><span class="loader"></span></div>
                                                             </div>
+                                                            <div class="move-center" id="reloadNotification">
+                                                                <a href="/b/profile/edit" class="btn btn-white btn-small">Try again</a>
+                                                            </div>
                                                             <div class="mg-top-8 one-signal-container">
                                                                 <div class='onesignal-customlink-container'></div>
                                                             </div>
@@ -590,7 +593,9 @@ export default {
             // sign in
             loginEmail: "",
             loginPassword: "",
-            failedLoginCount: 0
+            failedLoginCount: 0,
+
+            setNotificationTimer: null,
         }
 	},
 	computed: {
@@ -626,6 +631,11 @@ export default {
         }
 	},
     methods: {
+        reloadNotificationCount: function () {
+            this.setNotificationTimer = setTimeout(() => {
+                document.getElementById('reloadNotification').style.display = 'flex';
+            }, 10000);
+        },
         validateUserLogin: async function () {
 
             if (this.loginEmail.length < 2 || this.loginPassword.length < 2) {
@@ -1622,11 +1632,12 @@ export default {
     mounted () {
         this.formatAndShowSubscription()
         this.showBillingTab()
-        
+        this.reloadNotificationCount()
         this.pageLoader = false;
     },
     beforeDestroy () {
         clearTimeout(this.setTimeoutForStreet);
+        clearTimeout(this.setNotificationTimer);
     },
     destroyed () {
         clearTimeout(this.setTimeoutForStreet);
@@ -1677,4 +1688,13 @@ export default {
 .align-self-center {
     align-self: center !important;
 }
+
+.move-center {
+    display: none;
+    justify-content: center;
+    margin-top: -19px;
+    position: absolute;
+    width: 100%;
+}
+
 </style>

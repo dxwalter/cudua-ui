@@ -11,14 +11,16 @@
 				<div class="instruction-text">Sign into your account</div>
 			</div>
 			<div class="modal-login-form-container">
-				<div class="form-control">
-					<button class="facebook-btn btn">
-						<img src="~/assets/global-asset/image/facebookLogo.svg" alt="">
-						Sign in with facebook
-					</button>
-				</div>
+                <div class="display-none">
+                    <div class="form-control">
+                        <button class="facebook-btn btn">
+                            <img src="~/assets/global-asset/image/facebookLogo.svg" alt="">
+                            Sign in with facebook
+                        </button>
+                    </div>
 
-				<div class="sign-in-option mg-bottom-32">or sign in with</div>
+                    <div class="sign-in-option mg-bottom-32">or sign in with</div>
+                </div>
 
                 <div class="form-control">
                     <input type="email" id="userLoginEmail" name="email" class="input-form" v-model="loginEmail" placeholder="Email address" autocomplete="off">
