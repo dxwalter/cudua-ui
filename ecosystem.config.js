@@ -4,6 +4,10 @@ module.exports = {
     watch: '.',
     name: "cudua-commerce-frontend",
     exec_mode: "cluster",
-    instances: 'max'
+    instances: 'max',
+    env: {
+      "NODE_ENV": "production",
+      "PORT": 3333,
+    }
   }]
 };
