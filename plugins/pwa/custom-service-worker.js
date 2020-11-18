@@ -45,10 +45,9 @@ window.addEventListener('beforeinstallprompt', function(e) {
 
 
 let installBtn = document.getElementById('installUserPwa');
-console.log(installBtn)
+
 if (installBtn) {
     installBtn.addEventListener('click', async (e) => {
-        console.log(deferredPrompt)
         installBtn.disabled = true;
         // hide our user interface that shows our A2HS button
         let installApp = document.getElementById('installAppContainer');
