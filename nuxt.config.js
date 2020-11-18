@@ -1,4 +1,5 @@
 export default {
+	dev: process.env.NODE_ENV !== 'production',
 	head: {
 		title: 'Welcome to Cudua. Create your online shop and start selling in 2 minutes',
 		meta: [
