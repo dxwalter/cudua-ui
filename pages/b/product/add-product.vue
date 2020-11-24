@@ -46,7 +46,7 @@
                                     <button class="btn btn-white btn-small" @click="SetIndustry('')">Change</button>
                                 </div>
                                 <div v-show="!catAndSubcatFromUrl">
-                                    <div class="mg-bottom-16">
+                                    <div class="mg-bottom-32">
                                         <!-- <label for="businessType" class="form-label">Select category</label> -->
                                         <select class="input-form white-bg-color" 
                                         id="productCategory" @click="clickedCategory = 1" @change="onSelectCategory($event)">
@@ -76,7 +76,7 @@
                                         <!-- show when selected catgory has been set and when subcategory ID has not been set -->
                                         <!-- when selected subcategory ID is set, hide -->
                                         <div class="" v-show="!selectedSubcategoryId">
-                                            <label for="businessType" class="form-label margin-unset">Choose a subcategory</label>
+                                            <label for="businessType" class="form-label margin-unset">Choose a subcategory under {{selectedCategoryName}}</label>
                                             <div class="upload-subcategory-chip-container"  id="selectedSubCat">
                                                 <div class="chip" 
                                                     v-for="(subcategory, index) in returnSubcategoriesOfCategory" 
@@ -702,7 +702,7 @@ export default {
             target.disabled = false;
 
             if (request.error == true) {
-                this.$initiateNotification('error', 'Failed request', 'A network error occurred');
+                this.$initiateNotification('error', 'Failed request', request.message);
                 return
             }
             

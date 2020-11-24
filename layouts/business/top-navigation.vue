@@ -361,3 +361,8 @@ export default {
 
 }
 </script>
+<style scoped>
+    .notification-dd-header {
+        background-color: white;
+    }
+</style>

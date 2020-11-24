@@ -64,7 +64,13 @@
                                                             <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
                                                         </select>
 
-                                                        <a href="#" target="" class="mg-top-8 font-14 dd-block" data-trigger="modal" data-target="createCategoryModal" v-show="clickedCategory">I can't find a category/subcategory<span class="action-span">Add it</span></a>
+                                                        <div class="action-modal-container">
+
+                                                            <a href="#" target="" class="mg-top-8 font-14 dd-block for-desktop" data-trigger="modal" data-target="createCategoryModal" v-show="clickedCategory">I can't find a category/subcategory<span class="action-span">Add it</span></a>
+
+                                                            <a :href="`https://wa.me/2348104686729?text=Hello Cudua! I could not find a category/subcategory for a product that I want to sell. I'd like you to add it.`" target="_blank" class="mg-top-8 font-14 dd-block for-mobile" v-show="clickedCategory">I can't find a category/subcategory<span class="action-span">Add it</span></a>
+
+                                                        </div>
 
                                                     </div>
                                                     <!-- after the user has selected a category and subcategory, show the details below by removing display-none -->

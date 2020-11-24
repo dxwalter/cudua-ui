@@ -12,8 +12,11 @@
                     <Nuxt />
                     <!-- content goes in here -->
                     <div class="alert alert-secondary notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader && returnAllProducts.length > 0">
-                        <div>We strongly recommed that you call this customer to discuss delivery charge and payment method before cofirming order.</div>
-                        <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small">Call customer</a>
+                        <div>We strongly recommed that you call or chat with this customer to discuss delivery charge and payment method before cofirming order.</div>
+                        <div class="monitor-actions">
+                            <a :href="`https://wa.me/${phoneNumber}?text=Hello ${fullname}. You ordered a product from my shop on Cudua with order ID ${orderId}. I want us to discuss about delivery charge, delivery method, and delivery time`" class="btn btn-white btn-small">Chat with customer</a>
+                            <a :href="`tel:${phoneNumber}`" class="btn btn-white btn-small hide-for-desktop">Call customer</a>
+                        </div>
                     </div>
 
                     <div class="alert alert-danger notification-alert" v-show="!orderStatus && !deliveryStatus && !pageLoader && returnAllProducts.length == 0">
@@ -222,7 +225,7 @@
                                             </button>
                                             <button class="btn btn-light-grey btn-block" data-trigger="modal" data-target="rejectOrder" v-show="orderStatus == 0 && returnAllProducts.length > 0" @click="stateRejectOrderReason()">Reject order</button>
 
-                                            <button class="btn btn-primary btn-block" id="updateDeliveryData" @click="updateDeliveryData()" v-show="orderStatus == 1 && !paymentStatus">
+                                            <button class="btn btn-primary btn-block" id="updateDeliveryData" @click="updateDeliveryData()" v-show="orderStatus == 1 && !paymentStatus && !customerCancelOrder">
                                                 Update delivery charge and time
                                                 <div class="loader-action"><span class="loader"></span></div>
                                             </button>
@@ -794,5 +797,17 @@ export default {
     }
     .line-27 {
         line-height: 27px !important;
+    }
+    .monitor-actions {
+        display: flex;
+        flex-shrink: 0;
+    }
+    .monitor-actions a.btn:first-child {
+        margin-right: 8px;
+    }
+    @media(min-width: 1024px) {
+        .monitor-actions a.btn:first-child {
+            display: none;
+        } 
     }
 </style>

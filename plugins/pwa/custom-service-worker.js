@@ -9,9 +9,9 @@ if ('serviceWorker' in navigator) {
     });
 
     navigator.serviceWorker.getRegistrations().then((registrations) => {
-      for (const worker of registrations) {
-        // console.log('Service worker:', worker)
-      }
+        for (const worker of registrations) {
+            // console.log('Service worker:', worker)
+        }
     });
 
 }
@@ -24,14 +24,16 @@ function initPwaAction () {
     let timeToRetry = localStorage.getItem('cudua_retry_installation')
 
     if (timeToRetry == null) {
-        let nextInstall = currentTime + 1800 
+        let nextInstall = currentTime + 3600 
         localStorage.setItem('cudua_retry_installation', nextInstall);
         return 
     }
 
     if (currentTime >= timeToRetry) {
         let installApp = document.getElementById('installAppContainer');
-        installApp.classList.remove('display-none');
+        if (installApp) {
+            installApp.classList.remove('display-none');
+        }
     }
 }
 
@@ -68,7 +70,5 @@ if (installBtn) {
         installApp.classList.add('display-none');
         });
     });
-} else {
-    console.log("button not found")
 }
 

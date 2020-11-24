@@ -90,7 +90,7 @@ export default {
 
             if (localTime == null || localTime == 0) {
                 let currentTime = new Date().getTime();
-                let nextInstall = currentTime + 1800
+                let nextInstall = currentTime + 3600
                 localStorage.setItem('cudua_retry_installation', nextInstall);
             }
 

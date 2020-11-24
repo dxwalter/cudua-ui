@@ -264,13 +264,17 @@
 
             </div>
         </div>
-
+        <SCROLLTOTOP></SCROLLTOTOP>
+        <Nuxt />
     </div>
 </template>
 
 <script>
+import SCROLLTOTOP from '~/plugins/scroll-to-top.client.vue'
 export default {
-
+    components: {
+        SCROLLTOTOP
+    }
 }
 </script>
 

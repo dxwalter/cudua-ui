@@ -557,4 +557,7 @@ export default {
     font-weight: 500;
     text-transform: uppercase;
 }
+.product-details-image-info, .product-details-content-info {
+    margin: 0 auto;
+}
 </style>

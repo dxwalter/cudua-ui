@@ -10,6 +10,11 @@
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
                         <Nuxt />
 
+                        <div class="alert alert-danger notification-alert" v-show="!subscriptionStatus && businessAddress.street == undefined && !pageLoader">
+                            <div>Your business and products will not appearing in advanced search results because you have not added your business address.</div>
+                            <button class="btn btn-white btn-small" @click="makeAddAddressActive()">Add address</button>
+                        </div>
+
                         <div class="main-content" v-show="!pageLoader">
                             <div class="page-header with-action">
                                 <h4>Edit business profile</h4>
@@ -156,7 +161,7 @@
                                             </div>
 
                                             <!-- business address -->
-                                            <div class="edit-profile-section">
+                                            <div class="edit-profile-section" id="businessAddressArea">
                                                 <a href="#" class="header-area">
                                                     <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editBusinessAddress">
                                                     <div class="edit-action-description accord-chip-name">
@@ -207,7 +212,12 @@
                                                             </a>
                                                         </div>
 
-                                                        <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation">I can't find my business location? <span class="action-span">Add it</span></a>
+                                                        <div class="action-modal-container">
+                                                            <a href="#" target="" class="mg-top-8 display-block font-14 for-desktop" data-trigger="modal" data-target="addNewLocation">I can't find my business location? <span class="action-span">Add it</span></a>
+                                                            
+                                                            <a :href="`https://wa.me/2348146011054?text=Hello Cudua! I could not find the street where my business is located and I'd like you to add it now`" target="_blank" class="mg-top-8 display-block font-14 for-mobile" >I can't find my business location? <span class="action-span">Add it</span></a>
+                                                        </div>
+
                                                     </div>
 
                                                     <div class="form-control">
@@ -226,7 +236,7 @@
 
                                             <!-- Business notification -->
 
-                                            <div class="edit-profile-section">
+                                            <div class="edit-profile-section" id="mobileNotification">
                                                 <a href="#" class="header-area">
                                                     <input type="checkbox" class="dropdownCheckBox" data-single-tab="singleTab" data-target="editBusinessNotification">
                                                     <div class="edit-action-description accord-chip-name">
@@ -249,7 +259,7 @@
                                                                 <div class="loader-action"><span class="loader"></span></div>
                                                             </div>
                                                             <div class="move-center" id="reloadNotification">
-                                                                <a href="/b/profile/edit" class="btn btn-white btn-small">Try again</a>
+                                                                <a href="/b/profile/edit?type=mobileNotification#mobileNotification" class="btn btn-white btn-small">Try again</a>
                                                             </div>
                                                             <div class="mg-top-8 one-signal-container">
                                                                 <div class='onesignal-customlink-container'></div>
@@ -1621,12 +1631,38 @@ export default {
         triggerWhatsappActionButton: function () {
             let target = document.getElementById('updateBusinessWhatsapp');
             target.classList.remove('display-none')
+        },
+        makeAddAddressActive: function () {
+            let tabActions = document.querySelectorAll('#tabLink')
+            let attribute;
+
+            for (let x of tabActions) {
+                attribute = x.getAttribute('data-tab');
+                if (attribute != 'editContact') {
+                    x.classList.remove('is-active')
+                } else {
+                    x.classList.add('is-active')
+                }
+            }
+
+            let tabLayout = document.querySelectorAll('.tab-content-area');
+
+            for (let y of tabLayout) {
+                attribute = y.getAttribute('id');
+                if (attribute != 'editContact') {
+                    y.classList.remove('is-active')
+                } else {
+                    y.classList.add('is-active')
+                }
+            }
+
+            this.$addRedBorder('businessAddressArea')
         }
     },
     created: function () {
         if (process.browser) {
             this.assignBusinessData();
-            this.getViralIdRedemptionStatus()
+            this.getViralIdRedemptionStatus();
         }
     },
     mounted () {

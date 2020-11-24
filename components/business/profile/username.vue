@@ -3,7 +3,7 @@
         <div class="modal-dialog-box">
 
             <div class="modal-header">
-                <h4>Share your shop address/URL</h4>
+                <h4>Share your shop's address/URL</h4>
 
                 <button class="close-modal-btn" data-target="changeUsername" data-dismiss="modal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
@@ -13,6 +13,11 @@
             </div>
 
             <div class="modal-content">
+
+                <div class="alert alert-light font-14 mg-bottom-24">
+                    Add your shop's address or URL to your Instagram, Twitter, and Facebook bio so that your customers can easily reach you with just one click.
+                </div>
+
                 <div class="chosen-username mg-bottom-16">
                     <div class="opacity-0" id="usernameLink">https://cudua.com/{{username}}</div>
                     <span>https://cudua.com/</span><span>{{username}}</span>
@@ -42,7 +47,7 @@
 
                     </div>
 
-                    <button class="btn btn-primary btn-block" @click="copyLink('usernameLink')">
+                    <button class="btn btn-primary btn-block mg-bottom-16" @click="copyLink('usernameLink')">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="margin-unset white-fill">
                             <use xlink:href="~/assets/business/image/all-svg.svg#copyIcon"></use>
                         </svg>

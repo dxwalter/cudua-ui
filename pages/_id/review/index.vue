@@ -243,7 +243,7 @@ export default {
             target.disabled = false
 
             if (request.error) {
-                return this.$initiateNotification('error', "Network error", query.message)
+                return this.$initiateNotification('error', "Network error", request.message)
             }
 
             let result = request.result.data.CreateBusinessReview;

@@ -166,14 +166,14 @@
                 <div class="" v-show="!pageLoader && returnAllCartItems.length > 0">
                     <!-- <div class="md-cart-card"> -->
                         <div class="cart-card-checkout">
-                            <button class="btn btn-primary btn-lg" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Continue to checkout</button>
+                            <button class="btn btn-primary btn-lg" v-show="!accessToken" data-target="customerSignInModal" data-trigger="modal">Place your order</button>
 
                             <button class="btn btn-primary btn-lg" v-show="accessToken && storePhoneNumber" id="placeOrder" @click="placeOrder()">
-                                Place order
+                                Place your order
                                 <div class="loader-action"><span class="loader"></span></div>
                             </button>
 
-                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="addPhoneNumberModal" v-show="accessToken && storePhoneNumber.length == 0">Continue to checkout</button>
+                            <button class="btn btn-primary btn-lg" data-trigger="modal" data-target="addPhoneNumberModal" v-show="accessToken && storePhoneNumber.length == 0">Place your order</button>
 
                             <n-link to="/" class="btn btn-white btn-lg">Continue to shopping</n-link>
                         </div>
@@ -271,13 +271,13 @@
             <!-- end of content container -->
 
         <!-- footer area -->
+        <div class="mobile-hide-nav-bottom-add">
+            <BOTTOMADS></BOTTOMADS>
+            <Nuxt />
 
-        <BOTTOMADS></BOTTOMADS>
-        <Nuxt />
-
-        <CUSTOMERFOOTER></CUSTOMERFOOTER>
-        <Nuxt />
-
+            <CUSTOMERFOOTER></CUSTOMERFOOTER>
+            <Nuxt />
+        </div>
         <CHECKOUTMODAL></CHECKOUTMODAL>
         <Nuxt />
 

@@ -107,6 +107,9 @@
 	  <CUSTOMERFOOTER></CUSTOMERFOOTER>
 	  <Nuxt />
 
+	  <SCROLLTOTOP></SCROLLTOTOP>
+	  <Nuxt />
+
 	</div>
   </div>
 </template>
@@ -121,6 +124,8 @@ import CUSTOMERFOOTER from '~/layouts/customer/customer-footer.vue';
 import FOLLOWING from '~/components/customer/home-page/following.vue';
 import ADVANCEDSEARCH from '~/components/customer/home-page/advanced-search.vue';
 
+import SCROLLTOTOP from '~/plugins/scroll-to-top.client.vue'
+
 import {
   GET_FOLLOWING_FOR_HOME_PAGE
 } from '~/graphql/homePage'
@@ -130,7 +135,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
 	name: "MARKETSQUARE",
 	components: {
-	  DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER
+	  DESKTOPNAVGATION, MOBILENAVIGATION, MOBILESEARCH, FOLLOWING, ADVANCEDSEARCH, BOTTOMADS, CUSTOMERFOOTER, SCROLLTOTOP
 	},
 	data: function() {
 	  return {

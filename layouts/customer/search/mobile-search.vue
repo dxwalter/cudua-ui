@@ -14,7 +14,7 @@
 					<div class="modal-search-input-area">
 					<div class="position-relative">
 						<div class="input-container">
-						<input type="search" name="" id="mobileSearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="234rtvnt78564v 5t5 32vt54t c" v-model="searchKeyword">
+						<input type="search" name="" id="mobileSearchInput" class="search-form grey-bg-color" placeholder="Search for a product or business" autocomplete="234rtvnt78564v 5t5 32vt54t c" v-model="mobileSearchKeyword">
 						<button class="clear-form-btn">
 							<input type="checkbox" class="dropdownCheckBox" data-clear-form="clear" data-target="mobileSearchInput">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -31,7 +31,7 @@
 				<div class="mobile-search-container">
 
 					<!-- beginning of tab nav -->
-					<div v-show="doneSearching && searchKeyword.length > 1">
+					<div v-show="doneSearching && mobileSearchKeyword.length > 1">
 						<div class="d-flex-between">
 							<div class="chip-tabs" id="tabList">
 								<a href="#" class="chip-tab-item is-active" id="tabLink" data-tab="productResultTab">Products ({{returnProductList.length}})</a>
@@ -42,12 +42,12 @@
 					<!-- end of tab nav -->
 
 					<!-- beginning of tab content -->
-					<div id="tabContent" v-show="doneSearching && searchKeyword.length > 1">
+					<div id="tabContent" v-show="doneSearching && mobileSearchKeyword.length > 1">
 
 						<!-- beginning of product listing -->
 						<div class="tab-content-area is-active" id="productResultTab">
 							
-							<div class="search-result-count mg-top-24" v-show="returnProductList.length > 0">Search result for <span>{{searchKeyword}}</span></div>
+							<div class="search-result-count mg-top-24" v-show="returnProductList.length > 0">Search result for <span>{{mobileSearchKeyword}}</span></div>
 
 							<div class="row">
 													
@@ -70,7 +70,7 @@
 							<!-- when no string has been typed into search box -->
 							<div class="link-error-area" v-show="returnProductList.length == 0 && doneSearching">
 								<img src="~/static/images/search.svg" alt="">
-								<div class="error-cause">No product with the name <span class="indicator">{{searchKeyword}}</span> was found.</div>
+								<div class="error-cause">No product with the name <span class="indicator">{{mobileSearchKeyword}}</span> was found.</div>
 							</div>
 							<!-- end of error area -->
 
@@ -85,7 +85,7 @@
 
 						<!-- beginning of business listing -->
 						<div class="tab-content-area" id="companyResultTab">
-							<div class="search-result-count mg-top-24" v-show="returnBusinessList.length > 0">Search result for <span>{{searchKeyword}}</span></div>
+							<div class="search-result-count mg-top-24" v-show="returnBusinessList.length > 0">Search result for <span>{{mobileSearchKeyword}}</span></div>
 							
 							<div class="row">
 
@@ -113,7 +113,7 @@
 							<!-- when no string has been typed into search box -->
 							<div class="link-error-area" v-show="returnBusinessList.length == 0 && doneSearching">
 								<img src="~/static/images/search.svg" alt="">
-								<div class="error-cause">No business with the name or username <span class="indicator">{{searchKeyword}}</span> was found.</div>
+								<div class="error-cause">No business with the name or username <span class="indicator">{{mobileSearchKeyword}}</span> was found.</div>
 							</div>
 							<!-- end of error area -->
 
@@ -129,13 +129,13 @@
 					<!-- end of tab content -->
 
 				
-					<div class="content-loading" v-show="isLoading && searchKeyword.length > 1">
+					<div class="content-loading" v-show="isLoading && mobileSearchKeyword.length > 1">
 						<div class="loader-action"><span class="loader"></span></div>    
 					</div>
 			
 
 					<!-- when no string has been typed into search box -->
-					<div class="link-error-area" v-show="searchKeyword.length < 2">
+					<div class="link-error-area" v-show="mobileSearchKeyword.length < 2">
 						<img src="~/static/images/search.svg" alt="">
 						<div class="error-cause">Search for <span class="indicator">products</span> and <span class="indicator">businesses</span></div>
 					</div>
@@ -176,7 +176,7 @@ export default {
 
 		doneSearching: 0,
 
-		searchKeyword: "",
+		mobileSearchKeyword: "",
 
 		timeoutHandler: null,
 		calculatedLoad: 0
@@ -200,10 +200,8 @@ export default {
 		}
 	},
 	watch: {
-		searchKeyword: async function () {
-			if (this.searchKeyword.length <= 1) {
-				return
-			}
+		mobileSearchKeyword: async function () {
+			if (this.mobileSearchKeyword.length <= 1) return
 
 			this.isLoading = 1
 			this.doneSearching = 0
@@ -267,10 +265,10 @@ export default {
 		},
 		makeRegularSearch: async function (page) {
 
-			if (this.searchKeyword.trim().length <= 1) return
+			if (this.mobileSearchKeyword.trim().length <= 1) return
 			
 			let variables = {
-				queryString: this.searchKeyword.trim(),
+				queryString: this.mobileSearchKeyword.trim(),
 				page: page
 			}
 
@@ -288,7 +286,7 @@ export default {
 				this.reasonForError = result.message;
 				this.pageError = true
 				this.noProduct = 0
-				this.searchKeyword = ""
+				this.mobileSearchKeyword = ""
 				return
 			}
 
@@ -297,7 +295,7 @@ export default {
 			if (this.resultCount == 0 && page == 1) {
 				this.productList = []
 				this.noProduct = 1
-				this.reasonForError = `No result was found for <span class="indicator">${this.searchKeyword}</span>.`
+				this.reasonForError = `No result was found for <span class="indicator">${this.mobileSearchKeyword}</span>.`
 				return
 			} else {
 				this.noProduct = 0

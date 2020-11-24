@@ -33,16 +33,16 @@
                         Sign in
                         <div class="loader-action"><span class="loader"></span></div>
                     </button>
+                    <div class="fg-password"><n-link to="/auth/forgot-password">Forgot Password?</n-link></div>
                 </div>
-				<div class="form-control">
-					<div class="mg-top-24 mg-bottom-24 other-login-actions">
-						<n-link to="/auth/sign-up">Create your account</n-link>
-						<n-link to="/auth/forgot-password">Forgot password?</n-link>
-					</div>
-				</div>
+                <div class="form-control ">
+                    <n-link to="/auth/sign-up" class="btn btn-white btn-block" type="button">
+                        Create your account
+                    </n-link>
+                </div>
 
 				<div class="d-flex-center">
-					<button class="btn btn-small btn-white" data-target="customerSignInModal" data-dismiss="modal">Cancel Sign in</button>
+					<button class="btn btn-small btn-light-grey" data-target="customerSignInModal" data-dismiss="modal">Cancel Sign in</button>
 				</div>
 
 			</div>

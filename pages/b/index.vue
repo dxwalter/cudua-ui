@@ -15,7 +15,7 @@
                     <SUBSCRIPTION></SUBSCRIPTION>
                     <Nuxt />
                 
-                    <div class="main-content">
+                    <div class="main-content" v-show="!pageLoader">
 
                         <div class="page-header with-action">
                             <h4>Product listing</h4>
@@ -35,6 +35,7 @@
                                     </svg>
                                 </button>
                             </div>
+                            
                         </div>
 
                         <!-- product search -->
@@ -139,6 +140,11 @@
                     <PWAINITCOMPONENT></PWAINITCOMPONENT>
                     <Nuxt />
 
+                    <div class="floating-share" data-trigger="modal" data-target="changeUsername" v-show="productListingCount">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <use xlink:href="~/assets/business/image/all-svg.svg#shareIcon"></use>
+                        </svg>
+                    </div>
 
                 </div>
             </div>

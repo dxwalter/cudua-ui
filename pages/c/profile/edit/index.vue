@@ -167,8 +167,15 @@
 								        </div>
                                     </a>
                                 </div>
+
+                                <div class="action-modal-container" v-show="(customerStreet.length > 1 && noStreetSuggestionResult == 1) && customerStreet.length > 0">
                                 
-                                 <a href="#" target="" class="mg-top-8 display-block font-14" data-trigger="modal" data-target="addNewLocation" v-show="(customerStreet.length > 1 && noStreetSuggestionResult == 1) && customerStreet.length > 0">Add your home street. <span class="action-span">Add it</span></a>
+                                    <a href="#" target="" class="mg-top-8 display-block font-14 for-desktop" data-trigger="modal" data-target="addNewLocation">Add your home street. <span class="action-span">Add it</span></a>
+
+                                    <a :href="`https://wa.me/2348146011054?text=Hello Cudua! I could not find the street where I live and I'd like you to add it now`" target="_blank" class="mg-top-8 display-block font-14 for-mobile" >Add your home street <span class="action-span">Add it</span></a>
+
+                                </div>
+
                             </div>
                             <div class="">
                                 <!-- <label for="businessType" class="form-label">Type the name of your street</label> -->

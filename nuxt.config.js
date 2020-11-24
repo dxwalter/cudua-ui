@@ -42,6 +42,7 @@ export default {
 		{ src: '~/plugins/imagePlugin.js', ssr: true },
 		{ src: '~/plugins/vue-paystack.client.vue', ssr: false },
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
+		{ src: '~/plugins/scroll-to-top.client.vue', ssr: false },
 		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
 		{ src: '~/plugins/ga.client.js', ssr: false }
 	],

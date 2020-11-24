@@ -5,18 +5,21 @@
                     <!-- beginning of navigation container -->
                         <div class="nav-container">
                             <MOBILESEARCH></MOBILESEARCH>
-                            <nuxt />
+                            <Nuxt />
 
                             <!-- show business navigation fi -->
                             <BUSINESSNAV v-show="!pageLoader && !pageError"></BUSINESSNAV>
+                            <Nuxt />
 
                             <DESKTOPNAVGATION v-show="pageLoader || pageError"></DESKTOPNAVGATION>
+                            <Nuxt />
                             <MOBILENAVIGATION></MOBILENAVIGATION>
-                            <nuxt />
+                            <Nuxt />
                         </div>
 
                         <!-- pageLoader -->
                         <PAGELOADER v-show="pageLoader"></PAGELOADER>
+                        <Nuxt />
 
                         <!-- begining of content container -->
                         <div class="content-container-second business-page-container" v-show="!pageLoader">
@@ -267,16 +270,27 @@
                         <!-- footer area -->
                         <div class="mobile-hide-nav-bottom-add">
                             <BOTTOMADS></BOTTOMADS>
+                            <Nuxt />
                             <CUSTOMERFOOTER></CUSTOMERFOOTER>
+                            <Nuxt />
                         </div>
+
+                        <SCROLLTOTOP></SCROLLTOTOP>
+                        <Nuxt />
 
                 <!-- modals -->
                 <ABOUTBUSINESSMODAL></ABOUTBUSINESSMODAL>
+                <Nuxt />
                 <BUSINESSREVIEW></BUSINESSREVIEW>
+                <Nuxt />
                 <BUSINESSSEARCH></BUSINESSSEARCH>
+                <Nuxt />
                 <BUSINESSCONTACT></BUSINESSCONTACT>
+                <Nuxt />
                 <REPORTBUSINESS></REPORTBUSINESS>
+                <Nuxt />
                 <LoginComponent></LoginComponent>
+                <Nuxt />
             </div>
     </div>
 </template>
@@ -303,6 +317,7 @@ import LoginComponent from '~/components/login/login.vue'
 import VueSlickCarousel from 'vue-slick-carousel'
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+import SCROLLTOTOP from '~/plugins/scroll-to-top.client.vue'
 
 import { mapActions, mapGetters } from 'vuex';
 
@@ -388,7 +403,8 @@ export default {
         REPORTBUSINESS,
         DESKTOPNAVGATION,
         LoginComponent,
-        VueSlickCarousel 
+        VueSlickCarousel,
+        SCROLLTOTOP
     },
     data: function() {
       return {
@@ -691,7 +707,24 @@ export default {
         triggerSearch: function () {
             document.getElementById("mobilePrimarySearchInput").focus()
         },
+        resetGridLayout: async function () {
+            
+            if (process.browser) {
+                let productListingArea = document.getElementById("productListingArea");
+                if (productListingArea != null) {
+
+                    let toggleAction = document.getElementById('toggleProductListLayout')
+
+                    productListingArea.classList.remove('make-layout-list');
+                    productListingArea.classList.add('default-grid');
+                    toggleAction.setAttribute('data-layout', 'grid');
+                }
+            }
+
+        },
         getProductsByCategory: async function (categoryId, categoryName, e = "", page = 1) {
+
+            this.resetGridLayout()
             
             if (typeof e !== 'string') {
                 e.preventDefault()
@@ -769,6 +802,8 @@ export default {
         },
         getProductsBysubCategory: async function (subcategoryId, subcategoryName, e = "", page = 1) {
             
+            this.resetGridLayout()
+
             if (typeof e !== 'string') {
                 e.preventDefault()
             }
@@ -844,7 +879,7 @@ export default {
         },
         getAllProducts: async function (page = 1, e) {
 
-
+            this.resetGridLayout()
 
             this.productsType = 'all'
             this.page = page
