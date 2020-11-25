@@ -1,8 +1,10 @@
+let swRegistration;
+
 if ('serviceWorker' in navigator) {
 
     navigator.serviceWorker.register('custom-sw.js', {scope: '/'}).then(function(registration) {
         // Registration was successful
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        swRegistration = registration;
     }, function(err) {
         // registration failed :(
         console.log('ServiceWorker registration failed: ', err);
@@ -72,3 +74,10 @@ if (installBtn) {
     });
 }
 
+
+let updateButton = document.getElementById('updateAppsLatestVersion');
+if (updateButton) {
+    updateButton.addEventListener('click', async (e) => {
+        swRegistration.update();
+    })
+}

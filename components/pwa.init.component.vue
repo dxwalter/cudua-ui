@@ -10,7 +10,7 @@
                 <div>
                     <div class="pwa-info-text-area">New app update available.</div>
                     <div class="pwa-action-area">
-                        <button class="btn btn-primary btn-md" @click="updateAppsLatestVersion()">
+                        <button class="btn btn-primary btn-md" id="updateAppsLatestVersion">
                             Update app
                             <div class="loader-action"><span class="loader"></span></div>    
                         </button>
@@ -98,17 +98,11 @@ export default {
         },
         checkPwaUpdate: async function() {
 
-            const workbox = await window.$workbox;
-            if (workbox) {
-                window.addEventListener('installed', (event) => {
-                    // If we don't do this we'll be displaying the notification after the initial installation, which isn't perferred.
-                    if (event.isUpdate) {
-                        if (this.currenTimeStamp > this.timeToUpdate) {
-                            this.updatePwaActionArea = 1
-                        }
-                    }
-                });
+            if (this.currenTimeStamp > this.timeToUpdate) {
+                this.updatePwaActionArea = 1
             }
+
+            await this.$store.dispatch('pwa/setTimeToUpdate', new Date().getTime() + (86400  * 7))
         },
         cancelInstallation: async function () {
             let newUpdateTime = new Date().getTime() + (86400  * 4);
