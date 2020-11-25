@@ -681,6 +681,18 @@ export default {
             }
 
 
+            let formatPhoneNumber = this.phone.split("");
+            if (formatPhoneNumber[0] == '0') {
+                formatPhoneNumber[0] = '234';
+                let x = "";
+                formatPhoneNumber.forEach(element => {
+                    x = x+element
+                });
+                this.phone = x
+            }
+
+
+
             let target = document.getElementById('editCustomerContact');
 
             let variables = {

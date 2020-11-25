@@ -242,7 +242,7 @@
                         </div>
 
                         <div class="mg-top-32 d-flex-center">
-                            <button class="btn btn-primary btn-md" @click="cropImageForUpload()" id="cropImageForUpload">
+                            <button class="btn btn-primary btn-md" @click="cropImageForUpload($event)" id="cropImageForUpload">
                                 Continue
                                 <div class="loader-action"><span class="loader"></span></div>    
                             </button>
@@ -394,7 +394,7 @@ export default {
             target.classList.add('show-modal', 'display-block')
             
         },
-        cropImageForUpload: async function () {
+        cropImageForUpload: async function (event) {
             let imageContainer = document.getElementById('dumpProductImageContainer');
             let imageCanvas = document.getElementById('dumpProductImage');
 
@@ -437,7 +437,9 @@ export default {
                 imageCanvas.classList.remove('toggleHeight')
 
                 let previewImage = document.querySelectorAll('#previewPrimaryImage img');
-                previewImage[0].setAttribute('src', img)
+                previewImage[0].setAttribute('src', img);
+
+                this.uploadBasicProduct(event)
 
             }, 100);
         },

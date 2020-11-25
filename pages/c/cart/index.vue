@@ -452,6 +452,16 @@ export default {
             let target = document.getElementById('addCustomerPhoneNumber');
             let modalTarget = document.getElementById('addPhoneNumberModal');
 
+            let formatPhoneNumber = this.inputPhoneNumber.split("");
+            if (formatPhoneNumber[0] == '0') {
+                formatPhoneNumber[0] = '234';
+                let x = "";
+                formatPhoneNumber.forEach(element => {
+                    x = x+element
+                });
+                this.inputPhoneNumber = x
+            }
+
 
             let variables = {
                 email: this.email,
