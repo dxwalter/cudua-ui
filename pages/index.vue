@@ -22,7 +22,36 @@
 	  <ADVANCEDSEARCH></ADVANCEDSEARCH>
 	  <Nuxt />
 	  <div class="content-container">
-		  
+
+			<!-- top categories -->
+			<div class="mg-bottom-32" v-show="fashionCategories.length > 0">
+				<div class="chip-tabs home-tab" id="tabList">
+					<a href="#" class="chip-tab-item is-active" id="tabLink" data-tab="FashionCategory">Fashion</a>
+					<a href="#" class="chip-tab-item" id="tabLink" data-tab="BeautyCategory">Beauty</a>
+				</div>
+
+				<div class="tab-content" id="tabContent">
+					<div class="tab-content-area is-active showEffect" id="FashionCategory">
+						<div class="top-categories-listing">
+							<nuxt-link prefetch :to="`/p/list/${category.categoryId}`" class="categories-items" v-for="(category, index) in returnFashionCategoriesList" :key="index">
+								<div class="category-icon" :style="{'background-image': `url(${category.icon})`}"></div>
+								<span>{{category.categoryName}}</span>
+							</nuxt-link>
+						</div>
+					</div>
+					<div class="tab-content-area" id="BeautyCategory">
+						<div class="top-categories-listing">
+							<nuxt-link prefetch :to="`/p/list/${category.categoryId}`" class="categories-items" v-for="(category, index) in returnBeautyCategoriesList" :key="index">
+								<div class="category-icon" :style="{'background-image': `url(${category.icon})`}"></div>
+								<span>{{category.categoryName}}</span>
+							</nuxt-link>			
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- End of top categories -->
+			
 			<FOLLOWING />
 			<Nuxt />
 
@@ -128,7 +157,9 @@ import SCROLLTOTOP from '~/plugins/scroll-to-top.client.vue'
 
 import {
   GET_FOLLOWING_FOR_HOME_PAGE
-} from '~/graphql/homePage'
+} from '~/graphql/homePage';
+
+import { GET_ALL_CATEGORIES} from '~/graphql/categories';
 
 import { mapActions, mapGetters } from 'vuex'
 
@@ -141,6 +172,8 @@ export default {
 	  return {
 		anonymousId: "",
 		accessToken: "",
+		fashionCategories: [],
+		beautyCategories: []
 	  }
 	},
 	computed: {
@@ -148,6 +181,12 @@ export default {
 		'GetAnonymousId': 'customer/GetAnonymousId',
 		'GetCustomerData': 'customer/GetCustomerDetails'
 	  }),
+	  returnFashionCategoriesList () {
+		  return this.fashionCategories
+	  },
+	  returnBeautyCategoriesList () {
+		  return this.beautyCategories
+	  }
 	},
 	methods: {
 		...mapActions({
@@ -157,9 +196,57 @@ export default {
 			let customerData = this.GetCustomerData;
 			this.accessToken = customerData.userToken
 		},
+        GetAllCategories: async function () {
+
+            let query = await this.$performGraphQlQuery(this.$apollo, GET_ALL_CATEGORIES);
+            if (query.error) {
+                this.$initiateNotification('error', 'Failed request', query.message);
+                this.isNetworkError = 1
+                return
+            } else {
+                this.isNetworkError = 0
+            }
+
+            let result = query.result.data.GetAllCategories;
+            if (result.success == false) {
+                this.$initiateNotification('error', 'Failed request', result.message);
+                return
+            }
+			
+			let fashionCategoryListing = [];
+			let beautyCategoryListing = [];
+			
+            for (const [index, category] of result.category.entries()) {
+				
+				if (category.industry === "Fashion") {
+					
+					fashionCategoryListing.push({
+						categoryId: category.id,
+						categoryName: category.categoryName,
+						industry: category.industry,
+						icon: category.icon
+					})
+
+				} else if (category.industry === "Beauty") {
+
+					beautyCategoryListing.push({
+						categoryId: category.id,
+						categoryName: category.categoryName,
+						industry: category.industry,
+						icon: category.icon
+					})
+
+				}
+			}
+
+			this.fashionCategories = fashionCategoryListing
+			this.beautyCategories = beautyCategoryListing
+			
+        }
 	},
 	created: function () {
-	  this.GetCustomerDataFromStore();
+		this.GetAllCategories();
+	  	this.GetCustomerDataFromStore();
 	},
 	mounted () {
 		this.anonymousId = this.GetAnonymousId

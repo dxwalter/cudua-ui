@@ -1,6 +1,6 @@
 <template>
       <div class="big-search-banner" id="">
-      <h1 class="banner-big-text">Find <span class="underline-text">fashion</span> & <span class="underline-text">beauty</span> products from shops around you.</h1>
+      <h1 class="banner-big-text">Buy <span class="underline-text">fashion</span> & <span class="underline-text">beauty</span> products from shops around you.</h1>
       
       <div class="advanced-search" id="advancedSearchContainer">
         <div class="big-search-banner-search" id="homeAdvancedSearch">
@@ -300,7 +300,7 @@ export default {
             this.clearTimeout();    
 
             let variables = {
-                keyword: this.communityName
+                keyword: this.communityName.trim()
             }
 
             this.isCommunitySearch = 0

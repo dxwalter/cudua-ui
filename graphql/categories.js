@@ -7,6 +7,7 @@ query {
       id
       categoryName
       industry
+      icon
       subcategories {
         subcategoryId
         subcategoryName
