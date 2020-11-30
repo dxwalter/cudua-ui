@@ -14,14 +14,14 @@
                 
                 <div class="recent-search-list-container" v-show="communityName.length > 1" id="communitySearchSuggestion">
 
-                    <a href="#" v-show="!isCommunitySearch && communityName.length > 1">
+                    <!-- <a href="#" v-show="!isCommunitySearch && communityName.length > 1">
                         <div class="info-area">
                             <span>Searching for</span> {{communityName}}
                         </div>
                         <div class="loader-container">
                             <div class="loader-action"><span class="loader"></span></div>
                         </div>
-                    </a>
+                    </a> -->
 
                     <a href="#" v-show="noCommunitySuggestionResult &&  isCommunitySearch && communityName.length > 1">
                         <div class="info-area">
@@ -225,6 +225,8 @@ export default {
         },
         initiateAdvancedSearch: async function () {
 
+            document.getElementById('communitySearchSuggestion').style.display = 'none'
+
             this.businessResult = [];
             this.productResult = [];
 
@@ -340,7 +342,7 @@ export default {
 
 
 
-            }, 500);
+            }, 1200);
         },
         readySearch: function () {
             if (this.productName.length > 1 && this.communityName.length > 2) {
