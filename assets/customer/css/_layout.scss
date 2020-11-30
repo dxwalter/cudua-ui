@@ -5372,7 +5372,7 @@ h4.order-details-business-name {
 
 .layout-button {
     border: $border-5;
-    background-color: $light-grey;
+    background-color: $bg-color;
     svg {
         fill: $black-color-06 !important;
     }
@@ -5386,6 +5386,19 @@ h4.order-details-business-name {
 
 .layout-button[data-layout=list] {
     .list-icon {
+        display: none !important;
+    }
+}
+
+
+.layout-button[data-industry=Fashion] {
+    .fashion-icon {
+        display: none !important;
+    }
+}
+
+.layout-button[data-industry=Beauty] {
+    .beauty-icon {
         display: none !important;
     }
 }

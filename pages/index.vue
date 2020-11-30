@@ -33,7 +33,7 @@
 				<div class="tab-content" id="tabContent">
 					<div class="tab-content-area is-active showEffect" id="FashionCategory">
 						<div class="top-categories-listing">
-							<nuxt-link prefetch :to="`/p/list/${category.categoryId}`" class="categories-items" v-for="(category, index) in returnFashionCategoriesList" :key="index">
+							<nuxt-link prefetch :to="`/p/list/${category.categoryId}?type=category`" class="categories-items" v-for="(category, index) in returnFashionCategoriesList" :key="index">
 								<div class="category-icon" :style="{'background-image': `url(${category.icon})`}"></div>
 								<span>{{category.categoryName}}</span>
 							</nuxt-link>
@@ -41,7 +41,7 @@
 					</div>
 					<div class="tab-content-area" id="BeautyCategory">
 						<div class="top-categories-listing">
-							<nuxt-link prefetch :to="`/p/list/${category.categoryId}`" class="categories-items" v-for="(category, index) in returnBeautyCategoriesList" :key="index">
+							<nuxt-link prefetch :to="`/p/list/${category.categoryId}?type=category`" class="categories-items" v-for="(category, index) in returnBeautyCategoriesList" :key="index">
 								<div class="category-icon" :style="{'background-image': `url(${category.icon})`}"></div>
 								<span>{{category.categoryName}}</span>
 							</nuxt-link>			

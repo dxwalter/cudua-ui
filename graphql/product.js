@@ -40,6 +40,49 @@ query getProduct($businessId: String!, $page: Int!){
 }
 `
 
+export const GET_ALL_PRODUCTS_IN_CATEGORY = gql`
+query getProducts ($categoryId: String!, $page: Int!) {
+  GetAllProductsInCategory(input:{
+    categoryId: $categoryId,
+    page: $page
+  }) {
+    products {
+      id
+      name
+      price
+      primaryImage
+      businessId
+      images
+    }
+    code
+    success
+    message
+  }
+}
+`
+
+export const GET_ALL_PRODUCTS_IN_SUBCATEGORY = gql`
+query getProducts ($subcategoryId: String!, $page: Int!) {
+  GetAllProductsInSubcategory(input:{
+    subcategoryId: $subcategoryId,
+    page: $page,
+  }) {
+    products {
+      id
+      name
+      price
+      primaryImage
+      businessId
+      images
+      
+    }
+    code
+    success
+    message
+  }
+}
+`
+
 export const GET_PRODUCT_BY_SUBCATEGORY = gql`
 query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
   GetProductBysubCategory(input: {
