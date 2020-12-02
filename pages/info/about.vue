@@ -16,7 +16,7 @@
         <div class="info-content-area">
             <div class="mg-bottom-32">
                 <div class="header-area">Cudua enterprise...</div>
-                <div class="content-body">Cudua enterprise is a technology company the design and develop tools to help micro, small, medium scale fashion and beauty enterprises to grow their business online.</div>
+                <div class="content-body">Cudua enterprise is a technology company that designs and develop tools to help micro, small, medium scale fashion and beauty enterprises to grow their business online.</div>
             </div>
             <div class="mg-bottom-32">
                 <div class="header-area">The rock stars...</div>

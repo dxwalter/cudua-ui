@@ -83,6 +83,28 @@ query getProducts ($subcategoryId: String!, $page: Int!) {
 }
 `
 
+export const GET_PRODUCTS_BY_CAT_AND_SUB_FILTER = gql`
+query getProduct ($page: Int!, $communityId: String!, $type: String!, $typeId: String!) {
+  FilterCategorySearch(input:{
+    page: $page,
+    communityId: $communityId,
+    type: $type,
+    typeId: $typeId,
+  }) {
+    products {
+      id
+      name
+      price
+      images
+      businessId
+    }
+    code
+    success
+    message
+  }
+}
+`
+
 export const GET_PRODUCT_BY_SUBCATEGORY = gql`
 query getProducts ($businessId: String!, $subcategoryId: String!, $page: Int!) {
   GetProductBysubCategory(input: {

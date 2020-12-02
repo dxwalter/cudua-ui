@@ -342,7 +342,7 @@ export default {
 
 
 
-            }, 1200);
+            }, 500);
         },
         readySearch: function () {
             if (this.productName.length > 1 && this.communityName.length > 2) {

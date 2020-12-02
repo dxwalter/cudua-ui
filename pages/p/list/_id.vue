@@ -22,31 +22,64 @@
 
                             <!-- mobile category navigation -->
                             <div class="mobile-shop-cat-listing option-container" v-show="!pageError && !pageLoader">
-                               <div class="category-area">
-                                   <select class="white-bg-color input-form" id="categoryDropDown" @change="setCategoryValue($event)">
-                                       
-                                   </select>
-                               </div>
-                               <div class="icon-action">
+                                <div class="category-action-area">
+                                    <div class="category-area">
+                                        <select class="white-bg-color input-form" id="categoryDropDown" @change="setCategoryValue($event)"></select>
+                                    </div>
+                                    <div class="icon-action">
 
-                                    <button class="btn btn-icon btn-small make-list-icon layout-button" @click="changeIndustry()" id="industryIcon" :data-industry="`${currentIndustry}`">
-                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="fashion-icon">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#industryFashion"></use>
-                                        </svg>
-                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="beauty-icon">
-                                            <use xlink:href="~/assets/business/image/all-svg.svg#industryBeauty"></use>
-                                        </svg>
-                                    </button>
-                                
-                                    <button class="btn btn-icon btn-small make-list-icon layout-button display-none" @click="toggleProductListLayout()" id="toggleProductListLayout" data-layout="grid">
-                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512" class="list-icon">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#verticalEllipsis"></use>
-                                        </svg>
-                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="grid-icon">
-                                            <use xlink:href="~/assets/customer/image/all-svg.svg#gridLayout"></use>
-                                        </svg>
-                                    </button>
-                               </div>
+                                            <button class="btn btn-icon btn-small make-list-icon layout-button" @click="changeIndustry()" id="industryIcon" :data-industry="`${currentIndustry}`">
+                                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="fashion-icon">
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#industryFashion"></use>
+                                                </svg>
+                                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" class="beauty-icon">
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#industryBeauty"></use>
+                                                </svg>
+                                            </button>
+                                        
+                                            <button class="btn btn-icon btn-small make-list-icon layout-button" @click="openLocationFilter()" id="toggleFilterLayout" data-filter="close">
+                                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="filter-icon">
+                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#filter"></use>
+                                                </svg>
+                                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="ellipsis-v-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" class="close-icon">
+                                                    <use xlink:href="~/assets/customer/image/all-svg.svg#times"></use>
+                                                </svg>
+                                            </button>
+                                    </div>
+                                </div>
+                                <div class="top-cat-result-filter" id="filterActionArea">
+                                    <label class="form-label mg-bottom-8">Filter by location</label>
+                                    <div class="input-join">
+                                        <div class="position-relative">
+                                            <input type="text" name="" id="communityName" placeholder="Type community" class="input-form" v-model="communityName"> 
+                                            <div class="recent-search-list-container" v-show="communityName.length > 1" id="communitySearchSuggestion">
+
+                                                <a href="#" v-show="!isCommunitySearch && communityName.length > 1">
+                                                    <div class="info-area">
+                                                        <span>Searching for</span> {{communityName}}
+                                                    </div>
+                                                    <div class="loader-container">
+                                                        <div class="loader-action"><span class="loader"></span></div>
+                                                    </div>
+                                                </a>
+
+                                                <a href="#" v-show="noCommunitySuggestionResult &&  isCommunitySearch && communityName.length > 1">
+                                                    <div class="info-area">
+                                                        <span>No result was found for</span> {{communityName}}
+                                                    </div>
+                                                </a>
+
+                                                <div v-for="(suggestion, index) in returnCommunitySuggestion" :key="index">
+                                                    <div @click="setCommunityID(suggestion.communityId, suggestion.communityName, 'communitySearchSuggestion', $event)" class="action-content">
+                                                        {{suggestion.communityName}} <span>- {{suggestion.stateName}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button id="" @click="applyFilterSearch()" class="btn btn-primary">Search</button>
+
+                                    </div>
+                                </div>
                             </div>
                             <!-- end of mobile category navigation -->
 
@@ -61,7 +94,12 @@
                                     <div class="business-product-listing">
 
                                         <div class="section-header d-flex-between business-page-action">
-                                            <h4>{{productHeader}}</h4>
+                                            
+                                            <div>
+                                                <h4>{{productHeader}}</h4>
+                                                <label class="form-label mg-bottom-8" v-show="filterSearch == true">Filtered by location: {{communityName}}</label>
+                                            </div>
+                                            
                                             <div class="d-flex">
                                                 <div class="product-layout-container">
                                                     <button class="btn btn-icon btn-small make-list-icon layout-button" @click="toggleProductListLayout()" id="toggleProductListLayout" data-layout="grid">
@@ -104,7 +142,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="load-more-action move-center" v-show="loadMoreContent">
+                                            <div class="load-more-action move-center" v-show="loadMoreContent && productLists.length > 0">
                                                 <button class="btn btn-white" @click="loadMoreProducts(page = page + 1, $event)" id="loadMoreProducts">
                                                     Load more
                                                     <div class="loader-action"><span class="loader"></span></div>    
@@ -185,8 +223,12 @@ import {
     GET_PRODUCT_BY_SUBCATEGORY,
     GET_PRODUCT_BY_CATEGORY,
     GET_ALL_PRODUCTS_IN_CATEGORY,
-    GET_ALL_PRODUCTS_IN_SUBCATEGORY
+    GET_ALL_PRODUCTS_IN_SUBCATEGORY,
+    GET_PRODUCTS_BY_CAT_AND_SUB_FILTER
 } from '~/graphql/product'
+
+import { FIND_COMMUNITY } from '~/graphql/location';
+
 export default {
     name: "PRODUCTLISTING",
     components: {
@@ -234,7 +276,18 @@ export default {
         categoryId: "",
         dataType: "",
 
-        currentIndustry: ""
+        currentIndustry: "",
+        timeOut: null,
+
+        // community search
+        communityName: "",
+        isCommunitySearch: 0,
+        communitySuggestion: [],
+        selectedCommunityId: "",
+        noCommunitySuggestionResult: 0,
+
+        // filter search
+        filterSearch: false
       }
     },
     computed: {
@@ -249,9 +302,19 @@ export default {
         },
         returnProductList: function () {
             return this.productLists
-        }
+        },
+        returnCommunitySuggestion () {
+            return this.communitySuggestion
+        },
     },
     methods: {
+        setCommunityID: function (communityId, communityName, suggestionBoxId, e) {
+            e.preventDefault()
+            document.getElementById(suggestionBoxId).style.display = 'none'
+            this.communityName = communityName
+            this.selectedCommunityId = communityId
+            this.tapId = 1
+        },
         toggleProductListLayout: function () {
             let targetContainer = document.getElementById('productListingArea')
             let actionButton = document.getElementById('toggleProductListLayout')
@@ -266,6 +329,20 @@ export default {
                 targetContainer.classList.remove('make-layout-list');
                 targetContainer.classList.add('default-grid');
                 actionButton.setAttribute('data-layout', 'grid');
+            }
+        },
+        openLocationFilter: function () {
+            let targetContainer = document.getElementById('filterActionArea')
+            let actionButton = document.getElementById('toggleFilterLayout')
+
+            let getLayoutType = actionButton.getAttribute('data-filter');
+
+            if (getLayoutType == "open") {
+                targetContainer.classList.remove('showEffect');
+                actionButton.setAttribute('data-filter', 'close');
+            } else {
+                targetContainer.classList.add('showEffect');
+                actionButton.setAttribute('data-filter', 'open');
             }
         },
         formatProductImageUrl: function (imagePath, businessId) {
@@ -385,7 +462,9 @@ export default {
             }
 
         },
-
+        clearTime: function () {
+            clearTimeout(this.timeOut)
+        },
         changeIndustry: function (url) {
 
             let target = document.getElementById('industryIcon');
@@ -393,8 +472,11 @@ export default {
 
             let runningIndustry = industry == "Fashion" ? "Beauty" : "Fashion";
 
-            this.currentIndustry = runningIndustry;
             target.setAttribute('data-industry', runningIndustry);
+
+            this.currentIndustry = runningIndustry;
+
+            this.$showToast(`Switched to ${runningIndustry}`, "info");
 
             this.setCategoryDropDown(false)
 
@@ -478,8 +560,9 @@ export default {
 
             this.resetGridLayout()
 
+            this.filterSearch = false
+
             this.productHeader = `${this.categoryName} category`;
-            this.$router.push({path: `/p/list/${this.categoryId}`, query: { type: 'category' }});
             
             this.page = page
 
@@ -536,10 +619,14 @@ export default {
                 })
             }
 
+            
+
         },
         getProductsBySubcategory: async function (page = 1) {
             
             this.resetGridLayout()
+
+            this.filterSearch = false
 
             this.page = page
 
@@ -597,12 +684,89 @@ export default {
             }
 
         },
+        applyFilterSearch: async function (page = 1) {
+
+            console.log(page)
+
+            document.getElementById('communitySearchSuggestion').style.display = 'none'
+
+
+            if (page == 1) this.openLocationFilter()
+
+            let communityIdentifier = this.selectedCommunityId.length == 0 ? this.communityName : this.selectedCommunityId
+
+            if (communityIdentifier.length == 0) return
+
+            this.filterSearch = true
+            // this.selectedCommunityId = ""
+
+            this.resetGridLayout()
+
+            this.page = page
+
+            if (this.page == 1) this.isLoading = true
+
+            let variables = {
+                page: page,
+                communityId: communityIdentifier,
+                type: this.productsType.toLowerCase(),
+                typeId: this.productsType.toLowerCase() == 'category' ? this.categoryId : this.subcategoryId
+            }
+
+            let request = await this.$performGraphQlQuery(this.$apollo, GET_PRODUCTS_BY_CAT_AND_SUB_FILTER, variables, {});
+            this.isLoading = false
+
+            if (page == 1) this.productLists = []
+
+            if (request.error) {
+                this.reasonForError = request.message
+                this.pageError = 1
+                return
+            }
+
+            let result = request.result.data.FilterCategorySearch;
+
+            if (result.success == false) {
+                this.reasonForError = result.message
+                this.productLists = []
+                this.noProduct = 1
+                return
+            }
+
+            if (result.products.length == 0 && page == 1) {
+                this.productLists = []
+                this.noProduct = 1
+                this.reasonForError = `No product was found in this filter.`
+            } else {
+                this.noProduct = 0
+            }
+
+
+            if (result.products.length == 12) {
+                this.loadMoreContent = true
+            } else {
+                this.loadMoreContent = false
+            }
+
+          
+
+            for (let x of result.products) {
+                this.productLists.push({
+                    productName: x.name,
+                    productId: x.id,
+                    price: this.$numberNotation(x.price),
+                    businessId: x.businessId,
+                    imageArray: x.images,
+                })
+            }
+        },
         loadMoreProducts: async function (page, e) {
 
             this.page = page
             let target = document.getElementById('loadMoreProducts');
             target.disabled = true
 
+            if (this.filterSearch) await this.applyFilterSearch(page)
             if (this.productsType.toLowerCase() == "category") await this.getAllProductsInCategory(page);
             if (this.productsType.toLowerCase() == "subcategory") await this.getProductsBySubcategory(page);
 
@@ -650,17 +814,83 @@ export default {
             if (process.browser) {
                 window.scrollTo(0, 0);
             }
-        }
+        },
+        setCommunitySearchAction: async function () {
+            let communityInput = document.getElementById('communityName')
+            communityInput.addEventListener('keyup', async () => {
+                if (this.communityName.length > 1) {
+                    this.noCommunitySuggestionResult = 0
+                    this.tapId = 0
+                    await this.findCommunity()
+                }
+            })
+        },
+        findCommunity: async function () {
+            
+            this.communitySuggestion = [];
+            this.selectedCommunityId = ""
+
+            this.clearTime();    
+
+            let variables = {
+                keyword: this.communityName.trim()
+            }
+
+            this.isCommunitySearch = 0
+            document.getElementById('communitySearchSuggestion').style.display = 'block'
+
+            this.timeOut = setTimeout(async () => {
+                
+                let request = await this.$performGraphQlQuery(this.$apollo, FIND_COMMUNITY, variables, {});
+                
+                this.isCommunitySearch = 1
+
+                if (request.error) {
+                    this.$showToast("Network error", 'error')
+                    return
+                }
+
+                let result = request.result.data.GetCommunity;
+                if (result.success) {
+                    if (result.communityData != null) {
+                        // this.streetSuggestion = result.streetData
+                        let communityArray = [];
+                        for (let community of result.communityData) {
+                            communityArray.push({
+                                communityName: community.communityName,
+                                communityId: community.communityId,
+                                stateName: community.state.name
+                            });
+                        }
+
+                        this.communitySuggestion = communityArray;
+                        this.noCommunitySuggestionResult = 0
+                        
+                    } else {
+                        this.noCommunitySuggestionResult = 1
+                    }
+                }
+
+
+
+            }, 500);
+        },
     },
     created: async function () {
         await this.GetAllCategories();
-        await this.setUrlData();
-        await this.setIndustry();
-        this.setCategoryDropDown(true)
+        if (process.client) {
+            await this.setUrlData();
+            await this.setIndustry();
+            this.setCategoryDropDown(true)
+        }
 
+    },
+    beforeDestroy() {
+        this.clearTime()
     },
     mounted () {
         this.pageLoader = 0
+        this.setCommunitySearchAction()
     }
 }
 </script>
@@ -738,5 +968,12 @@ export default {
         .product-area {
             padding: 16px 40px;
         }
+    }
+
+    .input-join .input-form{
+        height: 100%
+    }
+    .input-join .position-relative {
+        width: 100%;
     }
 </style>

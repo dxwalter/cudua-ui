@@ -5403,8 +5403,24 @@ h4.order-details-business-name {
     }
 }
 
+.layout-button[data-filter=open] {
+    .filter-icon {
+        display: none !important;
+    }
+}
+
+.layout-button[data-filter=close] {
+    .close-icon {
+        display: none !important;
+    }
+}
+
 @media(min-width: 599px) {
     .product-layout-container {
         display: none;
     }
+}
+
+.top-cat-result-filter.showEffect {
+    display: block;
 }
