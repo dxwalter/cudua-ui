@@ -16,3 +16,23 @@ mutation create ($name: String!, $location: String!, $type: String!, $phone_one:
   }
 }
 `
+
+export const GET_IDEAL_CUSTOMERS  =  gql`
+{
+  getIdealCustomers(input:{
+    industry: "Beauty",
+    page: 1
+  }) {
+    customers{
+      name
+      location
+      type
+      phone_one
+      phone_two
+    }
+    code
+    success
+    message
+  }
+}
+`

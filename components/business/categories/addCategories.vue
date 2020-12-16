@@ -150,7 +150,7 @@ export default {
             let selectedCategory = e.target.options
             if (selectedCategory.selectedIndex > -1) {
                 let selectedIndex = e.target.options[e.target.options.selectedIndex];
-                this.newSubcategoryCategoryId = selectedIndex.value;
+                this.newSubcategoryCategoryId = selectedIndex.innerHTML;
             }
         },
         submitNewSubcategory: async function () {
@@ -183,7 +183,7 @@ export default {
 
             let variables = {
                 subcategories: this.newSubcategoryListing,
-                categoryId: this.newSubcategoryCategoryId
+                categoryName: this.newSubcategoryCategoryId
             }
 
 			let context = {
@@ -192,7 +192,7 @@ export default {
                 }
             }
             
-            let query = await this.$performGraphQlMutation(this.$apollo, CREATE_NEW_SUBCATEGORIES, variables, context);
+            let query = await this.$performGraphQlMutation(this.$apollo, CREATE_NEW_CATEGORIES, variables, context);
             target.disabled = false
 
             if (query.error) {
@@ -200,7 +200,7 @@ export default {
                 return
             }
 
-            let result = query.result.data.createSubCategory;
+            let result = query.result.data.createCategory;
 
             if (!result.success) {
                 this.$showToast(result.message, 'error', 3000)
@@ -208,8 +208,6 @@ export default {
             }
 
             this.$showToast(result.message, 'success', 6000)
-
-
 
 
         }

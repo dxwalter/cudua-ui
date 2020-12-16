@@ -5424,3 +5424,20 @@ h4.order-details-business-name {
 .top-cat-result-filter.showEffect {
     display: block;
 }
+
+.shop-address-input {
+    display: flex;
+
+    div.input-form {
+        background-color: $white-color;
+        padding: 16px 0px;
+        font-weight: unset;
+        font-size: 14px;
+        width: auto;
+        margin-right: 4px;
+    }
+
+    input.input-form {
+        padding: 16px 16px 16px 8px;
+    }
+}

@@ -90,7 +90,7 @@
 
                 </div>
 
-                </div>
+            </div>
 
             </div>
       </div>
@@ -165,7 +165,7 @@ export default {
         min-height: 100vh;
     }
     .product-upload-container {
-        padding-top: 32px;
+        /* padding-top: 32px; */
     }
     @media(min-width: 599px) {
         .product-upload-container {
