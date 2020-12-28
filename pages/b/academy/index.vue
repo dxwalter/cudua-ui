@@ -11,19 +11,32 @@
 
                       <div class="cudua-jumbotron">
                         <div class="mg-bottom-16">
-                          <h1 class="lg-header">Welcome to Cudua Academy</h1>
+                          <h1 class="lg-header">Turbo charge your business growth</h1>
                         </div>
 
-                        <div class="description mg-bottom-32">Cudua academy is a free and private online learning community on Telegram. It is focused on teaching business owners that uses Cudua to sell their products how to grow their business online using the tools that Cudua provides. Topics in areas of 
-                          <span>Sales & marketing</span>,
-                          <span>Content development</span>,
-                          <span>Customer service</span>, and
-                          <span>Branding</span> are discussed.
+                        <div class="description mg-bottom-32">Selling online is not a ride in the park. Join our community of business owners like you that are getting daily educational videos and resources on how to grow their fashion and beauty businesses online for free.
                         </div>
 
-                        <div class="description mg-bottom-16">Join our telegram channel.</div>
+                        <div class="description mg-bottom-16">Choose your preferred learning platform.</div>
 
-                        <a href="https://t.me/joinchat/AAAAAFJi4rrqH7ajTNKs1w" target="_blank" class="btn btn-primary btn-lg">Join now for free</a>
+                        <div class="social-icon-container">
+                          <a href="https://chat.whatsapp.com/H4RzxAvVlQX1fs3feYim2E" target="_blank" class="academy-social">
+                            <img src="~/assets/business/image/social/whatsapp.svg" alt="" srcset="">
+                          </a>
+                          <a href="https://t.me/cudua" target="_blank" class="academy-social">
+                            <img src="~/assets/business/image/social/telegram.svg" alt="" srcset="">
+                          </a>
+                          <a href="https://web.facebook.com/groups/cuduaacademy/" target="_blank" class="academy-social">
+                            <img src="~/assets/business/image/social/facebook.svg" alt="" srcset="">
+                          </a>
+                          <a href="https://www.instagram.com/cudua.academy/" target="_blank" class="academy-social">
+                            <img src="~/assets/business/image/social/instagram.svg" alt="" srcset="">
+                          </a>
+                          <a href="https://www.youtube.com/channel/UCEcp-nF6RxN3SdIS83BTHXQ" target="_blank" class="academy-social">
+                            <img src="~/assets/business/image/social/youtube.svg" alt="" srcset="">
+                          </a>
+                        </div>
+                       
                       </div>
 
                     </div>

@@ -256,14 +256,14 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#whatsappIcon"></use>
                                 </svg>
-                                <span>Support</span>
+                                <span>Contact busi...</span>
                             </a>
 
                             <a :href="`mailto:${getEmail}`" class="bottom-nav-item" v-show="getWhatsappContact.status == 0 || getWhatsappContact.number == null">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <use xlink:href="~/assets/customer/image/all-svg.svg#inviteBusiness"></use>
                                 </svg>
-                                <span>Support</span>
+                                <span>Contact</span>
                             </a>
                         </div>
 

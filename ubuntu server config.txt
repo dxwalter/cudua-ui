@@ -1,0 +1,64 @@
+server {
+    listen 80;
+    root /var/www/cudua.com/cudua-ui;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name cudua.com www.cudua.com;
+
+    location / {
+        proxy_pass http://localhost:3333;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+
+
+
+server {
+    listen 80;
+    root /var/www/api.cudua.com/cudua-backend;
+
+    server_name api.cudua.com;
+
+    location / {
+        proxy_pass http://localhost:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+
+server {
+    listen 80;
+    root /var/www/rockster.cudua.com/cudua-admin;
+
+    server_name rockster.cudua.com;
+
+    location / {
+        proxy_pass http://localhost:5555;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+
+server {
+    listen 80;
+    root /var/www/academy.cudua.com/cudua-academy;
+
+    server_name academy.cudua.com;
+
+    location / {
+
+    }
+}
