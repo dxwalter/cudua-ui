@@ -18,6 +18,14 @@
           </div>
           <div class="col-xs-6 col-sm-6 mg-top--6 col-md-2">
             <div class="footer-links">
+              <a href="https://academy.cudua.com" target="_blank">
+                <div class="">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 7.311 14">
+                    <use xlink:href="~/assets/business/image/all-svg.svg#pencil"></use>
+                  </svg>
+                </div>
+                <span>Cudua academy</span>
+              </a>
               <a href="https://blog.cudua.com" target="_blank">
                 <div class="">
                   <svg xmlns="http://www.w3.org/2000/svg" width="11" height="20" viewBox="0 0 7.311 14">
@@ -57,36 +65,28 @@
             </div>
           </div>
 
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="subcribe-text">Subscribe to our newsletter</div>
-            <div class="input-join">
-              <input type="email" name="" id="subscriptionEmail" placeholder="Email address" class="input-form white-bg-color" v-model="subscriptionEmail">
-              <button class="btn btn-primary" @click="createEmailSubscriber()" id="createEmailSubscriber">
-                Submit
-                <div class="loader-action"><span class="loader"></span></div>   
-              </button>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+              <div class="subcribe-text">Subscribe to our newsletter</div>
+              <div class="input-join">
+                <input type="email" name="" id="subscriptionEmail" placeholder="Email address" class="input-form white-bg-color" v-model="subscriptionEmail">
+                <button class="btn btn-primary" @click="createEmailSubscriber()" id="createEmailSubscriber">
+                  Submit
+                  <div class="loader-action"><span class="loader"></span></div>   
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="col-xs-12  col-sm-12 col-md-6 col-lg-4">
-            <div class="footer-office-address regular-text mg-bottom-24">
-              <div class="subcribe-text">Address</div>
-              59 Igbogo road Choba, Rivers state, Nigeria
-          </div>
+            <div class="col-xs-12  col-sm-12 col-md-6 col-lg-4">
+              <div class="footer-office-address regular-text mg-bottom-24">
+                <div class="subcribe-text">Address</div>
+                59 Igbogo road Choba, Rivers state, Nigeria
+            </div>
 
-          <div class="col-xs-12 mg-bottom-24">
-            <div class="subcribe-text mg-o">© Cudua Inc. 2020</div>
-          </div>
-
-          <div class="col-xs-12">
-            <button class="btn btn-white" @click="scrollToTop()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                  <use xlink:href="~/assets/customer/image/all-svg.svg#upArrow"></use>
-              </svg>
-          </button>
-          </div>
+            <div class="col-xs-12 mg-bottom-24">
+              <div class="subcribe-text mg-o">© Cudua Inc. 2020</div>
+            </div>
 
 
-        </div>
+          </div>
         </div>
 
           <PWAINITCOMPONENT></PWAINITCOMPONENT>
