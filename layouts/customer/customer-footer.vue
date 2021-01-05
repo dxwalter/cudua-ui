@@ -82,7 +82,7 @@
             </div>
 
             <div class="col-xs-12 mg-bottom-24">
-              <div class="subcribe-text mg-o">© Cudua Inc. 2020</div>
+              <div class="subcribe-text mg-o">© Cudua Inc. {{currentYear}}</div>
             </div>
 
 
@@ -110,7 +110,8 @@ export default {
   },
   data() {
     return {
-      subscriptionEmail: ""
+      subscriptionEmail: "",
+      currentYear: ""
     }
   },
   methods: {
@@ -156,12 +157,16 @@ export default {
         } else {
             return this.$showToast(result.message, 'error', 4000)
         }
+    },
+    copyRightYear: function () {
+        var d = new Date();
+        this.currentYear = d.getFullYear();
     }
 
   },
   created() {
     if (process.client) {
-        
+        this.copyRightYear()
     }
   }
 }
