@@ -53,6 +53,9 @@ let installBtn = document.getElementById('installUserPwa');
 
 if (installBtn) {
     installBtn.addEventListener('click', async (e) => {
+
+        console.log("botton has been clicked")
+
         installBtn.disabled = true;
         // hide our user interface that shows our A2HS button
         let installApp = document.getElementById('installAppContainer');
@@ -73,6 +76,8 @@ if (installBtn) {
         installApp.classList.add('display-none');
         });
     });
+} else {
+    console.log("Botton element not found")
 }
 
 
