@@ -82,8 +82,9 @@
                                         </div>
 
                                         <div class="form-control">
-                                            <!-- <label for="businessType" class="form-label">Write about your business <span>- optional</span></label> -->
-                                            <textarea name="" id="" cols="30" rows="7" class="input-form white-bg-color" placeholder="Write about your business" v-model="businessDescription"></textarea>
+                                            <label for="businessType" class="form-label">Write about your business <span>- optional</span></label>
+                                            <!-- <textarea name="" id="" cols="30" rows="7" class="input-form white-bg-color" placeholder="Write about your business" v-model="businessDescription"></textarea> -->
+                                            <Editor v-model="businessDescription" id="productDescription"/>
                                         </div>
 
                                         <div class="form-control">
@@ -517,6 +518,7 @@ import ADDLOCATION from '~/components/location/add.location.vue'
 import PAGELOADER from '~/components/loader/loader.vue'
 import PROGRESS from '~/components/progress/progress.vue'
 import SUBSCRIPTION from '~/components/business/subscription/subscription.vue'
+import Editor from "~/components/editor.vue";
 
 import { 
     EDIT_BASIC_BUSINESS_DETAILS, 
@@ -543,7 +545,7 @@ import paystack from '~/plugins/vue-paystack.client.vue'
 export default {
     name: "EDITBUSINESSPROFILE",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS, SUBSCRIPTION, paystack
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDLOCATION, PAGELOADER, PROGRESS, SUBSCRIPTION, paystack, Editor
     },
     data: function() {
         return {

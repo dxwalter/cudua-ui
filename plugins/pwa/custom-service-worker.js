@@ -5,6 +5,7 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('custom-sw.js', {scope: '/'}).then(function(registration) {
         // Registration was successful
         swRegistration = registration;
+        console.log("Registration successful")
     }, function(err) {
         // registration failed :(
         console.log('ServiceWorker registration failed: ', err);

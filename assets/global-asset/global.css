@@ -842,11 +842,6 @@ button:disabled .loader-action {
   }
 }
 
-@media(min-width: 1024px) {
-  .pwa-app-update-container {
-    display: none;
-  }
-}
 
 .onesignal-customlink-container {
   display: flex;
@@ -1089,4 +1084,9 @@ button:disabled .loader-action {
 
 .top-cat-result-filter button {
   flex: unset !important;
+}
+
+
+ol, ul {
+  padding: 0px 16px;
 }

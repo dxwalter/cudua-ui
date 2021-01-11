@@ -44,7 +44,8 @@ export default {
 		{ src: '~/plugins/vue-star-rating.client.vue', ssr: false },
 		{ src: '~/plugins/scroll-to-top.client.vue', ssr: false },
 		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
-		{ src: '~/plugins/ga.client.js', ssr: false }
+		{ src: '~/plugins/ga.client.js', ssr: false },
+		{ src: '~/plugins/blogEditor.js', ssr: false }
 	],
 	
 	modules: [
@@ -149,8 +150,12 @@ export default {
 	},
 	buildModules: [
 		'@nuxtjs/dotenv',
-		'@nuxtjs/auth'
+		'@nuxtjs/auth',
+		'@nuxtjs/vuetify'
 	],
+	build: {
+		transpile: ['vuetify/lib', "tiptap-vuetify"]
+	},
 	apollo: {
 		clientConfigs: {
 			default: '~/apollo/client-configs/default.js',

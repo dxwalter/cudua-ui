@@ -272,7 +272,7 @@
                                                     <div class="more-details-input-container js-accordionBody">
                                                         <div class="form-control">
                                                             <!-- <label for="businessType" class="form-label">Type in the product description</label> -->
-                                                            <textarea name="" id="productDescription" cols="30" rows="5" class="input-form white-bg-color" placeholder="Type in the product description" v-model="description"></textarea>
+                                                            <Editor v-model="description" id="productDescription"/>
                                                         </div>
                                                         <div class="form-control">
                                                             <button class="btn btn-block btn-primary" id="saveProductDescription" @click="saveProductDescription()">
@@ -455,11 +455,12 @@ import {
     SHOW_PRODUCT
 } from '~/graphql/product';
 
+import Editor from "~/components/editor.vue";
 
 export default {
     name: "EDITPRODUCTDETAILS",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, ADDCATEGORIESMODAL, PAGELOADER
+        TOPHEADER, SIDENAV, BOTTOMNAV, ADDCATEGORIESMODAL, PAGELOADER, Editor
     },
     data : function () {
         return {
@@ -1075,7 +1076,7 @@ export default {
             } else {
                 this.$removeRedBorder('productDescription');
             }
-
+            
             let target = document.getElementById('saveProductDescription');
 
             let variables = {
@@ -1533,4 +1534,5 @@ export default {
 .page-header {
     margin-bottom: 32px !important;
 }
+
 </style>

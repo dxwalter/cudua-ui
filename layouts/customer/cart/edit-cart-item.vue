@@ -75,9 +75,7 @@
                                 <div class="product-details-label">
                                     Product Description
                                 </div>
-                                <div class="product-description-text">
-                                    {{productDescription}}
-                                </div>
+                                <div class="product-description-text" v-html="productDescription"></div>
                                 </div>
 
 
