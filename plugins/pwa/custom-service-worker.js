@@ -43,13 +43,18 @@ function initPwaAction () {
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', function(e) {
+    console.log('beforeinstallprompt Event fired');
     e.preventDefault()
     deferredPrompt = e;
+    console.log(`this is ${deferredPrompt}`)
     initPwaAction()
+    return false
 })
 
 
 let installBtn = document.getElementById('installUserPwa');
+
+console.log(`${installBtn} here`)
 
 if (installBtn) {
     installBtn.addEventListener('click', async (e) => {
@@ -59,22 +64,27 @@ if (installBtn) {
         installBtn.disabled = true;
         // hide our user interface that shows our A2HS button
         let installApp = document.getElementById('installAppContainer');
-        // Show the prompt
-        deferredPrompt.prompt();
-        // Wait for the user to respond to the prompt
-        await deferredPrompt.userChoice
-        .then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                let currentTime = new Date().getTime();
-                let nextInstall = currentTime + (86400  * 20)
-                localStorage.setItem('cudua_retry_installation', nextInstall);
-                installBtn.disabled = false;
-            } else {
-                installBtn.disabled = false;
-            }
-        deferredPrompt = null;
-        installApp.classList.add('display-none');
-        });
+
+        if(deferredPrompt !== undefined) {
+            // Show the prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            await deferredPrompt.userChoice
+            .then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    let currentTime = new Date().getTime();
+                    let nextInstall = currentTime + (86400  * 20)
+                    localStorage.setItem('cudua_retry_installation', nextInstall);
+                    installBtn.disabled = false;
+                } else {
+                    installBtn.disabled = false;
+                }
+                deferredPrompt = null;
+                installApp.classList.add('display-none');
+            });
+        } else {
+            console.log("Deferred prompt is undefined")
+        }
     });
 } else {
     console.log("Botton element not found")
