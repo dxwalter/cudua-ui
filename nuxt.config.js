@@ -62,7 +62,7 @@ export default {
 	],
 	loading: false,
 	oneSignal: {
-		autoRegister: true,
+		autoRegister: false,
 		init: {
 		  appId: '4077e6c3-299e-4bef-8fcd-7eeec9e2b284',
 		  allowLocalhostAsSecureOrigin: true,
@@ -71,6 +71,8 @@ export default {
 			"message": "You look cute. We just want to take it a little bit further"
 		  }
 		},
+		cdn: true,
+		OneSignalSDK: 'https://cdn.onesignal.com/sdks/OneSignalSDK.js'
 	},
 	pwa: {
 		icon: {
