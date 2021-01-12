@@ -71,6 +71,7 @@ export default {
 			"message": "You look cute. We just want to take it a little bit further"
 		  }
 		},
+		importScripts: ["/custom-sw.js"]
 	},
 	pwa: {
 		icon: {
