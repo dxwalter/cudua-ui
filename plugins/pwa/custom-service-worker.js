@@ -46,15 +46,11 @@ window.addEventListener('beforeinstallprompt', function(e) {
     console.log('beforeinstallprompt Event fired');
     e.preventDefault()
     deferredPrompt = e;
-    console.log(`this is ${deferredPrompt}`)
     initPwaAction()
-    return false
 })
 
 
 let installBtn = document.getElementById('installUserPwa');
-
-console.log(`${installBtn} here`)
 
 if (installBtn) {
     installBtn.addEventListener('click', async (e) => {

@@ -104,6 +104,7 @@ export default {
 			importScripts: [
 				'/custom-sw.js'
 			],
+			swURL: '',
 			offlineAnalytics: true,
 			autoRegister: false,
 			offlinePage: '/offline.html',
