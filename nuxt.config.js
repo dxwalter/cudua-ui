@@ -71,7 +71,6 @@ export default {
 			"message": "You look cute. We just want to take it a little bit further"
 		  }
 		},
-		importScripts: ["/custom-sw.js"]
 	},
 	pwa: {
 		icon: {
@@ -102,12 +101,12 @@ export default {
 			/* workbox options */
 			workboxURL: 'https://cdn.jsdelivr.net/npm/workbox-cdn/workbox/workbox-sw.js',
 			importScripts: [
-				'/custom-sw.js'
+				'custom-sw.js'
 			],
-			swURL: '/custom-sw.js',
 			offlineAnalytics: true,
 			autoRegister: false,
 			offlinePage: '/offline.html',
+			swURL: 'custom-sw.js',
 			runtimeCaching: [
 				{
 					urlPattern: 'https://fonts.googleapis.com/.*',
