@@ -108,7 +108,7 @@ export default {
 			offlineAnalytics: true,
 			autoRegister: false,
 			offlinePage: '/offline.html',
-			swURL: 'custom-sw.js',
+			swURL: 'OneSignalSDKWorker.js',
 			runtimeCaching: [
 				{
 					urlPattern: 'https://fonts.googleapis.com/.*',
