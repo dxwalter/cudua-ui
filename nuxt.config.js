@@ -62,13 +62,14 @@ export default {
 	],
 	loading: false,
 	oneSignal: {
-		autoRegister: false,
+		autoRegister: true,
 		init: {
 		  appId: '4077e6c3-299e-4bef-8fcd-7eeec9e2b284',
 		  allowLocalhostAsSecureOrigin: true,
 		  welcomeNotification: {
 			"title": "Welcome to Cudua!",
-			"message": "You look cute. We just want to take it a little bit further"
+			disable: false,
+			"message": "Welcome to the online store for beautiful people"
 		  }
 		},
 		cdn: true,
@@ -91,7 +92,7 @@ export default {
 			nativeUI: true,
 		},
 		manifest: {
-			name: "The online market for lovely people",
+			name: "The online market for beautiful people",
 			lang: 'en',
 			useWebmanifestExtension: false,
 			short_name: "Cudua",
@@ -109,6 +110,7 @@ export default {
 			autoRegister: false,
 			offlinePage: '/offline.html',
 			swURL: 'custom-sw.js',
+			cachingExtensions: '@/plugins/pwa/workbox-range-request.js',
 			runtimeCaching: [
 				{
 					urlPattern: 'https://fonts.googleapis.com/.*',
