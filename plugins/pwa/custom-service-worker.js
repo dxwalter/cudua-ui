@@ -53,6 +53,9 @@ window.addEventListener('beforeinstallprompt', function(e) {
 let installBtn = document.getElementById('installUserPwa');
 
 if (installBtn) {
+
+    console.log(installBtn)
+
     installBtn.addEventListener('click', async (e) => {
 
         console.log("botton has been clicked")
