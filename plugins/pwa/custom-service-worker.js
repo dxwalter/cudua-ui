@@ -42,19 +42,13 @@ function initPwaAction () {
 
 let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', function(e) {
+window.addEventListener('beforeinstallprompt', async (e) => {
     console.log('beforeinstallprompt Event fired');
     e.preventDefault()
     deferredPrompt = e;
     initPwaAction()
-})
 
-
-let installBtn = document.getElementById('installUserPwa');
-
-if (installBtn) {
-
-    console.log(installBtn)
+    let installBtn = document.getElementById('installUserPwa');
 
     installBtn.addEventListener('click', async (e) => {
 
@@ -81,14 +75,10 @@ if (installBtn) {
                 deferredPrompt = null;
                 installApp.classList.add('display-none');
             });
-        } else {
-            console.log("Deferred prompt is undefined")
         }
-    });
-} else {
-    console.log("Botton element not found")
-}
 
+    })
+})
 
 let updateButton = document.getElementById('updateAppsLatestVersion');
 if (updateButton) {
