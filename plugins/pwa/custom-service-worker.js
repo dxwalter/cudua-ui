@@ -44,11 +44,22 @@ let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', async (e) => {
     console.log('beforeinstallprompt Event fired');
-    e.preventDefault()
-    deferredPrompt = e;
+
     initPwaAction()
 
+    e.preventDefault()
+
+    deferredPrompt = e;
+
+    listenToUserAction ()
+})
+
+
+function listenToUserAction () {
+
     let installBtn = document.getElementById('installUserPwa');
+
+    console.log("called listenToUserAction")
 
     installBtn.addEventListener('click', async (e) => {
 
@@ -61,6 +72,7 @@ window.addEventListener('beforeinstallprompt', async (e) => {
         if(deferredPrompt !== undefined) {
             // Show the prompt
             deferredPrompt.prompt();
+            
             // Wait for the user to respond to the prompt
             await deferredPrompt.userChoice
             .then((choiceResult) => {
@@ -78,7 +90,7 @@ window.addEventListener('beforeinstallprompt', async (e) => {
         }
 
     })
-})
+}
 
 let updateButton = document.getElementById('updateAppsLatestVersion');
 if (updateButton) {
