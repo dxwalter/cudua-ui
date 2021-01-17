@@ -26,6 +26,21 @@
 
                         <div class="product-upload-container">
                             <!-- main content goes in here -->
+
+                            <div class="mg-bottom-32">
+                                <a :href="instagramAuthUrl" class="industry-action-card">
+                                    <div class="svg">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 448 512">
+                                            <use xlink:href="~/assets/business/image/all-svg.svg#instagram"></use>
+                                        </svg>
+                                    </div>
+                                    <div class="text-a">Upload from instagram</div>
+                                </a>
+
+                                <div class="sign-in-option mg-bottom-32">or</div>
+
+                            </div>
+
                             <div class="form-control">
                                 <!-- <label for="businessType" class="form-label">Product name</label> -->
                                 <input type="text" name="" id="productName" class="input-form white-bg-color" placeholder="Product's name" v-model="productName">
@@ -39,17 +54,46 @@
                             
                             <div class="form-control" id="singleTabContainer">
                                 <!-- show this div if cat and subcat is in url query -->
-                                <div class="d-flex-between-query mg-bottom-16" v-show="industry">
+                                <!-- <div class="d-flex-between-query mg-bottom-16" v-show="industry">
                                     <div class="upload-tab-category">
                                         <span>{{industry}}</span>
                                     </div>
                                     <button class="btn btn-white btn-small" @click="SetIndustry('')">Change</button>
+                                </div> -->
+
+                                <div>
+                                    <label for="businessType" class="form-label">Choose an industry</label>
+                                    <div class="d-flex mg-bottom-16 industry-button-container">
+                                        <div class="industry-action-card" id="industryFashion">
+                                            <div class="industry-overlay" @click="SetIndustry('Fashion', $event)"></div>
+                                            <div class="svg">
+                                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 640 512">
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#industryFashion"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="text-a">Fashion</div>
+                                            <div class="roller-indicator"></div>
+                                        </div>
+
+                                        <div class="industry-action-card" id="industryBeauty">
+                                            <div class="industry-overlay" @click="SetIndustry('Beauty', $event)"></div>
+                                            <div class="svg">
+                                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 640 512">
+                                                    <use xlink:href="~/assets/business/image/all-svg.svg#industryBeauty"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="text-a">Beauty</div>
+                                            <div class="roller-indicator"></div>
+                                        </div>
+
+                                    </div>
                                 </div>
+
                                 <div v-show="!catAndSubcatFromUrl">
                                     <div class="mg-bottom-32">
                                         <!-- <label for="businessType" class="form-label">Select category</label> -->
                                         <select class="input-form white-bg-color" 
-                                        id="productCategory" @click="clickedCategory = 1" @change="onSelectCategory($event)">
+                                        id="productCategory" @click="clickedCategory = 1" @change="onSelectCategory($event)" v-show="industry">
                                             <option selected value="">Select category</option>
                                             <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
                                         </select>
@@ -136,7 +180,7 @@
                             </div>
                         </div>
 
-                            <div class="industry-layout" v-show="industry.length == 0 && !pageLoader && !isNetworkError && selectedCategoryId.length == 0">
+                            <div class="industry-layout display-none" v-show="industry.length == 0 && !pageLoader && !isNetworkError && selectedCategoryId.length == 0">
                                 <div class="header">Choose your industry...</div>
                                 <div class="industry-card-container">
 
@@ -332,7 +376,10 @@ export default {
             highLightFashionIndustry: "",
             highLightBeautyIndustry: "",
             allCategories: [],
-            categoriesInIndustry: []
+            categoriesInIndustry: [],
+
+            instagramKey: "",
+            instagramAuthUrl: ""
             
         }
     },
@@ -357,9 +404,19 @@ export default {
         }),
         GetBusinessDataFromStore: function () {
             let businessData = this.GetBusinessData();
-			this.businessId = businessData.businessId
+            this.businessId = businessData.businessId
+            this.instagramKey = businessData.instagramKey;
+
 			let customerData = this.GetCustomerData();
             this.accessToken = customerData.userToken
+
+            
+            if (this.instagramKey.length == 0) {
+                this.instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_APP_ID}&redirect_uri=https://localhost:3333/b/product/instagram&scope=user_profile,user_media&response_type=code`;
+            } else{
+                this.instagramAuthUrl = 'http://localhost:3000/b/product/instagram/'
+            }
+
 		},
         previewImage: function (e, preview) {
 
@@ -466,7 +523,16 @@ export default {
             target.setAttribute('data-rotate', newDegree)
             target.style.transform = `rotate(${newDegree}deg)`
         },
-        SetIndustry: function (industry) {
+        SetIndustry: function (industry, e) {
+
+            let allIndustries = document.querySelectorAll('.industry-action-card');
+            
+            for (let x of allIndustries) {
+                x.classList.remove('is-active')
+            }
+
+            document.getElementById(`industry${industry}`).classList.add('is-active')
+
             this.industry = industry
             this.selectedCategoryId = ""
             this.selectedSubcategoryId = ""
@@ -474,6 +540,8 @@ export default {
             this.selectedSubcategoryName = ""
             this.selectedCategoryName = ""
             this.catAndSubcatFromUrl = 0
+
+            this.$showToast(`${industry} industry selected`, 'info');
         },
         industryHighLightText: function (categories) {
         

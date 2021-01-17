@@ -37,7 +37,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg">
                                     <use xlink:href="~/assets/business/image/all-svg.svg#productIcon"></use>
                                 </svg>
-                                <span>Products</span>
+                                <span>My products</span>
                             </div>
                         </n-link>
 

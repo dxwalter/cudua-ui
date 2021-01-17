@@ -35,7 +35,8 @@ export const state = () => ({
 		type: ""
 	},
 	inviteId: "",
-	paystackPublicKey: ""
+	paystackPublicKey: "",
+	instagramKey: ""
 });
 
 const getDefaultState = () => {
@@ -75,7 +76,8 @@ const getDefaultState = () => {
 			type: ""
 		},
 		inviteId: "",
-		paystackPublicKey: ""
+		paystackPublicKey: "",
+		instagramKey: ""
 	}
 }
 
@@ -92,7 +94,9 @@ export const actions = {
 
 	setSubscription(context, payload) {context.commit('setSubscription', payload)},
 
-	setInviteBusinessId(context, payload) {context.commit('setInviteBusinessId', payload)}
+	setInviteBusinessId(context, payload) {context.commit('setInviteBusinessId', payload)},
+
+	setInstagramkey(context, payload) {context.commit('setInstagramkey', payload)}
 }
 
 export const getters = {
@@ -189,6 +193,10 @@ export const mutations = {
 
 	setInviteBusinessId: (state, payload) => {
 		state.inviteId = payload
+	},
+
+	setInstagramkey: (state, payload) => {
+		state.instagramKey = payload
 	},
 
 	resetBusinessState: (state) => Object.assign(state, getDefaultState())

@@ -1,4 +1,5 @@
-export default {
+
+module.exports = {
 	dev: process.env.NODE_ENV !== 'production',
 	head: {
 		title: 'Welcome to Cudua. Create your online shop and start selling in 2 minutes',
@@ -45,7 +46,8 @@ export default {
 		{ src: '~/plugins/scroll-to-top.client.vue', ssr: false },
 		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
 		{ src: '~/plugins/ga.client.js', ssr: false },
-		{ src: '~/plugins/blogEditor.js', ssr: false }
+		{ src: '~/plugins/blogEditor.js', ssr: false },
+		{ src: '~/plugins/jsonp-http-plugin.client.js', ssr: false }
 	],
 	
 	modules: [
@@ -58,7 +60,8 @@ export default {
 			observerConfig: {
 				// See IntersectionObserver documentation
 			}
-		}]
+		}],
+		'@nuxtjs/axios'
 	],
 	loading: false,
 	oneSignal: {
@@ -168,7 +171,9 @@ export default {
 	},
 	env: {
 		API_END_POINT: process.env.API_END_POINT,
-		CLOUDINARY_FOLDER:process.env.CLOUDINARY_FOLDER
+		CLOUDINARY_FOLDER:process.env.CLOUDINARY_FOLDER,
+		INSTAGRAM_APP_ID:process.env.INSTAGRAM_APP_ID,
+		INSTAGRAM_APP_SECRET:process.env.INSTAGRAM_APP_SECRET
 	},
 	server: {
 		port: 3333, // default: 3000

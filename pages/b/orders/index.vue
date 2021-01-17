@@ -24,7 +24,7 @@
                             </div>
                             <!-- If owner has not uploaded any product, this search box should be hidden because they have nothing to search -->
                             <div class="search-area" id="productSearchArea">
-                                <input type="text" name="" class="search-form" placeholder="Search for orders using ORDER ID" id="productSearchInput" v-model="orderIdSearchString">
+                                <input type="text" name="" class="search-form white-bg-color" placeholder="Search for orders using ORDER ID" id="productSearchInput" v-model="orderIdSearchString">
                                 <button id="tabLink" class="close-component-search white-bg-color">
                                     <input type="checkbox" class="dropdownCheckBox" @click="hideSearchBar()">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">

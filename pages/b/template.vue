@@ -1,19 +1,21 @@
 <template>
-    <div class="body-container">
-        <TOPHEADER />
-        <Nuxt />
-        <div class="content-container">
-            <SIDENAV />
+    <div class="business">
+        <div class="body-container">
+            <TOPHEADER />
             <Nuxt />
-                <div class="content-area">
-                    <div class="main-content">
+            <div class="content-container">
+                <SIDENAV />
+                <Nuxt />
+                    <div class="content-area">
+                        <div class="main-content">
 
 
 
+                        </div>
+                        <BOTTOMNAV />
+                        <Nuxt />
                     </div>
-                    <BOTTOMNAV />
-                    <Nuxt />
-                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -29,4 +31,3 @@ export default {
     }
 }
 </script>
-<style src="~/assets/business/css/app.css" scoped></style>
