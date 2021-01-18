@@ -9,114 +9,40 @@
                 <div class="content-area grey-bg-color">
                     <div class="main-content">
 
+                        <div class="instagram-loader" v-show="pageLoader">
+                            <div class="loader-action"><span class="loader"></span></div>
+                        </div>
+
+
+                        <div class="instagram-loader" v-show="apiError && !pageLoader">
+                            <div class="instagram-error-container">
+                                <div class="error-message">An error occurred: {{apiErrorMessage}}</div>
+                                <div><n-link to="/b/product/add-product" class="btn btn-primary">Try again</n-link></div>
+                            </div>
+                        </div>
+
                         
-                        <div class="page-header">
+                        <div class="page-header" v-show="!pageLoader">
                             <h4>Select a product</h4>
                         </div>
 
-                        <div class="">
+                        <div class="" v-show="returnInstagramMedia.length > 0">
                             <div class="instagram-image-listing mg-bottom-32">
-                                <div class="image-tile" @click="selectProduct('image')">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
+                                <div class="image-tile" @click="selectProduct(media.media_url, media.caption)" v-for="(media, index) in returnInstagramMedia" :key="index">
+                                    
+                                    <img :src="media.media_url" alt="" srcset="">
                                 </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
-                                <div class="image-tile">
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="" srcset="">
-                                </div>
+                               
                             </div>
                             
-                            <div class="d-flex-center mg-bottom-32 instagram-more-action-container">
-                                <button class="btn btn-white">Previous</button>
-                                <button class="btn btn-primary">Next</button>
+                            <div class="d-flex-center mg-bottom-32 instagram-more-action-container" v-show="nextPagination">
+                                <button class="btn btn-primary" id="loadMoreImage" @click="loadMoreInstagramImages()">
+                                    Load more images
+                                    <div class="loader-action"><span class="loader"></span></div>
+                                </button>
+
                             </div>
 
-                        </div>
-
-                        <div class="instagram-loader display-none">
-                            <div class="loader-action"><span class="loader"></span></div>
                         </div>
 
                         <div class="">
@@ -154,7 +80,7 @@
                                 <!-- make this 100%-->
                                 <div class="business-cover-photo" id="dumpProductImage" data-rotate="0">
                                     <!-- make this 100%-->
-                                    <img src="~/assets/business/image/daniel-chigisoft.jpg" alt="">
+                                    <img :src="productImage" alt="">
                                 </div>
                             </div>
                         </div>
@@ -176,7 +102,7 @@
     
                                 <div>
                                     <label for="businessType" class="form-label">Choose an industry</label>
-                                    <div class="d-flex mg-bottom-16 industry-button-container">
+                                    <div class="d-flex mg-bottom-16 industry-button-container" id="industryContainer">
                                         <div class="industry-action-card grey-bg-color" id="industryFashion">
                                             <div class="industry-overlay" @click="SetIndustry('Fashion', $event)"></div>
                                             <div class="svg">
@@ -188,7 +114,7 @@
                                             <div class="roller-indicator"></div>
                                         </div>
 
-                                        <div class="industry-action-card" id="industryBeauty">
+                                        <div class="industry-action-card grey-bg-color" id="industryBeauty">
                                             <div class="industry-overlay" @click="SetIndustry('Beauty', $event)"></div>
                                             <div class="svg">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 640 512">
@@ -207,7 +133,7 @@
                                         <!-- <label for="businessType" class="form-label">Select category</label> -->
                                         <select class="input-form" 
                                         id="productCategory" @click="clickedCategory = 1" @change="onSelectCategory($event)" v-show="industry">
-                                            <!-- <option selected value="">Select category</option> -->
+                                            <option selected value="">Select category</option>
                                             <option v-for="category in returnCategories" v-bind:value="category.categoryId" :key="category.categoryId">{{ category.categoryName }}</option>
                                         </select>
 
@@ -248,7 +174,7 @@
 
                             </div>
 
-                        <div class="form-control">
+                        <div class="form-control" v-show="selectedCategoryName && selectedSubcategoryName">
                             <div class="email-noti-switcher">
                                 <span class="form-label margin-unset">Use caption as description</span>
                                 <label class="switch">
@@ -294,15 +220,17 @@
 import TOPHEADER from '~/layouts/business/top-navigation.vue';
 import SIDENAV from '~/layouts/business/side-bar.vue';
 import BOTTOMNAV from '~/layouts/business/bottom-nav.vue';
-import PAGELOADER from '~/components/loader/loader.vue';
 import { GET_ALL_CATEGORIES } from '~/graphql/categories';
+import { CREATE_NEW_PRODUCTS_WITH_INSTAGRAM } from '~/graphql/product';
+
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import Editor from "~/components/editor.vue";
 
 export default {
     name: "UPLOADWITHINSTAGRAM",
     components: {
-        TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER, Editor
+        TOPHEADER, SIDENAV, BOTTOMNAV, Editor
     },
     data : function () {
         return {
@@ -336,7 +264,21 @@ export default {
             productPrice: "",
             productImage: "",
             useCaption: 0,
-            productDescription: ""
+            productDescription: "",
+
+
+            querystring: require('querystring'),
+
+            apiError: "",
+            apiErrorMessage: "",
+
+            pageLoader: true,
+
+            shortTermToken: "",
+            instagramUserId: "",
+            longTermToken: "",
+            instagramImages: [],
+            nextPagination:""
         }
     },
     computed: {
@@ -345,23 +287,45 @@ export default {
         },
         returnSubcategoriesOfCategory: function () {
             return this.subcategoriesUnderCategories
+        },
+        returnInstagramMedia: function () {
+            return this.instagramImages
         }
     },
     methods: {
+        ...mapGetters({
+            'GetCustomerData': 'customer/GetCustomerDetails',
+            'GetBusinessData': 'business/GetBusinessDetails'
+        }),
+        GetBusinessDataFromStore: function () {
+            let businessData = this.GetBusinessData();
+            this.businessId = businessData.businessId
+            this.longTermToken = businessData.instagramKey;
+            this.instagramUserId = businessData.instagramUserId
+
+			let customerData = this.GetCustomerData();
+            this.accessToken = customerData.userToken
+
+        },
+        storeLongTermToken: function (token) {
+            this.$store.dispatch('business/setInstagramkey', token);
+            this.$store.dispatch('business/setInstagramUserId', this.instagramUserId);
+        },
         resetUrlData: function () {
             this.selectedSubcategoryId = '';
             this.selectedCategoryId = this.selectedCategoryId
             this.selectedSubcategoryName = ""
         },
-        selectProduct: function (image) {
+        selectProduct: function (image, caption) {
             document.querySelector('body').classList.add('overflow-hidden')
-            // document.getElementById('uploadFromInstagramModal').classList.add('show-modal')
-            this.productImage = image
+            this.productImage = image;
+            this.productDescription = caption
         },
         resetSelectedProduct: function () {
             document.querySelector('body').classList.remove('overflow-hidden')
             // document.getElementById('uploadFromInstagramModal').classList.remove('show-modal')  
             this.productImage = ''
+            this.productDescription = ''
         },
         setCaptionBox: function () {
             if (this.useCaption == 0) {
@@ -370,97 +334,189 @@ export default {
                 this.useCaption = 0
             }
         },
-        async getLongTermToken () {
+        async getTokenFromInstagram () {
 
-
-            let longTermUrl = `https://api.instagram.com/oauth/access_token`;
-
-            // this.$axios.setHeader('dataType', 'jsonp')
+            let shortTermUrl = `https://api.instagram.com/oauth/access_token`;
 
             delete this.$axios.defaults.headers.common['dataType']
             delete this.$axios.defaults.headers.common['Content-Type']
-
-            const querystring = require('querystring');
             
             let params = {
                 
                     client_id: `${process.env.INSTAGRAM_APP_ID}`,
                     client_secret: `${process.env.INSTAGRAM_APP_SECRET}`,
                     grant_type: `authorization_code`,
-                    redirect_uri: `https://localhost:3333/b/product/instagram`,
+                    redirect_uri: `https://cudua.com/b/product/instagram`,
                     code: `${this.code}`
 
             }
 
-            const getLongTermToken = await this.$axios.$post(`${longTermUrl}`, querystring.stringify(params)).then(function (response) {
-
-                console.log(response);
+            const getShortTermAccessToken = await this.$axios.$post(`${shortTermUrl}`, this.querystring.stringify(params)).then(function (response) {
+            
+                return {
+                    error: false,
+                    access_token: response.access_token,
+                    instagramUserId: response.user_id
+                }
 
             }).catch(error => {
-                
                 // do something
+                this.pageLoader = false;
+                this.apiError = true;
+                this.apiErrorMessage = error;
 
-                console.log(error + " here 2")
+                return {
+                    error: true
+                }
+
             });
 
-            console.log(getLongTermToken + " Here")
+            if (getShortTermAccessToken.error) {
+                return
+            } else {
+                this.shortTermToken = getShortTermAccessToken.access_token;
+                this.instagramUserId = getShortTermAccessToken.instagramUserId;
+                this.getLongTermTokenFromInstagram(this.shortTermToken)
+            }
             
         },
+        getLongTermTokenFromInstagram: async function (token) {
 
-        industryHighLightText: function (categories) {
-        
-            let fashionHighLight = []   
-            let beautyHighLight = []
+            
+            let longTermUrl = `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${process.env.INSTAGRAM_APP_SECRET}&access_token=${token}`;
 
-            for (const [index, category] of categories.entries()) {
-                if (category.industry == "Fashion") {
-                    fashionHighLight.push(category.categoryName)
+
+            const getLongTermAccessToken = await this.$axios.$get(`${longTermUrl}`).then(function (response) {
+                return {
+                    error: false,
+                    access_token: response.access_token,
                 }
 
-                if (category.industry == "Beauty") {
-                    beautyHighLight.push(category.categoryName)
+            }).catch(error => {
+
+                this.pageLoader = false;
+                this.apiError = true;
+                this.apiErrorMessage = error;
+
+                return {
+                    error: true
                 }
-            }
+            });
 
-            for(const [index, fashion] of fashionHighLight.entries()) {
-
-                if(index == 0) {
-                    this.highLightFashionIndustry = `${fashion}`
-                }
-
-                if (index > 0) {
-                    this.highLightFashionIndustry = this.highLightFashionIndustry + `, ${fashion}`
-                }
-
-                if (index == 4 ) {
-                    this.highLightFashionIndustry = `${this.highLightFashionIndustry}, etc.`;
-                    break;
-                }
-
-                
-            }
-
-            for(const [index, beauty] of beautyHighLight.entries()) {
-
-                if(index == 0) {
-                    this.highLightBeautyIndustry = `${beauty}`
-                }
-
-                if (index > 0) {
-                    this.highLightBeautyIndustry = this.highLightBeautyIndustry + `, ${beauty}`
-                }
-
-                if (index == 3 ) {
-                    this.highLightBeautyIndustry = `${this.highLightBeautyIndustry}, etc.`;
-                    break;
-                }
+            if (getLongTermAccessToken.error) {
+                return
+            } else {
+                this.longTermToken = getLongTermAccessToken.access_token;
+                this.storeLongTermToken(this.longTermToken);
+                this.getInstagramImages()
             }
 
         },
+        getInstagramImages: async function () {
+            
+            let getInstagramMedia = `https://graph.instagram.com/${this.instagramUserId}/media?fields=id,caption,media_type,media_url,timestamp&access_token=${this.longTermToken}`;
 
+
+            const getDataFromInstagram = await this.$axios.$get(`${getInstagramMedia}`).then(function (response) {
+                return {
+                    error: false,
+                    result: {
+                        data: response.data,
+                        paging: response.paging 
+                    }
+                }
+
+            }).catch(error => {
+
+                this.pageLoader = false;
+                this.apiError = true;
+                this.apiErrorMessage = error;
+
+                return {
+                    error: true
+                }
+            });
+
+            if (getDataFromInstagram.error) {
+                return
+            } else {
+                    
+                    let resultData = getDataFromInstagram.result.data;
+                    let pagination = getDataFromInstagram.result.paging.next;
+                    
+                    this.formatInstagramResult(resultData, pagination)
+
+            }
+
+        },
+        formatInstagramResult: async function (resultData, pagination) {
+
+                this.pageLoader = false;
+
+                if (resultData.length == 0) {
+                    this.pageLoader = false;
+                    this.apiError = true;
+                    this.apiErrorMessage = "You do not have any uploaded image on instagram.";
+                }
+
+                if (resultData.length > 0) {
+                    resultData.forEach(media => {
+                        if (media.media_type == "IMAGE") {
+                            this.instagramImages.push(media)
+                        }
+                    });
+                }
+
+                if (this.instagramImages.length == 0 ) {
+                    this.pageLoader = false;
+                    this.apiError = true;
+                    this.apiErrorMessage = "You do not have any uploaded image on instagram.";
+                }
+
+                if (pagination !== undefined) {
+                    this.nextPagination = pagination
+                } else {
+                    this.nextPagination = ''
+                }
+            
+        },
+        loadMoreInstagramImages: async function () {
+
+            let target = document.getElementById('loadMoreImage');
+            target.disabled = true;
+
+            const loadMoreImages = await this.$axios.$get(`${this.nextPagination}`).then(function (response) {
+                return {
+                    error: false,
+                    result: {
+                        data: response.data,
+                        paging: response.paging 
+                    }
+                }
+
+            }).catch(error => {
+                return {
+                    error: true
+                }
+            });
+
+            target.disabled = false;
+
+            if (loadMoreImages.error) {
+                this.$showToast("A network error occurred. Kindly try again", 'error', 4000)
+                return
+            } else {
+                    
+                    let resultData = loadMoreImages.result.data;
+                    let pagination = loadMoreImages.result.paging.next;
+                    
+                    this.formatInstagramResult(resultData, pagination)
+
+            }
+
+
+        },
         cancelProcess: function (error) {
-
-            console.log(error == 'access_denied')
 
             if (error == 'access_denied') {
                 this.$showToast('You declined access to your instagram account', "info", 5000);
@@ -503,7 +559,6 @@ export default {
                 }
             }
 
-            this.industryHighLightText(categorylisting)
             this.allCategories = categorylisting;
 
             // emit to add category component
@@ -563,6 +618,106 @@ export default {
                 }
             }
         },
+
+        uploadBasicProduct: async function (e) {
+
+            e.preventDefault();
+
+            // check product name
+            if (!this.productName || this.productName.length < 3) {
+                this.$addRedBorder("productName");
+                this.$showToast("What is the name of the product you want to sell? It must be greater than 2 characters", "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("productName")
+                this.productName = this.$firstLetterUpperCase(this.productName)
+            }
+
+            // check product price
+            if (!this.productPrice) {
+                this.$addRedBorder("productPrice");
+                this.$showToast("How much is this product?", "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("productPrice")
+            }
+
+            // check product industry
+            if (!this.industry) {
+                this.$addRedBorder("industryContainer");
+                this.$showToast("Choose an industry", "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("industryContainer");
+            }
+
+            // check product category
+            if (!this.selectedCategoryId) {
+                this.$addRedBorder("productCategory");
+                this.$showToast("Choose a product category", "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("productCategory");
+            }
+
+            // check subcategory
+            if (!this.selectedSubcategoryId) {
+                this.$addRedBorder("selectedSubCat");
+                this.$showToast(`Select a subcategory under ${this.selectedCategoryName} category`, "error", 6000);
+                return
+            } else {
+                this.$removeRedBorder("selectedSubCat");
+            }
+
+
+            let target = document.getElementById("uploadBasicProduct");
+
+            target.disabled = true;
+
+
+            let variables = {
+                name: this.productName,
+                price: Number(this.productPrice),
+                category: this.selectedCategoryId,
+                subcategory: this.selectedSubcategoryId,
+                imagePath: this.productImage,
+                businessId: this.businessId,
+                description: this.useCaption == 0 ? "" : this.productDescription
+            };
+
+            let context = {
+                headers: {
+                    'accessToken': this.accessToken
+                }
+            }
+
+
+            this.$showToast("Upload has started", "info")
+
+            let request = await this.$performGraphQlMutation(this.$apollo, CREATE_NEW_PRODUCTS_WITH_INSTAGRAM, variables, context);
+
+            target.disabled = false;
+
+            if (request.error == true) {
+                this.$showToast(request.message, 'error', 6000)
+                return
+            }
+            
+
+            let result = request.result.data.CreateProductFromInstagram;
+
+            if (!result.success) {
+                this.$showToast(result.message, 'error', 6000)
+                return
+            }
+
+            this.productId = result.productId;
+
+            this.$showToast('Product upload was successful', 'success', 6000)
+
+            this.resetSelectedProduct()
+
+        },
     },
     beforeDestroy () {
         clearTimeout(this.redirectTimer);
@@ -598,6 +753,14 @@ export default {
     async created () {
         if (process.client) {
 
+            this.GetBusinessDataFromStore();
+            await this.GetAllCategories();
+
+            if (this.longTermToken.length > 0) {
+                this.getInstagramImages()
+                return
+            }
+
             if (this.$route.query.error !== undefined) {
                 return this.cancelProcess(this.$route.query.error);
                 
@@ -608,10 +771,8 @@ export default {
 
             if (urlData !== undefined && urlData.length > 0) {
                 this.code = urlData
-                this.getLongTermToken()
+                this.getTokenFromInstagram()
             }
-
-            await this.GetAllCategories();
         }
     }
 }
@@ -625,7 +786,9 @@ export default {
         justify-content: center;
         align-content: center;
         top: 0;
+        left: 0;
     }
+
     .instagram-loader .loader-action {
         display: flex;
         background-color: transparent;
@@ -675,5 +838,10 @@ export default {
     }
     .grey-bg-color.industry-action-card {
         background-color: #f4f4f4 !important;
+    }
+    .error-message {
+        padding: 16px;
+        text-align: center;
+        line-height: 27px;
     }
 </style>

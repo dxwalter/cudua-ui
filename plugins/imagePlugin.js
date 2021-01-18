@@ -36,7 +36,7 @@ export default ({app}, inject) => {
             imagePath = `${extension[0]}.jpeg`
         }
         if (type == "thumbnail") {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_auto,f_auto,q_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_auto,f_auto,c_crop,g_auto,h_500,w_500/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
 
         if (type == 'iconSize') {
@@ -44,11 +44,11 @@ export default ({app}, inject) => {
         }
 
         if (type == 'medium') {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_auto,f_auto,q_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_auto,f_auto,q_auto,c_crop,g_auto,h_400,w_400/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
 
         if (type == 'bigSize') {
-            return `https://res.cloudinary.com/cudua-images/image/upload/w_auto,f_auto,q_auto/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
+            return `https://res.cloudinary.com/cudua-images/image/upload/w_auto,f_auto,c_crop,g_auto,h_700,q_100,w_700/v1599134339/${process.env.CLOUDINARY_FOLDER}/business/${businessId}/product/${imagePath}`
         }
     }
 

@@ -4547,9 +4547,6 @@ header.v-sheet  {
     }
 }
 
-.instagram-more-action-container .btn:first-child{
-    margin-right: 8px;
-}
 
 .instagram-form-holder {
     padding: 0px 16px 128px 16px;
@@ -4564,8 +4561,17 @@ header.v-sheet  {
 }
 
 .instagram-preview.format-image-container {
-    width: 150px;
-    height: 150px;
+    width: auto;
+    height: auto;
+    max-width: 200px;
+    max-height: 200px;
     margin: 0 auto;
     border-radius: 4px;
+}
+
+.instagram-error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

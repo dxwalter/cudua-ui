@@ -18,6 +18,25 @@ mutation CreateProduct($file: String!, $name: String!, $price: Int!, $category: 
 }
 `
 
+export const CREATE_NEW_PRODUCTS_WITH_INSTAGRAM = gql`
+mutation createProduct($name: String!, $price: Int!, $category: String!, $subcategory: String!, $businessId: String!, $imagePath: String!, $description: String) {
+  CreateProductFromInstagram(input:{
+    name: $name,
+    price: $price,
+    category: $category,
+    subcategory: $subcategory,
+    imagePath: $imagePath,
+    businessId: $businessId,
+    description: $description
+  }) {
+    productId
+    code
+    success
+    message
+  }
+}
+`
+
 export const GET_PRODUCT_BY_BUSINESS_ID = gql`
 query getProduct($businessId: String!, $page: Int!){
   GetProductsUsingBusinessId(input:{

@@ -412,9 +412,9 @@ export default {
 
             
             if (this.instagramKey.length == 0) {
-                this.instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_APP_ID}&redirect_uri=https://localhost:3333/b/product/instagram&scope=user_profile,user_media&response_type=code`;
+                this.instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${process.env.INSTAGRAM_APP_ID}&redirect_uri=https://cudua.com/b/product/instagram&scope=user_profile,user_media&response_type=code`;
             } else{
-                this.instagramAuthUrl = 'http://localhost:3000/b/product/instagram/'
+                this.instagramAuthUrl = 'https://cudua.com/b/product/instagram/'
             }
 
 		},

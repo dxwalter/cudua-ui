@@ -46,8 +46,7 @@ module.exports = {
 		{ src: '~/plugins/scroll-to-top.client.vue', ssr: false },
 		{ src: '~/plugins/pwa/custom-service-worker.js', ssr: false },
 		{ src: '~/plugins/ga.client.js', ssr: false },
-		{ src: '~/plugins/blogEditor.js', ssr: false },
-		{ src: '~/plugins/jsonp-http-plugin.client.js', ssr: false }
+		{ src: '~/plugins/blogEditor.js', ssr: false }
 	],
 	
 	modules: [
