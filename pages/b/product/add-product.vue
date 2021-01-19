@@ -27,7 +27,7 @@
                         <div class="product-upload-container">
                             <!-- main content goes in here -->
 
-                            <div class="mg-bottom-32">
+                            <div class="mg-bottom-32 display-none">
                                 <a :href="instagramAuthUrl" class="industry-action-card">
                                     <div class="svg">
                                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 448 512">
