@@ -11,7 +11,7 @@
                         <Nuxt />
 
                         <div class="alert alert-danger notification-alert" v-show="!subscriptionStatus && businessAddress.street == undefined && !pageLoader">
-                            <div>Your business and products will not appearing in advanced search results because you have not added your business address.</div>
+                            <div>Your business and products will not appear in advanced search results because you have not added your business address.</div>
                             <button class="btn btn-white btn-small" @click="makeAddAddressActive()">Add address</button>
                         </div>
 

@@ -3,7 +3,7 @@
     background-color: $white-color;
     box-shadow: $btn-box-shadow;
     position: relative;
-    padding: 13px 16px;
+    padding: 11px 16px;
     display: flex;
     justify-content: space-between;
     position: fixed;
@@ -24,7 +24,7 @@
     background-color: $white-color;
     box-shadow: $btn-box-shadow;
     position: relative;
-    padding: 13px 16px;
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -58,7 +58,7 @@
     }
     svg {
         align-self: center;
-        margin-bottom: 4px;
+        // margin-bottom: 4px;
         fill: $light-black;
         width: 26px;
         height: 22px;
@@ -487,13 +487,13 @@
 .nav-link-items {
     display: flex;
     justify-content: space-between;
-    padding: 18px 16px;
+    padding: 12px 16px;
     background-color: $white-color;
     margin-bottom: 8px;
     // border-bottom: $border-bottom;
 }
 
-@media(min-width: 1024px) {
+@media(min-width: 992px) {
     .nav-link-items {
         padding: 18px 32px;
     }
