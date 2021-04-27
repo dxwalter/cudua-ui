@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="form-control">
-                        <label for="businessType" class="form-label">Describe your experience with this customer - <span>optional</span></label>
+                        <label for="businessType" class="form-label">Describe your experience in this course - <span>optional</span></label>
                         <textarea name="" id="" cols="30" rows="5" class="input-form" v-model="ratingDescription"></textarea>
                     </div>
                     <div class="form-control">
