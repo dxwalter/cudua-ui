@@ -5,7 +5,7 @@ const https = require( 'https' )
 const fs = require( 'fs-extra' )
 let server
 const isProd = ( process. env. NODE_ENV === 'production ' )
-const port = 3333
+const port = process.env.PORT || 80
 // Prepare for HTTP or HTTPS
 if ( process. env. NODE_ENV !== 'production' ) {
     const pkey = fs. readFileSync( './key.pem' )
