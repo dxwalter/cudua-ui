@@ -34,7 +34,7 @@
 												{{follower.name}}
 											</div>
 											<div class="navbar-review-icon">
-												<STARRATING :rating=follower.reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING>
+												<!-- <STARRATING :rating=follower.reviewScore :show-rating="false" :read-only="true" active-color="#ef860e" :round-start-rating="false"></STARRATING> -->
 												<Nuxt />
 											</div>
 										</div>
@@ -77,14 +77,14 @@ import PAGELOADER from '~/components/loader/loader.vue';
 import { GET_BUSINESS_FOLLOWERS } from '~/graphql/business';
 import { mapGetters } from 'vuex';
 
-import STARRATING from 'vue-star-rating'
+import STARRATING from 'vue-star-rating';
 
 
 export default {
 	name: "BUSINESSFOLLOWERS",
     components: {
 		TOPHEADER, SIDENAV, BOTTOMNAV, PAGELOADER,
-		STARRATING
+		
     },
     data : function () {
         return {
